@@ -8,12 +8,12 @@ GO
 USE [Lexicon]
 GO
 
-DROP TABLE IF EXISTS [User];
-DROP TABLE IF EXISTS [Project];
+DROP TABLE IF EXISTS [Word];
 DROP TABLE IF EXISTS [Collection];
 DROP TABLE IF EXISTS [Categorization];
+DROP TABLE IF EXISTS [Project];
 DROP TABLE IF EXISTS [ProjectCollection];
-DROP TABLE IF EXISTS [Word];
+DROP TABLE IF EXISTS [User];
 GO
 
 CREATE TABLE [User] (
@@ -31,8 +31,13 @@ CREATE TABLE [Project] (
 	[CreationDate] datetime NOT NULL,
 	[Name] nvarchar(255) NOT NULL
 
-	CONSTRAINT UQ_Name UNIQUE([Name]),
+	CONSTRAINT UQ_ProjectName UNIQUE([Name]),
 	CONSTRAINT [FK_Project_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
+)
+
+CREATE TABLE [Categorization] (
+	[Id] integer PRIMARY KEY IDENTITY,
+	[CategorizationType] varchar(255) NOT NULL
 )
 
 CREATE TABLE [Collection] (
@@ -44,14 +49,9 @@ CREATE TABLE [Collection] (
 	[Description] nvarchar(255) NOT NULL,
 	[Pinned] bit NOT NULL
 
-	CONSTRAINT UQ_Name UNIQUE([Name]),
+	CONSTRAINT UQ_CollectionName UNIQUE([Name]),
 	CONSTRAINT [FK_Collection_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
 	CONSTRAINT [FK_Collection_Categorization] FOREIGN KEY ([CategorizationId]) REFERENCES [Categorization] ([Id])
-)
-
-CREATE TABLE [Categorization] (
-	[Id] integer PRIMARY KEY IDENTITY,
-	[CategorizationType] varchar(255) NOT NULL
 )
 
 CREATE TABLE [ProjectCollection] (
