@@ -1,8 +1,8 @@
-/* @import "./styles/button.css";
+@import "./styles/button.css";
 @import "./styles/form.css";
 @import "./styles/card.css";
 @import "./styles/scrollbar.css";
-@import "./styles/dotMenu.css"; */
+@import "./styles/dotMenu.css";
 
 :root {
   /* Colors */
