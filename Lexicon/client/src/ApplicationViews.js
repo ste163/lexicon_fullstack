@@ -1,15 +1,30 @@
-import React from "react"
-import { Route } from "react-router-dom"
-import MainView from "./views/main/MainView"
+import React, { useContext } from 'react'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { UserContext } from './providers/UserProvider'
+import AuthView from './views/auth/AuthView'
+import MainView from './views/main/MainView'
 
 
-const ApplicationViews = () => (
-    // Based on our logged-in/authentication state, show Auth or Main
+const ApplicationViews = () => {
+    const { isLoggedIn } = useContext(UserContext)
     
+    return (
+        <Switch>
+            <Route path="/app">
+                {isLoggedIn ? <MainView /> : <Redirect to ="/auth" />}
+            </Route>
+
+            <Route path="/auth">
+                {isLoggedIn ? <Redirect to="/app" /> : <AuthView />}
+            </Route>
+
+            <Route path="/">
+                {isLoggedIn ? <Redirect to="/app" /> : <Redirect to="/auth" />}
+            </Route>
+        </Switch>
+    )
+}
     
-        <Route path="/">
-            <MainView />
-        </Route>
-)
+
 
 export default ApplicationViews

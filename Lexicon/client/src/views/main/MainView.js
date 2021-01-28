@@ -6,10 +6,12 @@ const MainView = () => {
         <div className="app__container">   
             <h1>Welcome to Lexicon!</h1>
         {/*
-        <Header />
-        <SubHeader />
-        CONTENT COLUMNS
-        <Footer />
+            <Header />
+            <SubHeader />
+
+            CONTENT COLUMNS
+            
+            <Footer />
          */}
         
         </div>            

@@ -12,6 +12,7 @@ export function UserProvider(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null);
 
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
+  
   useEffect(() => {
     firebase.auth().onAuthStateChanged((u) => {
       setIsFirebaseReady(true);
@@ -104,7 +105,7 @@ export function UserProvider(props) {
       {isFirebaseReady ? (
         props.children
       ) : (
-        <div>LOADING</div>
+        <div>LOADING - CHANGE ME LATER</div>
       )}
     </UserContext.Provider>
   );
