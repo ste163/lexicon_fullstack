@@ -1,4 +1,8 @@
-import React from 'react'
+import React, { useContext, useRef, useState } from 'react'
+import { useHistory } from "react-router-dom"
+import ChangeColorMode from '../../utils/ChangeColorMode'
+import LexLogo from '../../components/branding/LexLogo'
+import LexTitle from '../../components/branding/LexTitle'
 import './AuthView.css'
 
 const AuthView = () => {
