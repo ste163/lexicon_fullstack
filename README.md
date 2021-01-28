@@ -9,7 +9,8 @@ Lexicon takes the powerful search capabilities of the internet's many dictionari
 [C# and .NET 5](https://dotnet.microsoft.com/) <br>
 [React](https://reactjs.org/)
 
-## See it live on Uffizzi
+## Use the app now
+> Thanks to hosting from Uffizzi
 COMING SOON
 
 ## Technologies used
