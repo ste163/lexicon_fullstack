@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lexicon.Models
@@ -30,5 +31,7 @@ namespace Lexicon.Models
 
         [Required]
         public DateTime CreationDate { get; set; } // Set by Database
+
+        public List<Word> Words { get; set; }
     }
 }

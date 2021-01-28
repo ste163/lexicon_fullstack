@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lexicon.Models
 {
@@ -14,5 +15,9 @@ namespace Lexicon.Models
         [MaxLength(255)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        public List<Collection> Collections { get; set; }
+        public List<Project> Projects { get; set; }
+
     }
 }
