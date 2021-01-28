@@ -9,17 +9,17 @@ USE [Lexicon]
 GO
 
 DROP TABLE IF EXISTS [Word];
+DROP TABLE IF EXISTS [ProjectCollection];
 DROP TABLE IF EXISTS [Collection];
 DROP TABLE IF EXISTS [Categorization];
 DROP TABLE IF EXISTS [Project];
-DROP TABLE IF EXISTS [ProjectCollection];
 DROP TABLE IF EXISTS [User];
 GO
 
 CREATE TABLE [User] (
 	[Id] integer PRIMARY KEY IDENTITY,
 	[FirebaseUserId] NVARCHAR(28) NOT NULL,
-	[Email] nvarchar(555) NOT NULL,
+	[Email] nvarchar(255) NOT NULL,
 
 	CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId),
 	CONSTRAINT UQ_Email UNIQUE(Email)
