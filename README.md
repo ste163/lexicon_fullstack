@@ -11,6 +11,7 @@ Lexicon takes the powerful search capabilities of the internet's many dictionari
 
 ## Use the app now
 > Thanks to hosting from Uffizzi
+
 COMING SOON
 
 ## Technologies used
