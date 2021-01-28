@@ -9,7 +9,11 @@ namespace Lexicon.Models
         [Required]
         public int ProjectId { get; set; }
 
+        public Project Project { get; set; }
+
         [Required]
         public int CollectionId { get; set; }
+
+        public Collection Collection { get; set; }
     }
 }

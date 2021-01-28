@@ -10,6 +10,8 @@ namespace Lexicon.Models
         [Required]
         public int UserId { get; set; }
 
+        public User User { get; set; }
+
         [Required]
         [MaxLength(255)]
         public string Name { get; set; }

@@ -10,8 +10,12 @@ namespace Lexicon.Models
         [Required]
         public int UserId { get; set; }
 
+        public User User { get; set; }
+
         [Required]
         public int CategorizationId { get; set; }
+
+        public Categorization Categorization { get; set; }
 
         [Required]
         [MaxLength(255)]
