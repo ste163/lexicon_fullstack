@@ -25,8 +25,8 @@ export function UserProvider(props) {
       .signInWithEmailAndPassword(email, pw)
       .then((signInResponse) => getUser(signInResponse.user.uid))
       .then((user) => {
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("userId", user.id);
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        localStorage.setItem("currentUserId", user.id);
         setIsLoggedIn(true);
         return user;
       });
@@ -50,8 +50,8 @@ export function UserProvider(props) {
         saveUser({ ...user, firebaseUserId: createResponse.user.uid })
       )
       .then((savedUser) => {
-        localStorage.setItem("user", JSON.stringify(savedUser));
-        localStorage.setItem("userId", user.id);
+        localStorage.setItem("currentUser", JSON.stringify(savedUser));
+        localStorage.setItem("currentUserId", user.id);
         setIsLoggedIn(true);
         return savedUser;
       });
@@ -84,7 +84,7 @@ export function UserProvider(props) {
   };
 
   const getCurrentUser = () => {
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem("currentUser");
     if (!user) {
       return null;
     }
