@@ -1,15 +1,15 @@
+// Written by NSS to assist in having real Authentication & Authorization
 import React, { useState, useEffect, createContext } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 
-export const UserProfileContext = createContext();
+export const UserContext = createContext();
 
-export function UserProfileProvider(props) {
-  const apiUrl = "/api/userprofile";
+export function UserProvider(props) {
+  const apiUrl = "/api/user";
 
-
-  const userProfile = localStorage.getItem("userProfile");
-  const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
+  const currentUser = localStorage.getItem("currentUser");
+  const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null);
 
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
   useEffect(() => {
@@ -18,18 +18,16 @@ export function UserProfileProvider(props) {
     });
   }, []);
 
-  
-
   const login = (email, pw) => {
     return firebase
       .auth()
       .signInWithEmailAndPassword(email, pw)
-      .then((signInResponse) => getUserProfile(signInResponse.user.uid))
-      .then((userProfile) => {
-        localStorage.setItem("userProfile", JSON.stringify(userProfile));
-        localStorage.setItem("userProfileId", userProfile.id);
+      .then((signInResponse) => getUser(signInResponse.user.uid))
+      .then((user) => {
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userId", user.id);
         setIsLoggedIn(true);
-        return userProfile;
+        return user;
       });
   };
 
@@ -43,24 +41,24 @@ export function UserProfileProvider(props) {
       });
   };
 
-  const register = (userProfile, password) => {
+  const register = (user, password) => {
     return firebase
       .auth()
-      .createUserWithEmailAndPassword(userProfile.email, password)
+      .createUserWithEmailAndPassword(user.email, password)
       .then((createResponse) =>
-        saveUser({ ...userProfile, firebaseUserId: createResponse.user.uid })
+        saveUser({ ...user, firebaseUserId: createResponse.user.uid })
       )
-      .then((savedUserProfile) => {
-        localStorage.setItem("userProfile", JSON.stringify(savedUserProfile));
-        localStorage.setItem("userProfileId", userProfile.id);
+      .then((savedUser) => {
+        localStorage.setItem("user", JSON.stringify(savedUser));
+        localStorage.setItem("userId", user.id);
         setIsLoggedIn(true);
-        return savedUserProfile;
+        return savedUser;
       });
   };
 
   const getToken = () => firebase.auth().currentUser.getIdToken();
 
-  const getUserProfile = (firebaseUserId) => {
+  const getUser = (firebaseUserId) => {
     return getToken().then((token) =>
       fetch(`${apiUrl}/${firebaseUserId}`, {
         method: "GET",
@@ -85,21 +83,15 @@ export function UserProfileProvider(props) {
   };
 
   const getCurrentUser = () => {
-    const user = localStorage.getItem("userProfile");
+    const user = localStorage.getItem("user");
     if (!user) {
       return null;
     }
     return JSON.parse(user);
   };
 
-  const isAdmin = () => {
-    const user = getCurrentUser();
-    const adminTypeId = 1;
-    return user !== null && user.userTypeId === adminTypeId;
-  };
-
   return (
-    <UserProfileContext.Provider
+    <UserContext.Provider
       value={{
         isLoggedIn,
         login,
@@ -107,7 +99,6 @@ export function UserProfileProvider(props) {
         register,
         getToken,
         getCurrentUser,
-        isAdmin,
       }}
     >
       {isFirebaseReady ? (
@@ -115,6 +106,6 @@ export function UserProfileProvider(props) {
       ) : (
         <div>LOADING</div>
       )}
-    </UserProfileContext.Provider>
+    </UserContext.Provider>
   );
 }
