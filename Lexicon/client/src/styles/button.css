@@ -26,6 +26,12 @@
     color: var(--fontColorBtn);
   }
 
+  .btn:disabled {
+    background-color: var(--darkGray);
+    border-color: var(--darkGray);
+    color: var(--fontColor);
+  }
+
   .btn:active {
     background-color: var(--black);
     border-color: var(--black);

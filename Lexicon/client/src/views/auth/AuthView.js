@@ -32,12 +32,12 @@ const AuthView = () => {
 
     const handleLogin = (e) => {
         e.preventDefault()
-
+        setLoading(true)
     }
     
     const handleRegister = (e) => {
         e.preventDefault()
-
+        setLoading(true)
     }  
 
     return (
@@ -149,12 +149,18 @@ const AuthView = () => {
                             <fieldset className="fieldset__btn auth__submit">
                                 <button 
                                 ref={loginBtn}
+                                disabled={loading}
                                 className={`btn btn__authSubmit ${activeBtn ? "login__active" : " login__inactive"}`}
-                                type="submit">Login</button>
+                                type="submit">
+                                    Login
+                                </button>
                                 <button
                                 ref={registerBtn} 
+                                disabled={loading}
                                 className={`btn btn__authSubmit ${activeBtn ? "register__inactive" : "register__active"}`}
-                                type="submit">Register</button>
+                                type="submit">
+                                    Register
+                                </button>
                             </fieldset>
 
                         </form>
