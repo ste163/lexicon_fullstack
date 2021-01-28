@@ -1,111 +1,50 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useHistory } from "react-router-dom"
+import { UserContext } from '../../providers/UserProvider'
 import LexLogo from '../../components/branding/LexLogo'
 import LexTitle from '../../components/branding/LexTitle'
 import ChangeColorMode from '../../utils/ChangeColorMode'
 import './AuthView.css'
 
 const AuthView = () => {
-
     // If logging out with dark mode active, this resets colors to white 
     ChangeColorMode()
 
-    // Get references for all of the elements that will change
-    // Input Fields
-    const usernameLogin = useRef()
-    const usernameRegister = useRef()
-    const passwordLogin = useRef()
-    const passwordRegister = useRef()
+    const { login } = useContext(UserContext)
+    const [loading, setLoading] = useState(false)
 
+    const [loginEmail, setLoginEmail] = useState("")
+    const [loginPassword, setLoginPassword] = useState("")
+
+    const [registerEmail, setRegisterEmail] = useState("")
+    const [registerPassword, setRegisterPassword] = useState("")
+
+    // To allow for the nav underline to move, target it by useRef
+    const [activeBtn, setBtn] = useState(true)
+
+    // Get references for all of the elements that will change
     // Nav Buttons
     const loginBtn = useRef()
     const registerBtn = useRef()
+    const underline = useRef()
 
     const history = useHistory()
 
-    // To allow for the nav underline to move, target it by useRef
-    const underline = useRef()
-    const [activeBtn, setBtn] = useState(true)
-
-    // // Fetch for only login field
-        // const existingUserCheckLogin = () => {
-        //     return fetch(`http://localhost:8088/users?username=${usernameLogin.current.value}`)
-        //         .then(res => res.json())
-        //         .then(user => user.length ? user[0] : false)
-        // }
-
-    // // Fetch for only register field
-        // const existingUserCheckRegister = () => {
-        //     return fetch(`http://localhost:8088/users?username=${usernameRegister.current.value}`)
-        //         .then(res => res.json())
-        //         .then(user => user.length ? user[0] : false)
-        // }
-    
     const handleLogin = (e) => {
         e.preventDefault()
 
-        // existingUserCheckLogin()
-        //     .then(exists => {
-        //         if (exists) {
-        //             sessionStorage.setItem("userId", exists.id)
-        //             getSettingsOnLogin(exists.id)
-        //             .then(settingsExists => {
-        //                 if (settingsExists) {
-        //                     sessionStorage.setItem("defaultCollection", settingsExists[0].defaultCollection)
-        //                     sessionStorage.setItem("TotalRecentsToStore", settingsExists[0].TotalRecentsToStore)
-        //                     sessionStorage.setItem("addToMultiple", settingsExists[0].addToMultiple)
-        //                     sessionStorage.setItem("colorMode", settingsExists[0].colorMode)
-        //                 }
-        //                 history.push("/app")
-        //             })
-        //         } else {
-        //             existDialog.current.className = "background__modal modal__active"
-        //         }
-        //     })
     }
     
     const handleRegister = (e) => {
         e.preventDefault()
 
-        // existingUserCheckRegister()
-        // .then((userExists) => {
-        //     if (!userExists) {
-        //         fetch("http://localhost:8088/users", {
-        //             method: "POST",
-        //             headers: {
-        //                 "Content-Type": "application/json"
-        //             },
-        //             body: JSON.stringify({
-        //                 username: usernameRegister.current.value,
-        //             })
-        //         })
-        //             .then(_ => _.json())
-        //             .then(createdUser => {
-        //                 if (createdUser.hasOwnProperty("id")) {
-        //                     sessionStorage.setItem("userId", createdUser.id)
-        //                     // Should move the actual default settings into the default settings function.
-        //                     addDefaultSettings(createdUser)
-        //                         .then(() => {
-        //                             sessionStorage.setItem("defaultCollection", 0)
-        //                             sessionStorage.setItem("TotalRecentsToStore", 6)
-        //                             sessionStorage.setItem("addToMultiple", true)
-        //                             sessionStorage.setItem("colorMode", "light")
-        //                             history.push("/")
-        //                     })
-        //                 }
-        //             })
-        //     } else {
-        //         conflictDialog.current.className = "background__modal modal__active"
-        //     }
-        // })
     }  
 
     return (
         <main className="auth__container">    
-
             <div className="border__top" />
-
             <div className="auth__column--middle">
+
                 <div className="auth__branding">
                     <LexLogo location={"logo__login--lex"}/>
                     <LexTitle location={"title__login"} />
@@ -117,17 +56,19 @@ const AuthView = () => {
 
                 <section className="card card__color--white card__auth">
                     <ul  className="auth__btns">
-                        
+                        {/* LOGIN BTN */}
                         <li className="btns__li">
                             <button
                             className={activeBtn ? "auth__btn auth__btn--active" : "auth__btn"}
                             onClick={e => {
                                 setBtn(true)
-                                if (usernameRegister.current !== undefined && usernameRegister.current !== null) {
-                                    usernameRegister.current.value = ""
+                                if (registerEmail) {
+                                    setRegisterEmail("")
+                                    setLoginEmail("")
                                 }
-                                if (passwordRegister.current !== undefined && passwordRegister.current !== null) {
-                                    passwordRegister.current.value = ""
+                                if (registerPassword) {
+                                    setRegisterPassword("")
+                                    setLoginPassword("")
                                 }
                             }}
                             onMouseEnter={e => underline.current.className = "auth__line line__login--active"}
@@ -135,17 +76,17 @@ const AuthView = () => {
                                 Log in
                             </button>
                         </li>
-                        
+                        {/* REGISTER BTN */}
                         <li className="btns__li">
                             <button
                             className={activeBtn ? "auth__btn" : "auth__btn auth__btn--active"}
                             onClick={e => {
                                 setBtn(false)
-                                if (usernameLogin.current !== undefined && usernameLogin.current !== null) {
-                                    usernameLogin.current.value = ""
+                                if (loginEmail) {
+                                    setLoginEmail("")
                                 }
-                                if (passwordLogin.current !== undefined && passwordLogin.current !== null) {
-                                    passwordLogin.current.value = ""
+                                if (loginPassword) {
+                                    setLoginPassword("")
                                 }
                             }}
                             onMouseEnter={e => underline.current.className = "auth__line line__register--active"}
@@ -159,17 +100,27 @@ const AuthView = () => {
                     
                     </ul>
 
-                    <section>
-                        <form className="form"
+                    <section className="auth__form">
+                        <form
+                        className="form"
                         onSubmit={activeBtn ? handleLogin : handleRegister}>
 
                             <fieldset>
                                 {/* Need to change type to email in final version, along with renaming the labels */}
-                                <label htmlFor={activeBtn ? "usernameLogin" : "usernameRegister"}>Email</label>
+                                <label htmlFor={activeBtn ? "emailLogin" : "usernameRegister"}>Email</label>
                                 <input
                                     className="input--auth"
-                                    ref={activeBtn ? usernameLogin : usernameRegister} type="text"
-                                    id={activeBtn ? "usernameLogin" : "usernameRegister"}
+                                    type="text"
+                                    id={activeBtn ? "emailLogin" : "usernameRegister"}
+                                    value={activeBtn ? loginEmail : registerEmail}
+                                    onChange={e => {
+                                        if (activeBtn) {
+                                            setLoginEmail(e.target.value)
+                                        } else
+                                        {
+                                            setRegisterEmail(e.target.value)
+                                        }
+                                    }}
                                     placeholder="user@email.com"
                                     required
                                     autoFocus />
@@ -179,32 +130,40 @@ const AuthView = () => {
                                 <label htmlFor={activeBtn ? "passwordLogin" : "passwordRegister"}>Password</label>
                                 <input
                                     className="input--auth"
-                                    ref={activeBtn ? passwordLogin : passwordRegister} type="password"
                                     id={activeBtn ? "passwordLogin" : "passwordRegister"}
+                                    value={activeBtn ? loginPassword : registerPassword}
+                                    onChange={e => {
+                                        if (activeBtn) {
+                                            setLoginPassword(e.target.value)
+                                        } else
+                                        {
+                                            setRegisterPassword(e.target.value)
+                                        }
+                                    }}
                                     placeholder="password"
+                                    type="password"
                                     required
                                     autoFocus />
                             </fieldset>
 
-                            <fieldset className="fieldset__btn">
+                            <fieldset className="fieldset__btn auth__submit">
                                 <button 
                                 ref={loginBtn}
-                                className={`btn btn--green btn__authSubmit ${activeBtn ? "login__active" : " login__inactive"}`}
+                                className={`btn btn__authSubmit ${activeBtn ? "login__active" : " login__inactive"}`}
                                 type="submit">Login</button>
                                 <button
                                 ref={registerBtn} 
-                                className={`btn btn--green btn__authSubmit ${activeBtn ? "register__inactive" : "register__active"}`}
+                                className={`btn btn__authSubmit ${activeBtn ? "register__inactive" : "register__active"}`}
                                 type="submit">Register</button>
                             </fieldset>
 
                         </form>
-                            <button>Continue without signing in</button>
+                            <button className="auth__anonymous">Continue without signing in</button>
                     </section>
                 </section>
+
             </div>
-
             <div className="border__bottom" />
-
         </main>
     )
 }
