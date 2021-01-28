@@ -1,0 +1,133 @@
+.auth__column--middle {
+    display: flex;
+    flex-flow: column nowrap;
+    grid-row: 1 / 3;
+    grid-column: 1 / 3;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 3;
+    margin-top: 3.5em;
+}
+
+.title {
+    margin: 0;
+    padding: 0;
+}
+
+.subtitle {
+    margin: 0 0 0.7em 0;
+    padding: 0;
+    font-weight: var(--weightThinnest);
+    text-align: center;
+}
+
+.card__auth {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 1em;
+    width: 13em;
+    grid-column: 1 / 4;
+    grid-row: 5;
+    justify-self: center;
+    z-index:3;
+}
+
+.auth__btns {
+    display: grid;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.btns__li {
+    grid-row-start: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.auth__btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: var(--btnHover)
+}
+
+.auth__btn--active {
+    color: var(--green);
+    font-weight: var(--weightHeaviest);
+}
+
+.auth__line {
+    grid-row-start: 2;
+    border-bottom-style: solid;
+    border-bottom-width: 0.25em;
+    border-radius: 5em;
+    border-color: var(--green);
+    grid-column: 1 / 3;
+    transition: var(--btnHover);
+}
+
+.line__login--active {
+    margin-right: 3.4em;
+    transition: var(--btnHover);
+}
+
+.line__register--active {
+    margin-left: 2.9em;
+    transition: var(--btnHover);
+}
+
+.btn__authSubmit {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.login__active {
+    opacity: 100%;
+    z-index: 1;
+}
+
+.login__inactive {
+    opacity: 0%;
+    z-index: 0;
+}
+
+.register__active {
+    opacity: 100%;
+    z-index: 1;
+}
+
+.register__inactive {
+    opacity: 0;
+    z-index: 0;
+}
+
+.input--auth {
+    width: auto;
+}
+
+.auth__warning {
+    margin-bottom: 0.8em;
+}
+
+/* BACKGROUND */
+.border__top {
+    position: absolute;
+    bottom: 47%;
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+    transform: translateY(-10px);
+}
+
+.border__bottom {
+    position: absolute;
+    top: 47%;
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+    transform: translateY(10px);
+}
