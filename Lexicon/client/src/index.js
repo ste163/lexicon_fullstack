@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import firebase from "firebase/app";
+import firebase from 'firebase/app';
+import Lexicon from './Lexicon'
 import './index.css';
 
 const firebaseConfig = {
@@ -11,7 +11,7 @@ firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Lexicon />
   </React.StrictMode>,
   document.getElementById('root')
 );

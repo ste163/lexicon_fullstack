@@ -1,13 +1,193 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* @import "./styles/button.css";
+@import "./styles/form.css";
+@import "./styles/card.css";
+@import "./styles/scrollbar.css";
+@import "./styles/dotMenu.css"; */
+
+:root {
+  /* Colors */
+  --fontColor: #333333;
+
+  --lightestGray: #fafafa;
+  --lightGray: #F6F6F6;
+  --mediumGray: #f1f1f1; 
+  --darkGray: #ACACAC;
+  --shadowGray: #00000008;
+
+  --offWhite: #FCFCFC;
+  --black: rgb(7, 7, 7);
+  --lightBlack: #171717ff;
+  --lighterBlack: rgb(96, 96, 96);
+
+  --yellow: #fbfbbe;
+  --lightYellow: #ffffdb;
+  --darkYellow: #f5f5b6;
+
+  --red: #d85656;
+  --redActive: #803232;
+
+  /* SPECIFIC COLOR LOCATIONS */
+  /* FOR EASIER DARK MODE TARGETING */
+  --headerBlack: #171717ff;
+  --fontColorInactive: #cacaca;
+  --fontColorBtn: #FCFCFC;
+
+  /* Fonts */
+  --fontFamily: 'Heebo', sans-serif;
+  --weightThinnest: 100;
+  --weightThin: 300;
+  --weightNormal: 400;
+  --weightHeavy: 500;
+  --weightHeavier: 700;
+  --weightHeaviest: 900;
+
+  /* Border Radii */
+  --cardRadius: 15px;
+  --formFieldRadius: 0.8em;
+  --wordBtnRadius: 2em;
+  --lineRadius: 5em;
+
+  /* Drop Shadow */
+  --cardDropShadow: -0.1em 0.1em 0.3em var(--shadowGray);
+  --headingDropShadow: 0em 0.1em 0.3em var(--shadowGray);
+  --footerDropShadow: 0em -0.1em 0.3em var(--shadowGray);
+
+  /* Cards */
+  --cardMargins: 0.8em;
+  --typeMarginBottom: 0.5em;
+  
+  /* Card Widths */
+  --cardWidthThesaurusColumn: 40%;
+
+  /* Transitions */
+  --btnHover: 0.2s
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Login/Register layout */
+.auth__container {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100vh;
+}
+
+/* Main application layout after sign-in */
+.app__container {
+  display: grid;
+  grid-template-rows: min-content min-content auto min-content;
+  min-height: 100vh;
+}
+
+.view__container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 4fr;
+}
+
+/* Collection list column */
+.column__list {
+  overflow-y: auto;
+  overflow-x: none;
+  max-height: 88vh;
+  width: 22vw;
+}
+
+/* Selected collection column */
+.column__selected {
+  margin-left: 0.5em;
+  /* 
+  This will change when we add the dividing column
+  will need JS to know when the scroll bar appears to hide the divider
+  */
+}
+
+/* Thesaurus column */
+.column__thesaurus {
+  display: grid;
+  grid-template-rows: min-content min-content;
+}
+
+/* Desktop - med-screen size - hide list column */
+@media screen and (max-width: 1215px) {
+
+  .view__container {
+    grid-template-columns: 1fr 2fr;
+  }
+  
+  .column__list {
+    display: none
+  }
+
+  .column__selected {
+    margin-left: 1em;
+  }
+}
+
+/* Desktop - small-screen size - stack selected & thesaurus column  */
+@media screen and (max-width: 768px) {
+
+  .view__container {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .column__selected {
+    width: 75%;
+  }
+}
+
+/* Set Defaults */
+* {
+  color: var(--fontColor);
+  font-family: var(--fontFamily);
+}
+
+body {
+  font-size: 1.3em;
+  margin: 0;
+  background-color: var(--lightGray);
+}
+
+hr {
+  border: 0 solid;
+  height: 0.3em;
+  margin: 0 0.2em 1em 0.2em;
+  border-radius: var(--lineRadius);
+  background-color: var(--mediumGray);
+  border-color: var(--mediumGray);
+}
+
+h1 {
+  font-weight: var(--weightHeavy);
+  margin: 0.2em 0 0.1em;
+}
+
+h2 {
+  margin: 0;
+  padding: 0;
+  font-weight: var(--weightThin);
+  letter-spacing: 0.03em;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+  font-weight: var(--weightNormal);
+  letter-spacing: 0.03em;
+}
+
+p {
+  font-size: 0.8em;
+  margin: 0;
+  padding: 0;
+}
+
+/* 
+Will probably need to separate the height values 
+when I make the vertical dividers for columns
+*/
+.line__vertical {
+  min-height: 3.5vmin;
+  margin: 0 0.5em;
+  border: 0.15em solid var(--mediumGray);
+  background-color: var(--mediumGray);
+  border-radius: var(--lineRadius);
 }
