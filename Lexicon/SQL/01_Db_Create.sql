@@ -68,7 +68,7 @@ CREATE TABLE [Word] (
 	[UserId] integer NOT NULL,
 	[CollectionId] integer NOT NULL,
 	[MwWordId] integer NOT NULL,
-	[Word] varchar(255) NOT NULL,
+	[Name] varchar(255) NOT NULL,
 	[LastViewed] datetime NOT NULL
 
 	CONSTRAINT [FK_Word_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
