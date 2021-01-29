@@ -59,9 +59,9 @@ namespace Lexicon.Controllers
         [HttpPost]
         public IActionResult Post(User user)
         {
-            // Must wrap in a Try Catch because an Authorized user
+            // Must wrap in a Try/Catch because an Authorized user
             // Can make a Post request to make an account with the same email
-            // If this happens, the server crashes.
+            // If this happens, it throws an exception
             try
             {
                 _repo.Add(user);

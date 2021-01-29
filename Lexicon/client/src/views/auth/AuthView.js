@@ -34,7 +34,6 @@ const AuthView = () => {
     const handleRegister = (e) => {  
         e.preventDefault()
         setLoading(true)
-
         const user = {
             email: registerEmail,
         }
@@ -61,6 +60,15 @@ const AuthView = () => {
     const handleLogin = (e) => {
         e.preventDefault()
         setLoading(true)
+        login(loginEmail, loginPassword)
+            .then(user => {
+                setLoading(false)
+                toast.info(`Welcome to Lexicon!`)
+            })
+            .catch(err => {
+                setLoading(false)
+                toast.error("Invalid email or password.")
+            })
     }
     
     return (
