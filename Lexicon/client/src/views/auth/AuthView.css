@@ -154,7 +154,7 @@
 
 /* BACKGROUND */
 .border__top {
-    background-color: var(--black);
+    background-color: var(--lightBlack);
     height: 2em;
 }
 

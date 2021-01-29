@@ -8,7 +8,7 @@ import './Lexicon.css'
 
 const Lexicon = () => (
     <>
-        <ToastContainer position="top-center" hideProgressBar closeOnClick draggable />
+        <ToastContainer position="top-center" hideProgressBar closeOnClick draggable autoClose={4000}/>
 
         <UserProvider>
             <Router>
