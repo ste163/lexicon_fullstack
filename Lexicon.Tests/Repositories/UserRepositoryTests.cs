@@ -35,7 +35,7 @@ namespace Lexicon.Tests.Repositories
             var user = new User
             {
                 Email = "bobgray@it.com",
-                FirebaseUserId = "TEST_FIREBASE_UID_2"
+                FirebaseUserId = "FIREBASE_ID_2"
             };
 
             // Instantiate UserRepo
@@ -52,32 +52,6 @@ namespace Lexicon.Tests.Repositories
 
             // We should have more posts than before
             Assert.True(postUserCount > originalUserCount);
-        }
-
-        [Fact]
-        public void User_Cannot_Register_A_Email_Already_In_Db()
-        {
-            //// Create a new User
-            //var user = new User
-            //{
-            //    Email = "bobgray@it.com",
-            //    FirebaseUserId = "TEST_FIREBASE_UID_2"
-            //};
-
-            //// Instantiate UserRepo
-            //var repo = new UserRepository(_context);
-
-            //// Get count of all users
-            //var originalUserCount = repo.Get().Count; // will need to add a Get all for testing
-
-            //// Attempt to add user
-            //repo.Add(user);
-
-            //// Get user count after addition
-            //var postUserCount = repo.Get().Count;
-
-            //// We should have more posts than before
-            //Assert.True(postUserCount > originalUserCount);
         }
 
         [Fact]
@@ -113,7 +87,7 @@ namespace Lexicon.Tests.Repositories
             var user1 = new User()
             {
                 Email = "pennywise@it.com",
-                FirebaseUserId = "FIREBASE_1"
+                FirebaseUserId = "FIREBASE_ID_1"
             };
 
             _context.Add(user1);

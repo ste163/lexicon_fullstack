@@ -71,7 +71,45 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void Users_Can_Only_Delete_Themselves()
         {
+            var idToDelete = 1;
 
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new UserController(_fakeUserRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to delete account
+            var response = controller.Delete(idToDelete);
+
+            // Return NoContent
+            Assert.IsType<NoContentResult>(response);
+        }
+
+        [Fact]
+        public void Attempting_To_Delete_Someone_Else_Fails()
+        {
+            var idToDelete = 9999;
+
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new UserController(_fakeUserRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to delete account
+            var response = controller.Delete(idToDelete);
+
+            // Return NotFound
+            Assert.IsType<NotFoundResult>(response);
         }
     }
 }

@@ -35,16 +35,18 @@ namespace Lexicon.Controllers
             // Only User with Id of 1 (me and the test) will be able to access it.
             User attemptingUser = GetCurrentUser();
 
-            if (attemptingUser.Id == 1)
-            {
-                List<User> users = _repo.Get();
-
-                return Ok(users);
-            }
-            else
+            if (attemptingUser == null)
             {
                 return NotFound();
             }
+
+            if (attemptingUser.Id != 1)
+            {
+                return NotFound();
+            }
+
+            List<User> users = _repo.Get();
+            return Ok(users);
         }
 
         [HttpGet("{firebaseUserId}")]

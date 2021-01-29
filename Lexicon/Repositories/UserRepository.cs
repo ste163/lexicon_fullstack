@@ -17,6 +17,7 @@ namespace Lexicon.Repositories
 
         public List<User> Get()
         {
+            // Get Users is for unit tests & has checks for only userId of 1 to access
             return _context.User.ToList();
         }
 
@@ -39,6 +40,6 @@ namespace Lexicon.Repositories
             // I will do that when I absolutely have to.
             return _context.User
                 .FirstOrDefault(u => u.FirebaseUserId == firebaseUserId);
-        }
+        }    
     }
 }
