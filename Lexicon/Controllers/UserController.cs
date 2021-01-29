@@ -2,6 +2,7 @@
 using Lexicon.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -58,10 +59,20 @@ namespace Lexicon.Controllers
         [HttpPost]
         public IActionResult Post(User user)
         {
-            _repo.Add(user);
-            return CreatedAtAction(
-                nameof(GetUser),
-                new { firebaseUserId = user.FirebaseUserId }, user);
+            // Must wrap in a Try Catch because an Authorized user
+            // Can make a Post request to make an account with the same email
+            // If this happens, the server crashes.
+            try
+            {
+                _repo.Add(user);
+                return CreatedAtAction(
+                    nameof(GetUser),
+                    new { firebaseUserId = user.FirebaseUserId }, user);
+            }
+            catch (DbUpdateException e)
+            {
+                return NotFound();
+            }
         }
 
         [HttpDelete]

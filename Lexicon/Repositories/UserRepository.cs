@@ -1,6 +1,5 @@
 ﻿using Lexicon.Data;
 using Lexicon.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,18 +23,8 @@ namespace Lexicon.Repositories
 
         public void Add(User user)
         {
-            try
-            {
-                _context.Add(user);
-                _context.SaveChanges();
-            }
-            catch (DbUpdateException e)
-            {
-                // This Try Catch ensures someone who is attempting to add a user
-                // with an email that's already taken, doesn't crash the server.
-                // An If check on the front-end ensures they're unable to enter the app
-                // with their faulty Id
-            }
+            _context.Add(user);
+            _context.SaveChanges();
         }
 
         public void Delete(User user)
