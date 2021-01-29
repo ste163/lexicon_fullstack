@@ -1,6 +1,7 @@
 ﻿using Lexicon.Data;
 using Lexicon.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lexicon.Repositories
@@ -14,14 +15,23 @@ namespace Lexicon.Repositories
             _context = context;
         }
 
+        public List<User> Get()
+        {
+            // Get Users is for unit tests & has checks for only userId of 1 to access
+            return _context.User.ToList();
+        }
+
         public void Add(User user)
         {
-            throw new NotImplementedException();
+            _context.Add(user);
+            _context.SaveChanges();
         }
 
         public void Delete(User user)
         {
-            throw new NotImplementedException();
+            // As I add more info to users, will have to handle cascading deletes
+            _context.User.Remove(user);
+            _context.SaveChanges();
         }
 
         public User GetByFirebaseUserId(string firebaseUserId)
@@ -30,6 +40,6 @@ namespace Lexicon.Repositories
             // I will do that when I absolutely have to.
             return _context.User
                 .FirstOrDefault(u => u.FirebaseUserId == firebaseUserId);
-        }
+        }    
     }
 }

@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import { UserProvider } from './providers/UserProvider'
 import ApplicationViews from './ApplicationViews'
 import 'react-toastify/dist/ReactToastify.min.css'
+import './Lexicon.css'
 
 const Lexicon = () => (
     <>

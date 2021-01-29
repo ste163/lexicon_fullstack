@@ -1,8 +1,8 @@
-/* @import "./styles/button.css";
+@import "./styles/button.css";
 @import "./styles/form.css";
 @import "./styles/card.css";
 @import "./styles/scrollbar.css";
-@import "./styles/dotMenu.css"; */
+@import "./styles/dotMenu.css";
 
 :root {
   /* Colors */
@@ -22,6 +22,7 @@
   --yellow: #fbfbbe;
   --lightYellow: #ffffdb;
   --darkYellow: #f5f5b6;
+  --darkestYellow: #e4e485;
 
   --red: #d85656;
   --redActive: #803232;
@@ -61,13 +62,6 @@
 
   /* Transitions */
   --btnHover: 0.2s
-}
-
-/* Login/Register layout */
-.auth__container {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 100vh;
 }
 
 /* Main application layout after sign-in */

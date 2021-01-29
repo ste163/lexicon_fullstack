@@ -8,7 +8,7 @@ export const UserContext = createContext();
 export function UserProvider(props) {
   const apiUrl = "/api/user";
 
-  const currentUser = localStorage.getItem("currentUser");
+  const currentUser = sessionStorage.getItem("currentUser");
   const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null);
 
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
@@ -25,19 +25,30 @@ export function UserProvider(props) {
       .signInWithEmailAndPassword(email, pw)
       .then((signInResponse) => getUser(signInResponse.user.uid))
       .then((user) => {
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("userId", user.id);
+        sessionStorage.setItem("currentUser", JSON.stringify(user));
+        sessionStorage.setItem("currentUserId", user.id);
         setIsLoggedIn(true);
         return user;
       });
   };
+
+  const anonymousLogin = () => {
+    return firebase
+      .auth()
+      .signInAnonymously()
+      .then(user => {
+        sessionStorage.setItem("currentUserId", 0)
+        setIsLoggedIn(true)
+        return user
+      })
+  }
 
   const logout = () => {
     return firebase
       .auth()
       .signOut()
       .then(() => {
-        localStorage.clear();
+        sessionStorage.clear();
         setIsLoggedIn(false);
       });
   };
@@ -50,8 +61,8 @@ export function UserProvider(props) {
         saveUser({ ...user, firebaseUserId: createResponse.user.uid })
       )
       .then((savedUser) => {
-        localStorage.setItem("user", JSON.stringify(savedUser));
-        localStorage.setItem("userId", user.id);
+        sessionStorage.setItem("currentUser", JSON.stringify(savedUser));
+        sessionStorage.setItem("currentUserId", savedUser.id);
         setIsLoggedIn(true);
         return savedUser;
       });
@@ -84,7 +95,7 @@ export function UserProvider(props) {
   };
 
   const getCurrentUser = () => {
-    const user = localStorage.getItem("user");
+    const user = sessionStorage.getItem("currentUser");
     if (!user) {
       return null;
     }
@@ -96,6 +107,7 @@ export function UserProvider(props) {
       value={{
         isLoggedIn,
         login,
+        anonymousLogin,
         logout,
         register,
         getToken,
