@@ -4,6 +4,7 @@
 @import "./styles/scrollbar.css";
 @import "./styles/dotMenu.css";
 @import "./styles/toastify-overrides.css";
+@import "./styles/spinner.css";
 
 :root {
   /* Colors */
@@ -64,7 +65,16 @@
   --cardWidthThesaurusColumn: 40%;
 
   /* Transitions */
-  --btnHover: 0.2s
+  --btnHover: 0.2s;
+
+  /* CSS Loading Spinners, see spinner.css */
+  --cls-color: #e4e485;
+  --cls-sec-color: #f1f1f1;
+  --cls-size: 5rem;
+  --cls-margin: 1rem;
+  --cls-speed: 1s;
+
+  --cls-size-small: 4rem;
 }
 
 /* Main application layout after sign-in */

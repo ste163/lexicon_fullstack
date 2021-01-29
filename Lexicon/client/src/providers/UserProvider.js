@@ -117,7 +117,11 @@ export function UserProvider(props) {
       {isFirebaseReady ? (
         props.children
       ) : (
-        <div>LOADING - CHANGE ME LATER</div>
+        <div className="spinner__center">
+          <div className=" cls-spinner">
+            <div className="cls-circle cls-spin"></div>
+          </div>
+        </div>
       )}
     </UserContext.Provider>
   );
