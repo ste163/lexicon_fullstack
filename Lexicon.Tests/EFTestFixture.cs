@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Lexicon.Data;
+using Lexicon.Models;
 
 namespace Lexicon.Tests
 {
@@ -13,9 +14,14 @@ namespace Lexicon.Tests
         public TestDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Set the User Email column as unique
+            builder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique(true);
+
             builder.Model.GetEntityTypes()
                 .Where(e => !e.IsOwned())
-                .SelectMany(e => e.GetForeignKeys())
+                .SelectMany(e => e.GetForeignKeys())    
                 .ToList()
                 .ForEach(relationship => relationship.DeleteBehavior = DeleteBehavior.Restrict);
         }

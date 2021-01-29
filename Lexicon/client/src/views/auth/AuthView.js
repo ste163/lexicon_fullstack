@@ -63,7 +63,6 @@ const AuthView = () => {
         setLoading(true)
     }
     
-
     return (
         <main className="auth__container">    
             <div className="border__top" />

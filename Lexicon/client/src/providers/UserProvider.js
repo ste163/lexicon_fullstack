@@ -61,8 +61,6 @@ export function UserProvider(props) {
         saveUser({ ...user, firebaseUserId: createResponse.user.uid })
       )
       .then((savedUser) => {
-        // NEED TO ENSURE THIS USER ACTUALLY COMES BACK AS SOMETHING OTHER ID 0
-        // OTHERWISE 
         sessionStorage.setItem("currentUser", JSON.stringify(savedUser));
         sessionStorage.setItem("currentUserId", savedUser.id);
         setIsLoggedIn(true);

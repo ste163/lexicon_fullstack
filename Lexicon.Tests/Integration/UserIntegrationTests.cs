@@ -17,41 +17,65 @@ namespace Lexicon.Tests.Integration
         }
 
 
-        //[Fact]
-        //public void Only_Unique_Emails_Can_Register()
-        //{
-        //    // Create a User with an Email already in db
-        //    var userToAdd = new User()
-        //    {
-        //        Email = "pennywise@it.com",
-        //        FirebaseUserId = "FIREBASE_ID_2"
-        //    };
+        [Fact]
+        public void Only_Unique_Emails_Can_Register()
+        {
+            // Create a User with an Email already in db
+            var userToAdd = new User()
+            {
+                Email = "mikeHanlon@it.com",
+                FirebaseUserId = "FIREBASE_ID_2"
+            };
 
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
-        //                           }, "TestAuthentication"));
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
-        //    // Instantiate a real UserRepo
-        //    var repo = new UserRepository(_context);
+            // Instantiate a real UserRepo
+            var repo = new UserRepository(_context);
 
-        //    // Instantiate a real UserController, passing in UserRepo
-        //    var controller = new UserController(repo);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Instantiate a real UserController, passing in UserRepo
+            var controller = new UserController(repo);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to Add user
-        //    var response = controller.Post(userToAdd);
+            // Attempt to Add user
+            var response = controller.Post(userToAdd);
 
-        //    // Adding should return a NotFound because Email is already in db
-        //    Assert.IsType<NotFoundResult>(response);
-        //}
+            // Adding should return a NotFound because Email is already in db
+            Assert.IsType<CreatedAtActionResult>(response);
+        }
 
-        //[Fact]
-        //public void Non_Unique_Emails_Fail()
-        //{
+        [Fact]
+        public void Non_Unique_Emails_Fail()
+        {
+            // Create a User with an Email already in db
+            var userToAdd = new User()
+            {
+                Email = "pennywise@it.com",
+                FirebaseUserId = "FIREBASE_ID_2"
+            };
 
-        //}
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Instantiate a real UserRepo
+            var repo = new UserRepository(_context);
+
+            // Instantiate a real UserController, passing in UserRepo
+            var controller = new UserController(repo);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Add user
+            var response = controller.Post(userToAdd);
+
+            // Adding should return a NotFound because Email is already in db
+            Assert.IsType<NotFoundResult>(response);
+        }
 
         private void AddSampleData()
         {
