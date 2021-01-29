@@ -77,69 +77,7 @@
   --cls-size-small: 4rem;
 }
 
-/* Main application layout after sign-in */
-.app__container {
-  display: grid;
-  grid-template-rows: min-content min-content auto min-content;
-  min-height: 100vh;
-}
 
-.view__container {
-  display: grid;
-  grid-template-columns: 1fr 2fr 4fr;
-}
-
-/* Collection list column */
-.column__list {
-  overflow-y: auto;
-  overflow-x: none;
-  max-height: 88vh;
-  width: 22vw;
-}
-
-/* Selected collection column */
-.column__selected {
-  margin-left: 0.5em;
-  /* 
-  This will change when we add the dividing column
-  will need JS to know when the scroll bar appears to hide the divider
-  */
-}
-
-/* Thesaurus column */
-.column__thesaurus {
-  display: grid;
-  grid-template-rows: min-content min-content;
-}
-
-/* Desktop - med-screen size - hide list column */
-@media screen and (max-width: 1215px) {
-
-  .view__container {
-    grid-template-columns: 1fr 2fr;
-  }
-  
-  .column__list {
-    display: none
-  }
-
-  .column__selected {
-    margin-left: 1em;
-  }
-}
-
-/* Desktop - small-screen size - stack selected & thesaurus column  */
-@media screen and (max-width: 768px) {
-
-  .view__container {
-    display: flex;
-    flex-flow: column;
-  }
-
-  .column__selected {
-    width: 75%;
-  }
-}
 
 /* Set Defaults */
 * {
