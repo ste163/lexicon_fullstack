@@ -42,7 +42,7 @@ const AuthView = () => {
                 setLoading(false)
                 // Store default settings in sessionStorage
                 // Use the user.id as the key to know who's settings to load
-                toast.info(`Registered! Welcome to Lexicon.`)
+                toast.success(`Registered! Welcome to Lexicon.`)
                 history.push("/")
             })
             .catch(err => {
@@ -62,7 +62,7 @@ const AuthView = () => {
         setLoading(true)
         login(loginEmail, loginPassword)
             .then(user => {
-                toast.info(`Welcome to Lexicon!`)
+                toast.login(`Welcome to Lexicon!`)
             })
             .catch(err => {
                 setLoading(false)

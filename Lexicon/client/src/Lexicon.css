@@ -3,6 +3,7 @@
 @import "./styles/card.css";
 @import "./styles/scrollbar.css";
 @import "./styles/dotMenu.css";
+@import "./styles/toastify-overrides.css";
 
 :root {
   /* Colors */
@@ -26,6 +27,8 @@
 
   --red: #d85656;
   --redActive: #803232;
+
+  --green: #5cb56e;
 
   /* SPECIFIC COLOR LOCATIONS */
   /* FOR EASIER DARK MODE TARGETING */
