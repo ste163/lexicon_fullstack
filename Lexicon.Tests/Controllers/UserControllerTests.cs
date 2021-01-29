@@ -67,5 +67,11 @@ namespace Lexicon.Tests.Controllers
             // Return NotFound
             Assert.IsType<NotFoundResult>(response);
         }
+
+        [Fact]
+        public void Users_Can_Only_Delete_Themselves()
+        {
+
+        }
     }
 }

@@ -28,7 +28,9 @@ namespace Lexicon.Repositories
 
         public void Delete(User user)
         {
-            throw new NotImplementedException();
+            // As I add more info to users, will have to handle cascading deletes
+            _context.User.Remove(user);
+            _context.SaveChanges();
         }
 
         public User GetByFirebaseUserId(string firebaseUserId)

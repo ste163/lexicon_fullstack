@@ -65,7 +65,15 @@ namespace Lexicon.Controllers
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
-            throw new NotImplementedException();
+            var userRequestingDeletion = GetCurrentUser();
+
+            if (userRequestingDeletion.Id != Id)
+            {
+                return NotFound();
+            }
+
+            _repo.Delete(userRequestingDeletion);
+            return NoContent();
         }
     }
 }

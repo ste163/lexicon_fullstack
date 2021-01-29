@@ -42,7 +42,7 @@ namespace Lexicon.Tests.Repositories
             var repo = new UserRepository(_context);
 
             // Get count of all users
-            var originalUserCount = repo.Get().Count; // will need to add a Get all for testing
+            var originalUserCount = repo.Get().Count;
 
             // Attempt to add user
             repo.Add(user);
@@ -54,41 +54,58 @@ namespace Lexicon.Tests.Repositories
             Assert.True(postUserCount > originalUserCount);
         }
 
-
-
-
         [Fact]
-        public void Users_Can_Delete_Themselves_Only()
+        public void User_Cannot_Register_A_Email_Already_In_Db()
         {
-            //// Create a new Post to delete
-            //var post = new Post
+            //// Create a new User
+            //var user = new User
             //{
-            //    Title = "Ween, a band, that's really good",
-            //    Content = "Everyone should listen to Ween. They're a pretty fun band. The End.",
-            //    ImageLocation = "Ween is like---totally---cool",
-            //    PublishDateTime = DateTime.Now - TimeSpan.FromDays(10),
-            //    IsApproved = true,
-            //    CategoryId = 2,
-            //    UserProfileId = 3
+            //    Email = "bobgray@it.com",
+            //    FirebaseUserId = "TEST_FIREBASE_UID_2"
             //};
 
-            //// Get our PostRepo
-            //var repo = new PostRepository(_context);
+            //// Instantiate UserRepo
+            //var repo = new UserRepository(_context);
 
-            //// Add that Post to Db
-            //repo.Add(post);
+            //// Get count of all users
+            //var originalUserCount = repo.Get().Count; // will need to add a Get all for testing
 
-            //// Get a count of all posts
-            //var postTotal = repo.Get().Count;
+            //// Attempt to add user
+            //repo.Add(user);
 
-            //// Delete just added post
-            //repo.Delete(post);
+            //// Get user count after addition
+            //var postUserCount = repo.Get().Count;
 
-            //// Get a new count of all posts;
-            //var postTotalAfterDeletion = repo.Get().Count;
+            //// We should have more posts than before
+            //Assert.True(postUserCount > originalUserCount);
+        }
 
-            //// Post total after deletion should be one less than original total
-            //Assert.True(postTotalAfterDeletion == postTotal - 1);
+        [Fact]
+        public void Users_Can_Be_Deleted()
+        {
+            var user = new User()
+            {
+                Email = "soonToBeDeleted@email.com",
+                FirebaseUserId = "FIREBASE_ID_POOF!"
+            };
+
+            // Instantiate UserRepo
+            var repo = new UserRepository(_context);
+
+            // Add new User
+            repo.Add(user);
+
+            // Get count of all users
+            var originalUserCount = repo.Get().Count;
+
+            // Delete added user
+            repo.Delete(user);
+
+            // Get a new count of all posts;
+            var usersTotalPostDeletion = repo.Get().Count;
+
+            // Post total after deletion should be one less than original total
+            Assert.True(usersTotalPostDeletion == originalUserCount - 1);
         }
 
         private void AddSampleData()
@@ -96,7 +113,7 @@ namespace Lexicon.Tests.Repositories
             var user1 = new User()
             {
                 Email = "pennywise@it.com",
-                FirebaseUserId = "TEST_FIREBASE_UID_1"
+                FirebaseUserId = "FIREBASE_1"
             };
 
             _context.Add(user1);
