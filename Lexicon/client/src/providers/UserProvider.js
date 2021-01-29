@@ -32,6 +32,17 @@ export function UserProvider(props) {
       });
   };
 
+  const anonymousLogin = () => {
+    return firebase
+      .auth()
+      .signInAnonymously()
+      .then(user => {
+        localStorage.setItem("currentUserId", 0)
+        setIsLoggedIn(true)
+        return user
+      })
+  }
+
   const logout = () => {
     return firebase
       .auth()
@@ -96,6 +107,7 @@ export function UserProvider(props) {
       value={{
         isLoggedIn,
         login,
+        anonymousLogin,
         logout,
         register,
         getToken,

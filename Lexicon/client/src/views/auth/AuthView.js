@@ -11,7 +11,7 @@ const AuthView = () => {
     // If logging out with dark mode active, this resets colors to white 
     ChangeColorMode()
 
-    const { login, register } = useContext(UserContext)
+    const { login, anonymousLogin, register } = useContext(UserContext)
     const [loading, setLoading] = useState(false)
 
     const [loginEmail, setLoginEmail] = useState("")
@@ -31,16 +31,18 @@ const AuthView = () => {
 
     const history = useHistory()
 
-    const handleRegister = (e) => {
-        
+    const handleRegister = (e) => {  
         e.preventDefault()
         setLoading(true)
+
         const user = {
             email: registerEmail,
         }
         register(user, registerPassword)
             .then(user => {
                 setLoading(false)
+                // Store default settings in sessionStorage
+                // Use the user.id as the key to know who's settings to load
                 toast.info(`Registered! Welcome to Lexicon.`)
                 history.push("/")
             })
@@ -181,7 +183,20 @@ const AuthView = () => {
                             </fieldset>
 
                         </form>
-                            <button className="auth__anonymous">Continue without signing in</button>
+                            <button
+                            onClick={e => {
+                                anonymousLogin()
+                                .then(user => {
+                                    toast.info(`Welcome! As an anonymous user, you can not save data.`)
+                                    history.push("/")
+                                })
+                                .catch(err => {
+                                    toast.error("Error: unable to sign in anonymously.")
+                                })
+                            }}
+                            className="auth__anonymous">
+                                Continue without signing in
+                            </button>
                     </section>
                 </section>
 
