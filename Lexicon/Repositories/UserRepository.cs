@@ -22,7 +22,8 @@ namespace Lexicon.Repositories
 
         public void Add(User user)
         {
-            throw new NotImplementedException();
+            _context.Add(user);
+            _context.SaveChanges();
         }
 
         public void Delete(User user)

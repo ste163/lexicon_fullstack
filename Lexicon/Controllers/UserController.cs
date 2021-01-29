@@ -45,7 +45,6 @@ namespace Lexicon.Controllers
             {
                 return NotFound();
             }
-
         }
 
         [HttpGet("{firebaseUserId}")]

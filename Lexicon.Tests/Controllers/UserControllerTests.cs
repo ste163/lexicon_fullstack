@@ -47,5 +47,25 @@ namespace Lexicon.Tests.Controllers
             // Return Ok
             Assert.IsType<OkObjectResult>(response);
         }
+
+        [Fact]
+        public void Users_Besides_Id_1_Cannot_Get_All_Users()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER2"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new UserController(_fakeUserRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get all users
+            var response = controller.GetAll();
+
+            // Return NotFound
+            Assert.IsType<NotFoundResult>(response);
+        }
     }
 }
