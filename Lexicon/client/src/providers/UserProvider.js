@@ -8,7 +8,7 @@ export const UserContext = createContext();
 export function UserProvider(props) {
   const apiUrl = "/api/user";
 
-  const currentUser = localStorage.getItem("currentUser");
+  const currentUser = sessionStorage.getItem("currentUser");
   const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null);
 
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
@@ -25,8 +25,8 @@ export function UserProvider(props) {
       .signInWithEmailAndPassword(email, pw)
       .then((signInResponse) => getUser(signInResponse.user.uid))
       .then((user) => {
-        localStorage.setItem("currentUser", JSON.stringify(user));
-        localStorage.setItem("currentUserId", user.id);
+        sessionStorage.setItem("currentUser", JSON.stringify(user));
+        sessionStorage.setItem("currentUserId", user.id);
         setIsLoggedIn(true);
         return user;
       });
@@ -37,7 +37,7 @@ export function UserProvider(props) {
       .auth()
       .signInAnonymously()
       .then(user => {
-        localStorage.setItem("currentUserId", 0)
+        sessionStorage.setItem("currentUserId", 0)
         setIsLoggedIn(true)
         return user
       })
@@ -48,7 +48,7 @@ export function UserProvider(props) {
       .auth()
       .signOut()
       .then(() => {
-        localStorage.clear();
+        sessionStorage.clear();
         setIsLoggedIn(false);
       });
   };
@@ -61,8 +61,10 @@ export function UserProvider(props) {
         saveUser({ ...user, firebaseUserId: createResponse.user.uid })
       )
       .then((savedUser) => {
-        localStorage.setItem("currentUser", JSON.stringify(savedUser));
-        localStorage.setItem("currentUserId", user.id);
+        // NEED TO ENSURE THIS USER ACTUALLY COMES BACK AS SOMETHING OTHER ID 0
+        // OTHERWISE 
+        sessionStorage.setItem("currentUser", JSON.stringify(savedUser));
+        sessionStorage.setItem("currentUserId", savedUser.id);
         setIsLoggedIn(true);
         return savedUser;
       });
@@ -95,7 +97,7 @@ export function UserProvider(props) {
   };
 
   const getCurrentUser = () => {
-    const user = localStorage.getItem("currentUser");
+    const user = sessionStorage.getItem("currentUser");
     if (!user) {
       return null;
     }
