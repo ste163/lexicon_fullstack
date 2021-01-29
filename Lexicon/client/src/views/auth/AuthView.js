@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from 'react'
-import { useHistory } from "react-router-dom"
+import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { UserContext } from '../../providers/UserProvider'
 import LexLogo from '../../components/branding/LexLogo'
 import LexTitle from '../../components/branding/LexTitle'
@@ -10,7 +11,7 @@ const AuthView = () => {
     // If logging out with dark mode active, this resets colors to white 
     ChangeColorMode()
 
-    const { login } = useContext(UserContext)
+    const { login, register } = useContext(UserContext)
     const [loading, setLoading] = useState(false)
 
     const [loginEmail, setLoginEmail] = useState("")
@@ -30,15 +31,32 @@ const AuthView = () => {
 
     const history = useHistory()
 
+    const handleRegister = (e) => {
+        
+        e.preventDefault()
+        setLoading(true)
+        const user = {
+            email: registerEmail,
+        }
+        register(user, registerPassword)
+            .then(user => {
+                debugger
+                console.log(user.status)
+                setLoading(false)
+                toast.info(`Registered! Welcome to Lexicon.`)
+                history.push("/")
+            })
+            .then(err => {
+                setLoading(false)
+                toast.error("This email has already been registered.")
+            })
+    }  
+
     const handleLogin = (e) => {
         e.preventDefault()
         setLoading(true)
     }
     
-    const handleRegister = (e) => {
-        e.preventDefault()
-        setLoading(true)
-    }  
 
     return (
         <main className="auth__container">    
@@ -110,7 +128,7 @@ const AuthView = () => {
                                 <label htmlFor={activeBtn ? "emailLogin" : "usernameRegister"}>Email</label>
                                 <input
                                     className="input--auth"
-                                    type="text"
+                                    type="email"
                                     id={activeBtn ? "emailLogin" : "usernameRegister"}
                                     value={activeBtn ? loginEmail : registerEmail}
                                     onChange={e => {
@@ -142,6 +160,7 @@ const AuthView = () => {
                                     }}
                                     placeholder="password"
                                     type="password"
+                                    minLength={6}
                                     required
                                     autoFocus />
                             </fieldset>

@@ -140,16 +140,13 @@
     width: auto;
 }
 
-
 /* BACKGROUND */
 .border__top {
     background-color: var(--black);
     height: 2em;
-    z-index: 0;
 }
 
 .border__bottom {
     background-color: var(--darkestYellow);
     height: 2em;
-    z-index: 0;
 }
