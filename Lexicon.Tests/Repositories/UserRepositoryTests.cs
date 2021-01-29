@@ -1,8 +1,5 @@
 ﻿using Lexicon.Models;
 using Lexicon.Repositories;
-using System;
-using System.Collections.Generic;
-using Tabloid_Fullstack.Tests;
 using Xunit;
 
 namespace Lexicon.Tests.Repositories

@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Lexicon.Data;
 
-namespace Tabloid_Fullstack.Tests
+namespace Lexicon.Tests
 {
     public class TestDbContext : ApplicationDbContext
     {
