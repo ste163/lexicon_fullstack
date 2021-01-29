@@ -1,15 +1,16 @@
 ﻿using Lexicon.Models;
 using Lexicon.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Lexicon.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -27,6 +28,26 @@ namespace Lexicon.Controllers
             return _repo.GetByFirebaseUserId(firebaseUserId);
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            // GetAll is specifically for testing
+            // Only User with Id of 1 (me and the test) will be able to access it.
+            User attemptingUser = GetCurrentUser();
+
+            if (attemptingUser.Id == 1)
+            {
+                List<User> users = _repo.Get();
+
+                return Ok(users);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetUser(string firebaseUserId)
         {
@@ -39,8 +60,7 @@ namespace Lexicon.Controllers
             _repo.Add(user);
             return CreatedAtAction(
                 nameof(GetUser),
-                new { firebaseUserId = user.FirebaseUserId },
-                user);
+                new { firebaseUserId = user.FirebaseUserId }, user);
         }
 
         [HttpDelete]

@@ -1,6 +1,7 @@
 ﻿using Lexicon.Data;
 using Lexicon.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lexicon.Repositories
@@ -12,6 +13,11 @@ namespace Lexicon.Repositories
         public UserRepository(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public List<User> Get()
+        {
+            return _context.User.ToList();
         }
 
         public void Add(User user)
