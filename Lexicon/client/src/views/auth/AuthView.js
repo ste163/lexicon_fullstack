@@ -40,15 +40,13 @@ const AuthView = () => {
         }
         register(user, registerPassword)
             .then(user => {
-                debugger
-                console.log(user.status)
                 setLoading(false)
                 toast.info(`Registered! Welcome to Lexicon.`)
                 history.push("/")
             })
-            .then(err => {
+            .catch(err => {
+                toast.error("Error: email is already registered.")
                 setLoading(false)
-                toast.error("This email has already been registered.")
             })
     }  
 
