@@ -62,7 +62,6 @@ const AuthView = () => {
         setLoading(true)
         login(loginEmail, loginPassword)
             .then(user => {
-                setLoading(false)
                 toast.info(`Welcome to Lexicon!`)
             })
             .catch(err => {
@@ -93,12 +92,10 @@ const AuthView = () => {
                             className={activeBtn ? "auth__btn auth__btn--active" : "auth__btn"}
                             onClick={e => {
                                 setBtn(true)
-                                if (registerEmail) {
-                                    setRegisterEmail("")
+                                if (registerEmail) {                                 
                                     setLoginEmail("")
                                 }
-                                if (registerPassword) {
-                                    setRegisterPassword("")
+                                if (registerPassword) {                                
                                     setLoginPassword("")
                                 }
                             }}
@@ -147,8 +144,7 @@ const AuthView = () => {
                                     onChange={e => {
                                         if (activeBtn) {
                                             setLoginEmail(e.target.value)
-                                        } else
-                                        {
+                                        } else {
                                             setRegisterEmail(e.target.value)
                                         }
                                     }}
@@ -166,8 +162,7 @@ const AuthView = () => {
                                     onChange={e => {
                                         if (activeBtn) {
                                             setLoginPassword(e.target.value)
-                                        } else
-                                        {
+                                        } else {
                                             setRegisterPassword(e.target.value)
                                         }
                                     }}
