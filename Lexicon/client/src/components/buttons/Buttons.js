@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useState } from 'react'
 import { IconLogout, IconGear } from '../icons/Icons'
 import { UserContext } from '../../providers/UserProvider'
 import Modal from '../modal/Modal'
@@ -20,16 +20,14 @@ export const Logout = () => {
 }
 
 export const Settings = () => {
-    const settingsModal = useRef()
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
         <>
-            <Modal  ref={settingsModal} contentFunction={<SettingsForm/>} contentHeader={"Settings"}/>
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<SettingsForm/>} contentHeader={"Settings"}/>
 
             <button className="nav__btn btn__settings"
-            onClick={() => { 
-                settingsModal.current.className = "background__modal modal__active"
-            }}
+            onClick={() => setIsOpen(true)}
             onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
             onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
                 <IconGear color="icon__whiteNoChange" />

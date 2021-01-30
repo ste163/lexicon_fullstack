@@ -1,6 +1,6 @@
 import React from 'react' 
 import { Settings, Logout }  from '../buttons/Buttons'
-import './HamburgerContent.css'
+import './HamburgerMenu.css'
 // Slide in from right and take up almost/all of the screen width
 
 // NEED TO DECIDE THE ORDERING OF THESE
@@ -8,7 +8,7 @@ import './HamburgerContent.css'
 // AND SELECTING A COLUMN TO DISPLAY
 
 // Could have it animate by, when it loads in, you slide in X pixels from the right.
-const HamburgerContent = ({ isOpen }) => (
+const HamburgerMenu = ({ isOpen }) => (
     <nav
     className={isOpen.hamburgerIsOpen ? (
             "hamburger__nav hamburger__nav--active"
@@ -27,4 +27,4 @@ const HamburgerContent = ({ isOpen }) => (
     </nav>
 )
 
-export default HamburgerContent
+export default HamburgerMenu

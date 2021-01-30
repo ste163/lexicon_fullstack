@@ -1,11 +1,9 @@
 import React, { useState } from 'react'  
 import { HeaderBranding } from '../branding/Branding'
-import HamburgerContent from './HamburgerContent'
-import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
+import HamburgerMenu from './HamburgerMenu'
 // Main container for mobile header
 
 const HeaderMobile = () => {
-
     const [ hamburgerIsOpen, setHamburgerIsOpen ] = useState(false)
 
     return (
@@ -29,7 +27,7 @@ const HeaderMobile = () => {
                 <div className="hamburger__bar"></div>
             </button>
         
-            <HamburgerContent isOpen={{ hamburgerIsOpen }} />
+            <HamburgerMenu isOpen={{ hamburgerIsOpen }} />
         </header>
     )
 }
