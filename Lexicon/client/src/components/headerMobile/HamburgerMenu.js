@@ -1,5 +1,5 @@
 import React from 'react' 
-import { Settings, Logout }  from '../buttons/Buttons'
+import { Settings, Logout, CreateCollection }  from '../buttons/Buttons'
 import './HamburgerMenu.css'
 // Slide in from right and take up almost/all of the screen width
 
@@ -17,6 +17,9 @@ const HamburgerMenu = ({ isOpen }) => (
         )
     }>
         <ul className="nav__list--hb">
+            <li className="nav__item">
+                <CreateCollection />
+            </li>
             <li className="nav__item">
                 <Settings />
             </li>
