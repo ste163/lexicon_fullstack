@@ -11,38 +11,38 @@ import "./Modal.css"
     // Pass in isOpen and setIsOpen state
         
 const Modal = props => (
-    props.isOpen ? (
-        // Background
-        <section className="background__modal modal__active"
-        onClick={e => {
-            // If you click on the background, close modal
-            if (e.target.className === "background__modal modal__active") {
-                props.setIsOpen(false)
-            }
-        }}>
-    
-            {/* Modal Card */}
-            <article className={`modal__container`}>
-                <section className="modal__header">
-                    <div className="card__type">
-                        {props.contentHeader}
-                    </div>
-                    <button className="btn__close"
-                    onClick={e => props.setIsOpen(false)}
-                    onMouseOver={e => ChangeIconClassOnHover(e, true, "icon__gray", "icon__hovered")}
-                    onMouseLeave={e => ChangeIconClassOnHover(e, true, "icon__hovered", "icon__gray")}>
-                        <IconClose color="icon__gray" />
-                    </button>
-                </section>
-                {/* Modal body content */}
-                <section className="modal__content">
-                    {props.contentFunction}                
-                </section>
-            </article>
-        </section>
+    // Background
+    <section className={props.isOpen ? (
+        "background__modal modal__active" 
     ) : (
-        null
-    )
+        "background__modal" 
+    )}
+    onClick={e => {
+        // If you click on the background, close modal
+        if (e.target.className === "background__modal modal__active") {
+            props.setIsOpen(false)
+        }
+    }}>
+
+        {/* Modal Card */}
+        <article className="modal__container">
+            <section className="modal__header">
+                <div className="card__type">
+                    {props.contentHeader}
+                </div>
+                <button className="btn__close"
+                onClick={e => props.setIsOpen(false)}
+                onMouseOver={e => ChangeIconClassOnHover(e, true, "icon__gray", "icon__hovered")}
+                onMouseLeave={e => ChangeIconClassOnHover(e, true, "icon__hovered", "icon__gray")}>
+                    <IconClose color="icon__gray" />
+                </button>
+            </section>
+            {/* Modal body content */}
+            <section className="modal__content">
+                {props.contentFunction}                
+            </section>
+        </article>
+    </section>
 )
 
 export default Modal
