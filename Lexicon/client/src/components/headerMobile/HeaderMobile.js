@@ -1,5 +1,5 @@
 import React from 'react'  
-import { LexLogo, LexTitle } from '../branding/Branding'
+import { HeaderBranding } from '../branding/Branding'
 import HeaderMobileContent from './HeaderMobileContent'
 import { IconHamburger } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
@@ -7,10 +7,7 @@ import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 
 const HeaderMobile = () => (
     <header className="header">
-        <section className="header__branding">
-            <LexLogo location={"logo__header--lex"} color={"logo__white"} />
-            <LexTitle location={"title__header"} color={"title__white"} />
-        </section>
+        <HeaderBranding />
 
         <button
         className="btn__no-style btn__hamburger"

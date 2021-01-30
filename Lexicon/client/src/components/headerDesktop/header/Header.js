@@ -1,15 +1,11 @@
 import React from 'react'
 import { Logout, Settings } from '../../buttons/Buttons'
-import { LexLogo, LexTitle } from '../../branding/Branding'
+import { HeaderBranding } from '../../branding/Branding'
 import './Header.css'
 
 const Header = () => (
         <header className="header">
-
-            <section className="header__branding">
-                <LexLogo location={"logo__header--lex"} color={"logo__white"} />
-                <LexTitle location={"title__header"} color={"title__white"} />
-            </section>
+            <HeaderBranding />
 
             <nav>
                 <ul className="nav__list">
@@ -23,8 +19,7 @@ const Header = () => (
                         </li>
                     </div>
                 </ul>
-            </nav>
-        
+            </nav>  
         </header>
 )
 
