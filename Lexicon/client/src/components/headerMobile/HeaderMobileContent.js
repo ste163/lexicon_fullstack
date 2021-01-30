@@ -5,17 +5,24 @@ import { Settings, Logout }  from '../buttons/Buttons'
 // NEED TO DECIDE THE ORDERING OF THESE
 // WILL HOLD CREATING A COLLECTION, CREATING A PROJECT
 // AND SELECTING A COLUMN TO DISPLAY
-const HeaderMobileContent = () => (
-    <nav>
-        <ul>
-            <li className="nav__item">
-                <Settings />
-            </li>
-            <li className="nav__item">
-                <Logout />
-            </li>
-        </ul>
-    </nav>
+const HeaderMobileContent = ({ isOpen }) => (
+    !isOpen.hamburgerIsOpen ? (
+        null
+    ) : (
+        <nav className="hamburger__nav">
+            <ul>
+                <li className="nav__item">
+                    <Settings />
+                </li>
+                <li className="nav__item">
+                    <Logout />
+                </li>
+            </ul>
+        </nav>
+    )
 )
+    
+
+
 
 export default HeaderMobileContent
