@@ -2,7 +2,6 @@ import React from "react"
 import { IconClose } from "../icons/Icons"
 import { ChangeIconClassOnHover } from "../../utils/ChangeIconClassOnHover"
 import "./Modal.css"
-
 // To use Modal
     // Add content with
         // contentFunction
