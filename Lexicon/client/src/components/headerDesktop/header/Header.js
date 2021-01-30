@@ -5,6 +5,7 @@ import Modal from "../../modal/Modal"
 import LexLogo from "../../branding/LexLogo"
 import LexTitle from "../../branding/LexTitle"
 import SettingsForm from '../../forms/SettingsForm'
+import { ChangeIconClassOnHover } from '../../../utils/ChangeIconClassOnHover'
 import "./Header.css"
 
 const Header = () => {
@@ -15,21 +16,8 @@ const Header = () => {
     // Get references for modals
     const settingsModal = useRef()
 
-    // Util for changing just the setting svg icon
-    const ChangeHeaderSettingSvgClassOnHover = (hoverEvent, isOnMouseOver) => {
-        const svg = hoverEvent.currentTarget.firstElementChild.children[1].classList
-        if (isOnMouseOver) {
-            svg.remove("icon__whiteNoChange")
-            svg.add("icon__hovered")
-        } else {
-            svg.remove("icon__hovered")
-            svg.add("icon__whiteNoChange")
-        }
-    }
-
     return (
         <header className="header">
-
         <Modal  ref={settingsModal} contentFunction={<SettingsForm/>} contentHeader={"Settings"}/>
 
             <section className="header__branding">
@@ -39,15 +27,14 @@ const Header = () => {
 
             <nav>
                 <ul className="nav__list">
-                    
                     <div className="nav__rightAligned">
                         <li className="nav__item">
                             <button className="nav__btn btn__settings"
                             onClick={() => { 
                                 settingsModal.current.className = "background__modal modal__active"
                             }}
-                            onMouseOver={e => ChangeHeaderSettingSvgClassOnHover(e, true)}
-                            onMouseLeave={e => ChangeHeaderSettingSvgClassOnHover(e, false)}>
+                            onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
+                            onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
                                 <IconGear color="icon__whiteNoChange" />
                                 Settings
                             </button>
@@ -60,18 +47,8 @@ const Header = () => {
                                 sessionStorage.clear("currentUser")                              
                                 window.location.reload();
                             }}
-                            onMouseOver={e => {
-                                e.currentTarget.firstElementChild.children[1].childNodes.forEach(svg => {
-                                    svg.classList.remove("icon__whiteNoChange")
-                                    svg.classList.add("icon__hovered")
-                                })
-                            }}
-                            onMouseLeave={e => {
-                                e.currentTarget.firstElementChild.children[1].childNodes.forEach(svg => {
-                                    svg.classList.remove("icon__hovered")
-                                    svg.classList.add("icon__whiteNoChange")
-                                })
-                            }}>
+                            onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
+                            onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
                                 <IconLogout color="icon__whiteNoChange" />
                                 Logout
                             </button>
