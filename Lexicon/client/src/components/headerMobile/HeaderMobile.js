@@ -25,7 +25,11 @@ const HeaderMobile = () => {
                     setHamburgerIsOpen(true)
                 }
             }}>
-            <IconHamburger color={"icon__whiteNoChange"}/>
+                {hamburgerIsOpen ? (
+                    <IconClose color={"icon__whiteNoChange"} />
+                    ) : (
+                    <IconHamburger color={"icon__whiteNoChange"}/>
+                )}
             </button>
         
             <HamburgerContent isOpen={{ hamburgerIsOpen }} />

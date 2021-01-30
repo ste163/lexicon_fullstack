@@ -1,3 +1,34 @@
 .hamburger__nav {
-    background-color: red;
+    display: block;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 98;
+    background-color: gray;
+    /* background-color: var(--offWhite); */
+}
+
+.hamburger__nav--active {
+    left: 30vw;
+    transition: 0.4s;
+}
+
+/* If on a tablet, don't allow to be too wide */
+@media screen and (min-width: 500px) {
+    .hamburger__nav--active {
+        left: 60vw;
+    }
+}
+
+.hamburger__nav--inactive {
+    left: 100vw;
+    transition: 0.4s;
+}
+
+.nav__list--hb {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 0;
+    padding: 2em 0 0 0;
 }
