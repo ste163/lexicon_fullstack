@@ -1,23 +1,24 @@
 // Written by NSS to assist in having real Authentication & Authorization
-import React, { useState, useEffect, createContext } from "react";
-import firebase from "firebase/app";
-import "firebase/auth";
+import React, { useState, useEffect, createContext } from "react"
+import { toast } from 'react-toastify'
+import firebase from "firebase/app"
+import "firebase/auth"
 
-export const UserContext = createContext();
+export const UserContext = createContext()
 
 export function UserProvider(props) {
-  const apiUrl = "/api/user";
+  const apiUrl = "/api/user"
 
-  const currentUser = sessionStorage.getItem("currentUser");
-  const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null);
+  const currentUser = sessionStorage.getItem("currentUser")
+  const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null)
 
-  const [isFirebaseReady, setIsFirebaseReady] = useState(false);
+  const [isFirebaseReady, setIsFirebaseReady] = useState(false)
   
   useEffect(() => {
     firebase.auth().onAuthStateChanged((u) => {
-      setIsFirebaseReady(true);
-    });
-  }, []);
+      setIsFirebaseReady(true)
+    })
+  }, [])
 
   const login = (email, pw) => {
     return firebase
@@ -25,12 +26,12 @@ export function UserProvider(props) {
       .signInWithEmailAndPassword(email, pw)
       .then((signInResponse) => getUser(signInResponse.user.uid))
       .then((user) => {
-        sessionStorage.setItem("currentUser", JSON.stringify(user));
-        sessionStorage.setItem("currentUserId", user.id);
-        setIsLoggedIn(true);
-        return user;
-      });
-  };
+        sessionStorage.setItem("currentUser", JSON.stringify(user))
+        sessionStorage.setItem("currentUserId", user.id)
+        setIsLoggedIn(true)
+        return user
+      })
+  }
 
   const anonymousLogin = () => {
     return firebase
@@ -48,10 +49,11 @@ export function UserProvider(props) {
       .auth()
       .signOut()
       .then(() => {
-        sessionStorage.clear();
-        setIsLoggedIn(false);
-      });
-  };
+        sessionStorage.clear()
+        setIsLoggedIn(false)
+        toast.info("Logged out.")
+      })
+  }
 
   const register = (user, password) => {
     return firebase
@@ -61,14 +63,14 @@ export function UserProvider(props) {
         saveUser({ ...user, firebaseUserId: createResponse.user.uid })
       )
       .then((savedUser) => {
-        sessionStorage.setItem("currentUser", JSON.stringify(savedUser));
-        sessionStorage.setItem("currentUserId", savedUser.id);
-        setIsLoggedIn(true);
-        return savedUser;
-      });
-  };
+        sessionStorage.setItem("currentUser", JSON.stringify(savedUser))
+        sessionStorage.setItem("currentUserId", savedUser.id)
+        setIsLoggedIn(true)
+        return savedUser
+      })
+  }
 
-  const getToken = () => firebase.auth().currentUser.getIdToken();
+  const getToken = () => firebase.auth().currentUser.getIdToken()
 
   const getUser = (firebaseUserId) => {
     return getToken().then((token) =>
@@ -78,8 +80,8 @@ export function UserProvider(props) {
           Authorization: `Bearer ${token}`,
         },
       }).then((resp) => resp.json())
-    );
-  };
+    )
+  }
 
   const saveUser = (userProfile) => {
     return getToken().then((token) =>
@@ -91,16 +93,16 @@ export function UserProvider(props) {
         },
         body: JSON.stringify(userProfile),
       }).then((resp) => resp.json())
-    );
-  };
+    )
+  }
 
   const getCurrentUser = () => {
-    const user = sessionStorage.getItem("currentUser");
+    const user = sessionStorage.getItem("currentUser")
     if (!user) {
-      return null;
+      return null
     }
-    return JSON.parse(user);
-  };
+    return JSON.parse(user)
+  }
 
   return (
     <UserContext.Provider
@@ -124,5 +126,5 @@ export function UserProvider(props) {
         </div>
       )}
     </UserContext.Provider>
-  );
+  )
 }

@@ -1,17 +1,20 @@
-import React, { useRef } from "react"
-import { useHistory } from "react-router-dom"
-import { IconLogout, IconGear } from "../../icons/Icons"
-import Modal from "../../modal/Modal"
-import LexLogo from "../../branding/LexLogo"
-import LexTitle from "../../branding/LexTitle"
+import React, { useRef, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
+import { IconLogout, IconGear } from '../../icons/Icons'
+import { UserContext } from '../../../providers/UserProvider'
+import Modal from '../../modal/Modal'
+import LexLogo from '../../branding/LexLogo'
+import LexTitle from '../../branding/LexTitle'
 import SettingsForm from '../../forms/SettingsForm'
 import { ChangeIconClassOnHover } from '../../../utils/ChangeIconClassOnHover'
-import "./Header.css"
+import './Header.css'
 
 const Header = () => {
 
     // Instantiate useHistory to use it
     const history = useHistory()
+
+    const { logout } = useContext(UserContext)
 
     // Get references for modals
     const settingsModal = useRef()
@@ -42,11 +45,7 @@ const Header = () => {
                         
                         <li className="nav__item">
                             <button className="nav__btn btn__logout" 
-                            onClick={() => {
-                                sessionStorage.clear("currentUserId")
-                                sessionStorage.clear("currentUser")                              
-                                window.location.reload();
-                            }}
+                            onClick={() => logout()}
                             onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
                             onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
                                 <IconLogout color="icon__whiteNoChange" />
