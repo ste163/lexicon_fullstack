@@ -69,13 +69,6 @@
     margin-bottom: .4em;
 }
 
-.auth__anonymous {
-    background-color: transparent;
-    border: none;    
-    cursor: pointer;
-    padding: 0;
-}
-
 .auth__btns {
     display: grid;
     justify-content: center;

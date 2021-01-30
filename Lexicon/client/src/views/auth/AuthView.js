@@ -212,7 +212,7 @@ const AuthView = () => {
                                 toast.error("Error: unable to sign in anonymously.")
                             })
                         }}
-                        className="auth__anonymous">
+                        className="btn__no-style">
                             Continue without signing in
                         </button>
                     </section>
