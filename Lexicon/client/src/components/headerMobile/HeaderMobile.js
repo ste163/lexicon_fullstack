@@ -1,6 +1,6 @@
 import React, { useState } from 'react'  
 import { HeaderBranding } from '../branding/Branding'
-import HeaderMobileContent from './HeaderMobileContent'
+import HamburgerContent from './HamburgerContent'
 import { IconHamburger, IconClose } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 // Main container for mobile header
@@ -28,7 +28,7 @@ const HeaderMobile = () => {
             <IconHamburger color={"icon__whiteNoChange"}/>
             </button>
         
-            <HeaderMobileContent isOpen={{ hamburgerIsOpen }} />
+            <HamburgerContent isOpen={{ hamburgerIsOpen }} />
         </header>
     )
 }
