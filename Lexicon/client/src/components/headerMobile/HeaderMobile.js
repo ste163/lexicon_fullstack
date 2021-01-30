@@ -13,7 +13,11 @@ const HeaderMobile = () => {
             <HeaderBranding />
 
             <button
-            className="btn__no-style btn__hamburger"
+            className={hamburgerIsOpen ? (
+                "btn__no-style btn__hamburger btn__hamburger--active"
+            ) : (
+                "btn__no-style btn__hamburger "
+            )}
             onClick={e => {
                 if (hamburgerIsOpen) {
                     setHamburgerIsOpen(false)
@@ -22,11 +26,7 @@ const HeaderMobile = () => {
                     setHamburgerIsOpen(true)
                 }
             }}>
-                {hamburgerIsOpen ? (
-                    <div className="hamburger__bar"></div>
-                    ) : (
-                    <div className="hamburger__bar"></div>
-                )}
+                <div className="hamburger__bar"></div>
             </button>
         
             <HamburgerContent isOpen={{ hamburgerIsOpen }} />

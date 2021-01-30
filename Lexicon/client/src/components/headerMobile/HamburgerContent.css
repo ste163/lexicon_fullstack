@@ -1,20 +1,32 @@
 .btn__hamburger {
     position: relative;
-    padding: 0 0.5em 0 0;
     z-index: 100;
-    width: 35px;
-    margin-right: 15px;
-  }
+    width: 30px;
+    margin-right: 20px;
+}
 
 /* Creates hamburger lines */
 .btn__hamburger .hamburger__bar, .btn__hamburger::after, .btn__hamburger::before {
     content:  '';
     display: block;
     width: 100%;
-    height: 5px;
-    border-radius: 5px;
+    height: 3px;
+    border-radius: 3px;
     background-color: var(--offWhite);
     margin: 6px 0px;
+    transition: 0.3s;
+}
+
+.btn__hamburger--active::before {
+    transform: rotate(-45deg) translate(-7px, 4px)
+}
+
+.btn__hamburger--active::after {
+    transform: rotate(45deg) translate(-9px, -6px)
+}
+
+.btn__hamburger--active .hamburger__bar {
+    opacity: 0;
 }
 
 .hamburger__nav {
