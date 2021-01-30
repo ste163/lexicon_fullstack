@@ -24,13 +24,14 @@ const MainView = () => {
         };
       }
 
+    // Delays state update on every resize event, and removes the event listener to stop a memory leak
     useEffect(() => {
         const debouncedHandleResize = debounce(function handleResize() {
             setWindowDimensions({
               height: window.innerHeight,
               width: window.innerWidth
             })
-          }, 300)
+          }, 150)
 
         // EventListener on Window object to properly track the current browser dimensions
         window.addEventListener('resize', debouncedHandleResize)
@@ -46,11 +47,11 @@ const MainView = () => {
     return (
         <div className="app__container">
             <div className="container__headers">
-                {/*
-                    Need to swap-out with a Desktop view that shows both and a mobile view that shows just hamburger with top black bar.
-                    Header and SubHeader need to go into a single HeaderDesktop and then a HeaderMobile
-                */}
-                <HeaderDesktop />
+                {windowDimensions.width < 700 ? (
+                    <div>MOBILE HEADER</div>
+                ) : (
+                    <HeaderDesktop />
+                )}
             </div>
             <div className="container__inner">
                 <section>
