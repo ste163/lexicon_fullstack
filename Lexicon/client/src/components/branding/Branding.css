@@ -46,8 +46,20 @@
     fill: #FCFCFC !important;
 }
 
-/* MW logo */
 
+@media screen and (max-width: 768px) {
+    .logo__login--lex {
+        width: 4em;
+        height: 4em;
+    }
+
+    .title__login {
+        width: 10em;
+        height: 3em;
+    }
+}
+
+/* MW logo */
 .logo__footer--mw {
     min-width: 60px;
     min-height: 60px;

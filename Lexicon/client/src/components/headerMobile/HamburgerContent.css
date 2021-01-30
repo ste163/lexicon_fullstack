@@ -5,8 +5,7 @@
     width: 100%;
     height: 100vh;
     z-index: 98;
-    background-color: gray;
-    /* background-color: var(--offWhite); */
+    background-color: var(--lightestBlack);
 }
 
 .hamburger__nav--active {
