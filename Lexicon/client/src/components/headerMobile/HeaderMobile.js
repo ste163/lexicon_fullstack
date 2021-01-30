@@ -1,6 +1,5 @@
 import React from 'react'  
-import LexLogo from '../branding/LexLogo'
-import LexTitle from '../branding/LexTitle'
+import { LexLogo, LexTitle } from '../branding/Branding'
 import HeaderMobileContent from './HeaderMobileContent'
 import { IconHamburger } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'

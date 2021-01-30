@@ -1,0 +1,57 @@
+/* Lex logo */
+.logo__login--lex {
+    width: 6em;
+    height: 6em;
+}
+
+.logo__header--lex {
+    width: 1.25em;
+    height: 1.25em;
+    margin-left: 0.85em;
+}
+
+.logo__footer--lex {
+    width: 2em;
+    height: 2em;
+    margin-bottom: 0.5em;
+}
+
+.logo__white {
+    fill: #FCFCFC !important;
+}
+
+.logo__black {
+    fill: var(--black) !important;
+}
+
+
+/* Lex title */
+.title__login {
+    width: 14em;
+    height: 5em;
+}
+
+.title__header {
+    width: 6.5em;
+    height: 1.5em;
+    margin: 0 0.65em;
+}
+
+.title__footer {
+    width: 6em;
+    height: 2em;
+}
+
+.title__white {
+    fill: #FCFCFC !important;
+}
+
+/* MW logo */
+
+.logo__footer--mw {
+    min-width: 60px;
+    min-height: 60px;
+    width: 2em;
+    height: 2em;
+    margin-top: 1em;
+}

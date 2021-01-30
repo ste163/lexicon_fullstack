@@ -1,7 +1,5 @@
 import React from 'react'
-import LexLogo from '../branding/LexLogo'
-import LexTitle from '../branding/LexTitle'
-import MwLogo from '../branding/MwLogo';
+import { LexLogo, LexTitle, MwLogo } from '../branding/Branding'
 import './Footer.css'
 
 const Footer = () => (

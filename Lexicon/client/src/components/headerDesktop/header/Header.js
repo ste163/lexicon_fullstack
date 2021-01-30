@@ -1,7 +1,6 @@
 import React from 'react'
 import { Logout, Settings } from '../../buttons/Buttons'
-import LexLogo from '../../branding/LexLogo'
-import LexTitle from '../../branding/LexTitle'
+import { LexLogo, LexTitle } from '../../branding/Branding'
 import './Header.css'
 
 const Header = () => (
