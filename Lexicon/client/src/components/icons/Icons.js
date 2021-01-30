@@ -26,6 +26,17 @@ export const IconPlus = props => (
     </svg>
 )
 
+export const IconHamburger = props => (
+    <svg className="icon__hamburger" width="30" height="25" version="1.1" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+        <title>Hamburger Icon</title>
+        <g transform="matrix(.61526 0 0 .61526 -2.5428 -2.5426)">
+            <rect className={props.color} id="plus_horz" transform="rotate(90)" x="8" y="-16.935" width="2.5113" height="12.703" ry="1.2556"/>
+            <rect className={props.color} id="plus_horz" transform="rotate(90)" x="12" y="-16.935" width="2.5113" height="12.703" ry="1.2556"/>
+            <rect className={props.color} id="plus_horz" transform="rotate(90)" x="16" y="-16.935" width="2.5113" height="12.703" ry="1.2556"/>
+        </g>
+    </svg>
+)
+
 export const IconClose = props => (
     <svg className="icon__close" width="23" height="23" version="1.1" viewBox="0 0 6.0855 6.0855" xmlns="http://www.w3.org/2000/svg">
         <title>Close Icon</title>

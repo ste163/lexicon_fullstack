@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
+import HeaderMobile from '../../components/headerMobile/HeaderMobile'
 import Footer from '../../components/footer/Footer'
 import './MainView.css'
 
@@ -48,7 +49,7 @@ const MainView = () => {
         <div className="app__container">
             <div className="container__headers">
                 {windowDimensions.width < 700 ? (
-                    <div>MOBILE HEADER</div>
+                    <HeaderMobile />
                 ) : (
                     <HeaderDesktop />
                 )}
