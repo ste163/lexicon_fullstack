@@ -23,11 +23,6 @@
   color: var(--darkGray);
 }
 
-.btn__hamburger {
-  padding: 0 0.5em 0 0;
-  z-index: 100;
-}
-
 button:focus {
   outline: none;
 }
