@@ -75,7 +75,6 @@
 
 .label__hamburger {
     color: var(--offWhite);
-    font-weight: var(--weightNormal);
     font-size: var(--fontSizeHamburger) !important;
 }
 

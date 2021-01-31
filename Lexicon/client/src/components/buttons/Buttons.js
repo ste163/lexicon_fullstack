@@ -3,7 +3,7 @@ import { UserContext } from '../../providers/UserProvider'
 import { IconLogout, IconGear, IconPlus } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import SettingsForm from '../forms/SettingsForm'
-import CollectionForm from '../forms/CollectionForm'
+import CollectionManager from '../managers/CollectionManager'
 import Modal from '../modal/Modal'
 import './Buttons.css'
 
@@ -53,7 +53,7 @@ export const ManageCollections = ({ isMobile }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<CollectionForm />} contentHeader={"Collection Manager"} />
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<CollectionManager />} contentHeader={"Collection Manager"} />
 
             <button className={!isMobile ? (
                 "btn btn__subheader"
@@ -72,7 +72,7 @@ export const ManageProjects = ({ isMobile }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<CollectionForm />} contentHeader={"Project Manager"} />
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<></>} contentHeader={"Project Manager"} />
 
             <button className={!isMobile ? (
                 "btn btn__subheader"

@@ -25,13 +25,15 @@
 }
 
 .modal__container {
+    position: relative;
     background-color: var(--offWhite);
     border-radius: var(--cardRadius);
     padding: 1em;
     width: max-content;
-    max-width: 100%;
+    max-width: 85vw;
     overflow-y: auto;
     z-index: 6;
+    overflow: hidden;
 }
 
 .modal__header {

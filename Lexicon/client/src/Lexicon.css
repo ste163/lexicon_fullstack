@@ -77,6 +77,9 @@
   --cls-size-small: 4rem;
   --cls-margin: 1rem;
   --cls-speed: 1s;
+
+  /* Manager widths */
+  --managerCentered: 15vw;
 }
 
 /* Set Defaults */

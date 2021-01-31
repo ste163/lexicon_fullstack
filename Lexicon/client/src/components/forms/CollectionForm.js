@@ -76,8 +76,20 @@ const CollectionForm = props => {
     }
 
     return (
-    <form className="form__collection" onSubmit={createCollection}>
-        COLLECTION FORM
+    <form
+    className={!props.isOpen ? (
+        "form__collection"
+    ) : (
+        "form__collection form__collection--active"
+    )}
+    onSubmit={createCollection}>
+        <div>
+            COLLECTION FORM
+        </div>
+        <button
+        onClick={e => props.setIsOpen(false)}>
+            BACK
+        </button>
         {/* <h3 className="form__h3">
             {editableCollection ? "Edit" : "Create"}
         </h3> */}
