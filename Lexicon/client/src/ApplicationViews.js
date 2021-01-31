@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Switch, Route, Redirect, useLocation, useParams, useHistory } from 'react-router-dom'
 import { UserContext } from './providers/UserProvider'
+import { CollectionContext } from './providers/CollectionProvider'
 import AuthView from './views/auth/AuthView'
 import MainView from './views/main/MainView'
 
@@ -10,6 +11,7 @@ const ApplicationViews = () => {
     const history = useHistory()
     const { collectionId } = useParams()
     const { isLoggedIn } = useContext(UserContext)
+    const { setIsCollectionManagerOpen } = useContext(CollectionContext)
 
     const stateSetter = () => {
         // possibly have this state setter that loops through
@@ -27,14 +29,21 @@ const ApplicationViews = () => {
                 case '/auth':
                     break;
                 case '/app':
+                    setIsCollectionManagerOpen(false)
                     break;
                 case '/app/collection-manager':
-                    console.log("OPEN")
+                    setIsCollectionManagerOpen(true)
                     break;         
                 default:
                     history.push('/app')
                     break;
             }
+
+            // To handle the Ids, we'd need the current state of AllProjects and AllCollections
+            // then, a 'find' to see if there is that Id in the url for a collection or project
+            // if there is, set that to the id variable, then go to that link
+            // otherwise, maybe show a toast that 'that doesn't exist'
+
             // On every page change
             // check the URL
             // SWITCH STATEMENT if it matches, globally change state
