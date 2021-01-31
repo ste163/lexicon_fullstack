@@ -19,6 +19,7 @@
   color: var(--offWhite);
   font-size: var(--fontSizeHamburger) !important;
   transition: .1s;
+  padding: 0;
 }
 
 .btn__mobile:hover {

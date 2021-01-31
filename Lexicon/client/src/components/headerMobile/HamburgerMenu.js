@@ -26,10 +26,10 @@ const HamburgerMenu = ({ isOpen }) => (
                     <ManageProjects isMobile={true} />
                 </li>
                 <li>
-                    <DropDown nameOf='collection' fieldsetLocation='hamburger__fieldset' labelIdName='collectionSelect'/>
+                    <DropDown nameOf='collection' fieldsetLocation='hamburger__fieldset' labelIdName='collectionSelect' isHamburger={true} />
                 </li>
                 <li>
-                    <DropDown nameOf='project' fieldsetLocation='hamburger__fieldset' labelIdName='projectSelect'/>
+                    <DropDown nameOf='project' fieldsetLocation='hamburger__fieldset' labelIdName='projectSelect' isHamburger={true} />
                 </li>
             </div>
 

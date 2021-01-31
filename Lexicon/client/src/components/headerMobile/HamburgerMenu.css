@@ -48,9 +48,9 @@
     display: flex;
     flex-flow: column nowrap;
     place-content: space-between;
-    height: 85%;
+    height: 80%;
     margin: 0;
-    padding: 2em 0 0 0.5em;
+    padding: 3em 0 0 1em;
 }
 
 .hb__container {
@@ -70,8 +70,18 @@
 
 .hamburger__fieldset {
     display: flex;
-    background-color: white;
+    margin: 1em 0 0 0;
+}
 
+.label__hamburger {
+    color: var(--offWhite);
+    font-weight: var(--weightNormal);
+    font-size: var(--fontSizeHamburger) !important;
+}
+
+.select__hamburger {
+    background-color: var(--darkestGray);
+    color: var(--offWhite);
 }
 
 

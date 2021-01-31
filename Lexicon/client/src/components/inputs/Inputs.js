@@ -1,13 +1,14 @@
 import React from 'react'
 import './Inputs.css'
 
-export const DropDown = ({ nameOf, fieldsetLocation, labelIdName, currentState, setCurrentState, stateArray  }) => {
+export const DropDown = ({ nameOf, fieldsetLocation, labelIdName, currentState, setCurrentState, stateArray, isHamburger  }) => {
 // To use:
     // nameOf the dropdown for placeholders like 'collection' or 'project'
     // fieldsetLocation ClassName for either 'subHeader__fieldset' etc
     // labelIdName like 'collectionSelect'
     // currentState like 'selectedCollection' for the current item in state
     // stateArray to map over and create drop-downs
+    // isHamburger is a bool to style labels and drop-downs
 
     // if (!stateArray) {
     //     return null
@@ -15,9 +16,24 @@ export const DropDown = ({ nameOf, fieldsetLocation, labelIdName, currentState, 
 
     return (
         <fieldset className={fieldsetLocation}>
-            <label htmlFor="collectionSelect">Selected {nameOf}: </label>
+            <label
+            className={!isHamburger ? (
+                ""
+            ) : (
+                "label__hamburger"
+            )}
+            htmlFor="collectionSelect">
+                Selected {nameOf}:
+            </label>
 
-            <select name={labelIdName} id={labelIdName}
+            <select
+            className={!isHamburger ? (
+                ""
+            ) : (
+                "select__hamburger"
+            )}
+            id={labelIdName}
+            name={labelIdName}
             value={currentState === undefined ? 0 : currentState.id}
             onChange={e => setCurrentState(e)}>
                 <option value="0">Select {nameOf}</option>
