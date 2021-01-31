@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Lexicon.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Lexicon.Repositories
 {
     public interface ICollectionRepository
     {
+        List<Collection> Get(int id);
     }
 }
