@@ -17,10 +17,12 @@ namespace Lexicon.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repo;
+        private readonly ControllerUtils _utils;
 
         public UserController(IUserRepository repo)
         {
             _repo = repo;
+            _utils = new ControllerUtils(_repo);
         }
 
         [HttpGet]
@@ -28,7 +30,7 @@ namespace Lexicon.Controllers
         {
             // GetAll is specifically for testing
             // Only User with Id of 1 (me and the test) will be able to access it.
-            User attemptingUser = new ControllerUtils(_repo).GetCurrentUser(User);
+            User attemptingUser = _utils.GetCurrentUser(User);
 
             if (attemptingUser == null)
             {
@@ -72,7 +74,7 @@ namespace Lexicon.Controllers
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
-            var userRequestingDeletion = new ControllerUtils(_repo).GetCurrentUser(User);
+            var userRequestingDeletion = _utils.GetCurrentUser(User);
 
             if (userRequestingDeletion.Id != Id)
             {

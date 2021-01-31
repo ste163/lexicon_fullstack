@@ -37,7 +37,7 @@ CREATE TABLE [Project] (
 
 CREATE TABLE [Categorization] (
 	[Id] integer PRIMARY KEY IDENTITY,
-	[CategorizationType] varchar(255) NOT NULL
+	[Type] varchar(255) NOT NULL
 )
 
 CREATE TABLE [Collection] (
