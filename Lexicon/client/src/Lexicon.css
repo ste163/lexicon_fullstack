@@ -146,6 +146,8 @@ when I make the vertical dividers for columns
   border-radius: var(--lineRadius);
 }
 
+/* Handle screen sizes for the managers */
+
 @media screen and (min-width: 300px) {
   :root {
     --managerCentered: 17vmin;
