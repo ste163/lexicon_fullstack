@@ -2,7 +2,7 @@
     display: flex;
     flex-flow: column nowrap;
     width: var(--managerModalWidth);
-    height: 50vh;
+    height: 80vh;
 }
 
 .manager__list {
