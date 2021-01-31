@@ -38,6 +38,7 @@ export function UserProvider(props) {
       .auth()
       .signInAnonymously()
       .then(user => {
+        sessionStorage.setItem("currentUser", JSON.stringify(user))
         sessionStorage.setItem("currentUserId", 0)
         setIsLoggedIn(true)
         return user

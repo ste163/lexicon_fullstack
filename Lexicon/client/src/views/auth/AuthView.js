@@ -205,7 +205,7 @@ const AuthView = () => {
                             anonymousLogin()
                             .then(user => {
                                 toast.info(`Welcome! As an anonymous user, you can not save data.`)
-                                history.push("/")
+                                history.push("/app")
                             })
                             .catch(err => {
                                 toast.error("Error: unable to sign in anonymously.")
