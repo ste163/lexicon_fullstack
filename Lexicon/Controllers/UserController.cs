@@ -45,6 +45,7 @@ namespace Lexicon.Controllers
             return Ok(users);
         }
 
+        // Used by the ControllerUtils
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetUser(string firebaseUserId)
         {

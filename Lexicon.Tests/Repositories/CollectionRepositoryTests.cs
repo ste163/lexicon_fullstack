@@ -16,9 +16,10 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void User_Can_Get_Their_Collections()
         {
+            // Get a userId
             int userId = 1;
 
-            //Instantiate CollectionRepo
+            // Instantiate CollectionRepo
             var repo = new CollectionRepository(_context);
 
             // Get count of all collections
@@ -26,6 +27,24 @@ namespace Lexicon.Tests.Repositories
 
             // User with Id 1 should have 2
             Assert.True(collectionCount == 2);
+        }
+
+        [Fact]
+        public void User_Can_Add_Collection()
+        {
+
+        }
+
+        [Fact]
+        public void User_Can_Delete_A_Single_Collection()
+        {
+
+        }
+
+        [Fact]
+        public void User_Can_Edit_A_Collection()
+        {
+
         }
 
 

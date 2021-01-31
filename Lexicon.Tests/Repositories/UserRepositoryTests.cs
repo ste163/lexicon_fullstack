@@ -15,7 +15,7 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void Can_Get_All_Users()
         {
-            //Instantiate UserRepo
+            // Instantiate UserRepo
             var repo = new UserRepository(_context);
 
             // Get a count of all users

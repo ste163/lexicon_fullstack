@@ -28,12 +28,28 @@ namespace Lexicon.Controllers
             _utils = new ControllerUtils(_userRepo);
         }
 
-        //[HttpGet]
-        //public IActionResult GetByUserId()
-        //{
-        //    // Get all collections for this user
+        [HttpGet]
+        public IActionResult GetByUserId()
+        {
+            // Check if the User's Token says if they're anonymous or not
+            // If anony, return NotAuthorized
+            //ELSE get the User's stuff
 
-        //    //List<Collection> collections = _collectionRepo.Get();
-        //}
+            // need to use debugger and walk through how to grab the anonymous data
+            // NEED TO MOVE THIS INTO THE GetCurrentUser util once I get it working
+            var requestingUser = User;
+           
+            var firebaseUser = _utils.GetCurrentUser(User);
+
+            List<Collection> collections = _collectionRepo.Get(firebaseUser.Id);
+
+            if (collections == null)
+            {
+                return NotFound();
+            }
+
+
+            return Ok(collections);
+        }
     }
 }
