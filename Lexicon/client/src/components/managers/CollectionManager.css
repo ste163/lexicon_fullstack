@@ -1,7 +1,7 @@
 .collection__manager {
     display: flex;
     flex-flow: column nowrap;
-    width: 50vw;
+    width: var(--managerModalWidth);
     height: 50vh;
 }
 

@@ -79,7 +79,8 @@
   --cls-speed: 1s;
 
   /* Manager widths */
-  --managerCentered: 15vw;
+  --managerModalWidth: 60vmin;
+  --managerCentered: 24vmin;
 }
 
 /* Set Defaults */
@@ -142,4 +143,22 @@ when I make the vertical dividers for columns
   border: 0.15em solid var(--mediumGray);
   background-color: var(--mediumGray);
   border-radius: var(--lineRadius);
+}
+
+@media screen and (min-width: 300px) {
+  :root {
+    --managerCentered: 17vmin;
+  }
+}
+
+@media screen and (min-width: 400px) {
+  :root {
+    --managerCentered: 20vmin;
+  }
+}
+
+@media screen and (min-width: 610px) {
+  :root {
+    --managerCentered: 24vmin;
+  }
 }
