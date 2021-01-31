@@ -1,0 +1,102 @@
+.btn {
+  background-color: transparent;
+  border-color: var(--lightBlack);
+  border-style: solid;
+  border-radius: var(--formFieldRadius);
+  border-width: 0.2em;
+  width: max-content;
+  padding: .2em 0.5em;
+  cursor: pointer;
+  font-size: 0.7em;
+  justify-self: center;
+  transition: .1s;
+}
+
+.btn__mobile {
+  border-style: none;
+  background-color: transparent;
+  margin: 0.5em 0;
+  color: var(--offWhite);
+  font-size: var(--fontSizeHamburger) !important;
+  transition: .1s;
+  padding: 0;
+}
+
+.btn__mobile:hover {
+  cursor: pointer;
+  color: var(--darkGray);
+}
+
+.btn__subheader {
+  margin: 0 0.5em;
+}
+
+.btn__no-style {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.btn__no-style:hover {
+  cursor: pointer;
+  color: var(--darkGray);
+}
+
+button:focus {
+  outline: none;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: var(--lightBlack);
+  border-color: var(--lightBlack);
+  color: var(--fontColorBtn);
+}
+
+.btn:disabled {
+  background-color: var(--darkGray);
+  border-color: var(--darkGray);
+  color: var(--fontColor);
+}
+
+.btn:active {
+  background-color: var(--black);
+  border-color: var(--black);
+}
+
+.btn__arrow {
+  margin: 0;
+  padding: 0 0 0.1em 0;
+}
+
+.btn__close {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.btn__collection {
+  transition: .1s;
+}
+
+.btn__collection:hover {
+  background-color: var(--lightYellow);
+}
+
+.btn__collection:active {
+  background-color: var(--darkYellow);
+}
+
+.btn--red {
+  border-color: var(--red);
+}
+
+.btn--red:hover {
+  background-color: var(--red);
+  border-color: var(--red);
+}
+
+.btn--red:active {
+  background-color: var(--redActive);
+  border-color: var(--redActive)
+}

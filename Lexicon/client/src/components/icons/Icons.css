@@ -79,3 +79,19 @@
 .icon__divider {
     margin: 0 1em;
 }
+
+.icon__hamburger {
+    margin-top: 0.2em;
+}
+
+/* Mobile changes for icons */
+@media screen and (max-width: 924px) {
+    .icon__gear {
+        margin-right: 0.5em;
+        margin-left: 0.3em;
+    }
+
+    .icon__logout {
+        margin-right: 0.8em;
+    }
+}

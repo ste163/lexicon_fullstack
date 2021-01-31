@@ -1,8 +1,9 @@
-@import "./styles/button.css";
 @import "./styles/form.css";
 @import "./styles/card.css";
 @import "./styles/scrollbar.css";
 @import "./styles/dotMenu.css";
+@import "./styles/toastify-overrides.css";
+@import "./styles/spinner.css";
 
 :root {
   /* Colors */
@@ -12,12 +13,14 @@
   --lightGray: #F6F6F6;
   --mediumGray: #f1f1f1; 
   --darkGray: #ACACAC;
+  --darkestGray: #545454;
   --shadowGray: #00000008;
 
   --offWhite: #FCFCFC;
   --black: rgb(7, 7, 7);
   --lightBlack: #171717ff;
   --lighterBlack: rgb(96, 96, 96);
+  --lightestBlack: #262525;
 
   --yellow: #fbfbbe;
   --lightYellow: #ffffdb;
@@ -26,6 +29,8 @@
 
   --red: #d85656;
   --redActive: #803232;
+
+  --green: #5cb56e;
 
   /* SPECIFIC COLOR LOCATIONS */
   /* FOR EASIER DARK MODE TARGETING */
@@ -41,6 +46,8 @@
   --weightHeavy: 500;
   --weightHeavier: 700;
   --weightHeaviest: 900;
+
+  --fontSizeHamburger: 1em;
 
   /* Border Radii */
   --cardRadius: 15px;
@@ -61,71 +68,19 @@
   --cardWidthThesaurusColumn: 40%;
 
   /* Transitions */
-  --btnHover: 0.2s
-}
+  --btnHover: 0.2s;
 
-/* Main application layout after sign-in */
-.app__container {
-  display: grid;
-  grid-template-rows: min-content min-content auto min-content;
-  min-height: 100vh;
-}
+  /* CSS Loading Spinners, see spinner.css */
+  --cls-color: #e4e485;
+  --cls-sec-color: #f1f1f1;
+  --cls-size: 5rem;
+  --cls-size-small: 4rem;
+  --cls-margin: 1rem;
+  --cls-speed: 1s;
 
-.view__container {
-  display: grid;
-  grid-template-columns: 1fr 2fr 4fr;
-}
-
-/* Collection list column */
-.column__list {
-  overflow-y: auto;
-  overflow-x: none;
-  max-height: 88vh;
-  width: 22vw;
-}
-
-/* Selected collection column */
-.column__selected {
-  margin-left: 0.5em;
-  /* 
-  This will change when we add the dividing column
-  will need JS to know when the scroll bar appears to hide the divider
-  */
-}
-
-/* Thesaurus column */
-.column__thesaurus {
-  display: grid;
-  grid-template-rows: min-content min-content;
-}
-
-/* Desktop - med-screen size - hide list column */
-@media screen and (max-width: 1215px) {
-
-  .view__container {
-    grid-template-columns: 1fr 2fr;
-  }
-  
-  .column__list {
-    display: none
-  }
-
-  .column__selected {
-    margin-left: 1em;
-  }
-}
-
-/* Desktop - small-screen size - stack selected & thesaurus column  */
-@media screen and (max-width: 768px) {
-
-  .view__container {
-    display: flex;
-    flex-flow: column;
-  }
-
-  .column__selected {
-    width: 75%;
-  }
+  /* Manager widths */
+  --managerModalWidth: 60vmin;
+  --managerCentered: 24vmin;
 }
 
 /* Set Defaults */
@@ -174,6 +129,10 @@ p {
   padding: 0;
 }
 
+li {
+  list-style: none;
+}
+
 /* 
 Will probably need to separate the height values 
 when I make the vertical dividers for columns
@@ -184,4 +143,22 @@ when I make the vertical dividers for columns
   border: 0.15em solid var(--mediumGray);
   background-color: var(--mediumGray);
   border-radius: var(--lineRadius);
+}
+
+@media screen and (min-width: 300px) {
+  :root {
+    --managerCentered: 17vmin;
+  }
+}
+
+@media screen and (min-width: 400px) {
+  :root {
+    --managerCentered: 20vmin;
+  }
+}
+
+@media screen and (min-width: 610px) {
+  :root {
+    --managerCentered: 24vmin;
+  }
 }

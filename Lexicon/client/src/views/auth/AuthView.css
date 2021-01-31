@@ -7,13 +7,13 @@
 }
 
 /* These media queries ensure the top and bottom borders do not disappear on window resize */
-@media screen and (max-width: 1100px) {
+@media screen and (min-width: 768px) and (max-width: 1100px) {
     .auth__container{
         height: unset !important;
     } 
 }
 
-@media screen and (max-height: 400px) {
+@media screen and (max-height: 600px) and (max-width: 768px){
     .auth__container{
         height: 100% !important;
     } 
@@ -50,6 +50,12 @@
     text-align: center;
 }
 
+@media screen and (max-width: 768px) {
+    .subtitle {
+        font-size: 1em;
+    }
+}
+
 .card__auth {
     display: flex;
     flex-flow: column nowrap;
@@ -67,13 +73,6 @@
 
 .auth__submit {
     margin-bottom: .4em;
-}
-
-.auth__anonymous {
-    background-color: transparent;
-    border: none;    
-    cursor: pointer;
-    padding: 0;
 }
 
 .auth__btns {
@@ -154,7 +153,7 @@
 
 /* BACKGROUND */
 .border__top {
-    background-color: var(--black);
+    background-color: var(--lightBlack);
     height: 2em;
 }
 

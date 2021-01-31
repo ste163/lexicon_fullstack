@@ -1,0 +1,32 @@
+/* https://fkhadra.github.io/react-toastify/how-to-style */
+/** Used to define container behavior: width, position: fixed etc... **/
+.Toastify__toast-container {
+}
+
+/** Classes for the displayed toast **/
+.Toastify__toast {
+
+}
+
+.Toastify__toast--default {
+}
+
+.Toastify__toast--info {
+    background: var(--darkYellow) !important;
+}
+
+.Toastify__toast--success {
+    background: var(--green) !important;
+}
+
+.Toastify__toast--warning {
+
+}
+
+.Toastify__toast--error {
+    background: var(--red) !important;
+}
+
+.Toastify__toast-body {
+    font-size: 0.7em !important;
+}

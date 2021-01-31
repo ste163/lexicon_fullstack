@@ -2,8 +2,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserContext } from '../../providers/UserProvider'
-import LexLogo from '../../components/branding/LexLogo'
-import LexTitle from '../../components/branding/LexTitle'
+import { LexLogo, LexTitle } from '../../components/branding/Branding'
 import ChangeColorMode from '../../utils/ChangeColorMode'
 import './AuthView.css'
 
@@ -42,7 +41,7 @@ const AuthView = () => {
                 setLoading(false)
                 // Store default settings in sessionStorage
                 // Use the user.id as the key to know who's settings to load
-                toast.info(`Registered! Welcome to Lexicon.`)
+                toast.success(`Registered! Welcome to Lexicon.`)
                 history.push("/")
             })
             .catch(err => {
@@ -172,39 +171,49 @@ const AuthView = () => {
                                     required
                                     autoFocus />
                             </fieldset>
-
-                            <fieldset className="fieldset__btn auth__submit">
-                                <button 
-                                ref={loginBtn}
-                                disabled={loading}
-                                className={`btn btn__authSubmit ${activeBtn ? "login__active" : " login__inactive"}`}
-                                type="submit">
-                                    Login
-                                </button>
-                                <button
-                                ref={registerBtn} 
-                                disabled={loading}
-                                className={`btn btn__authSubmit ${activeBtn ? "register__inactive" : "register__active"}`}
-                                type="submit">
-                                    Register
-                                </button>
-                            </fieldset>
+                            
+                            {/* IF Loading, show spinner instead of this */}
+                            {loading ? (
+                                <div className="spinner__card">
+                                    <div className="cls-spinner cls-spinner--card">
+                                        <div className="cls-circle cls-spin"></div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <fieldset className="fieldset__btn auth__submit">
+                                    <button 
+                                    ref={loginBtn}
+                                    disabled={loading}
+                                    className={`btn btn__authSubmit ${activeBtn ? "login__active" : " login__inactive"}`}
+                                    type="submit">
+                                        Login
+                                    </button>
+                                    <button
+                                    ref={registerBtn} 
+                                    disabled={loading}
+                                    className={`btn btn__authSubmit ${activeBtn ? "register__inactive" : "register__active"}`}
+                                    type="submit">
+                                        Register
+                                    </button>
+                                </fieldset>
+                            )}
 
                         </form>
-                            <button
-                            onClick={e => {
-                                anonymousLogin()
-                                .then(user => {
-                                    toast.info(`Welcome! As an anonymous user, you can not save data.`)
-                                    history.push("/")
-                                })
-                                .catch(err => {
-                                    toast.error("Error: unable to sign in anonymously.")
-                                })
-                            }}
-                            className="auth__anonymous">
-                                Continue without signing in
-                            </button>
+
+                        <button
+                        onClick={e => {
+                            anonymousLogin()
+                            .then(user => {
+                                toast.info(`Welcome! As an anonymous user, you can not save data.`)
+                                history.push("/")
+                            })
+                            .catch(err => {
+                                toast.error("Error: unable to sign in anonymously.")
+                            })
+                        }}
+                        className="btn__no-style">
+                            Continue without signing in
+                        </button>
                     </section>
                 </section>
 
