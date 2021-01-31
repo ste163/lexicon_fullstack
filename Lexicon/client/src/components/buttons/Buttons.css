@@ -12,6 +12,14 @@
   transition: .1s;
 }
 
+.btn__mobile {
+  border-style: none;
+}
+
+.btn__subheader {
+  margin: 0 0.5em;
+}
+
 .btn__no-style {
   border: none;
   background-color: transparent;

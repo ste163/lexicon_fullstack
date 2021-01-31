@@ -5,8 +5,10 @@ import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import SettingsForm from '../forms/SettingsForm'
 import CollectionForm from '../forms/CollectionForm'
 import Modal from '../modal/Modal'
+import './Buttons.css'
 
-export const Logout = () => {
+// Buttons take a { isMobile } prop that is a boolean. Allows for the SubHeader styling and Hamburger styling
+export const Logout = ({ isMobile }) => {
     const { logout } = useContext(UserContext)
 
     return (
@@ -20,7 +22,7 @@ export const Logout = () => {
     )
 }
 
-export const Settings = () => {
+export const Settings = ({ isMobile }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
@@ -38,19 +40,39 @@ export const Settings = () => {
     )
 }
 
-export const CreateCollection = () => {
+export const ManageCollections = ({ isMobile }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
         <>
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<CollectionForm />} contentHeader={"Collection"} />
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<CollectionForm />} contentHeader={"Collection Manager"} />
 
-            <button className="collection__btn"
-            onClick={() => setIsOpen(true)}
-            onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__gray', 'icon__hovered')}
-            onMouseOut={e => ChangeIconClassOnHover(e, false, 'icon__gray', 'icon__hovered')}>
-                <IconPlus color="icon__gray" />
-                Create new collection
+            <button className={!isMobile ? (
+                "btn btn__subheader"
+            ) : (
+                "btn__mobile"
+            )}
+            onClick={() => setIsOpen(true)}>
+                Manage Collections
+            </button>
+        </>
+    )
+}
+
+export const ManageProjects = ({ isMobile }) => {
+    const [isOpen, setIsOpen] = useState(false)
+
+    return (
+        <>
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<CollectionForm />} contentHeader={"Project Manager"} />
+
+            <button className={!isMobile ? (
+                "btn btn__subheader"
+            ) : (
+                "btn__mobile"
+            )}
+            onClick={() => setIsOpen(true)}>
+                Manage Projects
             </button>
         </>
     )

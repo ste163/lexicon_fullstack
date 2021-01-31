@@ -1,5 +1,6 @@
 import React from "react"
-import { CreateCollection } from '../../buttons/Buttons'
+import { ManageCollections, ManageProjects } from '../../buttons/Buttons'
+import { DropDown } from '../../inputs/Inputs'
 import "./SubHeader.css"
 
 const SubHeader = () => {
@@ -16,29 +17,13 @@ const SubHeader = () => {
 
     return (
         <section className="view__subHeader">
+            <ManageCollections isMobile={false} />
+            <ManageProjects isMobile={false} />
 
-            <CreateCollection />
-            
             <div className="line__vertical"></div>
 
-            {/* <fieldset className="subHeader__fieldset">
-                <label className="fieldset__collection" htmlFor="collectionSelect">Selected collection: </label>
-                <select name="collectionSelect" id="collectionSelect"
-                value={selectedCollection === undefined ? 0 : selectedCollection.id}
-                onChange={e => selectCollection(e)}>
-                    <option value="0">Select collection</option>
-                    {
-                        collections.map(c => {
-                            if (c.name !== "defaultCollection") {
-                                return (
-                                <option key={c.id} value={c.id}>
-                                    {c.name}
-                                </option>
-                            )}
-                        })
-                    }
-                </select>
-            </fieldset> */}
+            <DropDown nameOf='collection' fieldsetLocation='subHeader__fieldset' labelIdName='collectionSelect'/>
+            <DropDown nameOf='project' fieldsetLocation='subHeader__fieldset' labelIdName='projectSelect'/>
         </section>
     )
 }

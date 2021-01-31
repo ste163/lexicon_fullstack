@@ -7,6 +7,9 @@ import './MainView.css'
 const MainView = () => {
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
+    // isMobile tracks state for if we should show mobile view or not
+    const [ isMobile, setIsMobile ] = useState(false)
+    const maxWidthForMobile = 924
     
     // Need to track the state of List, Selected, and Thesaurus Columns
     // Based on if they are "True" display their columns. If not, display: none
@@ -38,6 +41,12 @@ const MainView = () => {
         window.addEventListener('resize', debouncedHandleResize)
         console.log(windowDimensions)
 
+        if (windowDimensions.width < maxWidthForMobile){
+            setIsMobile(true)
+        } else {
+            setIsMobile(false)
+        }
+
         // Remove event listener so we don't add an infinite amount
         return _ => {
             window.removeEventListener('resize', debouncedHandleResize)
@@ -48,7 +57,7 @@ const MainView = () => {
     return (
         <div className="app__container">
             <div className="container__headers">
-                {windowDimensions.width < 700 ? (
+                {isMobile ? (
                     <HeaderMobile />
                 ) : (
                     <HeaderDesktop />
