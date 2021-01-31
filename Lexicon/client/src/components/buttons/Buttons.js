@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../providers/UserProvider'
-import { IconLogout, IconGear, IconPlus } from '../icons/Icons'
+import { IconLogout, IconGear } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import SettingsForm from '../forms/SettingsForm'
 import CollectionManager from '../managers/CollectionManager'
@@ -50,6 +51,7 @@ export const Settings = ({ isMobile }) => {
 
 export const ManageCollections = ({ isMobile }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const history = useHistory()
 
     return (
         <>
@@ -60,7 +62,7 @@ export const ManageCollections = ({ isMobile }) => {
             ) : (
                 "btn__mobile"
             )}
-            onClick={() => setIsOpen(true)}>
+            onClick={() => history.push('app/collection-manager')}>
                 Manage Collections
             </button>
         </>
