@@ -33,7 +33,10 @@ export const Settings = ({ isMobile }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<SettingsForm/>} contentHeader={"Settings"}/>
+            <Modal
+            isOpen={isOpen}
+            contentFunction={<SettingsForm/>}
+            contentHeader={"Settings"}/>
 
             <button className={!isMobile ? (
                 "nav__btn btn__settings"
@@ -51,13 +54,15 @@ export const Settings = ({ isMobile }) => {
 }
 
 export const ManageCollections = ({ isMobile }) => {
-    const [isOpen, setIsOpen] = useState(false)
     const { isCollectionManagerOpen } = useContext(CollectionContext)
     const history = useHistory()
 
     return (
         <>
-            <Modal isOpen={isCollectionManagerOpen} setIsOpen={setIsOpen} contentFunction={<CollectionManager />} contentHeader={"Collection Manager"} />
+            <Modal
+            isOpen={isCollectionManagerOpen}
+            contentFunction={<CollectionManager />}
+            contentHeader={"Collection Manager"} />
 
             <button className={!isMobile ? (
                 "btn btn__subheader"
@@ -76,7 +81,11 @@ export const ManageProjects = ({ isMobile }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<></>} contentHeader={"Project Manager"} />
+            <Modal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            contentFunction={<></>}
+            contentHeader={"Project Manager"} />
 
             <button className={!isMobile ? (
                 "btn btn__subheader"

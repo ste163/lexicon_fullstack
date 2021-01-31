@@ -1,27 +1,31 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
+import { CollectionContext } from '../../providers/CollectionProvider'
 import CollectionForm from '../forms/CollectionForm'
 import './CollectionManager.css'
 
 const CollectionManager = () => {
-    const [ isFormOpen, setIsFormOpen ] = useState(false)
+    const history = useHistory()
+    const { isCollectionCreateFormOpen, isCollectionDetailsOpen, isCollectionEditFormOpen} = useContext(CollectionContext)
+
 
     // Get the Create button working with the slide to form, and back and forth
     return (
         <section className="collection__manager">
             <section
-            className={!isFormOpen ? (
+            className={!isCollectionCreateFormOpen ? (
                 "manager__list"
             ) : (
                 "manager__list manager__list--inactive"
             )}>
                 <button
                 className="btn"
-                onClick={e => {setIsFormOpen(true)}}>
+                onClick={e => history.push('/app/collection-manager/create') }>
                     Create new collection
                 </button>
             </section>
 
-            <CollectionForm isOpen={isFormOpen} setIsOpen={setIsFormOpen}/>
+            <CollectionForm isOpen={isCollectionCreateFormOpen} />
         </section>
     )
 }

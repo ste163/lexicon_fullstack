@@ -47,7 +47,7 @@
   --weightHeavier: 700;
   --weightHeaviest: 900;
 
-  --fontSizeHamburger: 1em;
+  --fontSizeHamburger: .8em;
 
   /* Border Radii */
   --cardRadius: 15px;
@@ -81,6 +81,7 @@
   /* Manager widths */
   --managerModalWidth: 60vmin;
   --managerCentered: 24vmin;
+  --managerForm: 5vmin;
 }
 
 /* Set Defaults */
@@ -148,17 +149,20 @@ when I make the vertical dividers for columns
 @media screen and (min-width: 300px) {
   :root {
     --managerCentered: 17vmin;
+    --managerForm: 5vmin;
   }
 }
 
 @media screen and (min-width: 400px) {
   :root {
     --managerCentered: 20vmin;
+    --managerForm: 5vmin;
   }
 }
 
 @media screen and (min-width: 610px) {
   :root {
     --managerCentered: 24vmin;
+    --managerForm: 5vmin;
   }
 }

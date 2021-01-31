@@ -11,7 +11,12 @@ const ApplicationViews = () => {
     const history = useHistory()
     const { collectionId } = useParams()
     const { isLoggedIn } = useContext(UserContext)
-    const { setIsCollectionManagerOpen } = useContext(CollectionContext)
+    const { setIsCollectionManagerOpen, setIsCollectionCreateFormOpen } = useContext(CollectionContext)
+
+// Use query string parameters to get the ids 
+// https://reactrouter.com/web/example/query-parameters
+// https://stackoverflow.com/questions/40161516/how-do-you-programmatically-update-query-params-in-react-router
+
 
     const stateSetter = () => {
         // possibly have this state setter that loops through
@@ -29,11 +34,20 @@ const ApplicationViews = () => {
                 case '/auth':
                     break;
                 case '/app':
+                    setIsCollectionCreateFormOpen(false)
                     setIsCollectionManagerOpen(false)
                     break;
+                case '/app/settings':
+                    
+                    break;
                 case '/app/collection-manager':
+                    setIsCollectionCreateFormOpen(false)
                     setIsCollectionManagerOpen(true)
-                    break;         
+                    break; 
+                case '/app/collection-manager/create':
+                    setIsCollectionManagerOpen(true)
+                    setIsCollectionCreateFormOpen(true)
+                    break;                 
                 default:
                     history.push('/app')
                     break;
@@ -44,11 +58,16 @@ const ApplicationViews = () => {
             // if there is, set that to the id variable, then go to that link
             // otherwise, maybe show a toast that 'that doesn't exist'
 
-            // On every page change
-            // check the URL
-            // SWITCH STATEMENT if it matches, globally change state
+                // REQUIRED URL PATHS
+        
+                // /auth
+                // /app
+                // /app/settings
+                // /app/selected/{id}
+                    //which needs its own state that everything is tracking against.
+                    //If we have a selected/{id} default to that instead of /app
+
                 // /app/collection-manager
-                        // SetCollectionManageOpen(true)
                 // /app/collection-manager/create
                 // /app/collection-manager/details/{param}
                     // these {params} don't exist, so i'd need to split the string to get the Id

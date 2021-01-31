@@ -1,20 +1,23 @@
 import React, { useContext, useState, useEffect } from "react"
+import { useHistory } from 'react-router-dom'
 // import { CollectionContext } from "../../providers/CollectionProvider"
 import "./CollectionForm.css"
 
 const CollectionForm = props => {
+    const history = useHistory()
 
-    // const editableCollection = props.props
+    // the editableCollection will come from the param (i hope)
+
     // const userId = +sessionStorage.getItem("userId")
 
     // Set the default project so the form can reset.
     // const defaultCollection = {
     //     userId: userId,
+    //     categorizationId: 0,
     //     name: "",
     //     description: "",
-    //     // categorizationType should probably be an int
-    //     categorizationType: "",
-    //     starred: false
+    //     pinned: false
+    //     creationDate SET IN C#
     // } 
 
     // const { collections, selectedCollection, addCollection, updateCollection } = useContext(CollectionContext)
@@ -24,6 +27,7 @@ const CollectionForm = props => {
     // const [ isLoading, setIsLoading ] = useState(true)
 
     // Check on load and when collections change, if we have an editable collection or not
+    // This will be based on the path URL
     // useEffect(() => {
     //     if (editableCollection) {
     //         setCollection(editableCollection)
@@ -83,24 +87,25 @@ const CollectionForm = props => {
         "form__collection form__collection--active"
     )}
     onSubmit={createCollection}>
-        <div>
-            COLLECTION FORM
-        </div>
+
         <button
-        onClick={e => props.setIsOpen(false)}>
+        onClick={e => {
+            e.preventDefault()
+            history.push('/app/collection-manager')}
+            }>
             BACK
         </button>
-        {/* <h3 className="form__h3">
-            {editableCollection ? "Edit" : "Create"}
-        </h3> */}
+        <h3 className="form__h3">
+            {"Create"}
+        </h3> 
 
-        {/* <fieldset>
+        <fieldset>
             <label htmlFor="collectionName">Name: </label>
             <input type="text"
-            onChange={handleControlledInputChange}
+            // onChange={handleControlledInputChange}
             id="collectionName"
             name="name"
-            value={collection.name}
+            // value={collection.name}
             placeholder="Collection name"
             required
             autoFocus/>
@@ -111,10 +116,10 @@ const CollectionForm = props => {
             <textarea
             rows={3}
             cols={3}
-            onChange={handleControlledInputChange}
+            // onChange={handleControlledInputChange}
             id="collectionDescription"
             name="description"
-            value={collection.description}
+            // value={collection.description}
             placeholder="Collection description"
             />
         </fieldset>
@@ -123,10 +128,10 @@ const CollectionForm = props => {
             <button 
             className="btn"
             type="submit"
-            disabled={isLoading}>
-                {editableCollection ? "Save" : "Create"}
+            // disabled={isLoading}>
+            >    {"Create"}
             </button>
-        </div> */}
+        </div>
 
     </form>
     )

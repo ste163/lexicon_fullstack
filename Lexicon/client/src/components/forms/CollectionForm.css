@@ -1,13 +1,13 @@
 .form__collection {
     position: absolute;
-    height: 100%;
-    width: 100%;
+    height: 85%;
+    width: 85%;
     left: -100%;
     transition: 0.5s;
 }
 
 .form__collection--active {
-    left: var(--managerCentered);
+    left: var(--managerForm);
 }
 
 .collection__submit {

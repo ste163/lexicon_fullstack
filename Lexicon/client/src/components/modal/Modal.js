@@ -8,7 +8,7 @@ import "./Modal.css"
         // contentFunction
     // Add a type label to top right corner with
         // contentHeader
-    // Pass in isOpen and setIsOpen state
+    // Pass in isOpen state
         
 const Modal = props => {
     const history = useHistory()
