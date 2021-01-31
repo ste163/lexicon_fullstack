@@ -1,5 +1,6 @@
 import React from 'react' 
 import { Settings, Logout, ManageCollections, ManageProjects }  from '../buttons/Buttons'
+import { DropDown } from '../inputs/Inputs'
 import './HamburgerMenu.css'
 // Slide in from right and take up almost/all of the screen width
 
@@ -17,18 +18,29 @@ const HamburgerMenu = ({ isOpen }) => (
         )
     }>
         <ul className="nav__list--hb">
-            <li className="nav__item">
-                <ManageCollections isMobile={true} />
-            </li>
-            <li className="nav__item">
-                <ManageProjects isMobile={true} />
-            </li>
-            <li className="nav__item">
-                <Settings isMobile={true} />
-            </li>
-            <li className="nav__item">
-                <Logout isMobile={true} />
-            </li>
+            <div className="hb__container">
+                <li className="nav__item nav__item--hb">
+                    <ManageCollections isMobile={true} />
+                </li>
+                <li className="nav__item nav__item--hb">
+                    <ManageProjects isMobile={true} />
+                </li>
+                <li>
+                    <DropDown nameOf='collection' fieldsetLocation='hamburger__fieldset' labelIdName='collectionSelect'/>
+                </li>
+                <li>
+                    <DropDown nameOf='project' fieldsetLocation='hamburger__fieldset' labelIdName='projectSelect'/>
+                </li>
+            </div>
+
+            <div className="hb__container">
+                <li className="nav__item nav__item--hb nav__item--settings">
+                    <Settings isMobile={true} />
+                </li>
+                <li className="nav__item nav__item--hb">
+                    <Logout isMobile={true} />
+                </li>
+            </div>
         </ul>
     </nav>
 )

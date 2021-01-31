@@ -12,9 +12,9 @@
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    margin: 0;
+    margin: 0 0.5em;
 }
 
 .fieldset__collection {
-    margin-right: 0.5em;
+    margin: 0 0.5em;
 }

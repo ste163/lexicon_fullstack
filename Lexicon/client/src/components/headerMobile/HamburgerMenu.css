@@ -44,6 +44,37 @@
     transition: 0.4s;
 }
 
+.nav__list--hb {
+    display: flex;
+    flex-flow: column nowrap;
+    place-content: space-between;
+    height: 85%;
+    margin: 0;
+    padding: 2em 0 0 0.5em;
+}
+
+.hb__container {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 12%;
+    place-content: space-between;
+}
+
+.nav__item--hb {
+    margin: 0;
+}
+
+.nav__item--settings {
+    margin-left: 0.1em;
+}
+
+.hamburger__fieldset {
+    display: flex;
+    background-color: white;
+
+}
+
+
 /* If on a tablet, don't allow to be too wide */
 @media screen and (min-width: 500px) {
     .hamburger__nav--active {
@@ -54,11 +85,4 @@
 .hamburger__nav--inactive {
     left: 100vw;
     transition: 0.4s;
-}
-
-.nav__list--hb {
-    display: flex;
-    flex-flow: column nowrap;
-    margin: 0;
-    padding: 2em 0 0 0;
 }

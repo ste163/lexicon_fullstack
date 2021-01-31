@@ -46,6 +46,8 @@
   --weightHeavier: 700;
   --weightHeaviest: 900;
 
+  --fontSizeHamburger: 1em;
+
   /* Border Radii */
   --cardRadius: 15px;
   --formFieldRadius: 0.8em;
@@ -71,10 +73,9 @@
   --cls-color: #e4e485;
   --cls-sec-color: #f1f1f1;
   --cls-size: 5rem;
+  --cls-size-small: 4rem;
   --cls-margin: 1rem;
   --cls-speed: 1s;
-
-  --cls-size-small: 4rem;
 }
 
 /* Set Defaults */
@@ -121,6 +122,10 @@ p {
   font-size: 0.8em;
   margin: 0;
   padding: 0;
+}
+
+li {
+  list-style: none;
 }
 
 /* 

@@ -12,7 +12,11 @@ export const Logout = ({ isMobile }) => {
     const { logout } = useContext(UserContext)
 
     return (
-        <button className="nav__btn btn__logout" 
+        <button className={!isMobile ? (
+            "nav__btn btn__logout"
+        ) : (
+            "nav__btn btn__logout btn__mobile"
+         )} 
         onClick={() => logout()}
         onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
         onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
@@ -29,7 +33,11 @@ export const Settings = ({ isMobile }) => {
         <>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen} contentFunction={<SettingsForm/>} contentHeader={"Settings"}/>
 
-            <button className="nav__btn btn__settings"
+            <button className={!isMobile ? (
+                "nav__btn btn__settings"
+            ) : (
+                "nav__btn btn__settings btn__mobile"
+            )}
             onClick={() => setIsOpen(true)}
             onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
             onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>

@@ -9,6 +9,7 @@ const MainView = () => {
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
     // isMobile tracks state for if we should show mobile view or not
     const [ isMobile, setIsMobile ] = useState(false)
+    // If you change this, update it in: Icons.css, 
     const maxWidthForMobile = 924
     
     // Need to track the state of List, Selected, and Thesaurus Columns
