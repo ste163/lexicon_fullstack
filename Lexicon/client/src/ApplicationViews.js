@@ -49,6 +49,14 @@ const ApplicationViews = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
+
+            // have a regex that finds if there are any numbers in the pathname
+            // that number will be what we pass into the SWITCH so it can route
+            // to the proper location. 
+            // AFTER we hit that new switch case,
+            // do get GetById(pathnameId) so we have the most up-to-date info
+            // and if we get undefined/null, show a message that 'unable to find info for that collection/project'
+
             console.log("CHANGED TO", currentURL)
             console.log("PARAMS", collectionId)
             switch (currentURL) {
