@@ -6,7 +6,7 @@ import ListCard from './ListCard'
 const CollectionList = () => {
     const { isFetchingCollections, collections } = useContext(CollectionContext)
 
-    console.log(isFetchingCollections)
+    // Loading spinner while fetching
     if (isFetchingCollections) {
         return (
         <div className="spinner__center">
@@ -17,15 +17,17 @@ const CollectionList = () => {
         )
     }
     
+    // Message for no collections. Make as a component so the Project manager is identical
     if (!collections) {
         return (
             <div>No collections yet</div>
         )
     }
 
+    // Map over collections
     return (
         collections.map(collection => {
-            return <ListCard key={collection.id} collection={collection} />
+            return <ListCard key={collection.id} item={collection} />
         })
     )
 }
