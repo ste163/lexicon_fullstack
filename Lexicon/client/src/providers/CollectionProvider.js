@@ -24,7 +24,9 @@ export const CollectionProvider = props => {
     const [isCollectionEditFormOpen, setIsCollectionEditFormOpen] = useState(false)
     
     const getCollections = () => {
-      if (currentUserId !== 0) {
+      if (currentUserId === 0) {
+        setIsFetchingCollections(false)
+      } else {
         return getToken().then(token =>
           fetch(`${apiUrl}`, {
             method: "GET",
