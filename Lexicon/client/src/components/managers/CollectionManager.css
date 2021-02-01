@@ -1,4 +1,4 @@
-.collection__manager {
+.manager__container {
     display: flex;
     flex-flow: column nowrap;
     width: var(--managerModalWidth);
@@ -7,10 +7,14 @@
 
 .manager__list {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    left: var(--managerCentered);
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    height: 90%;
+    width: 90%;
+    left: 5%;
     transition: 0.5s;
+    overflow-x: scroll;
 }
 
 .manager__list--inactive {

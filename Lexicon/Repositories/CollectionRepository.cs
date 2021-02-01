@@ -21,7 +21,7 @@ namespace Lexicon.Repositories
         {
             return _context.Collection
                 .Include(c => c.Categorization)
-                .OrderByDescending(c => c.CreationDate <= DateTime.Now)
+                .OrderByDescending(c => c.CreationDate)
                 .Where(c => c.UserId == id)
                 .ToList();
         }

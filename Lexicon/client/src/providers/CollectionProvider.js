@@ -12,6 +12,9 @@ export const CollectionProvider = props => {
 
     // all collections
     const [collections, setCollections] = useState()
+    // lets program know if it needs to show a loading indicator or not
+    const [isFetchingCollections, setIsFetchingCollections] = useState(true) 
+
     // currently selected collection
     const [selectedCollection, setSelectedCollection] = useState()
     // handles open states for manager and its views
@@ -30,6 +33,7 @@ export const CollectionProvider = props => {
             }
           })
           .then(res => {
+            setIsFetchingCollections(false)
             if (res.status === 500) {
               toast.error(DbNoConnection())
             }
@@ -88,19 +92,21 @@ export const CollectionProvider = props => {
     }
 
     return (
-        <CollectionContext.Provider
-            value={{
-                collections, setCollections,
-                selectedCollection, setSelectedCollection,
-                isCollectionManagerOpen, setIsCollectionManagerOpen,
-                isCollectionCreateFormOpen, setIsCollectionCreateFormOpen,
-                isCollectionDetailsOpen, setIsCollectionDetailsOpen,
-                isCollectionEditFormOpen, setIsCollectionEditFormOpen,
+      <CollectionContext.Provider
+        value={{
+          isFetchingCollections,
 
-                getCollections,
-                addCollection
-            }}>
-                {props.children}
-        </CollectionContext.Provider>
+          collections, setCollections,
+          selectedCollection, setSelectedCollection,
+          isCollectionManagerOpen, setIsCollectionManagerOpen,
+          isCollectionCreateFormOpen, setIsCollectionCreateFormOpen,
+          isCollectionDetailsOpen, setIsCollectionDetailsOpen,
+          isCollectionEditFormOpen, setIsCollectionEditFormOpen,
+
+          getCollections,
+          addCollection
+        }}>
+          {props.children}
+      </CollectionContext.Provider>
     )
 }

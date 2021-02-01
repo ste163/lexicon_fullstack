@@ -79,9 +79,7 @@
   --cls-speed: 1s;
 
   /* Manager widths */
-  --managerModalWidth: 60vmin;
-  --managerCentered: 24vmin;
-  --managerForm: 5vmin;
+  --managerModalWidth: 70vmin;
 
   /* backdrop-filter */
   --blurAmount: blur(10px);
@@ -147,27 +145,4 @@ when I make the vertical dividers for columns
   border: 0.15em solid var(--mediumGray);
   background-color: var(--mediumGray);
   border-radius: var(--lineRadius);
-}
-
-/* Handle screen sizes for the managers */
-
-@media screen and (min-width: 300px) {
-  :root {
-    --managerCentered: 17vmin;
-    --managerForm: 5vmin;
-  }
-}
-
-@media screen and (min-width: 400px) {
-  :root {
-    --managerCentered: 20vmin;
-    --managerForm: 5vmin;
-  }
-}
-
-@media screen and (min-width: 610px) {
-  :root {
-    --managerCentered: 24vmin;
-    --managerForm: 5vmin;
-  }
 }

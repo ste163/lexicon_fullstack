@@ -46,7 +46,7 @@ CREATE TABLE [Collection] (
 	[CategorizationId] integer NOT NULL,
 	[CreationDate] datetime NOT NULL,
 	[Name] nvarchar(255) NOT NULL,
-	[Description] nvarchar(255) NOT NULL,
+	[Description] nvarchar(255),
 	[Pinned] bit NOT NULL
 
 	CONSTRAINT UQ_CollectionName UNIQUE([Name]),

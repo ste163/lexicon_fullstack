@@ -18,7 +18,6 @@ const ApplicationViews = () => {
 // https://reactrouter.com/web/example/query-parameters
 // https://stackoverflow.com/questions/40161516/how-do-you-programmatically-update-query-params-in-react-router
 
-
 // To handle the Ids, we'd need the current state of AllProjects and AllCollections
 // then, a 'find' to see if there is that Id in the url for a collection or project
 // if there is, set that to the id variable, then go to that link
@@ -38,7 +37,6 @@ const ApplicationViews = () => {
     // /app/project-manager
     // /app/project-manager/create
     // /app/project-manager/details/{param}
-
 
     // Should move StateRouter into Routes?
     // Or its own file? Could be in Utils?
@@ -81,7 +79,7 @@ const ApplicationViews = () => {
     return (
         <Switch>
             <Route path={App()}>
-                {isLoggedIn ? <MainView /> : <Redirect to ="/auth" />}
+                {isLoggedIn ? <MainView /> : <Redirect to={Auth()} />}
             </Route>
 
             <Route path={"/app/collection-manager/details/:collectionId"} />
