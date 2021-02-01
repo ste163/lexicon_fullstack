@@ -13,6 +13,8 @@
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: var(--blurAmount);
+    -webkit-backdrop-filter: var(--blurAmount);
     pointer-events: none;
     opacity: 0;
     transition: 0.3s;

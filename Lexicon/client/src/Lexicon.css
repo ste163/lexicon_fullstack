@@ -82,6 +82,9 @@
   --managerModalWidth: 60vmin;
   --managerCentered: 24vmin;
   --managerForm: 5vmin;
+
+  /* backdrop-filter */
+  --blurAmount: blur(10px);
 }
 
 /* Set Defaults */

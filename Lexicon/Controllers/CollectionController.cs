@@ -57,6 +57,8 @@ namespace Lexicon.Controllers
             }
 
             // Need to add the default requirements for the collection here
+            collection.CategorizationId = 1;
+            collection.CreationDate = DateTime.Now;
 
             try
             {

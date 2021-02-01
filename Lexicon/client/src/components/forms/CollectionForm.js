@@ -59,16 +59,19 @@ const CollectionForm = props => {
                 name: collection.name,
                 description: collection.description,
             })
-            // Resets form
-            setCollection(defaultCollection) 
-            // Push us back to the collection-manager
+            .then(() => {
+                setIsLoading(false)
+                // Resets form
+                setCollection(defaultCollection) 
+                // Push us back to the collection-manager
+                history.push('/app/collection-manager')
+            })
         }  
 
     const createCollection = (e) => {
-        e.preventDefault()
         setIsLoading(true)
+        e.preventDefault()
         constructNewCollection()
-        setIsLoading(false)
     }
 
     return (

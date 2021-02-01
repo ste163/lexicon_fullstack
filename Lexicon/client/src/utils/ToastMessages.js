@@ -18,6 +18,10 @@ export const Logout = () => "Logout successful."
 
 export const CollectionRetrieveFailure = () => "Unable to retrieve collections."
 
+export const CollectionAddSuccess = (name) => `Added collection ${name}`
+
 export const CollectionAddFailure = () => "Unable to add collection."
+
+export const CollectionAddFailureName = () => "You already have a collection with that name."
 
 export const DbNoConnection = () => "Could not connect to Lexicon's database."
