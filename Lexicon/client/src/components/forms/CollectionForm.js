@@ -54,7 +54,6 @@ const CollectionForm = props => {
             //     getProgressByCollectionId(editableCollection.id)
             // })
         // } else {
-            debugger
             addCollection({
                 userId,
                 name: collection.name,

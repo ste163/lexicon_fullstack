@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react'
 import { UserContext } from "./UserProvider"
 import { toast } from 'react-toastify'
-import { DbNoConnection, CollectionRetrieveFailure, CollectionAddFailure } from '../utils/ToastMessages'
+import { DbNoConnection, CollectionRetrieveFailure, CollectionAddFailure, AnonWarning } from '../utils/ToastMessages'
 
 export const CollectionContext = createContext()
 
@@ -43,7 +43,9 @@ export const CollectionProvider = props => {
     }
 
     const addCollection = submittedCollection => {
-      if (currentUserId !== 0) {
+      if (currentUserId === 0) {
+        toast.error(AnonWarning())
+      } else {
         return getToken().then(token => 
           fetch(apiUrl, {
               method: "POST",
@@ -54,7 +56,6 @@ export const CollectionProvider = props => {
               body: JSON.stringify(submittedCollection)
           }))
           .then(res => {
-            debugger
             // CHECK RESPONSE AND SAY STUFF
             if (res.status === 200) {
               return res.json()

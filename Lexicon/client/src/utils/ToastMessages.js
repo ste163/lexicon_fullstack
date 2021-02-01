@@ -12,6 +12,8 @@ export const AnonWelcome = () =>  "Welcome! As an anonymous user, you can not sa
 
 export const AnonError = () => "Error: unable to sign in anonymously."
 
+export const AnonWarning = () => "Anonymous users can not save data."
+
 export const Logout = () => "Logout successful."
 
 export const CollectionRetrieveFailure = () => "Unable to retrieve collections."
