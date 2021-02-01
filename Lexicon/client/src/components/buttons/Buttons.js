@@ -53,7 +53,7 @@ export const Settings = ({ isMobile }) => {
     )
 }
 
-export const ManageCollections = ({ isMobile }) => {
+export const ManageCollections = ({ isMobile, setHamburgerIsOpen }) => {
     const { isCollectionManagerOpen } = useContext(CollectionContext)
     const history = useHistory()
 
@@ -69,7 +69,12 @@ export const ManageCollections = ({ isMobile }) => {
             ) : (
                 "btn__mobile"
             )}
-            onClick={() => history.push('app/collection-manager')}>
+            onClick={() => {  
+                if (isMobile) {
+                    setHamburgerIsOpen.setHamburgerIsOpen(false)
+                }
+                history.push('app/collection-manager')}
+                }>
                 Manage Collections
             </button>
         </>

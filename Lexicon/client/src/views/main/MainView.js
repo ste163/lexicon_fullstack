@@ -19,12 +19,9 @@ const MainView = () => {
     // Based on if they are "True" display their columns. If not, display: none
     // Will also need to turn them on and off based on Screen Width. Do not handle that with CSS because they could conflict
 
-
-
     useEffect(() => {
         getCollections()
     }, [])
-
 
     // Debounce and useEffect based on https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
     // Debounce delays re-renders on every resize event

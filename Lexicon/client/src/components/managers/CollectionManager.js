@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
+import { CollectionManagerCreate } from '../../utils/Routes'
 import { CollectionContext } from '../../providers/CollectionProvider'
 import CollectionForm from '../forms/CollectionForm'
 import './CollectionManager.css'
@@ -20,7 +21,7 @@ const CollectionManager = () => {
             )}>
                 <button
                 className="btn"
-                onClick={e => history.push('/app/collection-manager/create') }>
+                onClick={e => history.push(CollectionManagerCreate()) }>
                     Create new collection
                 </button>
             </section>
