@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { useHistory } from 'react-router-dom'
 import { CollectionManagerCreate } from '../../utils/Routes'
 import { CollectionContext } from '../../providers/CollectionProvider'
+import { CollectionManagerDetails } from '../../utils/Routes'
 import ListControls from '../../components/lists/ListControls'
 import ListCardContainer from '../lists/ListCardContainer'
 import CollectionForm from '../forms/CollectionForm'
@@ -20,7 +20,7 @@ const CollectionManager = () => {
                     "manager__list manager__list--inactive"
                 )}>
                 <ListControls urlToPushTo={CollectionManagerCreate} createNewString={"collection"} />
-                <ListCardContainer isFetching={isFetchingCollections} items={collections}/>
+                <ListCardContainer isFetching={isFetchingCollections} items={collections} detailsUrlToPushTo={CollectionManagerDetails} />
             </section>
 
             <CollectionForm />

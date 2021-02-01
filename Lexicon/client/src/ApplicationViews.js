@@ -21,6 +21,14 @@ const ApplicationViews = () => {
 
     const { setIsCollectionManagerOpen, setIsCollectionCreateFormOpen } = useContext(CollectionContext)
 
+    const findPathnameId = () => {
+        const regex = /\d+/
+        const match = currentUrl.match(regex)
+        if (match !== null) {
+            return match[0]
+        }
+    }
+
     const StatePathnameRouter = () => {
     // REQUIRED URL PATHS
         // /app/selected/{id}
@@ -40,7 +48,7 @@ const ApplicationViews = () => {
         // do get GetById(pathnameId) so we have the most up-to-date info
         // and if we get undefined/null, show a message that 'unable to find info for that collection/project'
     
-        const pathnameId = 0
+        let pathnameId = findPathnameId()
     
         console.log("CHANGED TO", currentUrl)
     
@@ -63,6 +71,7 @@ const ApplicationViews = () => {
                 setIsCollectionCreateFormOpen(true)
                 break
             case CollectionManagerDetails(pathnameId):
+                setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(false)
                 break;
             default:

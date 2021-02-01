@@ -10,4 +10,4 @@ export const CollectionManager = () => "/app/collection-manager"
 
 export const CollectionManagerCreate = () => "/app/collection-manager/create"
 
-export const CollectionManagerDetails = (pathnameId) => `/app/collection-manager/details/${pathnameId}`
+export const CollectionManagerDetails = pathnameId => `/app/collection-manager/details/${pathnameId}`

@@ -1,12 +1,11 @@
 import React from 'react'
 import ListCard from './ListCard'
 import './ListCardContainer.css'
-
 // To use:
     // pass in an isFetching for the loading spinner
     // items as a state of collections or projects
     // PROBABLY need to pass in a card/message component for if no info yet
-const CollectionList = ({ isFetching, items }) => {
+const CollectionList = ({ isFetching, items, detailsUrlToPushTo }) => {
 
     // Loading spinner while fetching
     if (isFetching) {
@@ -30,7 +29,7 @@ const CollectionList = ({ isFetching, items }) => {
     return (
         <section className="list__container">
             {items.map(item => {
-                return <ListCard key={item.id} item={item} />
+                return <ListCard key={item.id} item={item} detailsUrlToPushTo={detailsUrlToPushTo} />
             })}
         </section>
     )
