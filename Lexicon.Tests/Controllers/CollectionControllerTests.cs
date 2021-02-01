@@ -60,7 +60,7 @@ namespace Lexicon.Tests.Controllers
         {
             // Spoof an authenticated user by generating a ClaimsPrincipal
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER5000"),
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
                                    }, "TestAuthentication"));
 
             // Spoof UserController
@@ -129,13 +129,32 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void Anonymous_User_Can_Not_Add_Collection()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
 
-        }
+            // Create a new collection
+            Collection collection = new Collection()
+            {
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New stuff",
+                Description = "New lame description.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
 
-        [Fact]
-        public void User_Can_Not_Add_Collections_With_Duplicate_Names()
-        {
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
+            // Attempt to Get this User's collections
+            var response = controller.Add(collection);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
         }
     }
 }
