@@ -42,8 +42,22 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-
             return Ok(collections);
+        }
+
+        [HttpPost]
+        public IActionResult Add(Collection collection)
+        {
+            var firebaseUser = _utils.GetCurrentUser(User);
+
+            // Check to ensure an authorized user (anonymous account) can not add a collection
+            if (firebaseUser == null)
+            {
+                return NotFound();
+            }
+
+            _collectionRepo.Add(collection);
+            return Ok(collection);
         }
     }
 }

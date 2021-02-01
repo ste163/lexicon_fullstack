@@ -32,7 +32,31 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void User_Can_Add_Collection()
         {
+            // Get a userId
+            int userId = 1;
 
+            // Create a new collection
+            Collection collection = new Collection()
+            {
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New stuff",
+                Description = "New lame description.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Instantiate CollectionRepo
+            var repo = new CollectionRepository(_context);
+
+            // Add collection
+            repo.Add(collection);
+
+            // Get new count of all collections
+            var collectionCount = repo.Get(userId).Count;
+
+            // User with Id 1 should have 3
+            Assert.True(collectionCount == 3);
         }
 
         [Fact]

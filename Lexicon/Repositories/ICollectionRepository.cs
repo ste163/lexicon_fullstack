@@ -6,5 +6,6 @@ namespace Lexicon.Repositories
     public interface ICollectionRepository
     {
         List<Collection> Get(int id);
+        void Add(Collection collection);
     }
 }

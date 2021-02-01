@@ -25,5 +25,11 @@ namespace Lexicon.Repositories
                 .Where(c => c.UserId == id)
                 .ToList();
         }
+
+        public void Add(Collection collection)
+        {
+            _context.Add(collection);
+            _context.SaveChanges();
+        }
     }
 }

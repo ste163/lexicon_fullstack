@@ -55,7 +55,7 @@ namespace Lexicon.Tests.Controllers
         }
 
         [Fact]
-        public void Anonymous_User_Can_Not_Get_Posts()
+        public void Anonymous_User_Can_Not_Get_Collections()
         {
             // Spoof an authenticated user by generating a ClaimsPrincipal
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
@@ -67,7 +67,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to Get this User's posts
+            // Attempt to Get this User's collections
             var response = controller.GetByUserId();
 
             // Returns Ok
@@ -75,7 +75,7 @@ namespace Lexicon.Tests.Controllers
         }
 
         [Fact]
-        public void If_User_Has_No_Posts_Return_NotFound()
+        public void If_User_Has_No_Collections_Return_NotFound()
         {
             // Spoof an authenticated user by generating a ClaimsPrincipal
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
@@ -87,11 +87,29 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to Get this User's posts
+            // Attempt to Get this User's collections
             var response = controller.GetByUserId();
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
+        }
+
+        [Fact]
+        public void User_Can_Add_Collection()
+        {
+
+        }
+
+        [Fact]
+        public void Anonymous_User_Can_Not_Add_Collection()
+        {
+
+        }
+
+        [Fact]
+        public void User_Can_Not_Add_Collections_With_Duplicate_Names()
+        {
+
         }
     }
 }
