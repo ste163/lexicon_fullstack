@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { App } from '../../utils/Routes'
+import { AppRoute } from '../../utils/Routes'
 import { LoginWelcome, LoginError, RegSuccess, RegFail, AnonWelcome, AnonError } from '../../utils/ToastMessages'
 import { UserContext } from '../../providers/UserProvider'
 import { LexLogo, LexTitle } from '../../components/branding/Branding'
@@ -44,7 +44,7 @@ const AuthView = () => {
                 // Store default settings in sessionStorage
                 // Use the user.id as the key to know who's settings to load
                 toast.success(RegSuccess())
-                history.push(App())
+                history.push(AppRoute())
             })
             .catch(err => {
                 if (err.code !== undefined) {
@@ -202,7 +202,7 @@ const AuthView = () => {
                             anonymousLogin()
                             .then(user => {
                                 toast.info(AnonWelcome())
-                                history.push(App())
+                                history.push(AppRoute())
                             })
                             .catch(err => {
                                 toast.error(AnonError())

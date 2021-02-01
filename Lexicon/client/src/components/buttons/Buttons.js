@@ -7,6 +7,7 @@ import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import SettingsForm from '../forms/SettingsForm'
 import CollectionManager from '../managers/CollectionManager'
 import Modal from '../modal/Modal'
+import { CollectionManagerRoute, SettingsRoute } from '../../utils/Routes'
 import './Buttons.css'
 
 // Buttons take a { isMobile } prop that is a boolean. Allows for the SubHeader styling and Hamburger styling
@@ -14,14 +15,15 @@ export const Logout = ({ isMobile }) => {
     const { logout } = useContext(UserContext)
 
     return (
-        <button className={!isMobile ? (
-            "nav__btn btn__logout"
-        ) : (
-            "nav__btn btn__logout btn__mobile"
-         )} 
-        onClick={() => logout()}
-        onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
-        onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
+        <button
+            className={!isMobile ? (
+                "nav__btn btn__logout"
+            ) : (
+                "nav__btn btn__logout btn__mobile"
+            )} 
+            onClick={() => logout()}
+            onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
+            onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
             <IconLogout color="icon__whiteNoChange" />
             Logout
         </button>
@@ -29,23 +31,25 @@ export const Logout = ({ isMobile }) => {
 }
 
 export const Settings = ({ isMobile }) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false) // remove later
+    const history = useHistory()
 
     return (
         <>
             <Modal
-            isOpen={isOpen}
-            contentFunction={<SettingsForm/>}
-            contentHeader={"Settings"}/>
+                isOpen={isOpen}
+                contentFunction={<SettingsForm/>}
+                contentHeader={"Settings"}/>
 
-            <button className={!isMobile ? (
-                "nav__btn btn__settings"
-            ) : (
-                "nav__btn btn__settings btn__mobile"
-            )}
-            onClick={() => setIsOpen(true)}
-            onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
-            onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
+            <button
+                className={!isMobile ? (
+                    "nav__btn btn__settings"
+                ) : (
+                    "nav__btn btn__settings btn__mobile"
+                )}
+                onClick={() => history.push(SettingsRoute())}
+                onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
+                onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
                 <IconGear color="icon__whiteNoChange" />
                 Settings
             </button>
@@ -60,21 +64,22 @@ export const ManageCollections = ({ isMobile, setHamburgerIsOpen }) => {
     return (
         <>
             <Modal
-            isOpen={isCollectionManagerOpen}
-            contentFunction={<CollectionManager />}
-            contentHeader={"Collection Manager"} />
+                isOpen={isCollectionManagerOpen}
+                contentFunction={<CollectionManager />}
+                contentHeader={"Collection Manager"} />
 
-            <button className={!isMobile ? (
-                "btn btn__subheader"
-            ) : (
-                "btn__mobile"
-            )}
-            onClick={() => {  
-                if (isMobile) {
-                    setHamburgerIsOpen.setHamburgerIsOpen(false)
-                }
-                history.push('app/collection-manager')}
-                }>
+            <button
+                className={!isMobile ? (
+                    "btn btn__subheader"
+                ) : (
+                    "btn__mobile"
+                )}
+                onClick={() => {  
+                    if (isMobile) {
+                        setHamburgerIsOpen.setHamburgerIsOpen(false)
+                    }
+                    history.push(CollectionManagerRoute())}
+                    }>
                 Manage Collections
             </button>
         </>
@@ -87,17 +92,18 @@ export const ManageProjects = ({ isMobile }) => {
     return (
         <>
             <Modal
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            contentFunction={<></>}
-            contentHeader={"Project Manager"} />
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                contentFunction={<></>}
+                contentHeader={"Project Manager"} />
 
-            <button className={!isMobile ? (
-                "btn btn__subheader"
-            ) : (
-                "btn__mobile"
-            )}
-            onClick={() => setIsOpen(true)}>
+            <button
+                className={!isMobile ? (
+                    "btn btn__subheader"
+                ) : (
+                    "btn__mobile"
+                )}
+                onClick={() => setIsOpen(true)}>
                 Manage Projects
             </button>
         </>

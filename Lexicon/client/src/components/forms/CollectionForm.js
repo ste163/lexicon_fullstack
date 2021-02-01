@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
 import { CollectionContext } from '../../providers/CollectionProvider'
-import { CollectionManager } from '../../utils/Routes'
+import { CollectionManagerRoute } from '../../utils/Routes'
 import './CollectionForm.css'
 
 const CollectionForm = props => {
@@ -65,7 +65,7 @@ const CollectionForm = props => {
                 // Resets form
                 setCollection(defaultCollection) 
                 // Push us back to the collection-manager
-                history.push(CollectionManager())
+                history.push(CollectionManagerRoute())
             })
         }  
 
@@ -87,7 +87,7 @@ const CollectionForm = props => {
         <button
         onClick={e => {
             e.preventDefault()
-            history.push(CollectionManager())}
+            history.push(CollectionManagerRoute())}
             }>
             BACK
         </button>

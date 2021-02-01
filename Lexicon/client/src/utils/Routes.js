@@ -1,16 +1,16 @@
 // All routes used throughout Lexicon
 
-export const App = () => "/app"
+export const AppRoute = () => "/app"
 
-export const Auth = () => "/auth"
+export const AuthRoute = () => "/auth"
 
-export const Settings = () => "/app/settings"
+export const SettingsRoute = () => "/app/settings"
 
-export const CollectionManager = () => "/app/collection-manager"
+export const CollectionManagerRoute = () => "/app/collection-manager"
 
-export const CollectionManagerCreate = () => "/app/collection-manager/create"
+export const CollectionManagerCreateRoute = () => "/app/collection-manager/create"
 
-export const CollectionManagerDetails = pathnameId => `/app/collection-manager/details/${pathnameId}`
+export const CollectionManagerDetailsRoute = pathnameId => `/app/collection-manager/details/${pathnameId}`
 
 export const findRouteParam = (currentUrl) => {
     const regex = /\d+/

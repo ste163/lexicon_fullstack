@@ -6,18 +6,18 @@ import AuthView from './views/auth/AuthView'
 import MainView from './views/main/MainView'
 import {
     findRouteParam,
-    App,
-    Auth,
-    Settings,
-    CollectionManager,
-    CollectionManagerCreate,
-    CollectionManagerDetails
+    AppRoute,
+    AuthRoute,
+    SettingsRoute,
+    CollectionManagerRoute,
+    CollectionManagerCreateRoute,
+    CollectionManagerDetailsRoute
 }
 from './utils/Routes'
 
 const ApplicationViews = () => {
-    const currentUrl = useLocation().pathname
     const { isLoggedIn } = useContext(UserContext)
+    const currentUrl = useLocation().pathname
     const history = useHistory()
 
     const { setIsCollectionManagerOpen, setIsCollectionCreateFormOpen } = useContext(CollectionContext)
@@ -39,25 +39,25 @@ const ApplicationViews = () => {
         console.log(currentUrl)
     
         switch (currentUrl) {
-            case Auth():
+            case AuthRoute():
                 break
-            case App():
+            case AppRoute():
                 setIsCollectionCreateFormOpen(false)
                 setIsCollectionManagerOpen(false)
                 break
-            case Settings():
+            case SettingsRoute():
                 // Close all modals
                 // Open Settings modal
                 break
-            case CollectionManager():
+            case CollectionManagerRoute():
                 setIsCollectionCreateFormOpen(false)
                 setIsCollectionManagerOpen(true)
                 break 
-            case CollectionManagerCreate():
+            case CollectionManagerCreateRoute():
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(true)
                 break
-            case CollectionManagerDetails(routeParamId):
+            case CollectionManagerDetailsRoute(routeParamId):
                 // GetCollectionById(routeParamId)
                     // setSelectedCollection as this ones Id
                 // Show loading screen until that item shows up
@@ -66,7 +66,7 @@ const ApplicationViews = () => {
                 setIsCollectionCreateFormOpen(false)
                 break;
             default:
-                history.push(App())
+                history.push(AppRoute())
                 break
         }
     }
@@ -79,14 +79,14 @@ const ApplicationViews = () => {
 
     return (
         <Switch>
-            <Route path={App()}>
-                {isLoggedIn ? <MainView /> : <Redirect to={Auth()} />}
+            <Route path={AppRoute()}>
+                {isLoggedIn ? <MainView /> : <Redirect to={AuthRoute()} />}
             </Route>
-            <Route path={Auth()}>
-                {isLoggedIn ? <Redirect to={App()} /> : <AuthView />}
+            <Route path={AuthRoute()}>
+                {isLoggedIn ? <Redirect to={AppRoute()} /> : <AuthView />}
             </Route>
             <Route path="/">
-                {isLoggedIn ? <Redirect to={App()} /> : <Redirect to={Auth()} />}
+                {isLoggedIn ? <Redirect to={AppRoute()} /> : <Redirect to={AuthRoute()} />}
             </Route>
         </Switch>
     )
