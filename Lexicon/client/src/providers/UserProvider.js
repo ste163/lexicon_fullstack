@@ -1,7 +1,7 @@
 // Written by NSS to assist in having real Authentication & Authorization
 import React, { useState, useEffect, createContext } from "react"
 import { toast } from 'react-toastify'
-import { DbNoConnection } from '../utils/ToastMessages'
+import { DbNoConnection, Logout } from '../utils/ToastMessages'
 import firebase from "firebase/app"
 import "firebase/auth"
 
@@ -53,7 +53,7 @@ export function UserProvider(props) {
       .then(() => {
         sessionStorage.clear()
         setIsLoggedIn(false)
-        toast.info("Logged out.")
+        toast.info(Logout())
       })
   }
 
@@ -87,9 +87,8 @@ export function UserProvider(props) {
           toast.error(DbNoConnection())
           return res.json();
         }
-      })   
-      .then(res => res.json())
-    )
+        return res.json();
+      }))
   }
 
   const saveUser = (userProfile) => {
@@ -104,7 +103,7 @@ export function UserProvider(props) {
       })
       .then(res => {
         if (res.status === 500) {
-          toast.error("Could not connect to Lexicon's database.")
+          toast.error(DbNoConnection())
           return
         }
       })

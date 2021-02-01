@@ -99,12 +99,12 @@ namespace Lexicon.Tests.Repositories
 
             var categorization1 = new Categorization()
             {
-                Name = "Alphabetical"
+                Type = "Alphabetical"
             };
 
             var categorization2 = new Categorization()
             {
-                Name = "Part of Speech"
+                Type = "Part of Speech"
             };
 
             _context.Add(categorization1);

@@ -8,6 +8,6 @@ namespace Lexicon.Models
 
         [Required]
         [MaxLength(255)]
-        public string Name { get; set; }
+        public string Type { get; set; }
     }
 }
