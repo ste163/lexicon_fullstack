@@ -80,7 +80,7 @@ export function UserProvider(props) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then((resp) => resp.json())
+      }).then(res => res.json())
     )
   }
 
@@ -93,7 +93,14 @@ export function UserProvider(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userProfile),
-      }).then((resp) => resp.json())
+      })
+      .then(res => {
+        if (res.status === 500) {
+          toast.error("Could not connect to Lexicon's database.")
+          return
+        }
+      })
+      .then(res => res.json())
     )
   }
 

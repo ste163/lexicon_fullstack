@@ -45,12 +45,8 @@ const AuthView = () => {
                 history.push("/")
             })
             .catch(err => {
-                // First error is from firebase
                 if (err.code !== undefined) {
                     toast.error("This email has already been registered.")
-                } else {
-                    // This error is for the database
-                    toast.error("Unable to connect to database.")
                 }
                 setLoading(false)
             })
