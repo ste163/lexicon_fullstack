@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { AnonWelcome } from '../../utils/ToastMessages'
+import { LoginWelcome, LoginError, RegSuccess, RegFail, AnonWelcome, AnonError } from '../../utils/ToastMessages'
 import { UserContext } from '../../providers/UserProvider'
 import { LexLogo, LexTitle } from '../../components/branding/Branding'
 import ChangeColorMode from '../../utils/ChangeColorMode'
@@ -42,12 +42,12 @@ const AuthView = () => {
                 setLoading(false)
                 // Store default settings in sessionStorage
                 // Use the user.id as the key to know who's settings to load
-                toast.success(`Registered! Welcome to Lexicon.`)
+                toast.success(RegSuccess())
                 history.push("/")
             })
             .catch(err => {
                 if (err.code !== undefined) {
-                    toast.error("This email has already been registered.")
+                    toast.error(RegFail())
                 }
                 setLoading(false)
             })
@@ -58,11 +58,11 @@ const AuthView = () => {
         setLoading(true)
         login(loginEmail, loginPassword)
             .then(user => {
-                toast.info(`Welcome to Lexicon!`)
+                toast.info(LoginWelcome())
             })
             .catch(err => {
                 setLoading(false)
-                toast.error("Invalid email or password.")
+                toast.error(LoginError())
             })
     }
     
@@ -130,7 +130,6 @@ const AuthView = () => {
                         onSubmit={activeBtn ? handleLogin : handleRegister}>
 
                             <fieldset>
-                                {/* Need to change type to email in final version, along with renaming the labels */}
                                 <label htmlFor={activeBtn ? "emailLogin" : "usernameRegister"}>Email</label>
                                 <input
                                     className="input--auth"
@@ -169,7 +168,7 @@ const AuthView = () => {
                                     autoFocus />
                             </fieldset>
                             
-                            {/* IF Loading, show spinner instead of this */}
+                            {/* If Loading, show spinner instead of button */}
                             {loading ? (
                                 <div className="spinner__card">
                                     <div className="cls-spinner cls-spinner--card">
@@ -205,7 +204,7 @@ const AuthView = () => {
                                 history.push("/app")
                             })
                             .catch(err => {
-                                toast.error("Error: unable to sign in anonymously.")
+                                toast.error(AnonError())
                             })
                         }}
                         className="btn__no-style">
