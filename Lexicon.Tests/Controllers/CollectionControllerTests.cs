@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System;
 
 namespace Lexicon.Tests.Controllers
 {
@@ -97,7 +98,32 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void User_Can_Add_Collection()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
+            // Create a new collection
+            Collection collection = new Collection()
+            {
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New stuff",
+                Description = "New lame description.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Add(collection);
+
+            // Returns Ok
+            Assert.IsType<OkObjectResult>(response);
         }
 
         [Fact]

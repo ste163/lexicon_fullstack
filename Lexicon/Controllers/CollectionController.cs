@@ -56,8 +56,15 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-            _collectionRepo.Add(collection);
-            return Ok(collection);
+            try
+            {
+                _collectionRepo.Add(collection);
+                return Ok(collection);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
     }
 }
