@@ -1,20 +1,19 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+// Create, Search, and Filtering for lists
+// To use
+    // pass in a useHistory
+    // urlToPush
+    // and string with 'collection' etc.
 
-// Holds Create, Search, and Filtering for lists
+const ListControls = ({ history, urlToPushTo, createNewString }) => (
+    <section>
+        <button
+        className="btn"
+        onClick={e => history.push(urlToPushTo()) }>
+            Create new {createNewString}
+        </button>
+    </section>
+)
 
-const ListControls = ({ urlToPushTo, createNewString }) => {
-    const history = useHistory()
-
-    return (
-        <section>
-            <button
-            className="btn"
-            onClick={e => history.push(urlToPushTo()) }>
-                Create new {createNewString}
-            </button>
-        </section>
-    )
-}
 
 export default ListControls

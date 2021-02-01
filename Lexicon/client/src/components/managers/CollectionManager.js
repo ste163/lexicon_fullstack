@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { CollectionManagerCreate } from '../../utils/Routes'
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { CollectionManagerDetails } from '../../utils/Routes'
@@ -8,7 +9,15 @@ import CollectionForm from '../forms/CollectionForm'
 import './Manager.css'
 
 const CollectionManager = () => {
-    const { collections, isFetchingCollections, isCollectionCreateFormOpen, isCollectionDetailsOpen, isCollectionEditFormOpen} = useContext(CollectionContext)
+    const history = useHistory()
+    const {
+        collections,
+        isFetchingCollections,
+        isCollectionCreateFormOpen,
+        isCollectionDetailsOpen,
+        isCollectionEditFormOpen
+    } = useContext(CollectionContext)
+    
 
     // Get the Create button working with the slide to form, and back and forth
     return (
@@ -19,10 +28,18 @@ const CollectionManager = () => {
                 ) : (
                     "manager__list manager__list--inactive"
                 )}>
-                <ListControls urlToPushTo={CollectionManagerCreate} createNewString={"collection"} />
-                <ListCardContainer isFetching={isFetchingCollections} items={collections} detailsUrlToPushTo={CollectionManagerDetails} />
-            </section>
+                <ListControls
+                    history={history}
+                    urlToPushTo={CollectionManagerCreate}
+                    createNewString={"collection"} />
 
+                <ListCardContainer
+                    history={history}
+                    detailsUrlToPushTo={CollectionManagerDetails}
+                    isFetching={isFetchingCollections}
+                    items={collections}  />
+            </section>
+            
             <CollectionForm />
         </section>
     )

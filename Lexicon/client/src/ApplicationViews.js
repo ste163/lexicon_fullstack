@@ -5,6 +5,7 @@ import { CollectionContext } from './providers/CollectionProvider'
 import AuthView from './views/auth/AuthView'
 import MainView from './views/main/MainView'
 import {
+    findRouteParam,
     App,
     Auth,
     Settings,
@@ -21,14 +22,6 @@ const ApplicationViews = () => {
 
     const { setIsCollectionManagerOpen, setIsCollectionCreateFormOpen } = useContext(CollectionContext)
 
-    const findPathnameId = () => {
-        const regex = /\d+/
-        const match = currentUrl.match(regex)
-        if (match !== null) {
-            return match[0]
-        }
-    }
-
     const StatePathnameRouter = () => {
     // REQUIRED URL PATHS
         // /app/selected/{id}
@@ -41,16 +34,9 @@ const ApplicationViews = () => {
         // /app/project-manager/create
         // /app/project-manager/details/{param}
     
-        // have a regex that finds if there are any numbers in the pathname
-        // that number will be what we pass into the SWITCH so it can route
-        // to the proper location. 
-        // AFTER we hit that new switch case,
-        // do get GetById(pathnameId) so we have the most up-to-date info
-        // and if we get undefined/null, show a message that 'unable to find info for that collection/project'
+        const routeParamId = findRouteParam(currentUrl)
     
-        let pathnameId = findPathnameId()
-    
-        console.log("CHANGED TO", currentUrl)
+        console.log(currentUrl)
     
         switch (currentUrl) {
             case Auth():
@@ -60,7 +46,8 @@ const ApplicationViews = () => {
                 setIsCollectionManagerOpen(false)
                 break
             case Settings():
-                
+                // Close all modals
+                // Open Settings modal
                 break
             case CollectionManager():
                 setIsCollectionCreateFormOpen(false)
@@ -70,7 +57,11 @@ const ApplicationViews = () => {
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(true)
                 break
-            case CollectionManagerDetails(pathnameId):
+            case CollectionManagerDetails(routeParamId):
+                // GetCollectionById(routeParamId)
+                    // setSelectedCollection as this ones Id
+                // Show loading screen until that item shows up
+                // if we get an error, show a toast error then revert back to collection-manager
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(false)
                 break;
