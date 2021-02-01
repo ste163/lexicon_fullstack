@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react'
 import { UserContext } from "./UserProvider"
 import { toast } from 'react-toastify'
-import { DbNoConnection } from '../utils/ToastMessages'
+import { DbNoConnection, CollectionRetrieveFailure, CollectionAddFailure } from '../utils/ToastMessages'
 
 export const CollectionContext = createContext()
 
@@ -20,33 +20,62 @@ export const CollectionProvider = props => {
     const [isCollectionDetailsOpen, setIsCollectionDetailsOpen] = useState(false)
     const [isCollectionEditFormOpen, setIsCollectionEditFormOpen] = useState(false)
     
-
     const getCollections = () => {
-        if (currentUserId !== 0) {
-            return getToken().then(token =>
-                fetch(`${apiUrl}`, {
-                  method: "GET",
-                  headers: {
-                    Authorization: `Bearer ${token}`
-                  }
-                })
-                .then(res => {
-                  if (res.status === 500) {
-                    toast.error(DbNoConnection())
-                  }
-                  if (res.status === 404) {
-                    toast.error("Unable to retrieve collections.")
-                  }
-                  return res.json()
-                })
-                .then(c => setCollections(c)))
-        }
+      if (currentUserId !== 0) {
+        return getToken().then(token =>
+          fetch(`${apiUrl}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          .then(res => {
+            if (res.status === 500) {
+              toast.error(DbNoConnection())
+            }
+            if (res.status === 404) {
+              toast.error(CollectionRetrieveFailure())
+            }
+            return res.json()
+          })
+          .then(c => setCollections(c)))
+      }
     }
 
-    const addCollection = () => {
-        if (currentUserId !== 0) {
-
-        }
+    const addCollection = submittedCollection => {
+      if (currentUserId !== 0) {
+        return getToken().then(token => 
+          fetch(`${apiUrl}`, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(submittedCollection)
+          }))
+          .then(res => {
+            debugger
+            // CHECK RESPONSE AND SAY STUFF
+            if (res.status === 200) {
+              return res.json()
+            }
+            if (res.status === 500) {
+              toast.error(DbNoConnection())
+              return
+            }
+            if (res.status === 404) {
+              toast.error(CollectionAddFailure())
+              return
+            }      
+          })
+          .then(collection => {
+            if (collection) {
+              // push to to the main collection manager
+            } else {
+              return
+            }
+          })
+      }
     }
 
     return (

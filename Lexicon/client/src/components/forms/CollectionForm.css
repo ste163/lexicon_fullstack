@@ -10,6 +10,10 @@
     left: var(--managerForm);
 }
 
+.collection__input {
+    width: 50%;
+}
+
 .collection__submit {
     display: flex;
     justify-content: center;

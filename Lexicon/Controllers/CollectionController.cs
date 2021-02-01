@@ -35,7 +35,6 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-            // THIS HAS THROWN AN ERROR WHERE IT HAS AN UNRECOGNIZED COLUMN CALLED NAME
             List<Collection> collections = _collectionRepo.Get(firebaseUser.Id);
 
             if (collections == null)

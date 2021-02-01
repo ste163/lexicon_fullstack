@@ -64,7 +64,7 @@ export function UserProvider(props) {
       .then((createResponse) =>
         saveUser({ ...user, firebaseUserId: createResponse.user.uid })
       )
-      .then((savedUser) => {
+      .then(savedUser => {
         sessionStorage.setItem("currentUser", JSON.stringify(savedUser))
         sessionStorage.setItem("currentUserId", savedUser.id)
         setIsLoggedIn(true)
@@ -105,10 +105,10 @@ export function UserProvider(props) {
         if (res.status === 500) {
           toast.error(DbNoConnection())
           return
+        } else {
+         return res.json()
         }
-      })
-      .then(res => res.json())
-    )
+      }))
   }
 
   const getCurrentUser = () => {

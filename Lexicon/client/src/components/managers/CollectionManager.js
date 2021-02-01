@@ -25,7 +25,7 @@ const CollectionManager = () => {
                 </button>
             </section>
 
-            <CollectionForm isOpen={isCollectionCreateFormOpen} />
+            <CollectionForm />
         </section>
     )
 }

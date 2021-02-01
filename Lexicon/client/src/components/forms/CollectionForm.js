@@ -15,7 +15,7 @@ const CollectionForm = props => {
     } 
 
     // const { collections, selectedCollection, addCollection, updateCollection } = useContext(CollectionContext)
-    const { collections, addCollection } = useContext(CollectionContext)
+    const { isCollectionCreateFormOpen, collections, addCollection } = useContext(CollectionContext)
     
     // Sets state for creating the project
     const [ collection, setCollection ] = useState(defaultCollection)
@@ -25,14 +25,15 @@ const CollectionForm = props => {
 
     // EDITABLE COLLECTION SHOULD COME FROM THE STRING QUERY PARAM
     // Check on load and when collections change, if we have an editable collection or not
-    // useEffect(() => {
-    //     if (editableCollection) {
-    //         setCollection(editableCollection)
-    //         setIsLoading(false);
-    //     } else {
-    //         setIsLoading(false)
-    //     }
+    useEffect(() => {
+        // if (editableCollection) {
+        //     setCollection(editableCollection)
+        //     setIsLoading(false);
+        // } else {
+            setIsLoading(false)
+        // }
     // }, [selectedCollection, collections])
+    }, [collections])
 
     const handleControlledInputChange = e => {
         const newCollection = { ...collection }
@@ -40,7 +41,7 @@ const CollectionForm = props => {
         setCollection(newCollection)
     }
 
-    const constructNewCollection = (e) => {
+    const constructNewCollection = () => {
         // if (editableCollection) {
         //     updateCollection({
         //         id: editableCollection.id,
@@ -53,6 +54,7 @@ const CollectionForm = props => {
             //     getProgressByCollectionId(editableCollection.id)
             // })
         // } else {
+            debugger
             addCollection({
                 userId,
                 name: collection.name,
@@ -65,15 +67,17 @@ const CollectionForm = props => {
 
     const createCollection = (e) => {
         e.preventDefault()
-        constructNewCollection(e)
+        setIsLoading(true)
+        constructNewCollection()
+        setIsLoading(false)
     }
 
     return (
     <form
-    className={!props.isOpen ? (
-        "form__collection"
-    ) : (
+    className={isCollectionCreateFormOpen ? (
         "form__collection form__collection--active"
+        ) : (
+        "form__collection"
     )}
     onSubmit={createCollection}>
 
@@ -91,11 +95,13 @@ const CollectionForm = props => {
         <fieldset>
             <label htmlFor="collectionName">Name: </label>
             <input type="text"
-            // onChange={handleControlledInputChange}
+            className="collection__input"
+            onChange={handleControlledInputChange}
             id="collectionName"
             name="name"
             // value={collection.name}
             placeholder="Collection name"
+            maxLength={255}
             required
             autoFocus/>
         </fieldset>
@@ -105,23 +111,31 @@ const CollectionForm = props => {
             <textarea
             rows={3}
             cols={3}
-            // onChange={handleControlledInputChange}
+            onChange={handleControlledInputChange}
             id="collectionDescription"
             name="description"
             // value={collection.description}
             placeholder="Collection description"
+            maxLength={255}
             />
         </fieldset>
-        
-        <div className="collection__submit">
-            <button 
-            className="btn"
-            type="submit"
-            // disabled={isLoading}>
-            >    {"Create"}
-            </button>
-        </div>
 
+        { isLoading ? (
+            <div className="spinner__card">
+                <div className="cls-spinner cls-spinner--card">
+                    <div className="cls-circle cls-spin"></div>
+                </div>
+            </div>
+        ) : (
+            <div className="collection__submit">
+                <button 
+                className="btn"
+                type="submit"
+                disabled={isLoading}>
+                    {"Create"}
+                </button>
+            </div>
+        )}
     </form>
     )
 }

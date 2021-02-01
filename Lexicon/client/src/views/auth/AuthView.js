@@ -43,7 +43,7 @@ const AuthView = () => {
                 // Store default settings in sessionStorage
                 // Use the user.id as the key to know who's settings to load
                 toast.success(RegSuccess())
-                history.push("/")
+                history.push("/app")
             })
             .catch(err => {
                 if (err.code !== undefined) {

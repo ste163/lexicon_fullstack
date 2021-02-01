@@ -14,4 +14,8 @@ export const AnonError = () => "Error: unable to sign in anonymously."
 
 export const Logout = () => "Logout successful."
 
+export const CollectionRetrieveFailure = () => "Unable to retrieve collections."
+
+export const CollectionAddFailure = () => "Unable to add collection."
+
 export const DbNoConnection = () => "Could not connect to Lexicon's database."
