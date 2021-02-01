@@ -21,8 +21,8 @@ namespace Lexicon.Tests.Controllers
             _fakeUserRepo = new Mock<IUserRepository>();
             // Whenever this GetByFirebaseUserId is called, return user with Id 1
             _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER1")).Returns(new User() { Id = 1, Email = "pennywise@it.com" });
-            // Whenever this GetByFirebaseUserId is called, return user with Id 2
             _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER2")).Returns(new User() { Id = 2, Email = "bobgray@it.com" });
+            _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER3")).Returns(new User() { Id = 3, Email = "mikehanlon@it.com" });
 
             // Spoof a Collection Repo
             // You do not have to have the full object coming back with all the required NOT NULL, etc.
@@ -63,7 +63,21 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void If_User_Has_No_Posts_Return_NotFound()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER3"),
+                                   }, "TestAuthentication"));
 
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's posts
+            var response = controller.GetByUserId();
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
         }
     }
 }
