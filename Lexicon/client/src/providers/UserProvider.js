@@ -91,15 +91,15 @@ export function UserProvider(props) {
       }))
   }
 
-  const saveUser = (userProfile) => {
-    return getToken().then((token) =>
+  const saveUser = user => {
+    return getToken().then(token =>
       fetch(apiUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userProfile),
+        body: JSON.stringify(user),
       })
       .then(res => {
         if (res.status === 500) {

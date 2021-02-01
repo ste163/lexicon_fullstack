@@ -45,11 +45,11 @@ export const CollectionProvider = props => {
     const addCollection = submittedCollection => {
       if (currentUserId !== 0) {
         return getToken().then(token => 
-          fetch(`${apiUrl}`, {
+          fetch(apiUrl, {
               method: "POST",
               headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
               },
               body: JSON.stringify(submittedCollection)
           }))
