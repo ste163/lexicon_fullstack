@@ -102,7 +102,7 @@ const CollectionForm = props => {
             onChange={handleControlledInputChange}
             id="collectionName"
             name="name"
-            // value={collection.name}
+            value={collection.name}
             placeholder="Collection name"
             maxLength={255}
             required
@@ -117,7 +117,7 @@ const CollectionForm = props => {
             onChange={handleControlledInputChange}
             id="collectionDescription"
             name="description"
-            // value={collection.description}
+            value={collection.description}
             placeholder="Collection description"
             maxLength={255}
             />

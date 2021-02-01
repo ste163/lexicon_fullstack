@@ -14,8 +14,7 @@
     width: 90%;
     left: 5%;
     transition: 0.5s;
-    overflow-x: scroll;
-    overflow-y: hidden;
+
 }
 
 .manager__list--inactive {

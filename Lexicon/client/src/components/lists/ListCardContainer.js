@@ -28,7 +28,7 @@ const CollectionList = ({ isFetching, items }) => {
 
     // Map over items to display as cards
     return (
-        <section className="">
+        <section className="list__container">
             {items.map(item => {
                 return <ListCard key={item.id} item={item} />
             })}
