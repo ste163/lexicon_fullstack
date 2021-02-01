@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { CollectionContext } from '../../providers/CollectionProvider'
-import './CollectionList.css'
 import ListCard from './ListCard'
+import './ListCardContainer.css'
 
 const CollectionList = () => {
     const { isFetchingCollections, collections } = useContext(CollectionContext)
@@ -26,9 +26,11 @@ const CollectionList = () => {
 
     // Map over collections
     return (
-        collections.map(collection => {
-            return <ListCard key={collection.id} item={collection} />
-        })
+        <section className="">
+            {collections.map(collection => {
+                return <ListCard key={collection.id} item={collection} />
+            })}
+        </section>
     )
 }
 

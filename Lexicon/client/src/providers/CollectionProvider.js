@@ -14,7 +14,6 @@ export const CollectionProvider = props => {
     const [collections, setCollections] = useState()
     // lets program know if it needs to show a loading indicator or not
     const [isFetchingCollections, setIsFetchingCollections] = useState(true) 
-
     // currently selected collection
     const [selectedCollection, setSelectedCollection] = useState()
     // handles open states for manager and its views

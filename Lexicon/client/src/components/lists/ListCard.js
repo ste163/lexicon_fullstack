@@ -18,5 +18,5 @@ const ListCard = ({item}) => (
         </div>
     </button>
 )
- 
+
 export default ListCard
