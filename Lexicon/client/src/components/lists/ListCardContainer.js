@@ -1,13 +1,15 @@
-import React, { useContext } from 'react'
-import { CollectionContext } from '../../providers/CollectionProvider'
+import React from 'react'
 import ListCard from './ListCard'
 import './ListCardContainer.css'
 
-const CollectionList = () => {
-    const { isFetchingCollections, collections } = useContext(CollectionContext)
+// To use:
+    // pass in an isFetching for the loading spinner
+    // items as a state of collections or projects
+    // PROBABLY need to pass in a card/message component for if no info yet
+const CollectionList = ({ isFetching, items }) => {
 
     // Loading spinner while fetching
-    if (isFetchingCollections) {
+    if (isFetching) {
         return (
         <div className="spinner__center">
             <div className="cls-spinner">
@@ -17,18 +19,18 @@ const CollectionList = () => {
         )
     }
     
-    // Message for no collections. Make as a component so the Project manager is identical
-    if (!collections) {
+    // Message for no items
+    if (!items) {
         return (
-            <div>No collections yet</div>
+            <div>No ITEMS yet</div>
         )
     }
 
-    // Map over collections
+    // Map over items to display as cards
     return (
         <section className="">
-            {collections.map(collection => {
-                return <ListCard key={collection.id} item={collection} />
+            {items.map(item => {
+                return <ListCard key={item.id} item={item} />
             })}
         </section>
     )

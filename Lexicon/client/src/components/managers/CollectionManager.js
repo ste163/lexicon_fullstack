@@ -8,7 +8,7 @@ import CollectionForm from '../forms/CollectionForm'
 import './CollectionManager.css'
 
 const CollectionManager = () => {
-    const { isCollectionCreateFormOpen, isCollectionDetailsOpen, isCollectionEditFormOpen} = useContext(CollectionContext)
+    const { collections, isFetchingCollections, isCollectionCreateFormOpen, isCollectionDetailsOpen, isCollectionEditFormOpen} = useContext(CollectionContext)
 
     // Get the Create button working with the slide to form, and back and forth
     return (
@@ -20,7 +20,7 @@ const CollectionManager = () => {
                 "manager__list manager__list--inactive"
             )}>
                 <ListControls urlToPushTo={CollectionManagerCreate} createNewString={"collection"} />
-                <ListCardContainer />
+                <ListCardContainer isFetching={isFetchingCollections} items={collections}/>
             </section>
 
             <CollectionForm />
