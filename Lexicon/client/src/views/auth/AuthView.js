@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { AnonWelcome } from '../../utils/ToastMessages'
 import { UserContext } from '../../providers/UserProvider'
 import { LexLogo, LexTitle } from '../../components/branding/Branding'
 import ChangeColorMode from '../../utils/ChangeColorMode'
@@ -200,7 +201,7 @@ const AuthView = () => {
                         onClick={e => {
                             anonymousLogin()
                             .then(user => {
-                                toast.info(`Welcome! As an anonymous user, you can not save data.`)
+                                toast.info(AnonWelcome())
                                 history.push("/app")
                             })
                             .catch(err => {

@@ -56,12 +56,14 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
+            // Need to add the default requirements for the collection here
+
             try
             {
                 _collectionRepo.Add(collection);
                 return Ok(collection);
             }
-            catch (Exception e)
+            catch (DbUpdateException e)
             {
                 return NotFound();
             }

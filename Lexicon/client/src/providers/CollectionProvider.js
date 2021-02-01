@@ -1,11 +1,15 @@
 import React, { createContext, useState, useContext } from 'react'
 import { UserContext } from "./UserProvider"
 import { toast } from 'react-toastify'
+import { DbNoConnection } from '../utils/ToastMessages'
 
 export const CollectionContext = createContext()
 
 export const CollectionProvider = props => {
+    const apiUrl = "/api/collection"
+    const currentUserId = +sessionStorage.getItem('currentUserId') // If 0, then anonymous, do not allow user to do anything
     const { getToken } = useContext(UserContext)
+
     // all collections
     const [collections, setCollections] = useState()
     // currently selected collection
@@ -18,23 +22,31 @@ export const CollectionProvider = props => {
     
 
     const getCollections = () => {
-        return getToken().then(token =>
-            fetch("/api/collection", {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            })
-            .then(res => {
-              if (res.status === 500) {
-                toast.error("Could not connect to Lexicon's database.")
-              }
-              if (res.status === 404) {
-                toast.error("Unable to retrieve collections.")
-              }
-              return res.json()
-            })
-            .then(c => setCollections(c)))
+        if (currentUserId !== 0) {
+            return getToken().then(token =>
+                fetch(`${apiUrl}`, {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${token}`
+                  }
+                })
+                .then(res => {
+                  if (res.status === 500) {
+                    toast.error(DbNoConnection())
+                  }
+                  if (res.status === 404) {
+                    toast.error("Unable to retrieve collections.")
+                  }
+                  return res.json()
+                })
+                .then(c => setCollections(c)))
+        }
+    }
+
+    const addCollection = () => {
+        if (currentUserId !== 0) {
+
+        }
     }
 
     return (
@@ -47,7 +59,8 @@ export const CollectionProvider = props => {
                 isCollectionDetailsOpen, setIsCollectionDetailsOpen,
                 isCollectionEditFormOpen, setIsCollectionEditFormOpen,
 
-                getCollections
+                getCollections,
+                addCollection
             }}>
                 {props.children}
         </CollectionContext.Provider>

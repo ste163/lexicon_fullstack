@@ -1,6 +1,7 @@
 // Written by NSS to assist in having real Authentication & Authorization
 import React, { useState, useEffect, createContext } from "react"
 import { toast } from 'react-toastify'
+import { DbNoConnection } from '../utils/ToastMessages'
 import firebase from "firebase/app"
 import "firebase/auth"
 
@@ -80,7 +81,14 @@ export function UserProvider(props) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then(res => res.json())
+      })
+      .then(res => {
+        if (res.status === 500) {
+          toast.error(DbNoConnection())
+          return res.json();
+        }
+      })   
+      .then(res => res.json())
     )
   }
 

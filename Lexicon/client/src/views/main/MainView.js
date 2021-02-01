@@ -6,7 +6,6 @@ import Footer from '../../components/footer/Footer'
 import './MainView.css'
 
 const MainView = () => {
-    const currentUserId = +sessionStorage.getItem('currentUserId')
     const { getCollections } = useContext(CollectionContext)
 
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
@@ -23,9 +22,7 @@ const MainView = () => {
 
 
     useEffect(() => {
-        if (currentUserId !== 0) {
-            getCollections()
-        }
+        getCollections()
     }, [])
 
 

@@ -1,33 +1,30 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
-// import { CollectionContext } from "../../providers/CollectionProvider"
-import "./CollectionForm.css"
+import { CollectionContext } from '../../providers/CollectionProvider'
+import './CollectionForm.css'
 
 const CollectionForm = props => {
+    const userId = +sessionStorage.getItem("currentUserId")
     const history = useHistory()
 
-    // the editableCollection will come from the param (i hope)
-
-    // const userId = +sessionStorage.getItem("userId")
-
     // Set the default project so the form can reset.
-    // const defaultCollection = {
-    //     userId: userId,
-    //     categorizationId: 0,
-    //     name: "",
-    //     description: "",
-    //     pinned: false
-    //     creationDate SET IN C#
-    // } 
+    const defaultCollection = {
+        userId: userId,
+        name: '',
+        description: '',
+    } 
 
     // const { collections, selectedCollection, addCollection, updateCollection } = useContext(CollectionContext)
+    const { collections, addCollection } = useContext(CollectionContext)
     
     // Sets state for creating the project
-    // const [ collection, setCollection ] = useState(defaultCollection)
-    // const [ isLoading, setIsLoading ] = useState(true)
+    const [ collection, setCollection ] = useState(defaultCollection)
 
+    // WHENEVER WE HAVE isLOADING, DON'T FORGET THE LOADING INDICATOR
+    const [ isLoading, setIsLoading ] = useState(true)
+
+    // EDITABLE COLLECTION SHOULD COME FROM THE STRING QUERY PARAM
     // Check on load and when collections change, if we have an editable collection or not
-    // This will be based on the path URL
     // useEffect(() => {
     //     if (editableCollection) {
     //         setCollection(editableCollection)
@@ -37,46 +34,38 @@ const CollectionForm = props => {
     //     }
     // }, [selectedCollection, collections])
 
-    // const handleControlledInputChange = e => {
-    //     const newCollection = { ...collection }
-    //     newCollection[e.target.name] = e.target.value
-    //     setCollection(newCollection)
-    // }
+    const handleControlledInputChange = e => {
+        const newCollection = { ...collection }
+        newCollection[e.target.name] = e.target.value
+        setCollection(newCollection)
+    }
 
-    // const constructNewCollection = (e) => {
-    //     if (editableCollection) {
-    //         updateCollection({
-    //             id: editableCollection.id,
-    //             userId,
-    //             name: collection.name,
-    //             description: collection.description,
-    //             public: collection.public,
-    //             categorizationType: collection.categorizationType,
-    //             starred: collection.starred,
-    //         })
-    //         // May need to re-get all WORDS here and recent words, but not sure
-    //         // .then(() => {
-    //         //     getProgressByCollectionId(editableCollection.id)
-    //         // })
-
-    //     } else {
-    //         addCollection({
-    //             userId,
-    //             name: collection.name,
-    //             description: collection.description,
-    //             public: collection.public,
-    //             categorizationType: collection.categorizationType,
-    //             starred: collection.starred
-    //         })
-    //         setCollection(defaultCollection)
-    //     }  
-    //         e.currentTarget.parentNode.parentNode.parentNode.className = "background__modal"
-    //     }   
-    // }
+    const constructNewCollection = (e) => {
+        // if (editableCollection) {
+        //     updateCollection({
+        //         id: editableCollection.id,
+        //         userId,
+        //         name: collection.name,
+        //         description: collection.description,
+        //     })
+            // May need to re-get all WORDS here and recent words, but not sure
+            // .then(() => {
+            //     getProgressByCollectionId(editableCollection.id)
+            // })
+        // } else {
+            addCollection({
+                userId,
+                name: collection.name,
+                description: collection.description,
+            })
+            // Resets form
+            setCollection(defaultCollection) 
+            // Push us back to the collection-manager
+        }  
 
     const createCollection = (e) => {
         e.preventDefault()
-        // constructNewCollection(e)
+        constructNewCollection(e)
     }
 
     return (
