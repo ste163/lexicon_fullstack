@@ -4,7 +4,7 @@ import { CollectionManagerCreateRoute, CollectionManagerRoute } from '../../util
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { CollectionManagerDetailsRoute } from '../../utils/Routes'
 import { ManagerArrow } from '../buttons/Buttons'
-import Details from '../../components/details/Details'
+import DetailsContainer from '../details/DetailsContainer'
 import ListControls from '../../components/lists/ListControls'
 import ListCardContainer from '../lists/ListCardContainer'
 import CollectionForm from '../forms/CollectionForm'
@@ -27,7 +27,7 @@ const CollectionManager = () => {
     return (
         <section className="manager__container">
 
-            <Details
+            <DetailsContainer
                 selectedItem={selectedCollection}
                 history={history}
                 managerUrlToPushTo={CollectionManagerRoute}

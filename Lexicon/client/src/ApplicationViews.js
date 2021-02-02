@@ -48,7 +48,6 @@ const ApplicationViews = () => {
             setIsCollectionCreateFormOpen(false)
             setIsCollectionManagerOpen(false)
             setIsCollectionDetailsOpen(false)
-            setIsFetchingCollectionDetails(true)
         }
 
         const turnOffAllProjectRoutes = () => {
@@ -70,19 +69,18 @@ const ApplicationViews = () => {
                 break
             case CollectionManagerRoute():
                 turnOffAllProjectRoutes()
-                setIsFetchingCollectionDetails(true)
                 setIsCollectionCreateFormOpen(false)
                 setIsCollectionDetailsOpen(false)
                 setIsCollectionManagerOpen(true)
                 break 
             case CollectionManagerCreateRoute():
                 turnOffAllProjectRoutes()
-                setIsFetchingCollectionDetails(true)
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(true)
                 setIsCollectionDetailsOpen(false)
                 break
             case CollectionManagerDetailsRoute(routeParamId):
+                setIsFetchingCollectionDetails(true)
                 turnOffAllProjectRoutes()
                 getCollectionById(routeParamId)
                 // When we leave this route, will need to reset the loading spinner state!  

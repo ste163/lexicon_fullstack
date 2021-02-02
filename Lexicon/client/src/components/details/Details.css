@@ -15,4 +15,34 @@
 
 .details {
     flex-grow: 1;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.details__p {
+    font-weight: var(--weightThin);
+}
+
+.details__btns {
+    display: flex;
+    flex-flow: column nowrap;
+    align-self: center;
+}
+
+.btn__details--dash {
+    margin-bottom: 0.5em;
+}
+
+.btns__edit-delete {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.btn__details--edit {
+    flex-basis: 45%;
+}
+
+.btn__details--delete {
+    flex-basis: 45%;
 }

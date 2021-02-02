@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { CollectionManagerRoute } from '../../utils/Routes'
 import './CollectionForm.css'
+import './Form.css'
 
 const CollectionForm = ({ history }) => {
     const userId = +sessionStorage.getItem("currentUserId")
@@ -78,7 +79,7 @@ const CollectionForm = ({ history }) => {
         className="collection__form"
         onSubmit={createCollection}>
 
-        <h3 className="form__h3">
+        <h3>
             {"Create"}
         </h3> 
 
