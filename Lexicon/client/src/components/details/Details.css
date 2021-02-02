@@ -17,6 +17,8 @@
     flex-grow: 1;
     display: flex;
     flex-flow: column nowrap;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .details__p {
@@ -27,9 +29,11 @@
     display: flex;
     flex-flow: column nowrap;
     align-self: center;
+    width: 80%;
 }
 
 .btn__details--dash {
+    width: 100% !important;
     margin-bottom: 0.5em;
 }
 

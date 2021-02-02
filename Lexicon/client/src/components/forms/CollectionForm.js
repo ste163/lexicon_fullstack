@@ -120,7 +120,7 @@ const CollectionForm = ({ history }) => {
         ) : (
             <div className="collection__submit">
                 <button 
-                    className="btn"
+                    className="btn form__btn--submit"
                     type="submit"
                     disabled={isLoading}>
                     {"Create"}

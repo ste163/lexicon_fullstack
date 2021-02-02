@@ -1,5 +1,7 @@
 .collection__form {
     flex-grow: 1;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .collection__input {
@@ -9,4 +11,9 @@
 .collection__submit {
     display: flex;
     justify-content: center;
+
+}
+
+.form__btn--submit {
+    width: 70% !important;
 }
