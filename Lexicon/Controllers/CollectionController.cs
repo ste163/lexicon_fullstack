@@ -45,6 +45,35 @@ namespace Lexicon.Controllers
             return Ok(collections);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetByCollectionId(int id)
+        {
+            var firebaseUser = _utils.GetCurrentUser(User);
+
+            // If this person is an anonymous user, return NotFound
+            if (firebaseUser == null)
+            {
+                return NotFound();
+            }
+
+            Collection collection = _collectionRepo.GetById(id);
+
+            // If no matching collection, return not found
+            if (collection == null)
+            {
+                return NotFound();
+            }
+
+            // If this is not that user's post, don't return it
+            if (collection.UserId != firebaseUser.Id)
+            {
+                return NotFound();
+            }
+
+            // When I get my Words working, I'll have to ensure I'm also bringing back the full word list
+            return Ok(collection);
+        }
+
         [HttpPost]
         public IActionResult Add(Collection collection)
         {

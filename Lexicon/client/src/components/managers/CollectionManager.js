@@ -23,6 +23,7 @@ const CollectionManager = () => {
     return (
         <section className="manager__container">
             <section 
+                // Will need to have checking on is the form open or details OR edit
                 className={!isCollectionCreateFormOpen ? (
                     "manager__list"
                 ) : (

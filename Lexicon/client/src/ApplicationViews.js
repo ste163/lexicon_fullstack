@@ -22,7 +22,8 @@ const ApplicationViews = () => {
 
     const { setIsCollectionManagerOpen, setIsCollectionCreateFormOpen } = useContext(CollectionContext)
 
-    const StatePathnameRouter = () => {
+    // State router switches state on/off based on the URL pathname
+    const StateRouter = () => {
     // REQUIRED URL PATHS
         // /app/selected/{id}
             //which needs its own state that everything is tracking against.
@@ -35,9 +36,7 @@ const ApplicationViews = () => {
         // /app/project-manager/details/{param}
     
         const routeParamId = findRouteParam(currentUrl)
-    
-        console.log(currentUrl)
-    
+
         switch (currentUrl) {
             case AuthRoute():
                 break
@@ -73,7 +72,7 @@ const ApplicationViews = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            StatePathnameRouter()
+            StateRouter()
         }
     }, [currentUrl])
 
