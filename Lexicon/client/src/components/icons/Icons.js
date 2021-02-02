@@ -6,6 +6,7 @@ import "./Icons.css"
     // a "Color=value" with the value based on Icons.css
 
 // Takes a disabled prop
+// arrow also takes a rotation prop of rotation={icon__arrow--rotated} to flip 90deg
 export const IconArrow = props => (
     <svg className={`icon__arrow ${props.rotation}`} width="35" height="20" version="1.1" viewBox="0 0 9.2606 5.2918" xmlns="http://www.w3.org/2000/svg">
         <title>Arrow Icon</title>

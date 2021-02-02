@@ -25,7 +25,8 @@ const ApplicationViews = () => {
         setSelectedCollection,
         setIsCollectionManagerOpen,
         setIsCollectionCreateFormOpen,
-        setIsCollectionDetailsOpen
+        setIsCollectionDetailsOpen,
+        setIsFetchingCollectionDetails
     } = useContext(CollectionContext)
 
     // State router switches state on/off based on the URL pathname
@@ -47,6 +48,7 @@ const ApplicationViews = () => {
             setIsCollectionCreateFormOpen(false)
             setIsCollectionManagerOpen(false)
             setIsCollectionDetailsOpen(false)
+            setIsFetchingCollectionDetails(true)
         }
 
         const turnOffAllProjectRoutes = () => {
@@ -61,17 +63,21 @@ const ApplicationViews = () => {
                 turnOffAllCollectionRoutes()
                 break
             case SettingsRoute():
+                turnOffAllCollectionRoutes();
+                turnOffAllProjectRoutes();
                 // Close all modals
                 // Open Settings modal
                 break
             case CollectionManagerRoute():
                 turnOffAllProjectRoutes()
+                setIsFetchingCollectionDetails(true)
                 setIsCollectionCreateFormOpen(false)
                 setIsCollectionDetailsOpen(false)
                 setIsCollectionManagerOpen(true)
                 break 
             case CollectionManagerCreateRoute():
                 turnOffAllProjectRoutes()
+                setIsFetchingCollectionDetails(true)
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(true)
                 setIsCollectionDetailsOpen(false)

@@ -1,7 +1,8 @@
 import React from 'react'
+import { ManagerArrow } from '../buttons/Buttons'
 import './Details.css'
 
-const Details = ({ history, isFetching, managerUrlToPushTo, isDetailsOpen }) => (
+const Details = ({ selectedItem, history, isFetching, managerUrlToPushTo, isDetailsOpen }) => (
     // POSSIBLE ERROR: If we get undefined, PUSH us back to the collection-manager
     // might need to put this here??? We'll see what happens
     
@@ -24,11 +25,18 @@ const Details = ({ history, isFetching, managerUrlToPushTo, isDetailsOpen }) => 
             ) : (
                 "manager__details"
             )}>
-                <button
-                    onClick={e => history.push(managerUrlToPushTo())}>
-                    Back
-                </button>
-                Details!
+                <ManagerArrow
+                    isForm={false}
+                    history={history}
+                    managerUrlToPushTo={managerUrlToPushTo} />
+
+                <section className="details">
+                    {selectedItem == undefined ? (
+                        null
+                    ) : (
+                        selectedItem.name
+                    )}
+                </section>
         </section>
     )
 )

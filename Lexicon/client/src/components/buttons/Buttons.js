@@ -110,18 +110,18 @@ export const ManageProjects = ({ isMobile }) => {
     )
 }
 
-export const ManagerArrow = ({ isForm, history, urlToPushTo }) => (
+export const ManagerArrow = ({ isForm, history, managerUrlToPushTo }) => (
     <button
         className="btn__no-style btn__manager"
         onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__gray', 'icon__hovered')}
         onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__gray', 'icon__hovered')}
         onClick={e => {
             e.preventDefault()
-            history.push(urlToPushTo())}}>
+            history.push(managerUrlToPushTo())}}>
                 {isForm ? (
                     <IconArrow color="icon__gray" />
                 ) : (
-                    "Rotate Me 90%!!!"
+                    <IconArrow rotation="icon__arrow--rotated" color="icon__gray" />
                 )}
     </button>
 )

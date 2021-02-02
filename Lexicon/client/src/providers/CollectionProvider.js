@@ -122,7 +122,7 @@ export const CollectionProvider = props => {
       <CollectionContext.Provider
         value={{
           isFetchingCollections,
-          isFetchingCollectionDetails,
+          isFetchingCollectionDetails, setIsFetchingCollectionDetails,
 
           collections, setCollections,
           selectedCollection, setSelectedCollection,

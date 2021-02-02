@@ -14,6 +14,7 @@ const CollectionManager = () => {
     const history = useHistory()
     const {
         collections,
+        selectedCollection,
         isFetchingCollections,
         isFetchingCollectionDetails,
         isCollectionCreateFormOpen,
@@ -27,6 +28,7 @@ const CollectionManager = () => {
         <section className="manager__container">
 
             <Details
+                selectedItem={selectedCollection}
                 history={history}
                 managerUrlToPushTo={CollectionManagerRoute}
                 isFetching={isFetchingCollectionDetails}
@@ -62,7 +64,7 @@ const CollectionManager = () => {
 
                 <ManagerArrow
                     isForm={true}
-                    urlToPushTo={CollectionManagerRoute}
+                    managerUrlToPushTo={CollectionManagerRoute}
                     history={history} />
 
                 <CollectionForm
