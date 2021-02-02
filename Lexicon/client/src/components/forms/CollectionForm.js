@@ -74,7 +74,9 @@ const CollectionForm = ({ history }) => {
     }
 
     return (
-    <form onSubmit={createCollection}>
+    <form
+        className="collection__form"
+        onSubmit={createCollection}>
 
         <h3 className="form__h3">
             {"Create"}

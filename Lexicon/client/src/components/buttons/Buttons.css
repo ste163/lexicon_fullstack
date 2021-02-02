@@ -31,6 +31,12 @@
   margin: 0 0.5em;
 }
 
+.btn__manager {
+  font-size: 5em;
+  margin: 0;
+  padding: 0;
+}
+
 .btn__no-style {
   border: none;
   background-color: transparent;

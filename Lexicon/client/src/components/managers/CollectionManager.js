@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { CollectionManagerCreateRoute, CollectionManagerRoute } from '../../utils/Routes'
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { CollectionManagerDetailsRoute } from '../../utils/Routes'
+import { ManagerArrow } from '../buttons/Buttons'
 import Details from '../../components/details/Details'
 import ListControls from '../../components/lists/ListControls'
 import ListCardContainer from '../lists/ListCardContainer'
@@ -59,12 +60,10 @@ const CollectionManager = () => {
                     "manager__form"
                 )}>
 
-                <button
-                    onClick={e => {
-                        e.preventDefault()
-                        history.push(CollectionManagerRoute())}}>
-                        Back
-                </button>
+                <ManagerArrow
+                    isForm={true}
+                    urlToPushTo={CollectionManagerRoute}
+                    history={history} />
 
                 <CollectionForm
                     history={history} />

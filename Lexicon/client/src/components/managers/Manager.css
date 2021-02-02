@@ -26,6 +26,8 @@
 }
 
 .manager__form {
+    display: flex;
+    flex-flow: row-reverse nowrap;
     position: absolute;
     height: 85%;
     width: 90%;

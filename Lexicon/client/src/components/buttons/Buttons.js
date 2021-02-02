@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../providers/UserProvider'
 import { CollectionContext } from '../../providers/CollectionProvider'
-import { IconLogout, IconGear } from '../icons/Icons'
+import { IconLogout, IconGear, IconArrow } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import SettingsForm from '../forms/SettingsForm'
 import CollectionManager from '../managers/CollectionManager'
@@ -109,3 +109,19 @@ export const ManageProjects = ({ isMobile }) => {
         </>
     )
 }
+
+export const ManagerArrow = ({ isForm, history, urlToPushTo }) => (
+    <button
+        className="btn__no-style btn__manager"
+        onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__gray', 'icon__hovered')}
+        onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__gray', 'icon__hovered')}
+        onClick={e => {
+            e.preventDefault()
+            history.push(urlToPushTo())}}>
+                {isForm ? (
+                    <IconArrow color="icon__gray" />
+                ) : (
+                    "Rotate Me 90%!!!"
+                )}
+    </button>
+)

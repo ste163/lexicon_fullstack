@@ -1,3 +1,7 @@
+.collection__form {
+    flex-grow: 1;
+}
+
 .collection__input {
     width: 50%;
 }
