@@ -82,7 +82,7 @@
   --managerModalWidth: 70vmin;
 
   /* backdrop-filter */
-  --blurAmount: blur(10px);
+  --blurAmount: blur(40px);
 }
 
 /* Set Defaults */

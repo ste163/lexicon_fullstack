@@ -20,7 +20,11 @@ const ApplicationViews = () => {
     const currentUrl = useLocation().pathname
     const history = useHistory()
 
-    const { setIsCollectionManagerOpen, setIsCollectionCreateFormOpen } = useContext(CollectionContext)
+    const {
+        getCollectionById,
+        setIsCollectionManagerOpen,
+        setIsCollectionCreateFormOpen
+    } = useContext(CollectionContext)
 
     // State router switches state on/off based on the URL pathname
     const StateRouter = () => {
@@ -57,8 +61,7 @@ const ApplicationViews = () => {
                 setIsCollectionCreateFormOpen(true)
                 break
             case CollectionManagerDetailsRoute(routeParamId):
-                // GetCollectionById(routeParamId)
-                    // setSelectedCollection as this ones Id
+                getCollectionById(routeParamId)
                 // Show loading screen until that item shows up
                 // if we get an error, show a toast error then revert back to collection-manager
                 setIsCollectionManagerOpen(true)
