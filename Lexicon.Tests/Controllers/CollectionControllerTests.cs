@@ -113,7 +113,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to get this User's collections
+            // Attempt to get this User's collection
             var response = controller.GetByCollectionId(1);
 
             // Returns Ok
@@ -133,7 +133,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to get this User's collections
+            // Attempt to get this Someone else's collection
             var response = controller.GetByCollectionId(2);
 
             // Returns Ok
@@ -143,7 +143,21 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void Anonymous_User_Can_Not_Get_Collection_By_Id()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
 
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to get someone's collection
+            var response = controller.GetByCollectionId(2);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
             _fakeCollectionRepo.Verify(r => r.GetByCollectionId(It.IsAny<int>()), Times.Never());
         }
@@ -151,7 +165,21 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void Get_Collection_For_Id_Not_In_Db_Returns_Not_Found()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to get this User's collection
+            var response = controller.GetByCollectionId(666);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
         }
 
 
