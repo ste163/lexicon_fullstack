@@ -1,10 +1,8 @@
 ﻿using Lexicon.Data;
 using Lexicon.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Lexicon.Repositories
 {
@@ -24,6 +22,15 @@ namespace Lexicon.Repositories
                 .OrderByDescending(c => c.CreationDate)
                 .Where(c => c.UserId == id)
                 .ToList();
+        }
+
+        public Collection GetByCollectionId(int id)
+        {
+            return _context.Collection
+                        .Include(c => c.User)
+                        .Include(c => c.Categorization)
+                        .Where(c => c.Id == id)
+                        .FirstOrDefault();
         }
 
         public void Add(Collection collection)
