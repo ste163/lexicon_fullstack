@@ -52,7 +52,25 @@ const CollectionManager = () => {
                     items={collections}  />
             </section>
 
-            <CollectionForm />
+            <section
+                className={isCollectionCreateFormOpen ? (
+                    "manager__form manager__form--active"
+                    ) : (
+                    "manager__form"
+                )}>
+
+                <button
+                    onClick={e => {
+                        e.preventDefault()
+                        history.push(CollectionManagerRoute())}}>
+                        Back
+                </button>
+
+                <CollectionForm
+                    history={history} />
+            </section>
+
+
         </section>
     )
 }

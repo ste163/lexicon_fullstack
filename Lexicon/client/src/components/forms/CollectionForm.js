@@ -1,12 +1,10 @@
 import React, { useContext, useState, useEffect } from "react"
-import { useHistory } from 'react-router-dom'
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { CollectionManagerRoute } from '../../utils/Routes'
 import './CollectionForm.css'
 
-const CollectionForm = props => {
+const CollectionForm = ({ history }) => {
     const userId = +sessionStorage.getItem("currentUserId")
-    const history = useHistory()
 
     // Set the default project so the form can reset.
     const defaultCollection = {
@@ -16,7 +14,7 @@ const CollectionForm = props => {
     } 
 
     // const { collections, selectedCollection, addCollection, updateCollection } = useContext(CollectionContext)
-    const { isCollectionCreateFormOpen, collections, addCollection } = useContext(CollectionContext)
+    const { collections, addCollection } = useContext(CollectionContext)
     
     // Sets state for creating the project
     const [ collection, setCollection ] = useState(defaultCollection)
@@ -76,21 +74,8 @@ const CollectionForm = props => {
     }
 
     return (
-    <form
-    className={isCollectionCreateFormOpen ? (
-        "form__collection form__collection--active"
-        ) : (
-        "form__collection"
-    )}
-    onSubmit={createCollection}>
+    <form onSubmit={createCollection}>
 
-        <button
-        onClick={e => {
-            e.preventDefault()
-            history.push(CollectionManagerRoute())}
-            }>
-            BACK
-        </button>
         <h3 className="form__h3">
             {"Create"}
         </h3> 
@@ -98,29 +83,29 @@ const CollectionForm = props => {
         <fieldset>
             <label htmlFor="collectionName">Name: </label>
             <input type="text"
-            className="collection__input"
-            onChange={handleControlledInputChange}
-            id="collectionName"
-            name="name"
-            value={collection.name}
-            placeholder="Collection name"
-            maxLength={255}
-            required
-            autoFocus/>
+                className="collection__input"
+                onChange={handleControlledInputChange}
+                id="collectionName"
+                name="name"
+                value={collection.name}
+                placeholder="Collection name"
+                maxLength={255}
+                required
+                autoFocus/>
         </fieldset>
 
         <fieldset>
             <label htmlFor="collectionDescription">Description: </label>
             <textarea
-            rows={3}
-            cols={3}
-            onChange={handleControlledInputChange}
-            id="collectionDescription"
-            name="description"
-            value={collection.description}
-            placeholder="Collection description"
-            maxLength={255}
-            />
+                rows={3}
+                cols={3}
+                onChange={handleControlledInputChange}
+                id="collectionDescription"
+                name="description"
+                value={collection.description}
+                placeholder="Collection description"
+                maxLength={255}
+                />
         </fieldset>
 
         { isLoading ? (
@@ -132,9 +117,9 @@ const CollectionForm = props => {
         ) : (
             <div className="collection__submit">
                 <button 
-                className="btn"
-                type="submit"
-                disabled={isLoading}>
+                    className="btn"
+                    type="submit"
+                    disabled={isLoading}>
                     {"Create"}
                 </button>
             </div>

@@ -24,3 +24,15 @@
 .manager__list--inactive--details {
     left: -100%;
 }
+
+.manager__form {
+    position: absolute;
+    height: 85%;
+    width: 90%;
+    left: -100%;
+    transition: 0.5s;
+}
+
+.manager__form--active {
+    left: 5%;
+}

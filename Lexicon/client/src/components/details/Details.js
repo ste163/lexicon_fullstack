@@ -1,23 +1,23 @@
 import React from 'react'
 import './Details.css'
 
-const Details = ({ history, isFetching, managerUrlToPushTo, isDetailsOpen }) => {
-
-    // Loading spinner while fetching
-    if (isFetching) {
-        return (
-        <div className="spinner__center">
+const Details = ({ history, isFetching, managerUrlToPushTo, isDetailsOpen }) => (
+    // POSSIBLE ERROR: If we get undefined, PUSH us back to the collection-manager
+    // might need to put this here??? We'll see what happens
+    
+    // Loading spinner if fetching, else details
+    isFetching ? (
+        <div
+            className={isDetailsOpen ? (
+                "spinner__center"
+            ): (
+                "manager__details"
+            )}>
             <div className="cls-spinner">
                 <div className="cls-circle cls-spin"></div>
             </div>
         </div>
-        )
-    }
-
-    // If we get undefined, PUSH us back to the collection-manager
-    // might need to put this here.
-
-    return (
+    ) : (
         <section
             className={isDetailsOpen ? (
                 "manager__details manager__details--active"
@@ -31,6 +31,6 @@ const Details = ({ history, isFetching, managerUrlToPushTo, isDetailsOpen }) => 
                 Details!
         </section>
     )
-}
+)
 
 export default Details

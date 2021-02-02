@@ -9,7 +9,7 @@ import "./ListCard.css"
 const ListCard = ({item, detailsUrlToPushTo, history }) => (
     <button
         id={item.id}
-        className="card card__color--white card__list btn__collection"
+        className="card btn__collection card__list"
         onClick={e => history.push(detailsUrlToPushTo(+e.target.id))}>
         <h2 id={item.id} className="list__h2">{item.name}</h2>
         {/* May need ternary for if no .description, return null */}

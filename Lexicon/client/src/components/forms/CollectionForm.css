@@ -1,15 +1,3 @@
-.form__collection {
-    position: absolute;
-    height: 85%;
-    width: 90%;
-    left: -100%;
-    transition: 0.5s;
-}
-
-.form__collection--active {
-    left: 5%;
-}
-
 .collection__input {
     width: 50%;
 }
