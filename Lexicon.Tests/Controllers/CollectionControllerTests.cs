@@ -32,6 +32,9 @@ namespace Lexicon.Tests.Controllers
             // Whenever a user with this Id calls the Get method, return this list of collections
             _fakeCollectionRepo.Setup(r => r.Get(It.Is<int>(i => i == 1))).Returns((int id) => new List<Collection>() { new Collection() { Id = 1, Name = "Scary places", Description = "Spooky places It probably hangs at."}, new Collection() { Id = 2, Name = "Monsters", Description = "Monsters It becomes." } });
             _fakeCollectionRepo.Setup(r => r.Get(It.Is<int>(i => i == 2))).Returns((int id) => new List<Collection>() { new Collection() { Id = 1, Name = "Swampy", Description = "Icky words related to swamps" }, new Collection() { Id = 2, Name = "Spooky", Description = "Spooky related words." } });
+            // Whenever we enter Id 1, return this object
+            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(1)).Returns(new Collection() { Id = 1, Name = "Swampy", Description = "Icky words related to swamps", UserId = 1 });
+            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(2)).Returns(new Collection() { Id = 1, Name = "Scary places", Description = "Words for scary places", UserId = 2 });
         }
 
         [Fact]
@@ -73,6 +76,8 @@ namespace Lexicon.Tests.Controllers
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeCollectionRepo.Verify(r => r.Get(It.IsAny<int>()), Times.Never());
         }
 
         [Fact]
@@ -94,6 +99,44 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
         }
+
+        [Fact]
+        public void User_Can_Get_Their_Collection_By_Id()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to get this User's collections
+
+
+
+        }
+
+        [Fact]
+        public void User_Can_Not_Get_Collections_That_Are_Not_Theirs()
+        {
+
+        }
+
+        [Fact]
+        public void Anonymous_User_Can_Not_Get_Collection_By_Id()
+        {
+
+        }
+
+        [Fact]
+        public void Get_Collection_For_Id_Not_In_Db_Returns_Not_Found()
+        {
+
+        }
+
 
         [Fact]
         public void User_Can_Add_Collection()
@@ -155,6 +198,8 @@ namespace Lexicon.Tests.Controllers
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeCollectionRepo.Verify(r => r.Add(It.IsAny<Collection>()), Times.Never());
         }
     }
 }
