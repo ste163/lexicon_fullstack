@@ -12,6 +12,7 @@ const ListCard = ({item, detailsUrlToPushTo, history }) => (
         className="card card__color--white card__list btn__collection"
         onClick={e => history.push(detailsUrlToPushTo(+e.target.id))}>
         <h2 id={item.id} className="list__h2">{item.name}</h2>
+        {/* May need ternary for if no .description, return null */}
         <p id={item.id} className="list__p">{item.description}</p>
         <div id={item.id} className="list__arrow">
             <IconArrow id={item.id} color="icon__gray" />

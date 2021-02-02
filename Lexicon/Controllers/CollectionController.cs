@@ -56,7 +56,7 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-            Collection collection = _collectionRepo.GetById(id);
+            Collection collection = _collectionRepo.GetByCollectionId(id);
 
             // If no matching collection, return not found
             if (collection == null)

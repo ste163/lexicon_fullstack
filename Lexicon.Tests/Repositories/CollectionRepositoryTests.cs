@@ -1,6 +1,7 @@
 ﻿using Lexicon.Models;
 using Lexicon.Repositories;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Lexicon.Tests.Repositories
@@ -27,6 +28,33 @@ namespace Lexicon.Tests.Repositories
 
             // User with Id 1 should have 2
             Assert.True(collectionCount == 2);
+        }
+
+        [Fact]
+        public void User_Can_Get_A_Single_Collection_By_Id()
+        {
+            // Set an expected collection to get that's in the db
+            var expectedCollection = new Collection()
+            {
+                UserId = 1,
+                CategorizationId = 1,
+                Categorization = new Categorization() { Id = 1, Type = "Part of Speech" },
+                Name = "Monsters",
+                Description = "Monsters and related words It becomes.",
+                Pinned = false
+            };
+
+            // Get a Collection Id that is in the Db
+            int collectionId = 3;
+
+            // Instantiate CollectionRepo
+            var repo = new CollectionRepository(_context);
+
+            // Get Collection by its Id
+            var actualCollection = repo.GetByCollectionId(collectionId);
+
+            // Two objects should have the same name. Was unable to test if Assert.Equal because Repo returns all the Objects from the FKs
+            Assert.True(expectedCollection.Name == actualCollection.Name);
         }
 
         [Fact]
