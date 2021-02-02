@@ -6,12 +6,15 @@ import AuthView from './views/auth/AuthView'
 import MainView from './views/main/MainView'
 import {
     findRouteParam,
-    AppRoute,
     AuthRoute,
+    AppRoute,
+    AppSelectedRoute,
     SettingsRoute,
     CollectionManagerRoute,
     CollectionManagerCreateRoute,
-    CollectionManagerDetailsRoute
+    CollectionManagerDetailsRoute,
+    CollectionManagerEditRoute,
+    CollectionManagerDeleteRoute
 }
 from './utils/Routes'
 
@@ -36,8 +39,6 @@ const ApplicationViews = () => {
             //which needs its own state that everything is tracking against.
             //If we have a selected/{id} default to that instead of /app
 
-        // /app/collection-manager/edit/{param}
-
         // /app/project-manager
         // /app/project-manager/create
         // /app/project-manager/details/{param}
@@ -61,6 +62,14 @@ const ApplicationViews = () => {
             case AppRoute():
                 turnOffAllCollectionRoutes()
                 break
+            case AppSelectedRoute(routeParamId):
+                // Set collectionOnDash state
+                // if there is anything ever in it, default to that
+                // instead of App Route
+                // so put an if check in AppRoute to switch to this case
+                // OR put AppSelectedRoute first in switch statement
+                break;
+
             case SettingsRoute():
                 turnOffAllCollectionRoutes();
                 turnOffAllProjectRoutes();
@@ -89,6 +98,16 @@ const ApplicationViews = () => {
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(false)
                 break;
+            case CollectionManagerEditRoute(routeParamId):
+                // Hide Details and Show Edit form by switching their opacity
+                break;
+
+            case CollectionManagerDeleteRoute(routeParamId):
+                // Show the Delete Modal which will be one modal
+                // that gets its info passed in from a single selectedForDeletion state
+                // so that we could pass ANY thing to delete into
+                break;
+
             default:
                 history.push(AppRoute())
                 break

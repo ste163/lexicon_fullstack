@@ -1,7 +1,14 @@
 import React from 'react'
 import './Details.css'
 
-const Details = ({ isCollectionManager, selectedItem }) => (
+const Details = ({
+    isCollectionManager,
+    selectedItem,
+    history,
+    selectedUrlToPushTo,
+    editUrlToPushTo,
+    deleteUrlToPushTo 
+}) => (
     <>
         <article>
             <h3>
@@ -24,18 +31,18 @@ const Details = ({ isCollectionManager, selectedItem }) => (
         <div className="details__btns">
             <button
                 className="btn btn__details--dash"
-                onClick={e => console.log("SET AS ACTIVE AND GO TO /app/selected/id")}>
+                onClick={() => history.push(selectedUrlToPushTo(selectedItem.id))}>
                     View on Dashboard
                 </button>
             <div className="btns__edit-delete">
                 <button
                     className="btn btn__details--edit"
-                    onClick={e => console.log("SET AS ACTIVE AND GO TO /app/collection-manager/edit/id")}>
+                    onClick={() => history.push(editUrlToPushTo(selectedItem.id))}>
                         Edit
                     </button>
                 <button
                     className="btn btn__details--delete"
-                    onClick={e => console.log("OPEN DELETE MODAL FOR /app/collection-manager/delete/id")}>
+                    onClick={() => history.push(deleteUrlToPushTo(selectedItem.id))}>
                         Delete
                     </button>
             </div>

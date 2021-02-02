@@ -12,6 +12,10 @@
     width: 100%;
 }
 
+.spinner__center--onPage {
+    height: 100vh;
+}
+
 .spinner__card {
     display: flex;
     justify-content: center;

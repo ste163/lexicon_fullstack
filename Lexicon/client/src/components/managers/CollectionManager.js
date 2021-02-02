@@ -2,13 +2,18 @@ import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { CollectionManagerCreateRoute, CollectionManagerRoute } from '../../utils/Routes'
 import { CollectionContext } from '../../providers/CollectionProvider'
-import { CollectionManagerDetailsRoute } from '../../utils/Routes'
 import { ManagerArrow } from '../buttons/Buttons'
 import DetailsContainer from '../details/DetailsContainer'
 import ListControls from '../../components/lists/ListControls'
 import ListCardContainer from '../lists/ListCardContainer'
 import CollectionForm from '../forms/CollectionForm'
 import './Manager.css'
+import {
+    AppSelectedRoute,
+    CollectionManagerDetailsRoute,
+    CollectionManagerEditRoute,
+    CollectionManagerDeleteRoute
+} from '../../utils/Routes'
 
 const CollectionManager = () => {
     const history = useHistory()
@@ -26,13 +31,15 @@ const CollectionManager = () => {
     // Get the Create button working with the slide to form, and back and forth
     return (
         <section className="manager__container">
-
             <DetailsContainer
                 selectedItem={selectedCollection}
+                isFetching={isFetchingCollectionDetails}
+                isDetailsOpen={isCollectionDetailsOpen}
                 history={history}
                 managerUrlToPushTo={CollectionManagerRoute}
-                isFetching={isFetchingCollectionDetails}
-                isDetailsOpen={isCollectionDetailsOpen} />
+                selectedUrlToPushTo={AppSelectedRoute}
+                editUrlToPushTo={CollectionManagerEditRoute}
+                deleteUrlToPushTo={CollectionManagerDeleteRoute} />
 
             <section 
                 // Will need to have checking on is the form open or details OR edit
@@ -70,8 +77,6 @@ const CollectionManager = () => {
                 <CollectionForm
                     history={history} />
             </section>
-
-
         </section>
     )
 }

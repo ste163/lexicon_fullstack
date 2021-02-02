@@ -3,7 +3,16 @@ import Details from './Details'
 import { ManagerArrow } from '../buttons/Buttons'
 import './Details.css'
 
-const DetailsContainer = ({ selectedItem, history, isFetching, managerUrlToPushTo, isDetailsOpen }) => (
+const DetailsContainer = ({
+    selectedItem,
+    isFetching,
+    isDetailsOpen, 
+    history,
+    managerUrlToPushTo,
+    selectedUrlToPushTo,
+    editUrlToPushTo,
+    deleteUrlToPushTo
+}) => (
     // POSSIBLE ERROR: If we get undefined, PUSH us back to the collection-manager
     // might need to put this here??? We'll see what happens
 
@@ -38,8 +47,12 @@ const DetailsContainer = ({ selectedItem, history, isFetching, managerUrlToPushT
                         null
                     ) : (
                         <Details
+                            selectedItem={selectedItem}
                             isCollectionManager={true}
-                        selectedItem={selectedItem} />
+                            history={history}
+                            selectedUrlToPushTo={selectedUrlToPushTo}
+                            editUrlToPushTo={editUrlToPushTo}
+                            deleteUrlToPushTo={deleteUrlToPushTo} />
                 )}
             </section>
         </>
