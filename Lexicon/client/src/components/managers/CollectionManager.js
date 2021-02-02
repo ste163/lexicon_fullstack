@@ -45,7 +45,7 @@ const CollectionManager = () => {
                     )}>
                 <ListControls
                     history={history}
-                    urlToPushTo={CollectionManagerCreateRoute}
+                    formUrlToPushTo={CollectionManagerCreateRoute}
                     createNewString={"collection"} />
 
                 <ListCardContainer

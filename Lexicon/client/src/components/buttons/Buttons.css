@@ -37,6 +37,12 @@
   padding: 0;
 }
 
+.btn__controls {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
 .btn__no-style {
   border: none;
   background-color: transparent;
