@@ -13,10 +13,14 @@
     height: 90%;
     width: 90%;
     left: 5%;
+    right: 0%;
     transition: 0.5s;
-
 }
 
-.manager__list--inactive {
+.manager__list--inactive--form {
     left: 100%;
+}
+
+.manager__list--inactive--details {
+    left: -100%;
 }

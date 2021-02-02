@@ -22,8 +22,10 @@ const ApplicationViews = () => {
 
     const {
         getCollectionById,
+        setSelectedCollection,
         setIsCollectionManagerOpen,
-        setIsCollectionCreateFormOpen
+        setIsCollectionCreateFormOpen,
+        setIsCollectionDetailsOpen
     } = useContext(CollectionContext)
 
     // State router switches state on/off based on the URL pathname
@@ -41,29 +43,45 @@ const ApplicationViews = () => {
     
         const routeParamId = findRouteParam(currentUrl)
 
+        const turnOffAllCollectionRoutes = () => {
+            setIsCollectionCreateFormOpen(false)
+            setIsCollectionManagerOpen(false)
+            setIsCollectionDetailsOpen(false)
+        }
+
+        const turnOffAllProjectRoutes = () => {
+
+        }
+
         switch (currentUrl) {
             case AuthRoute():
+                turnOffAllCollectionRoutes()
                 break
             case AppRoute():
-                setIsCollectionCreateFormOpen(false)
-                setIsCollectionManagerOpen(false)
+                turnOffAllCollectionRoutes()
                 break
             case SettingsRoute():
                 // Close all modals
                 // Open Settings modal
                 break
             case CollectionManagerRoute():
+                turnOffAllProjectRoutes()
                 setIsCollectionCreateFormOpen(false)
+                setIsCollectionDetailsOpen(false)
                 setIsCollectionManagerOpen(true)
                 break 
             case CollectionManagerCreateRoute():
+                turnOffAllProjectRoutes()
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(true)
+                setIsCollectionDetailsOpen(false)
                 break
             case CollectionManagerDetailsRoute(routeParamId):
+                turnOffAllProjectRoutes()
                 getCollectionById(routeParamId)
-                // Show loading screen until that item shows up
+                // When we leave this route, will need to reset the loading spinner state!  
                 // if we get an error, show a toast error then revert back to collection-manager
+                setIsCollectionDetailsOpen(true) 
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(false)
                 break;

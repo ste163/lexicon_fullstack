@@ -1,0 +1,14 @@
+.manager__details {
+    position: absolute;
+    display: flex;
+    flex-flow: column nowrap;
+    align-content: center;
+    height: 85%;
+    width: 90%;
+    left: 100%;
+    transition: 0.5s;
+}
+
+.manager__details--active {
+    left: 5%;
+}
