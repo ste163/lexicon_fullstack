@@ -52,7 +52,9 @@ const DetailsContainer = ({
                     // But to have smooth animations, both will need to be rendered. The Ternary
                     // will have to be on the className={}
                     isEditFormOpen ? (
-                        <EditForm itemToEdit={itemToEdit} />
+                        <EditForm
+                            history={history}    
+                            itemToEdit={itemToEdit} />
                     ) : (
                         <Details
                             selectedItem={selectedItem}

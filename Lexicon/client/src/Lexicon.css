@@ -82,7 +82,13 @@
   --managerModalWidth: 70vmin;
 
   /* backdrop-filter */
-  --blurAmount: blur(40px);
+  /* Keeping this around as an RIP of what could have been */
+  /*
+    A working blur effect using an SVG overlay. Could work better (supports Firefox)
+    https://stackoverflow.com/questions/27583937/how-can-i-make-a-css-glass-blur-effect-work-for-an-overlay
+    https://codepen.io/chipChocolate/pen/LEZMeY
+  */
+  /* --blurAmount: blur(15px); */
 }
 
 /* Set Defaults */

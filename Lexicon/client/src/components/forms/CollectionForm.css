@@ -10,10 +10,16 @@
 
 .collection__submit {
     display: flex;
+    flex-flow: column nowrap;
     justify-content: center;
-
+    align-items: center;
 }
 
 .form__btn--submit {
     width: 70% !important;
+}
+
+.form__btn--cancel {
+    width: 70% !important;
+    margin-top: 2%;
 }

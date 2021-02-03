@@ -73,11 +73,11 @@ const CollectionForm = ({ history, itemToEdit }) => {
 
     return (
     <form
-        className="collection__form card card__form card__color--brightWhite"
+        className={itemToEdit ? "" : "collection__form card card__form card__color--brightWhite"}
         onSubmit={createCollection}>
 
         <h3>
-            {"Create"}
+            {itemToEdit ? `Edit ${itemToEdit.name}` : "Create"}
         </h3> 
 
         <fieldset>
@@ -120,8 +120,20 @@ const CollectionForm = ({ history, itemToEdit }) => {
                     className="btn form__btn--submit"
                     type="submit"
                     disabled={isLoading}>
-                    {"Create"}
+                    {itemToEdit ? "Edit" : "Create"}
                 </button>
+                {!itemToEdit ? (
+                    null
+                ) : (
+                    <button 
+                    className="btn form__btn--cancel"
+                    onClick={() => {
+                        history.goBack()
+                    }}
+                    type="button">
+                    Cancel
+                </button>
+                ) }
             </div>
         )}
     </form>

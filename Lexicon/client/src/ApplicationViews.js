@@ -129,7 +129,13 @@ const ApplicationViews = () => {
 
             case CollectionManagerEditRoute(routeParamId):
                 // Hide Details and Show Edit form by switching their opacity
+                getCollectionById(routeParamId)
+                .then(collection => setSelectedCollection(collection))
+                .catch(error => history.goBack()) // if an error, on retrieval, go back a page
+
                 setIsCollectionEditFormOpen(true)
+                setIsCollectionDetailsOpen(true) 
+                setIsCollectionManagerOpen(true)
                 break
 
             case CollectionManagerDeleteRoute(routeParamId):
