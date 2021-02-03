@@ -99,5 +99,32 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            // Get current user
+            var firebaseUser = _utils.GetCurrentUser(User);
+            // Get Collection by Id
+            var collectionToDelete = _collectionRepo.GetByCollectionId(id);
+
+            //Ensure we have this Collection
+            if (collectionToDelete == null)
+            {
+                return NotFound();
+            }
+
+            // Get Collection's owner
+            var collectionOwner = collectionToDelete.UserId;
+            // Check if incoming user is the same one requesting deletion
+            if (collectionOwner != firebaseUser.Id)
+            {
+                return NotFound();
+            }
+
+            // If you pass all those, you're the Collection owner and can delete it
+            _collectionRepo.Delete(collectionToDelete);
+            return NoContent();
+        }
     }
 }

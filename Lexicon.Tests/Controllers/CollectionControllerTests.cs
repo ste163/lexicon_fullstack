@@ -246,5 +246,31 @@ namespace Lexicon.Tests.Controllers
             // Verify we never called the repo method
             _fakeCollectionRepo.Verify(r => r.Add(It.IsAny<Collection>()), Times.Never());
         }
+
+        [Fact]
+        public void Anonymous_User_Can_Not_Delete()
+        {
+            // attempt to delete a collection with a crazy userId
+            // also verify that the delete repo was never hit
+        }
+
+        [Fact]
+        public void Collection_To_Delete_Must_Be_In_Db()
+        {
+            // Pass in an ID that is not in the Db
+            // also verify that the delete repo was never hit
+        }
+
+        [Fact]
+        public void Collection_Owner_Can_Delete_A_Collection()
+        {
+            // should be the only NoContent (GOOD) result
+        }
+
+        [Fact]
+        public void Collection_NonOwner_Can_Not_Delete_A_Collection()
+        {
+            // also verify that the delete repo was never hit
+        }
     }
 }

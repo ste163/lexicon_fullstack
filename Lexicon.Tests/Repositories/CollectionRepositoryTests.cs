@@ -88,7 +88,7 @@ namespace Lexicon.Tests.Repositories
         }
 
         [Fact]
-        public void User_Can_Delete_A_Single_Collection()
+        public void User_Can_Delete_A_Single_Collection_Without_Any_Other_Data()
         {
             // Get an object that's in the database
             var collectionToAdd = new Collection()
