@@ -100,6 +100,45 @@ namespace Lexicon.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Collection collection)
+        {
+            // Get current user
+            var firebaseUser = _utils.GetCurrentUser(User);
+
+            // Ensure an unauthorized user (anonymous account) can not update
+            if (firebaseUser == null)
+            {
+                return NotFound();
+            }
+
+            // Collection Id coming from URL must match the Collection object's Id
+            if (id != collection.Id)
+            {
+                return BadRequest();
+            }
+
+            // Get Collection by Id to ensure it's in db
+            var collectionToUpdate = _collectionRepo.GetByCollectionId(id);
+
+            // If it wasn't in the db don't let them update
+            if (collectionToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            // Get Collection's owner to ensure this is current user's collection
+            var collectionOwner = collectionToUpdate.UserId;
+            // Check if incoming user is the same one requesting deletion
+            if (collectionOwner != firebaseUser.Id)
+            {
+                return NotFound();
+            }
+
+            _collectionRepo.Update(collectionToUpdate);
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

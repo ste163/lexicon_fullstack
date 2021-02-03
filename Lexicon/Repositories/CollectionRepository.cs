@@ -39,6 +39,12 @@ namespace Lexicon.Repositories
             _context.SaveChanges();
         }
 
+        public void Update(Collection collection)
+        {
+            _context.Update(collection);
+            _context.SaveChanges();
+        }
+
         public void Delete(Collection collection)
         {
             // When we start to get lists of words, etc. that need to be deleted first
