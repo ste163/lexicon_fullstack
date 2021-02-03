@@ -90,7 +90,7 @@ const ApplicationViews = () => {
 
             case CollectionManagerRoute():
                 // Whenever we hit the CollectionManager, getCollections
-                getCollections()
+                getCollections() // Currently doesn't show a loading icon though. Which I'd like to add
 
                 turnOffAllProjectRoutes()
                 setIsCollectionCreateFormOpen(false)

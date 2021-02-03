@@ -4,10 +4,12 @@ import { ManagerArrow } from '../buttons/Buttons'
 import './Details.css'
 
 const DetailsContainer = ({
+    history,
     selectedItem,
     isFetching,
-    isDetailsOpen, 
-    history,
+    isDetailsOpen,
+    isEditFormOpen,
+    EditForm,
     managerUrlToPushTo,
     selectedUrlToPushTo,
     editUrlToPushTo,
@@ -41,10 +43,15 @@ const DetailsContainer = ({
                 history={history}
                 managerUrlToPushTo={managerUrlToPushTo} />
 
-
             <section className="details card card__color--brightWhite card__details"> 
                 {selectedItem == undefined ? (
-                        null
+                    null
+                ) : (
+                    // If we're editing, show edit form, else show details
+                    // But to have smooth animations, both will need to be rendered. The Ternary
+                    // will have to be on the className={}
+                    isEditFormOpen ? (
+                        <EditForm />
                     ) : (
                         <Details
                             selectedItem={selectedItem}
@@ -53,7 +60,9 @@ const DetailsContainer = ({
                             selectedUrlToPushTo={selectedUrlToPushTo}
                             editUrlToPushTo={editUrlToPushTo}
                             deleteUrlToPushTo={deleteUrlToPushTo} />
+                    )
                 )}
+
             </section>
         </>
         )}

@@ -32,10 +32,13 @@ const CollectionManager = () => {
     return (
         <section className="manager__container">
             <DetailsContainer
+                history={history}
                 selectedItem={selectedCollection}
                 isFetching={isFetchingCollectionDetails}
                 isDetailsOpen={isCollectionDetailsOpen}
-                history={history}
+                // isEditFormOpen={"comes in from state based on the URL and AppView"}
+                // itemToEdit={"comes from state based on the URL and AppView"}
+                // EditForm={"pass this sucker in"}
                 managerUrlToPushTo={CollectionManagerRoute}
                 selectedUrlToPushTo={AppSelectedRoute}
                 editUrlToPushTo={CollectionManagerEditRoute}
