@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { CollectionContext } from '../../providers/CollectionProvider'
+import Delete from '../../components/delete/Delete'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
 import HeaderMobile from '../../components/headerMobile/HeaderMobile'
 import Footer from '../../components/footer/Footer'
@@ -64,6 +65,9 @@ const MainView = () => {
 
     return (
         <div className="app__container">
+            {/* Delete renders a hidden modal accessible by the delete route */}
+            <Delete />
+
             <div className="container__headers">
                 {isMobile ? (
                     <HeaderMobile />

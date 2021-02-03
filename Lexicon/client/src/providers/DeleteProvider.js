@@ -6,7 +6,7 @@ export const DeleteContext = createContext()
 
 export const DeleteProvider = props => {
     const [objectToDelete, setObjectToDelete] = useState({})
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState({})
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
     return (
         <DeleteContext.Provider

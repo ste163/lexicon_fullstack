@@ -64,11 +64,13 @@ const ApplicationViews = () => {
 
         switch (currentUrl) {
             case AuthRoute():
+                setIsDeleteModalOpen(false)
                 turnOffAllCollectionRoutes()
                 break
 
             case AppRoute():
                 turnOffAllCollectionRoutes()
+                setIsDeleteModalOpen(false)
                 break
 
             case AppSelectedRoute(routeParamId):
@@ -120,7 +122,7 @@ const ApplicationViews = () => {
                 getCollectionById(routeParamId)
                 .then(collection => setObjectToDelete(collection))
                 turnOffAllButDelete()
-                setIsDeleteModalOpen()
+                setIsDeleteModalOpen(true)
                 // 5. If DELETE, then delete object, history.goBack
                         // setObjectToDelete({})
                 // 6. If CANCEL, history.goBack and setObjectToDelete()
