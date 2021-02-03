@@ -16,11 +16,11 @@ import {
     CollectionManagerDetailsRoute,
     CollectionManagerEditRoute,
     CollectionManagerDeleteRoute
-}
-from './utils/Routes'
+} from './utils/Routes'
 
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext)
+    const { getCollections } = useContext(CollectionContext)
     const { setObjectToDelete, setIsDeleteModalOpen } = useContext(DeleteContext)
     const currentUrl = useLocation().pathname
     const history = useHistory()
@@ -89,6 +89,9 @@ const ApplicationViews = () => {
                 break
 
             case CollectionManagerRoute():
+                // Whenever we hit the CollectionManager, getCollections
+                getCollections()
+
                 turnOffAllProjectRoutes()
                 setIsCollectionCreateFormOpen(false)
                 setIsCollectionDetailsOpen(false)
@@ -130,7 +133,6 @@ const ApplicationViews = () => {
                 setIsDeleteModalOpen(true)
                 // 5. If DELETE, then delete object, then return to the previous manager/page
                         // setObjectToDelete({}) -- occurs at the end of a successful delete ONLY
-                // 6. If CANCEL, history.goBack and setObjectToDelete() -- occurs after the hsitory.goBack
                 break
 
             default:

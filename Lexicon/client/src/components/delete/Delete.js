@@ -1,59 +1,85 @@
 import React, { useState, useContext } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { UserContext } from '../../providers/UserProvider'
 import { DeleteContext } from '../../providers/DeleteProvider'
-import { CollectionManagerString } from '../../utils/Routes'
+import { CollectionManagerString, CollectionManagerRoute } from '../../utils/Routes'
+import { DeleteSuccessful, DeleteFailure } from '../../utils/ToastMessages'
 import Modal from '../modal/Modal'
 import './Delete.css'
 
 const Delete = () => {
     const history = useHistory()
     const location = useLocation()
-    const [deleteMethod, setDeleteMethod] = useState()
-    const { objectToDelete, isDeleteModalOpen, setIsDeleteModalOpen } = useContext(DeleteContext)
+    const { getToken } = useContext(UserContext)
+    const { objectToDelete, setObjectToDelete, isDeleteModalOpen, setIsDeleteModalOpen } = useContext(DeleteContext)
 
-    // 1. Get the current URL pathname
-    // 2. See if the pathname matches /collection-manager, etc.
-            // Get all my routes for deleting
-            // SWITCH statement based on which it is
-    // 3. If it matches, set the Delete Method to the correct Delete
-    // 4. Fire off delete method button click
-    // 5. Bring in all delete methods to wire it up
+    // Create the delete fetch here, instead of a provider. It will only ever be used here.
+    const deleteCollection = (collectionId) => {
+        getToken().then(token => 
+            fetch(`/api/collection/${collectionId}`, {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }).then(res => {
+              if (res.status === 204) {
+                setIsDeleteModalOpen(false)
+                setObjectToDelete(undefined)
+                toast.info(DeleteSuccessful(objectToDelete.name))
+                history.push(CollectionManagerRoute())
+              } else {
+                toast.error(DeleteFailure("collection"))
+              }
+            }))
+    } 
 
     // Would probably be better to pull
     const possibleDeleteRoutes = [CollectionManagerString()]
 
     const deleteItem = () => {
         const currentUrl = location.pathname
+        // Find which path from the array of possibleDeleteRoutes is the current url
         const currentDeletePath = possibleDeleteRoutes.find(r => currentUrl.match(r))
-        console.log(currentDeletePath)
+
+        // Decide which delete function to call
+        switch (currentDeletePath) {
+            case CollectionManagerString():
+                deleteCollection(objectToDelete.id)
+                break
+        }
     }
 
-
     const deleteContent = () => (
-        <>
-            <h2 className="modal__h2 modal__warning">Warning!</h2>
-            <p className="warning__p">Deleting <span className="bold">{objectToDelete.name}</span> is <span className="bold">permanent</span>.</p>
-            <p className="warning__p">Are you sure you wish to proceed?</p>
-            <div className="delete__btns">
-                <button
-                    className="btn btn--red btn--delete"
-                    onClick={() => deleteItem()}>
-                    Delete
-                </button>
-                <button
-                    className="btn btn--cancel"
-                    onClick={() => {
-                        history.goBack()
-                        setIsDeleteModalOpen(false)
-                        }}>
-                    Cancel
-                </button>
+        !objectToDelete ? (
+            <div className="spinner__center">
+                <div className="cls-spinner">
+                    <div className="cls-circle cls-spin"></div>
+                </div>
             </div>
-        </>
-        // name of current thing to delete
-        // but the name must be based on the object type
-        // because not everything has a .name property
-        // Cancel and delete buttons
+        ) : (  
+            <>
+                <h2 className="modal__h2 modal__warning">Warning!</h2>
+                <p className="warning__p">Deleting <span className="bold">{objectToDelete.name}</span> is <span className="bold">permanent</span>.</p>
+                <p className="warning__p">Are you sure you wish to proceed?</p>
+                <div className="delete__btns">
+                    <button
+                        className="btn btn--red btn--delete"
+                        onClick={() => deleteItem()}>
+                        Delete
+                    </button>
+                    <button
+                        className="btn btn--cancel"
+                        onClick={() => {
+                            history.goBack()
+                            setIsDeleteModalOpen(false)
+                            setObjectToDelete(undefined)
+                            }}>
+                        Cancel
+                    </button>
+                </div>
+            </>
+        )
     )
 
     return (

@@ -1,4 +1,4 @@
-// All string names (specifically for making deleting work easily)
+// All route names (specifically for making deleting work easily)
 export const CollectionManagerString = () => "collection-manager"
 
 // All routes used throughout Lexicon
