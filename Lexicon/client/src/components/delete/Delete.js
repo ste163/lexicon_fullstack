@@ -9,7 +9,27 @@ const Delete = () => {
     const { objectToDelete, isDeleteModalOpen } = useContext(DeleteContext)
 
     const deleteContent = () => (
-        <div>Delete!</div>
+        <>
+            <h2 className="modal__h2 modal__warning">Warning!</h2>
+            <p className="warning__p">Deleting <span className="bold">{objectToDelete.name}</span> is <span className="bold">permanent</span>.</p>
+            <p className="warning__p">Are you sure you wish to proceed?</p>
+            <div className="delete__btns">
+                <button
+                    className="btn btn--red btn--delete"
+                    onClick={() => console.log("DELETE ME")}>
+                    Delete
+                </button>
+                <button
+                    className="btn btn--cancel"
+                    onClick={() => console.log("history.goBack!")}>
+                    Cancel
+                </button>
+            </div>
+        </>
+        // name of current thing to delete
+        // but the name must be based on the object type
+        // because not everything has a .name property
+        // Cancel and delete buttons
     )
 
     return (

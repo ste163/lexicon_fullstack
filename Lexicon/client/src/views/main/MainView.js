@@ -65,7 +65,7 @@ const MainView = () => {
 
     return (
         <div className="app__container">
-            {/* Delete renders a hidden modal accessible by the delete route */}
+            {/* Delete renders a hidden modal accessible only by delete routes */}
             <Delete />
 
             <div className="container__headers">

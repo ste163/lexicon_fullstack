@@ -131,6 +131,10 @@ p {
   padding: 0;
 }
 
+.bold {
+  font-weight: var(--weightHeavy);
+}
+
 li {
   list-style: none;
 }

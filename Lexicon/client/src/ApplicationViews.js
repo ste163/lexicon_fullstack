@@ -123,9 +123,9 @@ const ApplicationViews = () => {
                 .then(collection => setObjectToDelete(collection))
                 turnOffAllButDelete()
                 setIsDeleteModalOpen(true)
-                // 5. If DELETE, then delete object, history.goBack
-                        // setObjectToDelete({})
-                // 6. If CANCEL, history.goBack and setObjectToDelete()
+                // 5. If DELETE, then delete object, then return to the previous manager/page
+                        // setObjectToDelete({}) -- occurs at the end of a successful delete ONLY
+                // 6. If CANCEL, history.goBack and setObjectToDelete() -- occurs after the hsitory.goBack
                 break
 
             default:
