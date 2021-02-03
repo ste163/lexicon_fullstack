@@ -79,7 +79,7 @@ namespace Lexicon.Controllers
         {
             var firebaseUser = _utils.GetCurrentUser(User);
 
-            // Check to ensure an authorized user (anonymous account) can not add a collection
+            // Check to ensure an unauthorized user (anonymous account) can not add a collection
             if (firebaseUser == null)
             {
                 return NotFound();
@@ -105,6 +105,13 @@ namespace Lexicon.Controllers
         {
             // Get current user
             var firebaseUser = _utils.GetCurrentUser(User);
+
+            // Check to ensure an unauthorized user (anonymous account) can not delete
+            if (firebaseUser == null)
+            {
+                return NotFound();
+            }
+
             // Get Collection by Id
             var collectionToDelete = _collectionRepo.GetByCollectionId(id);
 
