@@ -135,11 +135,14 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-            // MAKE A GET COLLECTION BY COLLECTION NAME FOR THIS SPECIFIC USER ID
-            // MUST ENSURE THAT THE COLLECTION TO UPDATE DOES NOT HAVE THIS NAME IN THE DB
-            // IF IT IS THERE, DO NOT UPDATE
+            // Check if the updated collection's name is already in the db
+            var isCollectionWithNameInDb = _collectionRepo.GetByCollectionName(collection.Name);
+            if (isCollectionWithNameInDb != null)
+            {
+                return Unauthorized(); // When I get this error message in frontend, tell user the Name was already in db
+            }
 
-            _collectionRepo.Update(collectionToUpdate);
+            _collectionRepo.Update(collection);
             return NoContent();
         }
 
