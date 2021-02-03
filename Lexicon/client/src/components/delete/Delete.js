@@ -8,6 +8,9 @@ const Delete = () => {
     const history = useHistory()
     const { objectToDelete, isDeleteModalOpen, setIsDeleteModalOpen } = useContext(DeleteContext)
 
+    // To handle correct delete method: pass in a Delete from state -- least work, but I'd have to remember to pass it in. Not a biggie
+    // OR grab the URL at the /collection-manager, /word, /settings, etc. and run the correct method here. -- most work, but would be most dynamic
+
     const deleteContent = () => (
         <>
             <h2 className="modal__h2 modal__warning">Warning!</h2>

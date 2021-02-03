@@ -8,5 +8,6 @@ namespace Lexicon.Repositories
         List<Collection> Get(int id);
         Collection GetByCollectionId(int id);
         void Add(Collection collection);
+        void Delete(Collection collection);
     }
 }

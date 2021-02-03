@@ -38,5 +38,19 @@ namespace Lexicon.Repositories
             _context.Add(collection);
             _context.SaveChanges();
         }
+
+        public void Delete(Collection collection)
+        {
+            // When we start to get lists of words, etc. that need to be deleted first
+                // do this (from Tabloid Posts that I did):
+                //var commentsForPost = _context.Comment.Where(c => c.PostId == post.Id).ToList();
+                //_context.Comment.RemoveRange(commentsForPost);
+                //_context.SaveChanges();
+
+            // For now, because nothing else exists, a simple delete works:
+            _context.Collection.Remove(collection);
+            _context.SaveChanges();
+
+        }
     }
 }

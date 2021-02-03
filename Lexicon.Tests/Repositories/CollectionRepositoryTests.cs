@@ -24,10 +24,10 @@ namespace Lexicon.Tests.Repositories
             var repo = new CollectionRepository(_context);
 
             // Get count of all collections
-            var collectionCount = repo.Get(userId).Count;
+            var count = repo.Get(userId).Count;
 
             // User with Id 1 should have 2
-            Assert.True(collectionCount == 2);
+            Assert.True(count == 2);
         }
 
         [Fact]
@@ -81,15 +81,48 @@ namespace Lexicon.Tests.Repositories
             repo.Add(collection);
 
             // Get new count of all collections
-            var collectionCount = repo.Get(userId).Count;
+            var count = repo.Get(userId).Count;
 
             // User with Id 1 should have 3
-            Assert.True(collectionCount == 3);
+            Assert.True(count == 3);
         }
 
         [Fact]
         public void User_Can_Delete_A_Single_Collection()
         {
+            // Get an object that's in the database
+            var collectionToAdd = new Collection()
+            {
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New Collection to Axe",
+                Description = "Blah",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+            };
+
+            // Instantiate CollectionRepo
+            var repo = new CollectionRepository(_context);
+
+            // Get a count of Collections for UserId 1
+            var count = repo.Get(1).Count;
+
+            // Add new collection
+            repo.Add(collectionToAdd);
+
+            // Get a new count
+            var countAfterAdd = repo.Get(1).Count;
+
+            // Attempt to delete the collection
+            repo.Delete(collectionToAdd);
+
+            // New count after deleting
+            var countAfterDeletion = repo.Get(1).Count;
+
+            // We successfully added one collection
+            Assert.True(count < countAfterAdd);
+            // We successfully deleted one collection
+            Assert.True(count == countAfterDeletion);
 
         }
 
