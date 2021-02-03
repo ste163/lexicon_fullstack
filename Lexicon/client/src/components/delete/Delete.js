@@ -6,7 +6,7 @@ import './Delete.css'
 
 const Delete = () => {
     const history = useHistory()
-    const { objectToDelete, isDeleteModalOpen } = useContext(DeleteContext)
+    const { objectToDelete, isDeleteModalOpen, setIsDeleteModalOpen } = useContext(DeleteContext)
 
     const deleteContent = () => (
         <>
@@ -21,7 +21,10 @@ const Delete = () => {
                 </button>
                 <button
                     className="btn btn--cancel"
-                    onClick={() => console.log("history.goBack!")}>
+                    onClick={() => {
+                        history.goBack()
+                        setIsDeleteModalOpen(false)
+                        }}>
                     Cancel
                 </button>
             </div>
