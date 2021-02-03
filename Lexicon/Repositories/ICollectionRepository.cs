@@ -7,6 +7,7 @@ namespace Lexicon.Repositories
     {
         List<Collection> Get(int id);
         Collection GetByCollectionId(int id);
+        Collection GetByCollectionName(string name);
         void Add(Collection collection);
         void Update(Collection collection);
         void Delete(Collection collection);

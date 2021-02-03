@@ -86,18 +86,6 @@ namespace Lexicon.Tests.Integration
             Assert.IsType<NotFoundResult>(response);
         }
 
-        [Fact]
-        public void User_Can_Only_Update_A_Post_With_A_New_Unique_Name()
-        {
-
-        }
-
-        [Fact]
-        public void User_Can_Not_Update_A_Post_With_A_Name_Already_In_Db()
-        {
-
-        }
-
         private void AddSampleData()
         {
             var user1 = new User()

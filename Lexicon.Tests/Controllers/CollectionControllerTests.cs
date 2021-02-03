@@ -37,8 +37,10 @@ namespace Lexicon.Tests.Controllers
             _fakeCollectionRepo.Setup(r => r.GetByCollectionId(2)).Returns(new Collection() { Id = 1, Name = "Scary places", Description = "Words for scary places", UserId = 2 });
         }
 
+
+        // GET TESTS
         [Fact]
-        public void Registered_User_Can_Get_Posts()
+        public void Registered_User_Can_Get_Collections()
         {
 
             // Spoof an authenticated user by generating a ClaimsPrincipal
@@ -183,6 +185,9 @@ namespace Lexicon.Tests.Controllers
         }
 
 
+
+
+        // ADD TESTS
         [Fact]
         public void User_Can_Add_Collection()
         {
@@ -247,6 +252,52 @@ namespace Lexicon.Tests.Controllers
             _fakeCollectionRepo.Verify(r => r.Add(It.IsAny<Collection>()), Times.Never());
         }
 
+
+
+
+        // UPDATE TESTS
+        [Fact]
+        public void Collection_Owner_Can_Update()
+        {
+
+        }
+
+        [Fact]
+        public void Anonymous_User_Can_Not_Update()
+        {
+
+        }
+
+        [Fact]
+        public void If_Id_Param_and_Collection_Id_Do_Not_Match_Do_Not_Update()
+        {
+            // return badRequest
+        }
+
+        [Fact]
+        public void If_A_Collection_Is_Not_In_Db_Do_Not_Attempt_Update()
+        {
+            // return notfound
+        }
+
+        [Fact]
+        public void If_This_Collection_To_Update_Is_Not_Mine_Do_Not_Update()
+        {
+
+        }
+
+        [Fact]
+        public void If_Updated_Collection_Name_Is_Not_Unique_In_Db_Do_Not_Update()
+        {
+
+        }
+
+
+
+
+
+
+        // DELETE TESTS
         [Fact]
         public void Anonymous_User_Can_Not_Delete()
         {

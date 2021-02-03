@@ -135,6 +135,10 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
+            // MAKE A GET COLLECTION BY COLLECTION NAME FOR THIS SPECIFIC USER ID
+            // MUST ENSURE THAT THE COLLECTION TO UPDATE DOES NOT HAVE THIS NAME IN THE DB
+            // IF IT IS THERE, DO NOT UPDATE
+
             _collectionRepo.Update(collectionToUpdate);
             return NoContent();
         }

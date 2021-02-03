@@ -14,6 +14,9 @@ namespace Lexicon.Tests.Repositories
             AddSampleData();
         }
 
+
+
+        // GET
         [Fact]
         public void User_Can_Get_Their_Collections()
         {
@@ -58,6 +61,15 @@ namespace Lexicon.Tests.Repositories
         }
 
         [Fact]
+        public void User_Can_Get_Single_Collection_By_Name()
+        {
+
+        }
+
+
+
+        // ADD
+        [Fact]
         public void User_Can_Add_Collection()
         {
             // Get a userId
@@ -87,6 +99,35 @@ namespace Lexicon.Tests.Repositories
             Assert.True(count == 3);
         }
 
+
+        // UPDATE/EDIT
+        [Fact]
+        public void User_Can_Edit_A_Collection()
+        {
+            // Update an item that's already in the db
+            var updatedCollection = new Collection()
+            {
+                Id = 3,
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "Toasters",
+                Description = "Toasters, cause why not.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+            };
+
+            // Instantiate CollectionRepo
+            var repo = new CollectionRepository(_context);
+
+            // Attempt to update
+            repo.Update(updatedCollection);
+        }
+
+
+
+
+
+        // DELETE
         [Fact]
         public void User_Can_Delete_A_Single_Collection_Without_Any_Other_Data()
         {
@@ -125,29 +166,6 @@ namespace Lexicon.Tests.Repositories
             Assert.True(count == countAfterDeletion);
 
         }
-
-        [Fact]
-        public void User_Can_Edit_A_Collection()
-        {
-            // Update an item that's already in the db
-            var updatedCollection = new Collection()
-            {
-                Id = 3,
-                UserId = 1,
-                CategorizationId = 1,
-                Name = "Toasters",
-                Description = "Toasters, cause why not.",
-                Pinned = false,
-                CreationDate = DateTime.Now - TimeSpan.FromDays(15)
-            };
-
-            // Instantiate CollectionRepo
-            var repo = new CollectionRepository(_context);
-
-            // Attempt to update
-            repo.Update(updatedCollection);
-        }
-
 
         private void AddSampleData()
         {
