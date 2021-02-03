@@ -4,8 +4,9 @@ import { CollectionManagerRoute } from '../../utils/Routes'
 import './CollectionForm.css'
 import './Form.css'
 
-const CollectionForm = ({ history }) => {
+const CollectionForm = ({ history, itemToEdit }) => {
     const userId = +sessionStorage.getItem("currentUserId")
+    const { collections, addCollection } = useContext(CollectionContext)
 
     // Set the default project so the form can reset.
     const defaultCollection = {
@@ -13,25 +14,21 @@ const CollectionForm = ({ history }) => {
         name: '',
         description: '',
     } 
-
-    // const { collections, selectedCollection, addCollection, updateCollection } = useContext(CollectionContext)
-    const { collections, addCollection } = useContext(CollectionContext)
     
     // Sets state for creating the project
     const [ collection, setCollection ] = useState(defaultCollection)
-
-    // WHENEVER WE HAVE isLOADING, DON'T FORGET THE LOADING INDICATOR
+    // Used for showing loading indicator and locking form from multiple submits
     const [ isLoading, setIsLoading ] = useState(true)
 
-    // EDITABLE COLLECTION SHOULD COME FROM THE STRING QUERY PARAM
+
     // Check on load and when collections change, if we have an editable collection or not
     useEffect(() => {
-        // if (editableCollection) {
-        //     setCollection(editableCollection)
-        //     setIsLoading(false);
-        // } else {
+        if (itemToEdit) {
+            setCollection(itemToEdit)
+            setIsLoading(false);
+        } else {
             setIsLoading(false)
-        // }
+        }
     // }, [selectedCollection, collections])
     }, [collections])
 
@@ -111,7 +108,7 @@ const CollectionForm = ({ history }) => {
                 />
         </fieldset>
 
-        { isLoading ? (
+        {isLoading ? (
             <div className="spinner__card">
                 <div className="cls-spinner cls-spinner--card">
                     <div className="cls-circle cls-spin"></div>

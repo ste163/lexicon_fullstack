@@ -9,6 +9,7 @@ const DetailsContainer = ({
     isFetching,
     isDetailsOpen,
     isEditFormOpen,
+    itemToEdit,
     EditForm,
     managerUrlToPushTo,
     selectedUrlToPushTo,
@@ -51,7 +52,7 @@ const DetailsContainer = ({
                     // But to have smooth animations, both will need to be rendered. The Ternary
                     // will have to be on the className={}
                     isEditFormOpen ? (
-                        <EditForm />
+                        <EditForm itemToEdit={itemToEdit} />
                     ) : (
                         <Details
                             selectedItem={selectedItem}

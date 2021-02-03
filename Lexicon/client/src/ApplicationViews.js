@@ -28,9 +28,12 @@ const ApplicationViews = () => {
     const {
         getCollectionById,
         setSelectedCollection,
+
+        // Collection Manager
         setIsCollectionManagerOpen,
         setIsCollectionCreateFormOpen,
         setIsCollectionDetailsOpen,
+        setIsCollectionEditFormOpen,
         setIsFetchingCollectionDetails
     } = useContext(CollectionContext)
 
@@ -51,6 +54,7 @@ const ApplicationViews = () => {
             setIsCollectionCreateFormOpen(false)
             setIsCollectionManagerOpen(false)
             setIsCollectionDetailsOpen(false)
+            setIsCollectionEditFormOpen(false)
         }
 
         const turnOffAllProjectRoutes = () => {
@@ -95,6 +99,7 @@ const ApplicationViews = () => {
                 turnOffAllProjectRoutes()
                 setIsCollectionCreateFormOpen(false)
                 setIsCollectionDetailsOpen(false)
+                setIsCollectionEditFormOpen(false)
                 setIsCollectionManagerOpen(true)
                 break 
 
@@ -102,6 +107,7 @@ const ApplicationViews = () => {
                 turnOffAllProjectRoutes()
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(true)
+                setIsCollectionEditFormOpen(false)
                 setIsCollectionDetailsOpen(false)
                 break
 
@@ -118,10 +124,12 @@ const ApplicationViews = () => {
                 setIsCollectionDetailsOpen(true) 
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(false)
+                setIsCollectionEditFormOpen(false)
                 break
 
             case CollectionManagerEditRoute(routeParamId):
                 // Hide Details and Show Edit form by switching their opacity
+                setIsCollectionEditFormOpen(true)
                 break
 
             case CollectionManagerDeleteRoute(routeParamId):

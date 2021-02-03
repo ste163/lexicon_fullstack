@@ -5,7 +5,7 @@ import React, { useState, createContext } from 'react'
 export const DeleteContext = createContext()
 
 export const DeleteProvider = props => {
-    const [objectToDelete, setObjectToDelete] = useState({})
+    const [objectToDelete, setObjectToDelete] = useState(undefined)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
     return (

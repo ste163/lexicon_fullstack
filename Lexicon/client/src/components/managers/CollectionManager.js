@@ -36,9 +36,9 @@ const CollectionManager = () => {
                 selectedItem={selectedCollection}
                 isFetching={isFetchingCollectionDetails}
                 isDetailsOpen={isCollectionDetailsOpen}
-                // isEditFormOpen={"comes in from state based on the URL and AppView"}
-                // itemToEdit={"comes from state based on the URL and AppView"}
-                // EditForm={"pass this sucker in"}
+                isEditFormOpen={isCollectionEditFormOpen}
+                itemToEdit={selectedCollection}
+                EditForm={CollectionForm}
                 managerUrlToPushTo={CollectionManagerRoute}
                 selectedUrlToPushTo={AppSelectedRoute}
                 editUrlToPushTo={CollectionManagerEditRoute}
