@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Switch, Route, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { UserContext } from './providers/UserProvider'
+import { DeleteContext } from './providers/DeleteProvider'
 import { CollectionContext } from './providers/CollectionProvider'
 import AuthView from './views/auth/AuthView'
 import MainView from './views/main/MainView'
@@ -20,6 +21,7 @@ from './utils/Routes'
 
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext)
+    const { setObjectToDelete, setIsDeleteModalOpen } = useContext(DeleteContext)
     const currentUrl = useLocation().pathname
     const history = useHistory()
 
@@ -53,6 +55,11 @@ const ApplicationViews = () => {
 
         const turnOffAllProjectRoutes = () => {
 
+        }
+
+        const turnOffAllButDelete = () => {
+            turnOffAllCollectionRoutes()
+            turnOffAllProjectRoutes()
         }
 
         switch (currentUrl) {
@@ -97,6 +104,7 @@ const ApplicationViews = () => {
                 setIsFetchingCollectionDetails(true)
                 turnOffAllProjectRoutes()
                 getCollectionById(routeParamId)
+                .then(collection => setSelectedCollection(collection))
                 // When we leave this route, will need to reset the loading spinner state!  
                 // if we get an error, show a toast error then revert back to collection-manager
                 setIsCollectionDetailsOpen(true) 
@@ -109,10 +117,10 @@ const ApplicationViews = () => {
                 break
 
             case CollectionManagerDeleteRoute(routeParamId):
-                // 1. Get collectionById
-                // 2. setObjectToDelete(returnedObjectFromFetch)
-                // 3. Set all open modals to FALSE
-                // 4. Open delete Modal
+                getCollectionById(routeParamId)
+                .then(collection => setObjectToDelete(collection))
+                turnOffAllButDelete()
+                setIsDeleteModalOpen()
                 // 5. If DELETE, then delete object, history.goBack
                         // setObjectToDelete({})
                 // 6. If CANCEL, history.goBack and setObjectToDelete()

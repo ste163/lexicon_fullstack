@@ -112,7 +112,7 @@ export const ManageProjects = ({ isMobile }) => {
 
 export const ManagerArrow = ({ isForm, history, managerUrlToPushTo }) => (
     <button
-        className="btn__no-style btn__manager"
+        className="btn__no-style btn__manager card btn__card--arrow btn__collection "
         onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__gray', 'icon__hovered')}
         onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__gray', 'icon__hovered')}
         onClick={e => {

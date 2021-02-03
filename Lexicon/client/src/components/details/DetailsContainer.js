@@ -42,7 +42,7 @@ const DetailsContainer = ({
                 managerUrlToPushTo={managerUrlToPushTo} />
 
 
-            <section className="details"> 
+            <section className="details card card__color--brightWhite card__details"> 
                 {selectedItem == undefined ? (
                         null
                     ) : (

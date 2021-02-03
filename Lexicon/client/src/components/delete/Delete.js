@@ -1,8 +1,13 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import './Delete.css'
 
-const Delete = () => (
-    <div>delele</div>
-)
+const Delete = () => {
+    const history = useHistory()
+
+    return (
+        <div>delele</div>
+    )
+}
 
 export default Delete

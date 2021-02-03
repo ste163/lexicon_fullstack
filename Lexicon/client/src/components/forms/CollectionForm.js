@@ -76,7 +76,7 @@ const CollectionForm = ({ history }) => {
 
     return (
     <form
-        className="collection__form"
+        className="collection__form card card__form card__color--brightWhite"
         onSubmit={createCollection}>
 
         <h3>

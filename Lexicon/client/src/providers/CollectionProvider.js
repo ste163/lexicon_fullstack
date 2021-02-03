@@ -68,8 +68,7 @@ export const CollectionProvider = props => {
               toast.error(CollectionRetrieveFailure())
             }
             return res.json()
-          })
-          .then(c => setSelectedCollection(c)))
+          }))
       }
     }
 
