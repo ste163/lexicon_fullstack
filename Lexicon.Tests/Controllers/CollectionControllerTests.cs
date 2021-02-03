@@ -250,27 +250,87 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void Anonymous_User_Can_Not_Delete()
         {
-            // attempt to delete a collection with a crazy userId
-            // also verify that the delete repo was never hit
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to get someone's collection
+            var response = controller.Delete(2);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
         }
 
         [Fact]
         public void Collection_To_Delete_Must_Be_In_Db()
         {
-            // Pass in an ID that is not in the Db
-            // also verify that the delete repo was never hit
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to delete an item that is not in the db
+            var response = controller.Delete(666);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
         }
 
         [Fact]
         public void Collection_Owner_Can_Delete_A_Collection()
         {
-            // should be the only NoContent (GOOD) result
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER2"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to get this user's collection
+            var response = controller.Delete(2);
+
+            // Returns Ok
+            Assert.IsType<NoContentResult>(response);
         }
 
         [Fact]
         public void Collection_NonOwner_Can_Not_Delete_A_Collection()
         {
-            // also verify that the delete repo was never hit
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to get someone's else's collection
+            var response = controller.Delete(2);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
         }
     }
 }
