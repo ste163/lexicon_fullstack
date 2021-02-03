@@ -59,35 +59,40 @@ const ApplicationViews = () => {
             case AuthRoute():
                 turnOffAllCollectionRoutes()
                 break
+
             case AppRoute():
                 turnOffAllCollectionRoutes()
                 break
+
             case AppSelectedRoute(routeParamId):
                 // Set collectionOnDash state
                 // if there is anything ever in it, default to that
                 // instead of App Route
                 // so put an if check in AppRoute to switch to this case
-                // OR put AppSelectedRoute first in switch statement
-                break;
+                // OR put AppSelectedRoute first in switch
+                break
 
             case SettingsRoute():
-                turnOffAllCollectionRoutes();
-                turnOffAllProjectRoutes();
+                turnOffAllCollectionRoutes()
+                turnOffAllProjectRoutes()
                 // Close all modals
                 // Open Settings modal
                 break
+
             case CollectionManagerRoute():
                 turnOffAllProjectRoutes()
                 setIsCollectionCreateFormOpen(false)
                 setIsCollectionDetailsOpen(false)
                 setIsCollectionManagerOpen(true)
                 break 
+
             case CollectionManagerCreateRoute():
                 turnOffAllProjectRoutes()
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(true)
                 setIsCollectionDetailsOpen(false)
                 break
+
             case CollectionManagerDetailsRoute(routeParamId):
                 setIsFetchingCollectionDetails(true)
                 turnOffAllProjectRoutes()
@@ -97,16 +102,21 @@ const ApplicationViews = () => {
                 setIsCollectionDetailsOpen(true) 
                 setIsCollectionManagerOpen(true)
                 setIsCollectionCreateFormOpen(false)
-                break;
+                break
+
             case CollectionManagerEditRoute(routeParamId):
                 // Hide Details and Show Edit form by switching their opacity
-                break;
+                break
 
             case CollectionManagerDeleteRoute(routeParamId):
-                // Show the Delete Modal which will be one modal
-                // that gets its info passed in from a single selectedForDeletion state
-                // so that we could pass ANY thing to delete into
-                break;
+                // 1. Get collectionById
+                // 2. setObjectToDelete(returnedObjectFromFetch)
+                // 3. Set all open modals to FALSE
+                // 4. Open delete Modal
+                // 5. If DELETE, then delete object, history.goBack
+                        // setObjectToDelete({})
+                // 6. If CANCEL, history.goBack and setObjectToDelete()
+                break
 
             default:
                 history.push(AppRoute())

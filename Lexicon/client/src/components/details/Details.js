@@ -41,7 +41,7 @@ const Details = ({
                         Edit
                     </button>
                 <button
-                    className="btn btn__details--delete"
+                    className="btn btn--red btn__details--delete"
                     onClick={() => history.push(deleteUrlToPushTo(selectedItem.id))}>
                         Delete
                     </button>
