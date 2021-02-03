@@ -1,15 +1,33 @@
-import React, { useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import { DeleteContext } from '../../providers/DeleteProvider'
+import { CollectionManagerString } from '../../utils/Routes'
 import Modal from '../modal/Modal'
 import './Delete.css'
 
 const Delete = () => {
     const history = useHistory()
+    const location = useLocation()
+    const [deleteMethod, setDeleteMethod] = useState()
     const { objectToDelete, isDeleteModalOpen, setIsDeleteModalOpen } = useContext(DeleteContext)
 
-    // To handle correct delete method: pass in a Delete from state -- least work, but I'd have to remember to pass it in. Not a biggie
-    // OR grab the URL at the /collection-manager, /word, /settings, etc. and run the correct method here. -- most work, but would be most dynamic
+    // 1. Get the current URL pathname
+    // 2. See if the pathname matches /collection-manager, etc.
+            // Get all my routes for deleting
+            // SWITCH statement based on which it is
+    // 3. If it matches, set the Delete Method to the correct Delete
+    // 4. Fire off delete method button click
+    // 5. Bring in all delete methods to wire it up
+
+    // Would probably be better to pull
+    const possibleDeleteRoutes = [CollectionManagerString()]
+
+    const deleteItem = () => {
+        const currentUrl = location.pathname
+        const currentDeletePath = possibleDeleteRoutes.find(r => currentUrl.match(r))
+        console.log(currentDeletePath)
+    }
+
 
     const deleteContent = () => (
         <>
@@ -19,7 +37,7 @@ const Delete = () => {
             <div className="delete__btns">
                 <button
                     className="btn btn--red btn--delete"
-                    onClick={() => console.log("DELETE ME")}>
+                    onClick={() => deleteItem()}>
                     Delete
                 </button>
                 <button
