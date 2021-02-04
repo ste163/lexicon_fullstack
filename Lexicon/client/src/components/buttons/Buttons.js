@@ -7,6 +7,7 @@ import { IconLogout, IconGear, IconArrow } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import SettingsForm from '../forms/SettingsForm'
 import CollectionManager from '../managers/CollectionManager'
+import ProjectManager from '../managers/ProjectManager'
 import Modal from '../modal/Modal'
 import { CollectionManagerRoute, ProjectManagerRoute, SettingsRoute } from '../../utils/Routes'
 import './Buttons.css'
@@ -94,7 +95,7 @@ export const ManageProjects = ({ isMobile, setHamburgerIsOpen }) => {
         <>
             <Modal
                 isOpen={isProjectManagerOpen}
-                contentFunction={<></>}
+                contentFunction={<ProjectManager />}
                 contentHeader={"Project Manager"} />
 
             <button
