@@ -92,6 +92,18 @@ namespace Lexicon.Controllers
                 return BadRequest();
             }
 
+            // Get all of this user's projects
+            var allProjects = _projectRepo.Get(firebaseUser.Id);
+
+            // see if the name of the incoming collection is in the db
+            var projectWithThatName = allProjects.Find(c => c.Name == project.Name);
+
+            // if there is a returned project, we can't add because name isn't unique for this user
+            if (projectWithThatName != null)
+            {
+                return NotFound();
+            }
+
             // Need to add the default requirement for the project here
             project.CreationDate = DateTime.Now;
 
@@ -137,6 +149,18 @@ namespace Lexicon.Controllers
             var projectOwnerId = projectToUpdate.UserId;
             // Check if incoming user is the same one requesting deletion
             if (projectOwnerId != firebaseUser.Id)
+            {
+                return NotFound();
+            }
+
+            // Get all of this user's projects
+            var allProjects = _projectRepo.Get(firebaseUser.Id);
+
+            // see if the name of the incoming collection is in the db
+            var projectWithThatName = allProjects.Find(c => c.Name == project.Name);
+
+            // if there is a returned project, we can't add because name isn't unique for this user
+            if (projectWithThatName != null)
             {
                 return NotFound();
             }
