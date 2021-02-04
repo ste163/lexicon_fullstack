@@ -20,7 +20,7 @@ namespace Lexicon.Tests.Repositories
             // Get a userId
             int userId = 1;
 
-            // Instantiate CollectionRepo
+            // Instantiate ProjectRepo
             var repo = new ProjectRepository(_context);
 
             // Get count of all collections
@@ -30,6 +30,25 @@ namespace Lexicon.Tests.Repositories
             Assert.True(count == 2);
         }
 
+
+        [Fact]
+        public void User_Can_Get_A_Single_Project_By_Id()
+        {
+            // Set an expected collection to get that's in the db
+            var expectedProjectName = "The Haunted House";
+
+            // Get a Project Id that is in the Db
+            int projectId = 3;
+
+            // Instantiate ProjectRepo
+            var repo = new ProjectRepository(_context);
+
+            // Get Project by its Id
+            var actualProject = repo.GetByProjectId(projectId);
+
+            // Two objects should have the same name. Was unable to test if Assert.Equal because Repo returns all the Objects from the FKs
+            Assert.True(expectedProjectName == actualProject.Name);
+        }
 
         private void AddSampleData()
         {
