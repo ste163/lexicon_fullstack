@@ -23,7 +23,7 @@ namespace Lexicon.Tests.Repositories
             // Instantiate ProjectRepo
             var repo = new ProjectRepository(_context);
 
-            // Get count of all collections
+            // Get count of all project
             var count = repo.Get(userId).Count;
 
             // User with Id 1 should have 2
@@ -33,7 +33,7 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void User_Can_Get_A_Single_Project_By_Id()
         {
-            // Set an expected collection to get that's in the db
+            // Set an expected project to get that's in the db
             var expectedProjectName = "The Haunted House";
 
             // Get a Project Id that is in the Db
@@ -85,7 +85,22 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void User_Can_Edit_Project()
         {
+            // Instantiate ProjectRepo
+            var repo = new ProjectRepository(_context);
 
+            // Get an Project from the Db
+            var projectToUpdate = repo.GetByProjectId(1);
+
+            projectToUpdate.Name = "You GOT UPDATED!";
+
+            // Attempt to update
+            repo.Update(projectToUpdate);
+
+            // Retrieve item from db to see if updates occurred
+            var updatedCollection = repo.GetByProjectId(1);
+
+            // The new names should match
+            Assert.True(updatedCollection.Name == projectToUpdate.Name);
         }
 
 
@@ -94,7 +109,36 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void User_Can_Delete_Project_Without_Any_Other_Linking_Data()
         {
+            // Get an object that's in the database
+            var projectToAdd = new Project()
+            {
+                UserId = 1,
+                Name = "New Project to Axe",
+                CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+            };
 
+            // Instantiate ProjectRepo
+            var repo = new ProjectRepository(_context);
+
+            // Get a count of Projects for UserId 1
+            var count = repo.Get(1).Count;
+
+            // Add new project
+            repo.Add(projectToAdd);
+
+            // Get a new count
+            var countAfterAdd = repo.Get(1).Count;
+
+            // Attempt to delete the project
+            repo.Delete(projectToAdd);
+
+            // New count after deleting
+            var countAfterDeletion = repo.Get(1).Count;
+
+            // We successfully added one project
+            Assert.True(count < countAfterAdd);
+            // We successfully deleted one project
+            Assert.True(count == countAfterDeletion);
         }
 
 
