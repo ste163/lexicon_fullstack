@@ -120,7 +120,6 @@ namespace Lexicon.Tests.Repositories
 
 
 
-
         // DELETE
         [Fact]
         public void User_Can_Delete_A_Single_Collection_Without_Any_Other_Data()

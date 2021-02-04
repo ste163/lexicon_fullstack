@@ -90,13 +90,61 @@ namespace Lexicon.Tests.Integration
         [Fact]
         public void User_Can_Only_Update_Collection_With_New_Unique_Name()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_2"),
+                                   }, "TestAuthentication"));
 
+            // Instantiate a real CollectionRepo & UserRepo
+            var collectionRepo = new CollectionRepository(_context);
+            var userRepo = new UserRepository(_context);
+
+            // Instantiate a real CollectionController, passing in CollectionRepo
+            var controller = new CollectionController(userRepo, collectionRepo);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Get a collection to update
+            var collectionToUpdate = collectionRepo.GetByCollectionId(1);
+
+            // Update the name
+            collectionToUpdate.Name = "YOUR TITLE CHANGED!!!! >:)";
+
+            // Attempt to Update collection
+            var response = controller.Put(collectionToUpdate.Id, collectionToUpdate);
+
+            // Should return created result
+            Assert.IsType<NoContentResult>(response);
         }
 
         [Fact]
         public void User_Can_Not_Update_Collections_With_Duplicate_Names()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_2"),
+                                   }, "TestAuthentication"));
 
+            // Instantiate a real CollectionRepo & UserRepo
+            var collectionRepo = new CollectionRepository(_context);
+            var userRepo = new UserRepository(_context);
+
+            // Instantiate a real CollectionController, passing in CollectionRepo
+            var controller = new CollectionController(userRepo, collectionRepo);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Get a collection to update
+            var collectionToUpdate = collectionRepo.GetByCollectionId(1);
+
+            // Update the name to one that is in the db
+            collectionToUpdate.Name = "Monsters";
+
+            // Attempt to Update collection
+            var response = controller.Put(collectionToUpdate.Id, collectionToUpdate);
+
+            // Should return created result
+            Assert.IsType<UnauthorizedResult>(response);
         }
 
 
