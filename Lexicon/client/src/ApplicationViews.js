@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, useLocation, useHistory } from 'react-router-d
 import { UserContext } from './providers/UserProvider'
 import { DeleteContext } from './providers/DeleteProvider'
 import { CollectionContext } from './providers/CollectionProvider'
+import { ProjectContext } from './providers/ProjectProvider'
 import AuthView from './views/auth/AuthView'
 import MainView from './views/main/MainView'
 import {
@@ -37,16 +38,24 @@ const ApplicationViews = () => {
         setIsFetchingCollectionDetails
     } = useContext(CollectionContext)
 
+    const {
+        getProjectById,
+        setSelectedProject,
+
+        // Project Manager
+        setIsProjectManagerOpen,
+        setIsProjectCreateFormOpen,
+        setIsProjectDetailsOpen,
+        setIsProjectEditFormOpen,
+        setIsFetchingProjectDetails
+    } = useContext(ProjectContext)
+
     // State router switches state on/off based on the URL pathname
     const StateRouter = () => {
-    // REQUIRED URL PATHS
+    // URL PATHS TO DO
         // /app/selected/{id}
             //which needs its own state that everything is tracking against.
             //If we have a selected/{id} default to that instead of /app
-
-        // /app/project-manager
-        // /app/project-manager/create
-        // /app/project-manager/details/{param}
     
         const routeParamId = findRouteParam(currentUrl)
 

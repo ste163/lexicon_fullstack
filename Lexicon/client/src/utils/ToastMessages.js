@@ -1,6 +1,3 @@
-export const Warning = () => 'DEFAULT WARNING MSG'
-
-
 // Registration
 export const RegSuccess = () => "Registered! Welcome to Lexicon."
 
@@ -21,6 +18,7 @@ export const Logout = () => "Logout successful."
 
 // Retrieving 
 export const RetrieveFailure = objectType => `Unable to retrieve ${objectType}.`
+
 
 // Adding
 export const AddSuccess = (objectType, name) => `Added ${objectType} ${name}.`
