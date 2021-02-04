@@ -177,7 +177,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to get this User's collection
+            // Attempt to get collection not in db
             var response = controller.GetByCollectionId(666);
 
             // Returns Ok

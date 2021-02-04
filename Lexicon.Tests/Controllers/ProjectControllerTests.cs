@@ -37,151 +37,151 @@ namespace Lexicon.Tests.Controllers
             _fakeProjectRepo.Setup(r => r.GetByProjectId(2)).Returns(new Project() { Id = 1, Name = "It", UserId = 2 });
         }
 
-        //// GET TESTS
-        //[Fact]
-        //public void Registered_User_Can_Get_Collections()
-        //{
+        // GET TESTS
+        [Fact]
+        public void Registered_User_Can_Get_Projects()
+        {
 
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
-        //                           }, "TestAuthentication"));
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to Get this User's posts
-        //    var response = controller.GetByUserId();
+            // Attempt to Get this User's posts
+            var response = controller.GetByUserId();
 
-        //    // Returns Ok
-        //    Assert.IsType<OkObjectResult>(response);
-        //}
+            // Returns Ok
+            Assert.IsType<OkObjectResult>(response);
+        }
 
-        //[Fact]
-        //public void Anonymous_User_Can_Not_Get_Collections()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void Anonymous_User_Can_Not_Get_Projects()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to Get this User's collections
-        //    var response = controller.GetByUserId();
+            // Attempt to Get this User's collections
+            var response = controller.GetByUserId();
 
-        //    // Returns Ok
-        //    Assert.IsType<NotFoundResult>(response);
-        //    // Verify we never called the repo method
-        //    _fakeCollectionRepo.Verify(r => r.Get(It.IsAny<int>()), Times.Never());
-        //}
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeProjectRepo.Verify(r => r.Get(It.IsAny<int>()), Times.Never());
+        }
 
-        //[Fact]
-        //public void If_User_Has_No_Collections_Return_NotFound()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER3"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void If_User_Has_No_Projects_Return_NotFound()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER3"),
+                                   }, "TestAuthentication"));
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to Get this User's collections
-        //    var response = controller.GetByUserId();
+            // Attempt to Get this User's project
+            var response = controller.GetByUserId();
 
-        //    // Returns Ok
-        //    Assert.IsType<NotFoundResult>(response);
-        //}
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+        }
 
-        //[Fact]
-        //public void User_Can_Get_Their_Collection_By_Id()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void User_Can_Get_Their_Project_By_Id()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to get this User's collection
-        //    var response = controller.GetByCollectionId(1);
+            // Attempt to get this User's project
+            var response = controller.GetByProjectId(1);
 
-        //    // Returns Ok
-        //    Assert.IsType<OkObjectResult>(response);
-        //}
+            // Returns Ok
+            Assert.IsType<OkObjectResult>(response);
+        }
 
-        //[Fact]
-        //public void User_Can_Not_Get_Collections_That_Are_Not_Theirs()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void User_Can_Not_Get_Projects_That_Are_Not_Theirs()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to get this Someone else's collection
-        //    var response = controller.GetByCollectionId(2);
+            // Attempt to get this Someone else's collection
+            var response = controller.GetByProjectId(2);
 
-        //    // Returns Ok
-        //    Assert.IsType<NotFoundResult>(response);
-        //}
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+        }
 
-        //[Fact]
-        //public void Anonymous_User_Can_Not_Get_Collection_By_Id()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void Anonymous_User_Can_Not_Get_Project_By_Id()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to get someone's collection
-        //    var response = controller.GetByCollectionId(2);
+            // Attempt to get someone's project
+            var response = controller.GetByProjectId(2);
 
-        //    // Returns Ok
-        //    Assert.IsType<NotFoundResult>(response);
-        //    // Verify we never called the repo method
-        //    _fakeCollectionRepo.Verify(r => r.GetByCollectionId(It.IsAny<int>()), Times.Never());
-        //}
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeProjectRepo.Verify(r => r.GetByProjectId(It.IsAny<int>()), Times.Never());
+        }
 
-        //[Fact]
-        //public void Get_Collection_For_Id_Not_In_Db_Returns_Not_Found()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void Get_Project_For_Id_Not_In_Db_Returns_Not_Found()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to get this User's collection
-        //    var response = controller.GetByCollectionId(666);
+            // Attempt to get this project not in db
+            var response = controller.GetByProjectId(666);
 
-        //    // Returns Ok
-        //    Assert.IsType<NotFoundResult>(response);
-        //}
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+        }
 
 
 
