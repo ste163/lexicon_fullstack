@@ -33,13 +33,6 @@ namespace Lexicon.Repositories
                         .FirstOrDefault();
         }
 
-        public Collection GetByCollectionName(string name)
-        {
-            return _context.Collection
-                        .Where(c => c.Name == name)
-                        .FirstOrDefault();
-        }
-
         public void Add(Collection collection)
         {
             _context.Add(collection);

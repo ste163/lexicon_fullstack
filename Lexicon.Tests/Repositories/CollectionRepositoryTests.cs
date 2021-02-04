@@ -60,38 +60,6 @@ namespace Lexicon.Tests.Repositories
             Assert.True(expectedCollection.Name == actualCollection.Name);
         }
 
-        [Fact]
-        public void User_Can_Get_Single_Collection_By_Name()
-        {
-            // Get a name that's in the db
-            var name = "Monsters";
-
-            // Instantiate CollectionRepo
-            var repo = new CollectionRepository(_context);
-
-            // Attempt to get that collection by its name
-            var collection = repo.GetByCollectionName(name);
-
-            // This should be the "Monsters" collection from the db
-            Assert.True(collection.Name == name);
-        }
-
-        [Fact]
-        public void User_Attempting_To_Get_A_Collection_By_Name_Not_In_Db_Returns_Null()
-        {
-            // Get a name that's in the db
-            var name = "I'M NOT IN YOUR DATABSE!!!11!111 >:)";
-
-            // Instantiate CollectionRepo
-            var repo = new CollectionRepository(_context);
-
-            // Attempt to get that collection by its name
-            var collection = repo.GetByCollectionName(name);
-
-            // Not in Db, so return null
-            Assert.Null(collection);
-        }
-
 
 
         // ADD

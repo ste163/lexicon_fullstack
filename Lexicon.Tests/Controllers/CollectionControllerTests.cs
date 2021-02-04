@@ -186,7 +186,6 @@ namespace Lexicon.Tests.Controllers
 
 
 
-
         // ADD TESTS
         [Fact]
         public void User_Can_Add_Collection()
@@ -254,44 +253,181 @@ namespace Lexicon.Tests.Controllers
 
 
 
-
         // UPDATE TESTS
         [Fact]
         public void Collection_Owner_Can_Update()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
+            // Make a fake collection to update, based on a spoofed one
+            Collection collection = new Collection()
+            {
+                Id = 1,
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New stuff",
+                Description = "New lame description.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Use the matching Id
+            var collectionParamId = 1;
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Put(collectionParamId, collection);
+
+            // Returns Ok
+            Assert.IsType<NoContentResult>(response);
         }
 
         [Fact]
         public void Anonymous_User_Can_Not_Update()
         {
+            // Spoof an anonymous user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
 
+            // Make a fake collection to update, based on a spoofed one
+            Collection collection = new Collection()
+            {
+                Id = 1,
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New stuff",
+                Description = "New lame description.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Use the matching Id
+            var collectionParamId = 1;
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Put(collectionParamId, collection);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
         }
 
         [Fact]
         public void If_Id_Param_and_Collection_Id_Do_Not_Match_Do_Not_Update()
         {
-            // return badRequest
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Make a fake collection to update, based on a spoofed one
+            Collection collection = new Collection()
+            {
+                Id = 1,
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New stuff",
+                Description = "New lame description.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Use a non-matching Id
+            var collectionParamId = 2;
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Put(collectionParamId, collection);
+
+            // Returns Ok
+            Assert.IsType<BadRequestResult>(response);
         }
 
         [Fact]
         public void If_A_Collection_Is_Not_In_Db_Do_Not_Attempt_Update()
         {
-            // return notfound
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Make a fake collection to update
+            Collection collection = new Collection()
+            {
+                Id = 666,
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New stuff",
+                Description = "New lame description.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Use a not real collection to update
+            var collectionParamId = 666;
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Put(collectionParamId, collection);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
         }
 
         [Fact]
         public void If_This_Collection_To_Update_Is_Not_Mine_Do_Not_Update()
         {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER2"),
+                                   }, "TestAuthentication"));
 
+            // Make a fake collection to update
+            Collection collection = new Collection()
+            {
+                Id = 1,
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "New stuff",
+                Description = "New lame description.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Use a matching Id
+            var collectionParamId = 1;
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Put(collectionParamId, collection);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
         }
-
-        [Fact]
-        public void If_Updated_Collection_Name_Is_Not_Unique_In_Db_Do_Not_Update()
-        {
-
-        }
-
 
 
 

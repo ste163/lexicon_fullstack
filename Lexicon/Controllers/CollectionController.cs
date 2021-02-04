@@ -135,15 +135,23 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-            // Check if the updated collection's name is already in the db
-            var isCollectionWithNameInDb = _collectionRepo.GetByCollectionName(collection.Name);
-            if (isCollectionWithNameInDb != null)
+            //// Check if the updated collection's name is already in the db
+            //var isCollectionWithNameInDb = _collectionRepo.GetByCollectionName(collection.Name);
+            //if (isCollectionWithNameInDb != null)
+            //{
+                // NOT NEEDED BECAUSE SQL WILL ERROR IF THE NAMES AREN'T UNIQUE!
+                // WILL NEED AN INTEGRATION TEST
+            //}
+
+            try
+            {
+                _collectionRepo.Update(collection);
+                return NoContent();
+            }
+            catch (DbUpdateException e)
             {
                 return Unauthorized(); // When I get this error message in frontend, tell user the Name was already in db
             }
-
-            _collectionRepo.Update(collection);
-            return NoContent();
         }
 
         [HttpDelete("{id}")]
