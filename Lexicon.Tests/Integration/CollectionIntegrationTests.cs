@@ -86,7 +86,6 @@ namespace Lexicon.Tests.Integration
             Assert.IsType<NotFoundResult>(response);
         }
 
-
         [Fact]
         public void User_Can_Only_Update_Collection_With_New_Unique_Name()
         {

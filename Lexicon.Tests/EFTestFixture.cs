@@ -24,6 +24,11 @@ namespace Lexicon.Tests
                 .HasIndex(c => c.Name)
                 .IsUnique(true);
 
+            // Set Project Name column as unique
+            builder.Entity<Project>()
+                .HasIndex(c => c.Name)
+                .IsUnique(true);
+
             builder.Model.GetEntityTypes()
                 .Where(e => !e.IsOwned())
                 .SelectMany(e => e.GetForeignKeys())    
