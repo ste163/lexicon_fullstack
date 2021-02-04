@@ -126,7 +126,7 @@ export const CollectionProvider = props => {
         })
     }
   }
-  
+
   const updateCollection = submittedCollection => {
     if (currentUserId === 0) {
       toast.error(AnonWarning())
@@ -141,33 +141,26 @@ export const CollectionProvider = props => {
             body: JSON.stringify(submittedCollection)
         }))
         .then(res => {
-          if (res.status === 200) {
-            // Working well!
-            return res.json()
+          if (res.status === 204) {
+            toast.success(CollectionUpdateSuccess("collection"))
+            getCollections()
+            return true
           }
           if (res.status === 500) {
             // Not connected to Db
             toast.error(DbNoConnection())
-            return
+            return false
           }
-          if (res.status === 400) {
+          if (res.status === 401) {
             // Bad request
             toast.error(CollectionFailureNameDupe())
-            return
-          }      
+            return false
+          }
           if (res.status === 404) {
             // Not found
             toast.error(CollectionUpdateFailure())
-            return
+            return false
           }      
-        })
-        .then(collection => {
-          if (collection) {
-            toast.success(CollectionUpdateSuccess(collection.name))
-            getCollections()
-          } else {
-            return
-          }
         })
       }
     }

@@ -46,9 +46,13 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 name: collection.name,
                 description: collection.description,
             })
-            .then(() => {
-                setIsLoading(false)
-                history.goBack()
+            .then(res => {
+                if (!res) {
+                    setIsLoading(false)
+                } else {
+                    setIsLoading(false)
+                    history.goBack()
+                }
             })
         } else {
             addCollection({
