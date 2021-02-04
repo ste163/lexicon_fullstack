@@ -13,8 +13,6 @@ namespace Lexicon.Tests.Repositories
             AddSampleData();
         }
 
-
-
         // GET
         [Fact]
         public void User_Can_Get_Their_Collections()
@@ -156,7 +154,6 @@ namespace Lexicon.Tests.Repositories
             Assert.True(count < countAfterAdd);
             // We successfully deleted one collection
             Assert.True(count == countAfterDeletion);
-
         }
 
         private void AddSampleData()

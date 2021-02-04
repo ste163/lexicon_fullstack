@@ -5,12 +5,29 @@ using Xunit;
 
 namespace Lexicon.Tests.Repositories
 {
-    class ProjectRepositoryTests : EFTestFixture
+    public class ProjectRepositoryTests : EFTestFixture
     {
         public ProjectRepositoryTests()
         {
             // Generate dummy data for in-memory db
             AddSampleData();
+        }
+
+        // GET
+        [Fact]
+        public void User_Can_Get_Their_Projects()
+        {
+            // Get a userId
+            int userId = 1;
+
+            // Instantiate CollectionRepo
+            var repo = new ProjectRepository(_context);
+
+            // Get count of all collections
+            var count = repo.Get(userId).Count;
+
+            // User with Id 1 should have 2
+            Assert.True(count == 2);
         }
 
 
