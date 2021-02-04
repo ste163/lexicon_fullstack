@@ -1,16 +1,25 @@
-.form__collection {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: -100%;
-    transition: 0.5s;
+.collection__form {
+    flex-grow: 1;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
-.form__collection--active {
-    left: var(--managerCentered);
+.collection__input {
+    width: 50%;
 }
 
 .collection__submit {
     display: flex;
+    flex-flow: column nowrap;
     justify-content: center;
+    align-items: center;
+}
+
+.form__btn--submit {
+    width: 70% !important;
+}
+
+.form__btn--cancel {
+    width: 70% !important;
+    margin-top: 2%;
 }

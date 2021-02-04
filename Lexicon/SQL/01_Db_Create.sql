@@ -37,7 +37,7 @@ CREATE TABLE [Project] (
 
 CREATE TABLE [Categorization] (
 	[Id] integer PRIMARY KEY IDENTITY,
-	[CategorizationType] varchar(255) NOT NULL
+	[Type] varchar(255) NOT NULL
 )
 
 CREATE TABLE [Collection] (
@@ -46,7 +46,7 @@ CREATE TABLE [Collection] (
 	[CategorizationId] integer NOT NULL,
 	[CreationDate] datetime NOT NULL,
 	[Name] nvarchar(255) NOT NULL,
-	[Description] nvarchar(255) NOT NULL,
+	[Description] nvarchar(255),
 	[Pinned] bit NOT NULL
 
 	CONSTRAINT UQ_CollectionName UNIQUE([Name]),

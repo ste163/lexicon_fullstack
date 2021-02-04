@@ -1,6 +1,7 @@
 // Written by NSS to assist in having real Authentication & Authorization
 import React, { useState, useEffect, createContext } from "react"
 import { toast } from 'react-toastify'
+import { DbNoConnection, Logout } from '../utils/ToastMessages'
 import firebase from "firebase/app"
 import "firebase/auth"
 
@@ -38,6 +39,7 @@ export function UserProvider(props) {
       .auth()
       .signInAnonymously()
       .then(user => {
+        sessionStorage.setItem("currentUser", JSON.stringify(user))
         sessionStorage.setItem("currentUserId", 0)
         setIsLoggedIn(true)
         return user
@@ -51,7 +53,7 @@ export function UserProvider(props) {
       .then(() => {
         sessionStorage.clear()
         setIsLoggedIn(false)
-        toast.info("Logged out.")
+        toast.info(Logout())
       })
   }
 
@@ -62,7 +64,7 @@ export function UserProvider(props) {
       .then((createResponse) =>
         saveUser({ ...user, firebaseUserId: createResponse.user.uid })
       )
-      .then((savedUser) => {
+      .then(savedUser => {
         sessionStorage.setItem("currentUser", JSON.stringify(savedUser))
         sessionStorage.setItem("currentUserId", savedUser.id)
         setIsLoggedIn(true)
@@ -79,21 +81,34 @@ export function UserProvider(props) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then((resp) => resp.json())
-    )
+      })
+      .then(res => {
+        if (res.status === 500) {
+          toast.error(DbNoConnection())
+          return res.json();
+        }
+        return res.json();
+      }))
   }
 
-  const saveUser = (userProfile) => {
-    return getToken().then((token) =>
+  const saveUser = user => {
+    return getToken().then(token =>
       fetch(apiUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userProfile),
-      }).then((resp) => resp.json())
-    )
+        body: JSON.stringify(user),
+      })
+      .then(res => {
+        if (res.status === 500) {
+          toast.error(DbNoConnection())
+          return
+        } else {
+         return res.json()
+        }
+      }))
   }
 
   const getCurrentUser = () => {
@@ -119,7 +134,7 @@ export function UserProvider(props) {
       {isFirebaseReady ? (
         props.children
       ) : (
-        <div className="spinner__center">
+        <div className="spinner__center spinner__center--onPage">
           <div className=" cls-spinner">
             <div className="cls-circle cls-spin"></div>
           </div>

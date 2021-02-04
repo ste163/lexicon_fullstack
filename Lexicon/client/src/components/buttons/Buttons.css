@@ -31,6 +31,22 @@
   margin: 0 0.5em;
 }
 
+.btn__manager {
+  font-size: 5em;
+  margin: 0;
+  padding: 0;
+}
+
+.btn__controls {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.btn__card--arrow {
+  margin: 0 !important;
+}
+
 .btn__no-style {
   border: none;
   background-color: transparent;
@@ -77,6 +93,7 @@ button:focus {
 
 .btn__collection {
   transition: .1s;
+  background-color: var(--white);
 }
 
 .btn__collection:hover {

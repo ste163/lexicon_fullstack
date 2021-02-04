@@ -46,6 +46,19 @@
     background-color: var(--yellow);
 }
 
+.card__color--brightWhite {
+    background-color: var(--white);
+}
+
+
+/* Padding for Managers */
+.card__form {
+    padding: 0.5em;
+}
+
+.card__details {
+    padding: 5%;
+}
 
 /* No Default cards */
 .card__noDefault {

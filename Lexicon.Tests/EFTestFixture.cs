@@ -14,9 +14,14 @@ namespace Lexicon.Tests
         public TestDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // Set the User Email column as unique
+            // Set User Email column as unique
             builder.Entity<User>()
                 .HasIndex(u => u.Email)
+                .IsUnique(true);
+
+            // Set Collection Name column as unique
+            builder.Entity<Collection>()
+                .HasIndex(c => c.Name)
                 .IsUnique(true);
 
             builder.Model.GetEntityTypes()

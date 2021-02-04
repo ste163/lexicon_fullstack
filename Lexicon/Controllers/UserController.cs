@@ -3,11 +3,8 @@ using Lexicon.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Security.Claims;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Lexicon.Controllers.Utils;
 
 namespace Lexicon.Controllers
 {
@@ -17,16 +14,12 @@ namespace Lexicon.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repo;
+        private readonly ControllerUtils _utils;
 
         public UserController(IUserRepository repo)
         {
             _repo = repo;
-        }
-
-        private User GetCurrentUser()
-        {
-            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _repo.GetByFirebaseUserId(firebaseUserId);
+            _utils = new ControllerUtils(_repo);
         }
 
         [HttpGet]
@@ -34,7 +27,7 @@ namespace Lexicon.Controllers
         {
             // GetAll is specifically for testing
             // Only User with Id of 1 (me and the test) will be able to access it.
-            User attemptingUser = GetCurrentUser();
+            User attemptingUser = _utils.GetCurrentUser(User);
 
             if (attemptingUser == null)
             {
@@ -50,6 +43,7 @@ namespace Lexicon.Controllers
             return Ok(users);
         }
 
+        // Used by the ControllerUtils
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetUser(string firebaseUserId)
         {
@@ -78,7 +72,7 @@ namespace Lexicon.Controllers
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
-            var userRequestingDeletion = GetCurrentUser();
+            var userRequestingDeletion = _utils.GetCurrentUser(User);
 
             if (userRequestingDeletion.Id != Id)
             {

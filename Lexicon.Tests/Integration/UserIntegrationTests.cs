@@ -20,7 +20,7 @@ namespace Lexicon.Tests.Integration
         [Fact]
         public void Only_Unique_Emails_Can_Register()
         {
-            // Create a User with an Email already in db
+            // Create a User with a unique Email
             var userToAdd = new User()
             {
                 Email = "mikeHanlon@it.com",
@@ -43,7 +43,7 @@ namespace Lexicon.Tests.Integration
             // Attempt to Add user
             var response = controller.Post(userToAdd);
 
-            // Adding should return a NotFound because Email is already in db
+            // Adding should return that it's been created
             Assert.IsType<CreatedAtActionResult>(response);
         }
 

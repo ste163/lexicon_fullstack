@@ -1,4 +1,3 @@
-@import "./styles/form.css";
 @import "./styles/card.css";
 @import "./styles/scrollbar.css";
 @import "./styles/dotMenu.css";
@@ -16,6 +15,7 @@
   --darkestGray: #545454;
   --shadowGray: #00000008;
 
+  --white: #ffffff;
   --offWhite: #FCFCFC;
   --black: rgb(7, 7, 7);
   --lightBlack: #171717ff;
@@ -47,7 +47,7 @@
   --weightHeavier: 700;
   --weightHeaviest: 900;
 
-  --fontSizeHamburger: 1em;
+  --fontSizeHamburger: .8em;
 
   /* Border Radii */
   --cardRadius: 15px;
@@ -79,8 +79,16 @@
   --cls-speed: 1s;
 
   /* Manager widths */
-  --managerModalWidth: 60vmin;
-  --managerCentered: 24vmin;
+  --managerModalWidth: 70vmin;
+
+  /* backdrop-filter */
+  /* Keeping this around as an RIP of what could have been */
+  /*
+    A working blur effect using an SVG overlay. Could work better (supports Firefox)
+    https://stackoverflow.com/questions/27583937/how-can-i-make-a-css-glass-blur-effect-work-for-an-overlay
+    https://codepen.io/chipChocolate/pen/LEZMeY
+  */
+  /* --blurAmount: blur(15px); */
 }
 
 /* Set Defaults */
@@ -129,6 +137,10 @@ p {
   padding: 0;
 }
 
+.bold {
+  font-weight: var(--weightHeavy);
+}
+
 li {
   list-style: none;
 }
@@ -143,22 +155,4 @@ when I make the vertical dividers for columns
   border: 0.15em solid var(--mediumGray);
   background-color: var(--mediumGray);
   border-radius: var(--lineRadius);
-}
-
-@media screen and (min-width: 300px) {
-  :root {
-    --managerCentered: 17vmin;
-  }
-}
-
-@media screen and (min-width: 400px) {
-  :root {
-    --managerCentered: 20vmin;
-  }
-}
-
-@media screen and (min-width: 610px) {
-  :root {
-    --managerCentered: 24vmin;
-  }
 }

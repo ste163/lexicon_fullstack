@@ -26,10 +26,6 @@ textarea {
   width: 95%
 } 
   
-.form__h3 {
-  font-size: 1em;
-}
-  
 .fieldset__btn {
   display: grid;
   justify-content: center;

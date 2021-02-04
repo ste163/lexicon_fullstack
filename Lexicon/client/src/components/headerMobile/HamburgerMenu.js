@@ -5,11 +5,10 @@ import './HamburgerMenu.css'
 // Slide in from right and take up almost/all of the screen width
 
 // NEED TO DECIDE THE ORDERING OF THESE
-// WILL HOLD CREATING A COLLECTION, CREATING A PROJECT
 // AND SELECTING A COLUMN TO DISPLAY
 
 // Could have it animate by, when it loads in, you slide in X pixels from the right.
-const HamburgerMenu = ({ isOpen }) => (
+const HamburgerMenu = ({ isOpen, setIsOpen }) => (
     <nav
     className={isOpen.hamburgerIsOpen ? (
             "hamburger__nav hamburger__nav--active"
@@ -20,10 +19,10 @@ const HamburgerMenu = ({ isOpen }) => (
         <ul className="nav__list--hb">
             <div className="hb__container">
                 <li className="nav__item nav__item--hb">
-                    <ManageCollections isMobile={true} />
+                    <ManageCollections isMobile={true} setHamburgerIsOpen={setIsOpen}  />
                 </li>
                 <li className="nav__item nav__item--hb">
-                    <ManageProjects isMobile={true} />
+                    <ManageProjects isMobile={true} setHamburgerIsOpen={setIsOpen} />
                 </li>
                 <li>
                     <DropDown nameOf='collection' fieldsetLocation='hamburger__fieldset' labelIdName='collectionSelect' isHamburger={true} />

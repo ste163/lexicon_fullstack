@@ -1,10 +1,14 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { CollectionContext } from '../../providers/CollectionProvider'
+import Delete from '../../components/delete/Delete'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
 import HeaderMobile from '../../components/headerMobile/HeaderMobile'
 import Footer from '../../components/footer/Footer'
 import './MainView.css'
 
 const MainView = () => {
+    const { getCollections } = useContext(CollectionContext)
+
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
     // isMobile tracks state for if we should show mobile view or not
@@ -15,6 +19,10 @@ const MainView = () => {
     // Need to track the state of List, Selected, and Thesaurus Columns
     // Based on if they are "True" display their columns. If not, display: none
     // Will also need to turn them on and off based on Screen Width. Do not handle that with CSS because they could conflict
+
+    useEffect(() => {
+        getCollections()
+    }, [])
 
     // Debounce and useEffect based on https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
     // Debounce delays re-renders on every resize event
@@ -57,6 +65,9 @@ const MainView = () => {
 
     return (
         <div className="app__container">
+            {/* Delete renders a hidden modal accessible only by delete routes */}
+            <Delete />
+
             <div className="container__headers">
                 {isMobile ? (
                     <HeaderMobile />

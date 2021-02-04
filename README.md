@@ -1,6 +1,6 @@
 ![Lexicon Logo](/docs/readme_logo-title.svg)
 # Lexicon
-> Create custom word collections using Merriam-Webster's Collegiate® Thesaurus
+> Quickly explore Merriam-Webster's Collegiate® Thesaurus and create custom word collections 
 
 ## About
 Lexicon takes the powerful search capabilities of the internet's many dictionaries and thesauruses and allows users to store words they would like to use in their own collections. No more bookmarking, writing down, or trying to memorize words.

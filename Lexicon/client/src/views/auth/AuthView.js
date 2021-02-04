@@ -1,6 +1,8 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { AppRoute } from '../../utils/Routes'
+import { LoginWelcome, LoginError, RegSuccess, RegFail, AnonWelcome, AnonError } from '../../utils/ToastMessages'
 import { UserContext } from '../../providers/UserProvider'
 import { LexLogo, LexTitle } from '../../components/branding/Branding'
 import ChangeColorMode from '../../utils/ChangeColorMode'
@@ -41,16 +43,12 @@ const AuthView = () => {
                 setLoading(false)
                 // Store default settings in sessionStorage
                 // Use the user.id as the key to know who's settings to load
-                toast.success(`Registered! Welcome to Lexicon.`)
-                history.push("/")
+                toast.success(RegSuccess())
+                history.push(AppRoute())
             })
             .catch(err => {
-                // First error is from firebase
                 if (err.code !== undefined) {
-                    toast.error("This email has already been registered.")
-                } else {
-                    // This error is for the database
-                    toast.error("Unable to connect to database.")
+                    toast.error(RegFail())
                 }
                 setLoading(false)
             })
@@ -61,11 +59,11 @@ const AuthView = () => {
         setLoading(true)
         login(loginEmail, loginPassword)
             .then(user => {
-                toast.info(`Welcome to Lexicon!`)
+                toast.info(LoginWelcome())
             })
             .catch(err => {
                 setLoading(false)
-                toast.error("Invalid email or password.")
+                toast.error(LoginError())
             })
     }
     
@@ -133,7 +131,6 @@ const AuthView = () => {
                         onSubmit={activeBtn ? handleLogin : handleRegister}>
 
                             <fieldset>
-                                {/* Need to change type to email in final version, along with renaming the labels */}
                                 <label htmlFor={activeBtn ? "emailLogin" : "usernameRegister"}>Email</label>
                                 <input
                                     className="input--auth"
@@ -172,7 +169,7 @@ const AuthView = () => {
                                     autoFocus />
                             </fieldset>
                             
-                            {/* IF Loading, show spinner instead of this */}
+                            {/* If Loading, show spinner instead of button */}
                             {loading ? (
                                 <div className="spinner__card">
                                     <div className="cls-spinner cls-spinner--card">
@@ -204,11 +201,11 @@ const AuthView = () => {
                         onClick={e => {
                             anonymousLogin()
                             .then(user => {
-                                toast.info(`Welcome! As an anonymous user, you can not save data.`)
-                                history.push("/")
+                                toast.info(AnonWelcome())
+                                history.push(AppRoute())
                             })
                             .catch(err => {
-                                toast.error("Error: unable to sign in anonymously.")
+                                toast.error(AnonError())
                             })
                         }}
                         className="btn__no-style">
