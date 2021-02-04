@@ -1,22 +1,8 @@
-.manager__details {
-    position: absolute;
-    display: flex;
-    flex-flow: row nowrap;
-    align-content: center;
-    height: 85%;
-    width: 90%;
-    left: 100%;
-    transition: 0.5s;
-}
-
-.manager__details--active {
-    left: 5%;
-}
-
 .details {
     flex-grow: 1;
     display: flex;
     flex-flow: column nowrap;
+    width: 90%;
     margin-left: 5%;
     margin-right: 5%;
 }

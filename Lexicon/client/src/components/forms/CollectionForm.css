@@ -1,5 +1,6 @@
 .collection__form {
     flex-grow: 1;
+    width: 95%;
     margin-left: 5%;
     margin-right: 5%;
 }
