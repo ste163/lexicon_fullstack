@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserContext } from '../../providers/UserProvider'
 import { DeleteContext } from '../../providers/DeleteProvider'
 import { CollectionManagerString, CollectionManagerRoute } from '../../utils/Routes'
-import { DeleteSuccessful, DeleteFailure } from '../../utils/ToastMessages'
+import { DeleteSuccessful, DeleteFailure, DbNoConnection } from '../../utils/ToastMessages'
 import Modal from '../modal/Modal'
 import './Delete.css'
 
@@ -23,6 +23,9 @@ const Delete = () => {
                 Authorization: `Bearer ${token}`,
               },
             }).then(res => {
+                if (res.status === 500) {
+                    toast.error(DbNoConnection())
+                }
               if (res.status === 204) {
                 setIsDeleteModalOpen(false)
                 setObjectToDelete(undefined)

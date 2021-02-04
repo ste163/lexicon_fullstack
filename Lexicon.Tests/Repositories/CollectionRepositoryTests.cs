@@ -98,23 +98,23 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void User_Can_Edit_A_Collection()
         {
-            // Update an item that's already in the db
-            var updatedCollection = new Collection()
-            {
-                Id = 3,
-                UserId = 1,
-                CategorizationId = 1,
-                Name = "Toasters",
-                Description = "Toasters, cause why not.",
-                Pinned = false,
-                CreationDate = DateTime.Now - TimeSpan.FromDays(15)
-            };
-
             // Instantiate CollectionRepo
             var repo = new CollectionRepository(_context);
 
+            // Get an Collection from the Db
+            var collectionToUpdate = repo.GetByCollectionId(1);
+
+            collectionToUpdate.Name = "You GOT UPDATED!";
+            collectionToUpdate.Description = "AND YOU GOT UPDATED!";
+
             // Attempt to update
-            repo.Update(updatedCollection);
+            repo.Update(collectionToUpdate);
+
+            // Retrieve item from db to see if updates occurred
+            var updatedCollection = repo.GetByCollectionId(1);
+
+            // The new names should match
+            Assert.True(updatedCollection.Name == collectionToUpdate.Name);
         }
 
 

@@ -6,7 +6,7 @@ import './Form.css'
 
 const CollectionForm = ({ history, itemToEdit }) => {
     const userId = +sessionStorage.getItem("currentUserId")
-    const { collections, addCollection } = useContext(CollectionContext)
+    const { collections, addCollection, updateCollection } = useContext(CollectionContext)
 
     // Set the default project so the form can reset.
     const defaultCollection = {
@@ -39,18 +39,18 @@ const CollectionForm = ({ history, itemToEdit }) => {
     }
 
     const constructNewCollection = () => {
-        // if (editableCollection) {
-        //     updateCollection({
-        //         id: editableCollection.id,
-        //         userId,
-        //         name: collection.name,
-        //         description: collection.description,
-        //     })
-            // May need to re-get all WORDS here and recent words, but not sure
-            // .then(() => {
-            //     getProgressByCollectionId(editableCollection.id)
-            // })
-        // } else {
+        if (itemToEdit) {
+            updateCollection({
+                id: itemToEdit.id,
+                userId,
+                name: collection.name,
+                description: collection.description,
+            })
+            .then(() => {
+                setIsLoading(false)
+                history.goBack()
+            })
+        } else {
             addCollection({
                 userId,
                 name: collection.name,
@@ -63,7 +63,8 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 // Push us back to the collection-manager
                 history.push(CollectionManagerRoute())
             })
-        }  
+        }
+    }  
 
     const createCollection = (e) => {
         setIsLoading(true)

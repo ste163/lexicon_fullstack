@@ -22,11 +22,15 @@ export const Logout = () => "Logout successful."
 // Collections
 export const CollectionRetrieveFailure = () => "Unable to retrieve collections."
 
-export const CollectionAddSuccess = (name) => `Added collection ${name}`
+export const CollectionAddSuccess = name => `Added collection ${name}.`
 
 export const CollectionAddFailure = () => "Unable to add collection."
 
-export const CollectionAddFailureName = () => "You already have a collection with that name."
+export const CollectionFailureNameDupe = () => "You already have a collection with that name."
+
+export const CollectionUpdateSuccess = name => `Updated ${name}.`
+
+export const CollectionUpdateFailure = () => "Unable to update collection."
 
 
 // Deleting

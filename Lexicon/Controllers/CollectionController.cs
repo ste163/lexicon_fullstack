@@ -135,17 +135,14 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-            //// Check if the updated collection's name is already in the db
-            //var isCollectionWithNameInDb = _collectionRepo.GetByCollectionName(collection.Name);
-            //if (isCollectionWithNameInDb != null)
-            //{
-                // NOT NEEDED BECAUSE SQL WILL ERROR IF THE NAMES AREN'T UNIQUE!
-                // WILL NEED AN INTEGRATION TEST
-            //}
+            // By using the collectionToUpdate we retrieved from the db,
+            // we re-assign its values that are editable, based on the incoming collection
+            collectionToUpdate.Name = collection.Name;
+            collectionToUpdate.Description = collection.Description;
 
             try
             {
-                _collectionRepo.Update(collection);
+                _collectionRepo.Update(collectionToUpdate);
                 return NoContent();
             }
             catch (DbUpdateException e)
