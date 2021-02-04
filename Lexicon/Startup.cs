@@ -27,6 +27,7 @@ namespace Lexicon
         {
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICollectionRepository, CollectionRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
