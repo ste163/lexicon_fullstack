@@ -19,18 +19,21 @@ export const AnonWarning = () => "Anonymous users can not save data."
 export const Logout = () => "Logout successful."
 
 
-// Collections
-export const CollectionRetrieveFailure = () => "Unable to retrieve collections."
+// Retrieving 
+export const RetrieveFailure = objectType => `Unable to retrieve ${objectType}.`
 
-export const CollectionAddSuccess = name => `Added collection ${name}.`
+// Adding
+export const AddSuccess = (objectType, name) => `Added ${objectType} ${name}.`
 
-export const CollectionAddFailure = () => "Unable to add collection."
+export const AddFailure = objectType => `Unable to add ${objectType}.`
 
-export const CollectionFailureNameDupe = () => "You already have a collection with that name."
+export const FailureNameDupe = objectType => `You already have a ${objectType} with that name.`
 
-export const CollectionUpdateSuccess = name => `Updated ${name}.`
 
-export const CollectionUpdateFailure = () => "Unable to update collection."
+// Updating
+export const UpdateSuccess = objectType => `Updated ${objectType}.`
+
+export const UpdateFailure = objectType => `Unable to update ${objectType}.`
 
 
 // Deleting

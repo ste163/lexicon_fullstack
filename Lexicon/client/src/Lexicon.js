@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import { UserProvider } from './providers/UserProvider'
 import { DeleteProvider } from './providers/DeleteProvider'
 import { CollectionProvider } from './providers/CollectionProvider'
+import { ProjectProvider } from './providers/ProjectProvider'
 import ApplicationViews from './ApplicationViews'
 import 'react-toastify/dist/ReactToastify.min.css'
 import './Lexicon.css'
@@ -15,9 +16,11 @@ const Lexicon = () => (
         <UserProvider>
             <DeleteProvider>
                 <CollectionProvider>
-                    <Router>
-                        <ApplicationViews />
-                    </Router>    
+                    <ProjectProvider>
+                        <Router>
+                            <ApplicationViews />
+                        </Router>    
+                    </ProjectProvider>
                 </CollectionProvider>
             </DeleteProvider>
         </UserProvider>
