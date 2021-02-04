@@ -62,7 +62,7 @@ namespace Lexicon.Tests.Repositories
             Project project = new Project()
             {
                 UserId = 1,
-                Name = "Check out this sweeeeeet new pOrject!",
+                Name = "Check out this sweeeeeet new project!",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 

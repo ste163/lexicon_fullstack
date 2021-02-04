@@ -92,6 +92,18 @@ namespace Lexicon.Controllers
                 return BadRequest();
             }
 
+            // Get all of this user's collections
+            var allCollections = _collectionRepo.Get(firebaseUser.Id);
+
+            // see if the name of the incoming collection is in the db
+            var collectionWithThatName = allCollections.Find(c => c.Name == collection.Name);
+
+            // if there is a returned collection, we can't add because name isn't unqiue for this user
+            if (collectionWithThatName != null)
+            {
+                return NotFound();
+            }
+
             // Need to add the default requirements for the collection here
             collection.CategorizationId = 1;
             collection.CreationDate = DateTime.Now;

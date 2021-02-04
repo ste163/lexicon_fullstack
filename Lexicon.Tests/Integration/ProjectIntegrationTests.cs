@@ -48,40 +48,37 @@ namespace Lexicon.Tests.Integration
             Assert.IsType<OkObjectResult>(response);
         }
 
-        //[Fact]
-        //public void User_Can_Not_Add_Collections_With_Duplicate_Names()
-        //{
-        //    // Create a collection with a unique name
-        //    var collection = new Collection()
-        //    {
-        //        UserId = 1,
-        //        CategorizationId = 1,
-        //        Name = "Monsters",
-        //        Description = "HA-HA! The titles match >:)",
-        //        Pinned = false,
-        //        CreationDate = DateTime.Now - TimeSpan.FromDays(15)
-        //    };
+        [Fact]
+        public void User_Can_Not_Add_Projects_With_Duplicate_Names()
+        {
+            // Create a collection with a unique name
+            var project = new Project()
+            {
+                UserId = 1,
+                Name = "Insomnia",
+                CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+            };
 
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
-        //                           }, "TestAuthentication"));
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
+                                   }, "TestAuthentication"));
 
-        //    // Instantiate a real CollectionRepo & UserRepo
-        //    var collectionRepo = new CollectionRepository(_context);
-        //    var userRepo = new UserRepository(_context);
+            // Instantiate a real ProjectRepo & UserRepo
+            var projectRepo = new ProjectRepository(_context);
+            var userRepo = new UserRepository(_context);
 
-        //    // Instantiate a real CollectionController, passing in CollectionRepo
-        //    var controller = new CollectionController(userRepo, collectionRepo);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Instantiate a real ProjectController, passing in ProjectRepo
+            var controller = new ProjectController(userRepo, projectRepo);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to Add collection
-        //    var response = controller.Add(collection);
+            // Attempt to Add project
+            var response = controller.Add(project);
 
-        //    // Should return created result
-        //    Assert.IsType<NotFoundResult>(response);
-        //}
+            // Should return created result
+            Assert.IsType<NotFoundResult>(response);
+        }
 
         //[Fact]
         //public void User_Can_Only_Update_Collection_With_New_Unique_Name()

@@ -33,12 +33,14 @@ namespace Lexicon.Repositories
 
         public void Add(Project project)
         {
-            _context.Update(project);
+            _context.Add(project);
             _context.SaveChanges();
         }
 
         public void Update(Project project)
         {
+            _context.Update(project);
+            _context.SaveChanges();
         }
 
         public void Delete(Project project)

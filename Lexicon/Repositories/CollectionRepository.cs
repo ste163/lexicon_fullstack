@@ -28,10 +28,10 @@ namespace Lexicon.Repositories
         public Collection GetByCollectionId(int id)
         {
             return _context.Collection
-                        .Include(c => c.User)
-                        .Include(c => c.Categorization)
-                        .Where(c => c.Id == id)
-                        .FirstOrDefault();
+                .Include(c => c.User)
+                .Include(c => c.Categorization)
+                .Where(c => c.Id == id)
+                .FirstOrDefault();
         }
 
         public void Add(Collection collection)
