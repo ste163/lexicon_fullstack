@@ -30,7 +30,6 @@ namespace Lexicon.Tests.Repositories
             Assert.True(count == 2);
         }
 
-
         [Fact]
         public void User_Can_Get_A_Single_Project_By_Id()
         {
@@ -49,6 +48,57 @@ namespace Lexicon.Tests.Repositories
             // Two objects should have the same name. Was unable to test if Assert.Equal because Repo returns all the Objects from the FKs
             Assert.True(expectedProjectName == actualProject.Name);
         }
+
+
+
+        // ADD
+        [Fact]
+        public void User_Can_Add_Project()
+        {
+            // Get a userId
+            int userId = 1;
+
+            // Create a new project
+            Project project = new Project()
+            {
+                UserId = 1,
+                Name = "Check out this sweeeeeet new pOrject!",
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Instantiate ProjectRepo
+            var repo = new ProjectRepository(_context);
+
+            // Add project
+            repo.Add(project);
+
+            // Get new count of all projects
+            var count = repo.Get(userId).Count;
+
+            // User with Id 1 should have 3
+            Assert.True(count == 3);
+        }
+
+
+
+        // UPDATE/EDIT
+        [Fact]
+        public void User_Can_Edit_Project()
+        {
+
+        }
+
+
+
+        // DELETE
+        [Fact]
+        public void User_Can_Delete_Project_Without_Any_Other_Linking_Data()
+        {
+
+        }
+
+
+
 
         private void AddSampleData()
         {

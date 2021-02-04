@@ -91,9 +91,10 @@ namespace Lexicon.Tests.Repositories
         }
 
 
+
         // UPDATE/EDIT
         [Fact]
-        public void User_Can_Edit_A_Collection()
+        public void User_Can_Edit_Collection()
         {
             // Instantiate CollectionRepo
             var repo = new CollectionRepository(_context);
@@ -119,7 +120,7 @@ namespace Lexicon.Tests.Repositories
 
         // DELETE
         [Fact]
-        public void User_Can_Delete_A_Single_Collection_Without_Any_Other_Data()
+        public void User_Can_Delete_Collection_Without_Any_Other_Linking_Data()
         {
             // Get an object that's in the database
             var collectionToAdd = new Collection()
@@ -155,6 +156,9 @@ namespace Lexicon.Tests.Repositories
             // We successfully deleted one collection
             Assert.True(count == countAfterDeletion);
         }
+
+
+
 
         private void AddSampleData()
         {
