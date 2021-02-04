@@ -18,6 +18,7 @@ namespace Lexicon.Repositories
         public List<Collection> Get(int id)
         {
             return _context.Collection
+                .Include(c => c.User)
                 .Include(c => c.Categorization)
                 .OrderByDescending(c => c.CreationDate)
                 .Where(c => c.UserId == id)
