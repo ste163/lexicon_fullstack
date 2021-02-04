@@ -31,7 +31,6 @@ CREATE TABLE [Project] (
 	[CreationDate] datetime NOT NULL,
 	[Name] nvarchar(255) NOT NULL
 
-	CONSTRAINT UQ_ProjectName UNIQUE([Name]),
 	CONSTRAINT [FK_Project_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
 )
 
@@ -49,7 +48,6 @@ CREATE TABLE [Collection] (
 	[Description] nvarchar(255),
 	[Pinned] bit NOT NULL
 
-	CONSTRAINT UQ_CollectionName UNIQUE([Name]),
 	CONSTRAINT [FK_Collection_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
 	CONSTRAINT [FK_Collection_Categorization] FOREIGN KEY ([CategorizationId]) REFERENCES [Categorization] ([Id])
 )

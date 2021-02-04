@@ -18,6 +18,7 @@ namespace Lexicon.Repositories
         public List<Collection> Get(int id)
         {
             return _context.Collection
+                .Include(c => c.User)
                 .Include(c => c.Categorization)
                 .OrderByDescending(c => c.CreationDate)
                 .Where(c => c.UserId == id)
@@ -27,10 +28,10 @@ namespace Lexicon.Repositories
         public Collection GetByCollectionId(int id)
         {
             return _context.Collection
-                        .Include(c => c.User)
-                        .Include(c => c.Categorization)
-                        .Where(c => c.Id == id)
-                        .FirstOrDefault();
+                .Include(c => c.User)
+                .Include(c => c.Categorization)
+                .Where(c => c.Id == id)
+                .FirstOrDefault();
         }
 
         public void Add(Collection collection)

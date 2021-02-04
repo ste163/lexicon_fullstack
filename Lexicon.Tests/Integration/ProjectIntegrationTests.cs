@@ -9,24 +9,21 @@ using Xunit;
 
 namespace Lexicon.Tests.Integration
 {
-    public class CollectionIntegrationTests : EFTestFixture
+    public class ProjectIntegrationTests : EFTestFixture
     {
-        public CollectionIntegrationTests()
+        public ProjectIntegrationTests()
         {
             AddSampleData();
         }
 
         [Fact]
-        public void User_Can_Only_Add_Collections_With_Unique_Names()
+        public void User_Can_Only_Add_Projects_With_Unique_Names()
         {
-            // Create a collection with a unique name
-            var collection = new Collection()
+            // Create a project with a unique name
+            var project = new Project()
             {
                 UserId = 1,
-                CategorizationId = 1,
-                Name = "Winter",
-                Description = "Wintery words. Because It hates the holidays.",
-                Pinned = false,
+                Name = "SK's Newest Novel",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(15)
             };
 
@@ -35,33 +32,30 @@ namespace Lexicon.Tests.Integration
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
                                    }, "TestAuthentication"));
 
-            // Instantiate a real CollectionRepo & UserRepo
-            var collectionRepo = new CollectionRepository(_context);
+            // Instantiate a real ProjectRepo & UserRepo
+            var projectRepo = new ProjectRepository(_context);
             var userRepo = new UserRepository(_context);
 
-            // Instantiate a real CollectionController, passing in CollectionRepo
-            var controller = new CollectionController(userRepo, collectionRepo);
+            // Instantiate a real ProjectController, passing in ProjectRepo
+            var controller = new ProjectController(userRepo, projectRepo);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to Add collection
-            var response = controller.Add(collection);
+            // Attempt to Add project
+            var response = controller.Add(project);
 
             // Should return created result
             Assert.IsType<OkObjectResult>(response);
         }
 
         [Fact]
-        public void User_Can_Not_Add_Collections_With_Duplicate_Names()
+        public void User_Can_Not_Add_Projects_With_Duplicate_Names()
         {
-            // Create a collection with a unique name
-            var collection = new Collection()
+            // Create a project with a unique name
+            var project = new Project()
             {
                 UserId = 1,
-                CategorizationId = 1,
-                Name = "Monsters",
-                Description = "HA-HA! The titles match >:)",
-                Pinned = false,
+                Name = "It",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(15)
             };
 
@@ -70,89 +64,83 @@ namespace Lexicon.Tests.Integration
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
                                    }, "TestAuthentication"));
 
-            // Instantiate a real CollectionRepo & UserRepo
-            var collectionRepo = new CollectionRepository(_context);
+            // Instantiate a real ProjectRepo & UserRepo
+            var projectRepo = new ProjectRepository(_context);
             var userRepo = new UserRepository(_context);
 
-            // Instantiate a real CollectionController, passing in CollectionRepo
-            var controller = new CollectionController(userRepo, collectionRepo);
+            // Instantiate a real ProjectController, passing in ProjectRepo
+            var controller = new ProjectController(userRepo, projectRepo);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to Add collection
-            var response = controller.Add(collection);
+            // Attempt to Add project
+            var response = controller.Add(project);
 
             // Should return created result
             Assert.IsType<NotFoundResult>(response);
         }
 
         [Fact]
-        public void User_Can_Only_Update_Collection_With_New_Unique_Name()
+        public void User_Can_Only_Update_Project_With_New_Unique_Name()
         {
             // Spoof an authenticated user by generating a ClaimsPrincipal
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
                                    }, "TestAuthentication"));
 
-            // Instantiate a real CollectionRepo & UserRepo
-            var collectionRepo = new CollectionRepository(_context);
+            // Instantiate a real ProjectRepo & UserRepo
+            var projectRepo = new ProjectRepository(_context);
             var userRepo = new UserRepository(_context);
 
-            // Instantiate a real CollectionController, passing in CollectionRepo
-            var controller = new CollectionController(userRepo, collectionRepo);
+            // Instantiate a real ProjectController, passing in ProjectRepo
+            var controller = new ProjectController(userRepo, projectRepo);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Make a new collection to pass in to update
-            var collectionToUpdate = new Collection()
+            // Make a new project to pass in to update
+            var projectToUpdate = new Project()
             {
                 Id = 2,
                 UserId = 1,
-                CategorizationId = 1,
-                Name = "Forests",
-                Description = "The titles do not match",
-                Pinned = false,
+                Name = "On Writing",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(15)
             };
 
-            // Attempt to Update collection
-            var response = controller.Put(collectionToUpdate.Id, collectionToUpdate);
+            // Attempt to Update project
+            var response = controller.Put(projectToUpdate.Id, projectToUpdate);
 
             // Should return created result
             Assert.IsType<NoContentResult>(response);
         }
 
         [Fact]
-        public void User_Can_Not_Update_Collections_With_Duplicate_Names()
+        public void User_Can_Not_Update_Projects_With_Duplicate_Names()
         {
             // Spoof an authenticated user by generating a ClaimsPrincipal
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
                                    }, "TestAuthentication"));
 
-            // Instantiate a real CollectionRepo & UserRepo
-            var collectionRepo = new CollectionRepository(_context);
+            // Instantiate a real ProjectRepo & UserRepo
+            var projectRepo = new ProjectRepository(_context);
             var userRepo = new UserRepository(_context);
 
-            // Instantiate a real CollectionController, passing in CollectionRepo
-            var controller = new CollectionController(userRepo, collectionRepo);
+            // Instantiate a real ProjectController, passing in ProjectRepo
+            var controller = new ProjectController(userRepo, projectRepo);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Make a new collection to pass in to update
-            var collectionToUpdate = new Collection()
+            // Make a new project to pass in to update
+            var projectToUpdate = new Project()
             {
                 Id = 2,
                 UserId = 1,
-                CategorizationId = 1,
-                Name = "Monsters",
-                Description = "HA-HA! The titles match >:)",
-                Pinned = false,
+                Name = "It",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(15)
             };
 
-            // Attempt to Update collection
-            var response = controller.Put(collectionToUpdate.Id, collectionToUpdate);
+            // Attempt to Update project
+            var response = controller.Put(projectToUpdate.Id, projectToUpdate);
 
             // Should return created result
             Assert.IsType<NotFoundResult>(response);
@@ -184,64 +172,38 @@ namespace Lexicon.Tests.Integration
             _context.Add(user3);
             _context.SaveChanges();
 
-            var categorization1 = new Categorization()
-            {
-                Type = "Alphabetical"
-            };
-
-            var categorization2 = new Categorization()
-            {
-                Type = "Part of Speech"
-            };
-
-            _context.Add(categorization1);
-            _context.Add(categorization2);
-            _context.SaveChanges();
-
-            var collection1 = new Collection()
+            var project1 = new Project()
             {
                 UserId = 1,
-                CategorizationId = 1,
-                Name = "Monsters",
-                Description = "Monsters and related words It becomes.",
-                Pinned = false,
+                Name = "The Shining",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(15)
             };
 
-            var collection2 = new Collection()
+            var project2 = new Project()
             {
                 UserId = 1,
-                CategorizationId = 1,
-                Name = "Scary places",
-                Description = "Spooky places It probably hangs at.",
-                Pinned = false,
+                Name = "It",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
-            var collection3 = new Collection()
+            var project3 = new Project()
             {
                 UserId = 2,
-                CategorizationId = 1,
-                Name = "Fear",
-                Description = "All the words that cause scary feelings.",
-                Pinned = false,
+                Name = "The Dark Half",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
-            var collection4 = new Collection()
+            var project4 = new Project()
             {
                 UserId = 3,
-                CategorizationId = 2,
-                Name = "Research",
-                Description = "Things related to researching",
-                Pinned = false,
+                Name = "Insomnia",
                 CreationDate = DateTime.Now - TimeSpan.FromDays(5)
             };
 
-            _context.Add(collection1);
-            _context.Add(collection2);
-            _context.Add(collection3);
-            _context.Add(collection4);
+            _context.Add(project1);
+            _context.Add(project2);
+            _context.Add(project3);
+            _context.Add(project4);
             _context.SaveChanges();
         }
     }

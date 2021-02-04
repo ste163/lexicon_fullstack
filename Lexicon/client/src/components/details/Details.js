@@ -2,7 +2,6 @@ import React from 'react'
 import './Details.css'
 
 const Details = ({
-    isCollectionManager,
     selectedItem,
     history,
     selectedUrlToPushTo,

@@ -19,11 +19,6 @@ namespace Lexicon.Tests
                 .HasIndex(u => u.Email)
                 .IsUnique(true);
 
-            // Set Collection Name column as unique
-            builder.Entity<Collection>()
-                .HasIndex(c => c.Name)
-                .IsUnique(true);
-
             builder.Model.GetEntityTypes()
                 .Where(e => !e.IsOwned())
                 .SelectMany(e => e.GetForeignKeys())    

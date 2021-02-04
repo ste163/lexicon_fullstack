@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserContext } from '../../providers/UserProvider'
 import { DeleteContext } from '../../providers/DeleteProvider'
-import { CollectionManagerString, CollectionManagerRoute } from '../../utils/Routes'
+import { CollectionManagerString, CollectionManagerRoute, ProjectManagerString, ProjectManagerRoute } from '../../utils/Routes'
 import { DeleteSuccessful, DeleteFailure, DbNoConnection } from '../../utils/ToastMessages'
 import Modal from '../modal/Modal'
 import './Delete.css'
@@ -35,10 +35,32 @@ const Delete = () => {
                 toast.error(DeleteFailure("collection"))
               }
             }))
+    }
+
+    const deleteProject = (projectId) => {
+        getToken().then(token => 
+            fetch(`/api/project/${projectId}`, {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }).then(res => {
+                if (res.status === 500) {
+                    toast.error(DbNoConnection())
+                }
+              if (res.status === 204) {
+                setIsDeleteModalOpen(false)
+                setObjectToDelete(undefined)
+                toast.info(DeleteSuccessful(objectToDelete.name))
+                history.push(ProjectManagerRoute())
+              } else {
+                toast.error(DeleteFailure("project"))
+              }
+            }))
     } 
 
     // Would probably be better to pull
-    const possibleDeleteRoutes = [CollectionManagerString()]
+    const possibleDeleteRoutes = [CollectionManagerString(), ProjectManagerString()]
 
     const deleteItem = () => {
         const currentUrl = location.pathname
@@ -49,6 +71,9 @@ const Delete = () => {
         switch (currentDeletePath) {
             case CollectionManagerString():
                 deleteCollection(objectToDelete.id)
+                break
+            case ProjectManagerString():
+                deleteProject(objectToDelete.id)
                 break
         }
     }

@@ -1,7 +1,6 @@
 ﻿using Lexicon.Models;
 using Lexicon.Repositories;
 using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace Lexicon.Tests.Repositories
@@ -13,8 +12,6 @@ namespace Lexicon.Tests.Repositories
             // When constructed, add dummy data to in-memory database
             AddSampleData();
         }
-
-
 
         // GET
         [Fact]
@@ -94,9 +91,10 @@ namespace Lexicon.Tests.Repositories
         }
 
 
+
         // UPDATE/EDIT
         [Fact]
-        public void User_Can_Edit_A_Collection()
+        public void User_Can_Edit_Collection()
         {
             // Instantiate CollectionRepo
             var repo = new CollectionRepository(_context);
@@ -122,7 +120,7 @@ namespace Lexicon.Tests.Repositories
 
         // DELETE
         [Fact]
-        public void User_Can_Delete_A_Single_Collection_Without_Any_Other_Data()
+        public void User_Can_Delete_Collection_Without_Any_Other_Linking_Data()
         {
             // Get an object that's in the database
             var collectionToAdd = new Collection()
@@ -157,8 +155,10 @@ namespace Lexicon.Tests.Repositories
             Assert.True(count < countAfterAdd);
             // We successfully deleted one collection
             Assert.True(count == countAfterDeletion);
-
         }
+
+
+
 
         private void AddSampleData()
         {

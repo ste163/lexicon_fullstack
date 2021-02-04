@@ -2,39 +2,39 @@ import React, { createContext, useState, useContext } from 'react'
 import { UserContext } from "./UserProvider"
 import { toast } from 'react-toastify'
 import {
-  AnonWarning,
-  DbNoConnection,
-  RetrieveFailure,
-  AddFailure,
-  AddSuccess,
-  FailureNameDupe,
-  UpdateSuccess,
-  UpdateFailure, } from '../utils/ToastMessages'
+    AnonWarning,
+    DbNoConnection,
+    RetrieveFailure,
+    AddFailure,
+    AddSuccess,
+    FailureNameDupe,
+    UpdateSuccess,
+    UpdateFailure, } from '../utils/ToastMessages'
 
-export const CollectionContext = createContext()
+export const ProjectContext = createContext()
 
-export const CollectionProvider = props => {
-  const objectTypeForToasts = "collection"
-  const apiUrl = "/api/collection"
+export const ProjectProvider = props => {
+  const objectTypeForToasts = "project"
+  const apiUrl = "/api/project"
   const currentUserId = +sessionStorage.getItem('currentUserId') // If 0, then anonymous, do not allow user to do anything
   const { getToken } = useContext(UserContext)
 
-  // all collections
-  const [collections, setCollections] = useState()
+  // all projects
+  const [projects, setProjects] = useState()
   // lets program know if it needs to show a loading indicator or not
-  const [isFetchingCollections, setIsFetchingCollections] = useState(true) 
-  const [isFetchingCollectionDetails, setIsFetchingCollectionDetails] = useState(true)
-  // currently selected collection
-  const [selectedCollection, setSelectedCollection] = useState()
+  const [isFetchingProjects, setIsFetchingProjects] = useState(true) 
+  const [isFetchingProjectDetails, setIsFetchingProjectDetails] = useState(true)
+  // currently selected Project
+  const [selectedProject, setSelectedProject] = useState()
   // handles open states for manager and its views
-  const [isCollectionManagerOpen, setIsCollectionManagerOpen] = useState(false)
-  const [isCollectionCreateFormOpen, setIsCollectionCreateFormOpen] = useState(false)
-  const [isCollectionDetailsOpen, setIsCollectionDetailsOpen] = useState(false)
-  const [isCollectionEditFormOpen, setIsCollectionEditFormOpen] = useState(false)
+  const [isProjectManagerOpen, setIsProjectManagerOpen] = useState(false)
+  const [isProjectCreateFormOpen, setIsProjectCreateFormOpen] = useState(false)
+  const [isProjectDetailsOpen, setIsProjectDetailsOpen] = useState(false)
+  const [isProjectEditFormOpen, setIsProjectEditFormOpen] = useState(false)
   
-  const getCollections = () => {
+  const getProjects = () => {
     if (currentUserId === 0) {
-      setIsFetchingCollections(false)
+      setIsFetchingProjects(false)
     } else {
       return getToken().then(token =>
         fetch(`${apiUrl}`, {
@@ -44,7 +44,7 @@ export const CollectionProvider = props => {
           }
         })
         .then(res => {
-          setIsFetchingCollections(false)
+          setIsFetchingProjects(false)
           if (res.status === 500) {
             toast.error(DbNoConnection())
             return
@@ -55,25 +55,25 @@ export const CollectionProvider = props => {
           }
           return res.json()
         })
-        .then(c => setCollections(c)))
+        .then(c => setProjects(c)))
     }
   }
 
-  // Must do a setCollection .then AFTER you run this method
+  // Must do a setProject .then AFTER you run this method
   // had to do it this way so I could set the deleteObject state
-  const getCollectionById = (collectionId) => {
+  const getProjectById = (projectId) => {
     if (currentUserId === 0) {
-      setIsFetchingCollectionDetails(false)
+      setIsFetchingProjectDetails(false)
     } else {
       return getToken().then(token =>
-        fetch(`${apiUrl}/${collectionId}`, {
+        fetch(`${apiUrl}/${projectId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
         .then(res => {
-          setIsFetchingCollectionDetails(false)
+          setIsFetchingProjectDetails(false)
           if (res.status === 500) {
             toast.error(DbNoConnection())
           }
@@ -85,7 +85,7 @@ export const CollectionProvider = props => {
     }
   }
 
-  const addCollection = submittedCollection => {
+  const addProject = submittedProject => {
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
@@ -96,7 +96,7 @@ export const CollectionProvider = props => {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(submittedCollection)
+            body: JSON.stringify(submittedProject)
         }))
         .then(res => {
           if (res.status === 200) {
@@ -119,10 +119,10 @@ export const CollectionProvider = props => {
             return
           }      
         })
-        .then(collection => {
-          if (collection) {
-            toast.success(AddSuccess(objectTypeForToasts, collection.name))
-            getCollections()
+        .then(project => {
+          if (project) {
+            toast.success(AddSuccess(objectTypeForToasts, project.name))
+            getProjects()
           } else {
             return
           }
@@ -130,23 +130,23 @@ export const CollectionProvider = props => {
     }
   }
 
-  const updateCollection = submittedCollection => {
+  const updateProject = submittedProject => {
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
       return getToken().then(token => 
-        fetch(`${apiUrl}/${submittedCollection.id}`, {
+        fetch(`${apiUrl}/${submittedProject.id}`, {
             method: "PUT",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(submittedCollection)
+            body: JSON.stringify(submittedProject)
         }))
         .then(res => {
           if (res.status === 204) {
             toast.success(UpdateSuccess(objectTypeForToasts))
-            getCollections()
+            getProjects()
             return true
           }
           if (res.status === 500) {
@@ -169,24 +169,24 @@ export const CollectionProvider = props => {
     }
 
     return (
-      <CollectionContext.Provider
+      <ProjectContext.Provider
         value={{
-          isFetchingCollections,
-          isFetchingCollectionDetails, setIsFetchingCollectionDetails,
+          isFetchingProjects,
+          isFetchingProjectDetails, setIsFetchingProjectDetails,
 
-          collections, setCollections,
-          selectedCollection, setSelectedCollection,
-          isCollectionManagerOpen, setIsCollectionManagerOpen,
-          isCollectionCreateFormOpen, setIsCollectionCreateFormOpen,
-          isCollectionDetailsOpen, setIsCollectionDetailsOpen,
-          isCollectionEditFormOpen, setIsCollectionEditFormOpen,
+          projects, setProjects,
+          selectedProject, setSelectedProject,
+          isProjectManagerOpen, setIsProjectManagerOpen,
+          isProjectCreateFormOpen, setIsProjectCreateFormOpen,
+          isProjectDetailsOpen, setIsProjectDetailsOpen,
+          isProjectEditFormOpen, setIsProjectEditFormOpen,
 
-          getCollections,
-          getCollectionById,
-          addCollection,
-          updateCollection
+          getProjects,
+          getProjectById,
+          addProject,
+          updateProject
         }}>
           {props.children}
-      </CollectionContext.Provider>
+      </ProjectContext.Provider>
     )
 }
