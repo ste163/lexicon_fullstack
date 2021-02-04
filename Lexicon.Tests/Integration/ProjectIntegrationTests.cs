@@ -88,7 +88,7 @@ namespace Lexicon.Tests.Integration
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
                                    }, "TestAuthentication"));
 
-            // Instantiate a real CollectionRepo & UserRepo
+            // Instantiate a real ProjectRepo & UserRepo
             var projectRepo = new ProjectRepository(_context);
             var userRepo = new UserRepository(_context);
 
@@ -113,41 +113,38 @@ namespace Lexicon.Tests.Integration
             Assert.IsType<NoContentResult>(response);
         }
 
-        //[Fact]
-        //public void User_Can_Not_Update_Collections_With_Duplicate_Names()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void User_Can_Not_Update_Projects_With_Duplicate_Names()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
+                                   }, "TestAuthentication"));
 
-        //    // Instantiate a real CollectionRepo & UserRepo
-        //    var projectRepo = new CollectionRepository(_context);
-        //    var userRepo = new UserRepository(_context);
+            // Instantiate a real ProjectRepo & UserRepo
+            var projectRepo = new ProjectRepository(_context);
+            var userRepo = new UserRepository(_context);
 
-        //    // Instantiate a real CollectionController, passing in CollectionRepo
-        //    var controller = new CollectionController(userRepo, collectionRepo);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Instantiate a real ProjectController, passing in ProjectRepo
+            var controller = new ProjectController(userRepo, projectRepo);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Make a new collection to pass in to update
-        //    var collectionToUpdate = new Collection()
-        //    {
-        //        Id = 2,
-        //        UserId = 1,
-        //        CategorizationId = 1,
-        //        Name = "Monsters",
-        //        Description = "HA-HA! The titles match >:)",
-        //        Pinned = false,
-        //        CreationDate = DateTime.Now - TimeSpan.FromDays(15)
-        //    };
+            // Make a new project to pass in to update
+            var projectToUpdate = new Project()
+            {
+                Id = 2,
+                UserId = 1,
+                Name = "It",
+                CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+            };
 
-        //    // Attempt to Update collection
-        //    var response = controller.Put(collectionToUpdate.Id, collectionToUpdate);
+            // Attempt to Update project
+            var response = controller.Put(projectToUpdate.Id, projectToUpdate);
 
-        //    // Should return created result
-        //    Assert.IsType<NotFoundResult>(response);
-        //}
+            // Should return created result
+            Assert.IsType<NotFoundResult>(response);
+        }
 
 
         private void AddSampleData()
