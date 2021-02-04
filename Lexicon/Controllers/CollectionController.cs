@@ -30,6 +30,7 @@ namespace Lexicon.Controllers
         {           
             var firebaseUser = _utils.GetCurrentUser(User);
 
+            // If this person is an anonymous user, return NotFound
             if (firebaseUser == null)
             {
                 return NotFound();
