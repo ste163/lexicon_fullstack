@@ -16,29 +16,22 @@ import {
     CollectionManagerCreateRoute,
     CollectionManagerDetailsRoute,
     CollectionManagerEditRoute,
-    CollectionManagerDeleteRoute
+    CollectionManagerDeleteRoute,
+    ProjectManagerRoute,
+    ProjectManagerCreateRoute,
+    ProjectManagerDetailsRoute,
+    ProjectManagerEditRoute,
+    ProjectManagerDeleteRoute,
 } from './utils/Routes'
 
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext)
-    const { getCollections } = useContext(CollectionContext)
     const { setObjectToDelete, setIsDeleteModalOpen } = useContext(DeleteContext)
     const currentUrl = useLocation().pathname
     const history = useHistory()
-
+    
     const {
-        getCollectionById,
-        setSelectedCollection,
-
-        // Collection Manager
-        setIsCollectionManagerOpen,
-        setIsCollectionCreateFormOpen,
-        setIsCollectionDetailsOpen,
-        setIsCollectionEditFormOpen,
-        setIsFetchingCollectionDetails
-    } = useContext(CollectionContext)
-
-    const {
+        getProjects,
         getProjectById,
         setSelectedProject,
 
@@ -49,6 +42,19 @@ const ApplicationViews = () => {
         setIsProjectEditFormOpen,
         setIsFetchingProjectDetails
     } = useContext(ProjectContext)
+
+    const {
+        getCollections,
+        getCollectionById,
+        setSelectedCollection,
+
+        // Collection Manager
+        setIsCollectionManagerOpen,
+        setIsCollectionCreateFormOpen,
+        setIsCollectionDetailsOpen,
+        setIsCollectionEditFormOpen,
+        setIsFetchingCollectionDetails
+    } = useContext(CollectionContext)
 
     // State router switches state on/off based on the URL pathname
     const StateRouter = () => {
@@ -67,7 +73,10 @@ const ApplicationViews = () => {
         }
 
         const turnOffAllProjectRoutes = () => {
-
+            setIsProjectManagerOpen(false)
+            setIsProjectCreateFormOpen(false)
+            setIsProjectDetailsOpen(false)
+            setIsProjectEditFormOpen(false)
         }
 
         const turnOffAllButDelete = () => {
@@ -78,11 +87,11 @@ const ApplicationViews = () => {
         switch (currentUrl) {
             case AuthRoute():
                 setIsDeleteModalOpen(false)
-                turnOffAllCollectionRoutes()
+                turnOffAllButDelete()
                 break
 
             case AppRoute():
-                turnOffAllCollectionRoutes()
+                turnOffAllButDelete()
                 setIsDeleteModalOpen(false)
                 break
 
@@ -101,6 +110,62 @@ const ApplicationViews = () => {
                 // Open Settings modal
                 break
 
+            // Project Manager
+            case ProjectManagerRoute():
+                // Whenever we hit the ProjectManager, getProjects
+                getProjects() // Currently doesn't show a loading icon though. Which I'd like to add
+
+                turnOffAllCollectionRoutes()
+                setIsProjectCreateFormOpen(false)
+                setIsProjectDetailsOpen(false)
+                setIsProjectEditFormOpen(false)
+                setIsProjectManagerOpen(true)
+                break 
+
+            case ProjectManagerCreateRoute():
+                turnOffAllCollectionRoutes()
+                setIsProjectManagerOpen(true)
+                setIsProjectCreateFormOpen(true)
+                setIsProjectEditFormOpen(false)
+                setIsProjectDetailsOpen(false)
+                break
+
+            case ProjectManagerDetailsRoute(routeParamId):
+                setIsFetchingProjectDetails(true)
+                turnOffAllCollectionRoutes()
+
+                getProjectById(routeParamId)
+                .then(project => setSelectedProject(project))
+                .catch(error => history.goBack())
+
+                setIsProjectDetailsOpen(true) 
+                setIsProjectManagerOpen(true)
+                setIsProjectCreateFormOpen(false)
+                setIsProjectEditFormOpen(false)
+                break
+
+            case ProjectManagerEditRoute(routeParamId):
+                // Hide Details and Show Edit form by switching their opacity
+                getProjectById(routeParamId)
+                .then(project => setSelectedProject(project))
+                .catch(error => history.goBack())
+
+                setIsProjectEditFormOpen(true)
+                setIsProjectDetailsOpen(true) 
+                setIsProjectManagerOpen(true)
+                break
+
+            case ProjectManagerDeleteRoute(routeParamId):
+                getProjectById(routeParamId)
+                .then(project => setObjectToDelete(project))
+                .catch(error => history.goBack()) // if an error, on retrieval, go back a page
+
+                turnOffAllButDelete()
+                setIsDeleteModalOpen(true)
+                break
+            
+
+            // Collection Manager
             case CollectionManagerRoute():
                 // Whenever we hit the CollectionManager, getCollections
                 getCollections() // Currently doesn't show a loading icon though. Which I'd like to add
@@ -154,8 +219,6 @@ const ApplicationViews = () => {
 
                 turnOffAllButDelete()
                 setIsDeleteModalOpen(true)
-                // 5. If DELETE, then delete object, then return to the previous manager/page
-                        // setObjectToDelete({}) -- occurs at the end of a successful delete ONLY
                 break
 
             default:

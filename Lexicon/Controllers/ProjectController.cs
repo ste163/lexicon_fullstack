@@ -9,6 +9,9 @@ using Lexicon.Models;
 
 namespace Lexicon.Controllers
 {
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProjectController : ControllerBase
     {
         private readonly IUserRepository _userRepo;

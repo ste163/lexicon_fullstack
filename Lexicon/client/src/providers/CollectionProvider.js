@@ -47,9 +47,11 @@ export const CollectionProvider = props => {
           setIsFetchingCollections(false)
           if (res.status === 500) {
             toast.error(DbNoConnection())
+            return
           }
           if (res.status === 404) {
-            toast.error(RetrieveFailure(objectTypeForToasts()))
+            toast.error(RetrieveFailure(`${objectTypeForToasts}s`))
+            return
           }
           return res.json()
         })
@@ -76,7 +78,7 @@ export const CollectionProvider = props => {
             toast.error(DbNoConnection())
           }
           if (res.status === 404) {
-            toast.error(RetrieveFailure(objectTypeForToasts()))
+            toast.error(RetrieveFailure(objectTypeForToasts))
           }
           return res.json()
         }))
@@ -108,18 +110,18 @@ export const CollectionProvider = props => {
           }
           if (res.status === 400) {
             // Bad request
-            toast.error(FailureNameDupe(objectTypeForToasts()))
+            toast.error(FailureNameDupe(objectTypeForToasts))
             return
           }      
           if (res.status === 404) {
             // Not found
-            toast.error(AddFailure(objectTypeForToasts()))
+            toast.error(AddFailure(objectTypeForToasts))
             return
           }      
         })
         .then(collection => {
           if (collection) {
-            toast.success(AddSuccess(objectTypeForToasts(), collection.name))
+            toast.success(AddSuccess(objectTypeForToasts, collection.name))
             getCollections()
           } else {
             return
@@ -143,7 +145,7 @@ export const CollectionProvider = props => {
         }))
         .then(res => {
           if (res.status === 204) {
-            toast.success(UpdateSuccess(objectTypeForToasts()))
+            toast.success(UpdateSuccess(objectTypeForToasts))
             getCollections()
             return true
           }
@@ -154,12 +156,12 @@ export const CollectionProvider = props => {
           }
           if (res.status === 401) {
             // Bad request
-            toast.error(FailureNameDupe(objectTypeForToasts()))
+            toast.error(FailureNameDupe(objectTypeForToasts))
             return false
           }
           if (res.status === 404) {
             // Not found
-            toast.error(UpdateFailure(objectTypeForToasts()))
+            toast.error(UpdateFailure(objectTypeForToasts))
             return false
           }      
         })

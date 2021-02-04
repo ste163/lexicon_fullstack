@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { CollectionContext } from '../../providers/CollectionProvider'
+import { ProjectContext } from '../../providers/ProjectProvider'
 import Delete from '../../components/delete/Delete'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
 import HeaderMobile from '../../components/headerMobile/HeaderMobile'
@@ -8,6 +9,7 @@ import './MainView.css'
 
 const MainView = () => {
     const { getCollections } = useContext(CollectionContext)
+    const { getProjects } = useContext(ProjectContext)
 
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
@@ -22,6 +24,7 @@ const MainView = () => {
 
     useEffect(() => {
         getCollections()
+        getProjects()
     }, [])
 
     // Debounce and useEffect based on https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
