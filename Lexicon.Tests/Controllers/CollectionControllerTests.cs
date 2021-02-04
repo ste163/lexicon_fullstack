@@ -219,6 +219,35 @@ namespace Lexicon.Tests.Controllers
         }
 
         [Fact]
+        public void If_Collection_UserId_Does_Not_Match_Current_User_Do_Not_Add()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Create a new collection
+            Collection collection = new Collection()
+            {
+                // have a userId coming in that does not match
+                UserId = 666,
+                Name = "New stuff",
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Add(collection);
+
+            // Returns Ok
+            Assert.IsType<BadRequestResult>(response);
+        }
+
+        [Fact]
         public void Anonymous_User_Can_Not_Add_Collection()
         {
             // Spoof an authenticated user by generating a ClaimsPrincipal

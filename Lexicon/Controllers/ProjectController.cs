@@ -83,6 +83,12 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
+            // Ensure the userId on the incoming project matches the person making the request
+            if (project.UserId != firebaseUser.Id)
+            {
+                return BadRequest();
+            }
+
             // Need to add the default requirement for the project here
             project.CreationDate = DateTime.Now;
 

@@ -86,6 +86,12 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
+            // Ensure the userId on the incoming collection matches the person making the request
+            if (collection.UserId != firebaseUser.Id)
+            {
+                return BadRequest();
+            }
+
             // Need to add the default requirements for the collection here
             collection.CategorizationId = 1;
             collection.CreationDate = DateTime.Now;

@@ -185,70 +185,93 @@ namespace Lexicon.Tests.Controllers
 
 
 
-        //// ADD TESTS
-        //[Fact]
-        //public void User_Can_Add_Collection()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
-        //                           }, "TestAuthentication"));
+        // ADD TESTS
+        [Fact]
+        public void User_Can_Add_Project()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
-        //    // Create a new collection
-        //    Collection collection = new Collection()
-        //    {
-        //        UserId = 1,
-        //        CategorizationId = 1,
-        //        Name = "New stuff",
-        //        Description = "New lame description.",
-        //        Pinned = false,
-        //        CreationDate = DateTime.Now - TimeSpan.FromDays(10)
-        //    };
+            // Create a new collection
+            Project project = new Project()
+            {
+                UserId = 1,
+                Name = "New stuff",
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to Get this User's collections
-        //    var response = controller.Add(collection);
+            // Attempt to Get this User's projects
+            var response = controller.Add(project);
 
-        //    // Returns Ok
-        //    Assert.IsType<OkObjectResult>(response);
-        //}
+            // Returns Ok
+            Assert.IsType<OkObjectResult>(response);
+        }
 
-        //[Fact]
-        //public void Anonymous_User_Can_Not_Add_Collection()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void If_Project_UserId_Does_Not_Match_Current_User_Do_Not_Add()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
 
-        //    // Create a new collection
-        //    Collection collection = new Collection()
-        //    {
-        //        UserId = 1,
-        //        CategorizationId = 1,
-        //        Name = "New stuff",
-        //        Description = "New lame description.",
-        //        Pinned = false,
-        //        CreationDate = DateTime.Now - TimeSpan.FromDays(10)
-        //    };
+            // Create a new project
+            Project project = new Project()
+            {
+                // have a userId coming in that does not match
+                UserId = 666,
+                Name = "New stuff",
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to Get this User's collections
-        //    var response = controller.Add(collection);
+            // Attempt to Get this User's projects
+            var response = controller.Add(project);
 
-        //    // Returns Ok
-        //    Assert.IsType<NotFoundResult>(response);
-        //    // Verify we never called the repo method
-        //    _fakeCollectionRepo.Verify(r => r.Add(It.IsAny<Collection>()), Times.Never());
-        //}
+            // Returns Ok
+            Assert.IsType<BadRequestResult>(response);
+        }
+
+        [Fact]
+        public void Anonymous_User_Can_Not_Add_Project()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
+
+            // Create a new collection
+            Project project = new Project()
+            {
+                UserId = 1,
+                Name = "New stuff",
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            // Spoof UserController
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's projects
+            var response = controller.Add(project);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeProjectRepo.Verify(r => r.Add(It.IsAny<Project>()), Times.Never());
+        }
 
 
 
