@@ -98,7 +98,7 @@ namespace Lexicon.Controllers
             // see if the name of the incoming collection is in the db
             var collectionWithThatName = allCollections.Find(c => c.Name == collection.Name);
 
-            // if there is a returned collection, we can't add because name isn't unqiue for this user
+            // if there is a returned collection, we can't add because name isn't unique for this user
             if (collectionWithThatName != null)
             {
                 return NotFound();
@@ -146,6 +146,18 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
+            // Get all of this user's collections
+            var allCollections = _collectionRepo.Get(firebaseUser.Id);
+
+            // see if the name of the incoming collection is in the db
+            var collectionWithThatName = allCollections.Find(c => c.Name == collection.Name);
+
+            // if there is a returned collection, we can't add because name isn't unique for this user
+            if (collectionWithThatName != null)
+            {
+                return NotFound();
+            }
+
             // Get Collection's owner to ensure this is current user's collection
             var collectionOwner = collectionToUpdate.UserId;
             // Check if incoming user is the same one requesting deletion
@@ -166,7 +178,7 @@ namespace Lexicon.Controllers
             }
             catch (DbUpdateException e)
             {
-                return Unauthorized(); // When I get this error message in frontend, tell user the Name was already in db
+                return NotFound();
             }
         }
 
