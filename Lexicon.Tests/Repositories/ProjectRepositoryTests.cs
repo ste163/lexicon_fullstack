@@ -143,7 +143,6 @@ namespace Lexicon.Tests.Repositories
 
 
 
-
         private void AddSampleData()
         {
             var user1 = new User()
