@@ -124,6 +124,7 @@ namespace Lexicon.Controllers
                     projectCollection.CollectionId = collectionForm.Collection.Id;
                 }
 
+                // Add ProjectCollections
                 _projColRepo.Add(collectionForm.ProjectCollections);
                 
                 return Ok(collectionForm);
@@ -135,13 +136,8 @@ namespace Lexicon.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Collection collection)
+        public IActionResult Put(int id, CollectionFormViewModel collectionForm)
         {
-            // Will need to loop through the incoming projCols
-            // get them by collection id. Do a where if the project Id is linked to that collection at all
-            // if it is, remove that one from the list
-            // OR get by colleciton Id, and filter out from the list, any that are already in the db.
-
             // Get current user
             var firebaseUser = _utils.GetCurrentUser(User);
 
@@ -152,7 +148,7 @@ namespace Lexicon.Controllers
             }
 
             // Collection Id coming from URL must match the Collection object's Id
-            if (id != collection.Id)
+            if (id != collectionForm.Collection.Id)
             {
                 return BadRequest();
             }
@@ -170,7 +166,7 @@ namespace Lexicon.Controllers
             var allCollections = _collectionRepo.Get(firebaseUser.Id);
 
             // see if the name of the incoming collection is in the db
-            var collectionWithThatName = allCollections.Find(c => c.Name == collection.Name);
+            var collectionWithThatName = allCollections.Find(c => c.Name == collectionForm.Collection.Name);
 
             // if there is a returned collection, we can't add because name isn't unique for this user
             if (collectionWithThatName != null)
@@ -186,14 +182,36 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
+            // ** At this point, we know the person is able to update the collection.
+           
+            // Get projectCollections for this current collection
+            var projectCollectionsInDb = _projColRepo.GetByCollectionId(collectionForm.Collection.Id);
+
+            // Create an empty to list to store all possible projects to link to
+            var projectCollectionsToUpdate = new List<ProjectCollection>();
+
+            // Loop through what's in the db and check against what's incoming
+            foreach (var pcInDb in projectCollectionsInDb)
+            {
+                foreach (var pcIncoming in collectionForm.ProjectCollections)
+                {
+                    // If pc in Db doesn't equal the incoming pc, add it to the update list
+                    if (pcInDb.ProjectId != pcIncoming.ProjectId)
+                    {
+                        projectCollectionsToUpdate.Add(pcIncoming);
+                    }
+                }
+            }
+
             // By using the collectionToUpdate we retrieved from the db,
             // we re-assign its values that are editable, based on the incoming collection
-            collectionToUpdate.Name = collection.Name;
-            collectionToUpdate.Description = collection.Description;
+            collectionToUpdate.Name = collectionForm.Collection.Name;
+            collectionToUpdate.Description = collectionForm.Collection.Description;
 
             try
             {
                 _collectionRepo.Update(collectionToUpdate);
+                _projColRepo.Add(projectCollectionsToUpdate);
                 return NoContent();
             }
             catch (DbUpdateException e)
