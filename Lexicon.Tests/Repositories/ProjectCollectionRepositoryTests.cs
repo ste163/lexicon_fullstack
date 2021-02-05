@@ -15,6 +15,58 @@ namespace Lexicon.Tests.Repositories
         }
 
 
+
+        // GET
+        [Fact]
+        public void Can_Get_All_Related_To_A_Collection_Id()
+        {
+
+        }
+
+        [Fact]
+        public void Can_Get_All_Related_To_A_Project_Id()
+        {
+
+        }
+
+        [Fact]
+        public void If_No_Joined_Proj_Coll_Return_Nothing()
+        {
+
+        }
+
+
+
+        // ADD
+        [Fact]
+        public void Can_Add_Multiple_Items_At_Once()
+        {
+
+        }
+
+        [Fact]
+        public void Can_Add_Single_Item()
+        {
+
+        }
+
+
+
+        // DELETE
+        [Fact]
+        public void Can_Delete_Multiple_Items_At_Once()
+        {
+
+        }
+
+        [Fact]
+        public void Can_Delete_Single_Item()
+        {
+
+        }
+
+
+
         private void AddSampleData()
         {
             var project1 = new Project()
