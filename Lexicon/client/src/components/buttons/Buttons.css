@@ -43,6 +43,10 @@
   margin: 0.2em;
 }
 
+.btn--addable {
+  border-radius: 3em;
+}
+
 .btn__controls {
   display: flex;
   flex-flow: row nowrap;

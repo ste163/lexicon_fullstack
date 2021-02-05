@@ -70,7 +70,7 @@ export const AddableButton = ({ item, onClickFunction }) => (
     <li className="item__addable">
         <button   
             className="btn btn--addable"
-            onClick={_ => onClickFunction()}>
+            onClick={e => onClickFunction(e)}>
             {item.name}
         </button>
     </li>

@@ -11,7 +11,6 @@ const CollectionForm = ({ history, itemToEdit }) => {
     const { collections, addCollection, updateCollection } = useContext(CollectionContext)
     const { projects } = useContext(ProjectContext)
 
-    const [ dropdownValue, setDropdownValue ] = useState()
     const [ projectsAvailableToAdd, setProjectsAvailableToAdd ] = useState([])
     const [ projectsAdded, setProjectsAdded ] = useState([])
 
@@ -41,12 +40,19 @@ const CollectionForm = ({ history, itemToEdit }) => {
         }
     }, [collections])
 
-    const removeProjectFromListAvailable = (value) => {
-        // Get the ID of the item we clicked on
-        // Get that item from the projectsAvailable
+    const removeProjectFromListAvailable = (e) => {
+        // Get what we clicked on
+        const clickedItem = e.target.textContent
+        // Pull that item from projectsAvailable
+        const itemToAdd = projectsAvailableToAdd.find(p => p.name === clickedItem)
 
-        // filter the projectsAvailable to Add, removing that id
-        // set the filtered value to the new list available
+        // Filter out the clicked on project from those available
+        setProjectsAvailableToAdd(projectsAvailableToAdd.filter(p => p.name !== itemToAdd.name))
+
+        console.log("ADD THIS ITEM", itemToAdd)
+        const newAdditions = [ ...projectsAdded ]
+        newAdditions.push({ itemToAdd })
+        setProjectsAdded({ newAdditions })
 
         // make a new array of all of our projectsAdded.push(item from projectsAvailable)
         // update state with that item
@@ -97,10 +103,6 @@ const CollectionForm = ({ history, itemToEdit }) => {
         constructNewCollection()
     }
 
-    if (!projectsAvailableToAdd) {
-        return null
-    }
-
     return (
     <form
         className={itemToEdit ? "" : "collection__form card card__form card__color--brightWhite"}
@@ -134,21 +136,23 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 name="description"
                 value={collection.description}
                 placeholder="Collection description"
-                maxLength={255}
-                />
+                maxLength={255} />
         </fieldset>
 
+        <label>Projects available to link to this collection:</label>
         <ul className="form__addable-btns">
-            {projectsAvailableToAdd.map(p => <AddableButton key={p.id} item={p} />)}
+            {projectsAvailableToAdd.map(p => <AddableButton key={p.id} item={p} onClickFunction={removeProjectFromListAvailable} />)}
         </ul>
 
-        <div>
+        <label>Projects linked:</label>
+        <ul className="form__addable-btns">
             {!projectsAdded ? (
-                ""
+                <p>None</p>
             ) : (
-                projectsAdded.map(p => "added!")
+                console.log("ADDED", projectsAdded)
+                // projectsAdded.map(p => <AddableButton key={p.id} item={p} />)
             )}
-        </div>
+        </ul>
 
         {isLoading ? (
             <div className="spinner__card">
