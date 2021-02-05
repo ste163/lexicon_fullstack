@@ -1,6 +1,7 @@
 ﻿using Lexicon.Models;
 using Lexicon.Repositories;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 
@@ -71,13 +72,60 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void Can_Add_Multiple_Items_At_Once()
         {
+            // Get a ProjectId to add
+            var projId = 4;
 
+            // Make two ProjectCollections
+            var newProjCol1 = new ProjectCollection()
+            {
+                ProjectId = projId,
+                CollectionId = 1,
+            };
+
+            var newProjCol2 = new ProjectCollection()
+            {
+                ProjectId = projId,
+                CollectionId = 2,
+            };
+
+            // Instantiate ProjectCollection Repo
+            var repo = new ProjectCollectionRepository(_context);
+
+            // Get a count of collections in Project
+            var originalCount = repo.GetByProjectId(projId).Count;
+
+            // Add Items to List
+            var projectCollections = new List<ProjectCollection>()
+            {
+                newProjCol1,
+                newProjCol2
+            };
+
+            // Add items
+            repo.Add(projectCollections);
+
+            // Get new count
+            var newCount = repo.GetByProjectId(projId).Count;
+
+            // New count should be +2 original
+            Assert.True(newCount == originalCount + 2);
         }
 
         [Fact]
         public void Can_Add_Single_Item()
         {
 
+        }
+
+        [Fact]
+        public void Can_Not_Add_Same_Join_Twice()
+        {
+            // Make a join already in the db
+            var newProjCol1 = new ProjectCollection()
+            {
+                ProjectId = 1,
+                CollectionId = 1,
+            };
         }
 
 
