@@ -20,19 +20,49 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void Can_Get_All_Related_To_A_Collection_Id()
         {
+            // Get a valid Collection Id (only valid Ids will ever get to the repo anyway)
+            var id = 1;
 
+            // Instantiate ProjectCollection Repo
+            var repo = new ProjectCollectionRepository(_context);
+
+            // Get count of all projects
+            var count = repo.GetByCollectionId(id).Count;
+
+            // Should have retrieved two items
+            Assert.True(count == 2);
         }
 
         [Fact]
         public void Can_Get_All_Related_To_A_Project_Id()
         {
+            // Get a valid Project Id (only valid Ids will ever get to the repo anyway)
+            var id = 1;
 
+            // Instantiate ProjectCollection Repo
+            var repo = new ProjectCollectionRepository(_context);
+
+            // Get count of all projects
+            var count = repo.GetByProjectId(id).Count;
+
+            // Should have retrieved two items
+            Assert.True(count == 2);
         }
 
         [Fact]
-        public void If_No_Joined_Proj_Coll_Return_Nothing()
+        public void If_No_Joined_Proj_Coll_Return_Empty_List()
         {
+            // Get a valid Project Id without any items
+            var id = 4;
 
+            // Instantiate ProjectCollection Repo
+            var repo = new ProjectCollectionRepository(_context);
+
+            // Get result of all projects
+            var result = repo.GetByProjectId(id);
+
+            // Should return an empty list
+            Assert.Empty(result);
         }
 
 
@@ -69,6 +99,29 @@ namespace Lexicon.Tests.Repositories
 
         private void AddSampleData()
         {
+            var user1 = new User()
+            {
+                Email = "pennywise@it.com",
+                FirebaseUserId = "FIREBASE_ID_1"
+            };
+
+            var user2 = new User()
+            {
+                Email = "bobgray@it.com",
+                FirebaseUserId = "FIREBASE_ID_2"
+            };
+
+            var user3 = new User()
+            {
+                Email = "mikehanlon@it.com",
+                FirebaseUserId = "FIREBASE_ID_3"
+            };
+
+            _context.Add(user1);
+            _context.Add(user2);
+            _context.Add(user3);
+            _context.SaveChanges();
+
             var project1 = new Project()
             {
                 UserId = 1,
@@ -101,6 +154,20 @@ namespace Lexicon.Tests.Repositories
             _context.Add(project2);
             _context.Add(project3);
             _context.Add(project4);
+            _context.SaveChanges();
+
+            var categorization1 = new Categorization()
+            {
+                Type = "Alphabetical"
+            };
+
+            var categorization2 = new Categorization()
+            {
+                Type = "Part of Speech"
+            };
+
+            _context.Add(categorization1);
+            _context.Add(categorization2);
             _context.SaveChanges();
 
             var collection1 = new Collection()
@@ -172,7 +239,6 @@ namespace Lexicon.Tests.Repositories
                 ProjectId = 2,
                 CollectionId = 2
             };
-
 
             _context.Add(projectCollection1);
             _context.Add(projectCollection2);
