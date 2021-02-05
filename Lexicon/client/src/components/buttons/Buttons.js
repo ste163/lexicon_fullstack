@@ -66,7 +66,15 @@ export const DropDownOptions = ({ itemToSelectString, items }) => (
     </>
 )
 
-
+export const AddableButton = ({ item, onClickFunction }) => (
+    <li className="item__addable">
+        <button   
+            className="btn btn--addable"
+            onClick={_ => onClickFunction()}>
+            {item.name}
+        </button>
+    </li>
+)
 
 export const ManagerButton = ({
     isMobile,

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { ProjectContext } from '../../providers/ProjectProvider'
 import { CollectionManagerRoute } from '../../utils/Routes'
-import { DropDownOptions } from "../buttons/Buttons"
+import { AddableButton } from "../buttons/Buttons"
 import './CollectionForm.css'
 import './Form.css'
 
@@ -10,6 +10,10 @@ const CollectionForm = ({ history, itemToEdit }) => {
     const userId = +sessionStorage.getItem("currentUserId")
     const { collections, addCollection, updateCollection } = useContext(CollectionContext)
     const { projects } = useContext(ProjectContext)
+
+    const [ dropdownValue, setDropdownValue ] = useState()
+    const [ projectsAvailableToAdd, setProjectsAvailableToAdd ] = useState([])
+    const [ projectsAdded, setProjectsAdded ] = useState([])
 
     // Set the default project so the form can reset.
     const defaultCollection = {
@@ -26,6 +30,9 @@ const CollectionForm = ({ history, itemToEdit }) => {
 
     // Check on load and when collections change, if we have an editable collection or not
     useEffect(() => {
+        if (projects) {
+            setProjectsAvailableToAdd(projects)
+        }
         if (itemToEdit) {
             setCollection(itemToEdit)
             setIsLoading(false);
@@ -33,6 +40,17 @@ const CollectionForm = ({ history, itemToEdit }) => {
             setIsLoading(false)
         }
     }, [collections])
+
+    const removeProjectFromListAvailable = (value) => {
+        // Get the ID of the item we clicked on
+        // Get that item from the projectsAvailable
+
+        // filter the projectsAvailable to Add, removing that id
+        // set the filtered value to the new list available
+
+        // make a new array of all of our projectsAdded.push(item from projectsAvailable)
+        // update state with that item
+    }
 
     const handleControlledInputChange = e => {
         const newCollection = { ...collection }
@@ -57,6 +75,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 }
             })
         } else {
+            // TAKES A DIFFERENT OBJECT: a Collection and a List<ProjectCollections>
             addCollection({
                 userId,
                 name: collection.name,
@@ -78,11 +97,9 @@ const CollectionForm = ({ history, itemToEdit }) => {
         constructNewCollection()
     }
 
-    if (!projects) {
+    if (!projectsAvailableToAdd) {
         return null
     }
-
-    console.log(projects)
 
     return (
     <form
@@ -121,14 +138,17 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 />
         </fieldset>
 
-        <fieldset>
-            <label htmlFor="collectionProjects">Link collection to project(s): </label>
-            <select>
-                <DropDownOptions
-                    itemToSelectString="a project"
-                    items={projects} />
-            </select>
-        </fieldset>
+        <ul className="form__addable-btns">
+            {projectsAvailableToAdd.map(p => <AddableButton key={p.id} item={p} />)}
+        </ul>
+
+        <div>
+            {!projectsAdded ? (
+                ""
+            ) : (
+                projectsAdded.map(p => "added!")
+            )}
+        </div>
 
         {isLoading ? (
             <div className="spinner__card">
