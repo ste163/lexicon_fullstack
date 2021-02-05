@@ -114,18 +114,71 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void Can_Add_Single_Item()
         {
+            // Get a ProjectId to add
+            var projId = 4;
 
+            // Make two ProjectCollections
+            var newProjCol1 = new ProjectCollection()
+            {
+                ProjectId = projId,
+                CollectionId = 1,
+            };
+
+            // Instantiate ProjectCollection Repo
+            var repo = new ProjectCollectionRepository(_context);
+
+            // Get a count of collections in Project
+            var originalCount = repo.GetByProjectId(projId).Count;
+
+            // Add Items to List
+            var projectCollections = new List<ProjectCollection>()
+            {
+                newProjCol1,
+            };
+
+            // Add items
+            repo.Add(projectCollections);
+
+            // Get new count
+            var newCount = repo.GetByProjectId(projId).Count;
+
+            // New count should be +2 original
+            Assert.True(newCount == originalCount + 1);
         }
 
         [Fact]
         public void Can_Not_Add_Same_Join_Twice()
         {
+            // YOU CURRENTLY CAN
+            // Need to somehow check List of ProjCols coming is contains any identical matches from those in Db
+
             // Make a join already in the db
             var newProjCol1 = new ProjectCollection()
             {
                 ProjectId = 1,
                 CollectionId = 1,
             };
+
+            // Instantiate ProjectCollection Repo
+            var repo = new ProjectCollectionRepository(_context);
+
+            // Get a count of collections in Project
+            var originalCount = repo.GetByProjectId(1).Count;
+
+            // Add Items to List
+            var projectCollections = new List<ProjectCollection>()
+            {
+                newProjCol1,
+            };
+
+            // Add items
+            repo.Add(projectCollections);
+
+            // Get new count
+            var newCount = repo.GetByProjectId(1);
+
+            // New count should be same as original
+            Assert.True(originalCount == 0);
         }
 
 
@@ -134,13 +187,64 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void Can_Delete_Multiple_Items_At_Once()
         {
+            // Get proj id to delete items from
+            var projId = 1;
 
+            // Instantiate ProjectCollection Repo
+            var repo = new ProjectCollectionRepository(_context);
+
+            // Get projCol
+            var projCol = repo.GetByProjectId(projId);
+
+            // Get original counts
+            var originalCount = repo.GetByCollectionId(projId).Count;
+
+            // Add Items to List
+            var projectCollections = new List<ProjectCollection>()
+            {
+                projCol[0],
+                projCol[1]
+            };
+
+            // Add items
+            repo.Delete(projectCollections);
+
+            // Get new count
+            var newCount = repo.GetByProjectId(projId).Count;
+
+            //New count should be -2 original
+            Assert.True(newCount == originalCount - 2);
         }
 
         [Fact]
         public void Can_Delete_Single_Item()
         {
+            // Get proj id to delete items from
+            var projId = 1;
 
+            // Instantiate ProjectCollection Repo
+            var repo = new ProjectCollectionRepository(_context);
+
+            // Get projCol
+            var projCol = repo.GetByProjectId(projId);
+
+            // Get original counts
+            var originalCount = repo.GetByCollectionId(projId).Count;
+
+            // Add Item to List
+            var projectCollections = new List<ProjectCollection>()
+            {
+                projCol[0]
+            };
+
+            // Add items
+            repo.Delete(projectCollections);
+
+            // Get new count
+            var newCount = repo.GetByProjectId(projId).Count;
+
+            //New count should be -1 original
+            Assert.True(newCount == originalCount - 1);
         }
 
 
@@ -276,6 +380,7 @@ namespace Lexicon.Tests.Repositories
                 CollectionId = 2
             };
 
+            // BAD TEST, 2 and 3 ARE THE SAME. THEY SHOULD NOT EXIST
             var projectCollection3 = new ProjectCollection()
             {
                 ProjectId = 2,
