@@ -223,12 +223,6 @@ namespace Lexicon.Tests.Controllers
                 }
             };
 
-            // You have to MAKE the collection in the db.
-            // Get the returned collection.
-            // Assign it's collection Id to Collection Id in all the List<ProjectCollection>
-            // THEN add the List<ProjectCollection>
-
-
             // Spoof UserController
             var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
@@ -241,73 +235,94 @@ namespace Lexicon.Tests.Controllers
             Assert.IsType<OkObjectResult>(response);
         }
 
-        [Fact]
-        public void User_Can_Add_Multiple_ProjectCollection()
-        {
 
+        [Fact]
+        public void If_Collection_UserId_Does_Not_Match_Current_User_Do_Not_Add()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // create a new collectionFormViewModel
+            var collectionForm = new CollectionFormViewModel()
+            {
+                Collection = new Collection()
+                {
+                    UserId = 666,
+                    CategorizationId = 1,
+                    Name = "New stuff",
+                    Description = "New lame description.",
+                    Pinned = false,
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+
+                ProjectCollections = new List<ProjectCollection>()
+                {
+                    new ProjectCollection()
+                    {
+                        ProjectId = 1,
+                        CollectionId = 0
+                    }
+                }
+            };
+
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Add(collectionForm);
+
+            // Returns Ok
+            Assert.IsType<BadRequestResult>(response);
         }
 
-        //[Fact]
-        //public void If_Collection_UserId_Does_Not_Match_Current_User_Do_Not_Add()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void Anonymous_User_Can_Not_Add_Collection()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
 
-        //    // Create a new collection
-        //    Collection collection = new Collection()
-        //    {
-        //        // have a userId coming in that does not match
-        //        UserId = 666,
-        //        Name = "New stuff",
-        //        CreationDate = DateTime.Now - TimeSpan.FromDays(10)
-        //    };
+            // create a new collectionFormViewModel
+            var collectionForm = new CollectionFormViewModel()
+            {
+                Collection = new Collection()
+                {
+                    UserId = 1,
+                    CategorizationId = 1,
+                    Name = "New stuff",
+                    Description = "New lame description.",
+                    Pinned = false,
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
 
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+                ProjectCollections = new List<ProjectCollection>()
+                {
+                    new ProjectCollection()
+                    {
+                        ProjectId = 1,
+                        CollectionId = 0
+                    }
+                }
+            };
 
-        //    // Attempt to Get this User's collections
-        //    var response = controller.Add(collection);
+            // Spoof UserController
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Returns Ok
-        //    Assert.IsType<BadRequestResult>(response);
-        //}
+            // Attempt to Get this User's collections
+            var response = controller.Add(collectionForm);
 
-        //[Fact]
-        //public void Anonymous_User_Can_Not_Add_Collection()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
-        //                           }, "TestAuthentication"));
-
-        //    // Create a new collection
-        //    Collection collection = new Collection()
-        //    {
-        //        UserId = 1,
-        //        CategorizationId = 1,
-        //        Name = "New stuff",
-        //        Description = "New lame description.",
-        //        Pinned = false,
-        //        CreationDate = DateTime.Now - TimeSpan.FromDays(10)
-        //    };
-
-        //    // Spoof UserController
-        //    var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
-
-        //    // Attempt to Get this User's collections
-        //    var response = controller.Add(collection);
-
-        //    // Returns Ok
-        //    Assert.IsType<NotFoundResult>(response);
-        //    // Verify we never called the repo method
-        //    _fakeCollectionRepo.Verify(r => r.Add(It.IsAny<Collection>()), Times.Never());
-        //}
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeCollectionRepo.Verify(r => r.Add(It.IsAny<Collection>()), Times.Never());
+        }
 
 
 
