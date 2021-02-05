@@ -1,12 +1,15 @@
 import React, { useContext, useState, useEffect } from "react"
 import { CollectionContext } from '../../providers/CollectionProvider'
+import { ProjectContext } from '../../providers/ProjectProvider'
 import { CollectionManagerRoute } from '../../utils/Routes'
+import { DropDownOptions } from "../buttons/Buttons"
 import './CollectionForm.css'
 import './Form.css'
 
 const CollectionForm = ({ history, itemToEdit }) => {
     const userId = +sessionStorage.getItem("currentUserId")
     const { collections, addCollection, updateCollection } = useContext(CollectionContext)
+    const { projects } = useContext(ProjectContext)
 
     // Set the default project so the form can reset.
     const defaultCollection = {
@@ -29,7 +32,6 @@ const CollectionForm = ({ history, itemToEdit }) => {
         } else {
             setIsLoading(false)
         }
-    // }, [selectedCollection, collections])
     }, [collections])
 
     const handleControlledInputChange = e => {
@@ -76,6 +78,12 @@ const CollectionForm = ({ history, itemToEdit }) => {
         constructNewCollection()
     }
 
+    if (!projects) {
+        return null
+    }
+
+    console.log(projects)
+
     return (
     <form
         className={itemToEdit ? "" : "collection__form card card__form card__color--brightWhite"}
@@ -111,6 +119,15 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 placeholder="Collection description"
                 maxLength={255}
                 />
+        </fieldset>
+
+        <fieldset>
+            <label htmlFor="collectionProjects">Link collection to project(s): </label>
+            <select>
+                <DropDownOptions
+                    itemToSelectString="a project"
+                    items={projects} />
+            </select>
         </fieldset>
 
         {isLoading ? (

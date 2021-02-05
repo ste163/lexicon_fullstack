@@ -55,6 +55,19 @@ export const Settings = ({ isMobile }) => {
     )
 }
 
+export const DropDownOptions = ({ itemToSelectString, items }) => (
+    <>
+        <option value="0">Select {itemToSelectString}</option>
+        {items.map(item => {
+            return <option key={item.id} value={item.id}>
+                {item.name}
+            </option>
+        })}
+    </>
+)
+
+
+
 export const ManagerButton = ({
     isMobile,
     managerRoute,
