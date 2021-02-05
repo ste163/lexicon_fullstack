@@ -146,42 +146,9 @@ namespace Lexicon.Tests.Repositories
             Assert.True(newCount == originalCount + 1);
         }
 
-        [Fact]
-        public void Can_Not_Add_Same_Join_Twice()
-        {
-            // YOU CURRENTLY CAN
-            // Need to somehow check List of ProjCols coming is contains any identical matches from those in Db
-
-            // Make a join already in the db
-            var newProjCol1 = new ProjectCollection()
-            {
-                ProjectId = 1,
-                CollectionId = 1,
-            };
-
-            // Instantiate ProjectCollection Repo
-            var repo = new ProjectCollectionRepository(_context);
-
-            // Get a count of collections in Project
-            var originalCount = repo.GetByProjectId(1).Count;
-
-            // Add Items to List
-            var projectCollections = new List<ProjectCollection>()
-            {
-                newProjCol1,
-            };
-
-            // Add items
-            repo.Add(projectCollections);
-
-            // Get new count
-            var newCount = repo.GetByProjectId(1);
-
-            // New count should be same as original
-            Assert.True(originalCount == 0);
-        }
-
-
+        // I had a test for a user can not add to the same join twice, but from the add
+        // that would be impossible. The collection hasn't been created, so it's Id is unique in db.
+        // On the Edit I will do a check. These will be two good integration test.
 
         // DELETE
         [Fact]
@@ -380,7 +347,6 @@ namespace Lexicon.Tests.Repositories
                 CollectionId = 2
             };
 
-            // BAD TEST, 2 and 3 ARE THE SAME. THEY SHOULD NOT EXIST
             var projectCollection3 = new ProjectCollection()
             {
                 ProjectId = 2,

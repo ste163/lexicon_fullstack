@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Lexicon.Repositories;
 using Lexicon.Controllers.Utils;
 using Lexicon.Models;
+using Lexicon.Models.ViewModels;
 
 namespace Lexicon.Controllers
 {
@@ -16,12 +17,14 @@ namespace Lexicon.Controllers
     {
         private readonly IUserRepository _userRepo;
         private readonly ICollectionRepository _collectionRepo;
+        private readonly IProjectCollectionRepository _projColRepo;
         private readonly ControllerUtils _utils;
 
-        public CollectionController(IUserRepository userRepo, ICollectionRepository collectionRepo)
+        public CollectionController(IUserRepository userRepo, ICollectionRepository collectionRepo, IProjectCollectionRepository projColRepo)
         {
             _userRepo = userRepo;
             _collectionRepo = collectionRepo;
+            _projColRepo = projColRepo;
             _utils = new ControllerUtils(_userRepo);
         }
 
@@ -76,8 +79,11 @@ namespace Lexicon.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Collection collection)
+        public IActionResult Add(CollectionFormViewModel collectionForm)
         {
+            // For the Add, do not need to check for if the projectCollections are in the db
+            // because this Collection is unique, there can be no duplicates.
+
             var firebaseUser = _utils.GetCurrentUser(User);
 
             // Check to ensure an unauthorized user (anonymous account) can not add a collection
@@ -87,7 +93,7 @@ namespace Lexicon.Controllers
             }
 
             // Ensure the userId on the incoming collection matches the person making the request
-            if (collection.UserId != firebaseUser.Id)
+            if (collectionForm.Collection.UserId != firebaseUser.Id)
             {
                 return BadRequest();
             }
@@ -96,7 +102,7 @@ namespace Lexicon.Controllers
             var allCollections = _collectionRepo.Get(firebaseUser.Id);
 
             // see if the name of the incoming collection is in the db
-            var collectionWithThatName = allCollections.Find(c => c.Name == collection.Name);
+            var collectionWithThatName = allCollections.Find(c => c.Name == collectionForm.Collection.Name);
 
             // if there is a returned collection, we can't add because name isn't unique for this user
             if (collectionWithThatName != null)
@@ -105,13 +111,22 @@ namespace Lexicon.Controllers
             }
 
             // Need to add the default requirements for the collection here
-            collection.CategorizationId = 1;
-            collection.CreationDate = DateTime.Now;
+            collectionForm.Collection.CategorizationId = 1;
+            collectionForm.Collection.CreationDate = DateTime.Now;
 
             try
             {
-                _collectionRepo.Add(collection);
-                return Ok(collection);
+                _collectionRepo.Add(collectionForm.Collection);
+
+                // After we add the collection, assign the collection id to each projectCollection
+                foreach (var projectCollection in collectionForm.ProjectCollections)
+                {
+                    projectCollection.CollectionId = collectionForm.Collection.Id;
+                }
+
+                _projColRepo.Add(collectionForm.ProjectCollections);
+                
+                return Ok(collectionForm);
             }
             catch (DbUpdateException e)
             {
@@ -122,6 +137,11 @@ namespace Lexicon.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, Collection collection)
         {
+            // Will need to loop through the incoming projCols
+            // get them by collection id. Do a where if the project Id is linked to that collection at all
+            // if it is, remove that one from the list
+            // OR get by colleciton Id, and filter out from the list, any that are already in the db.
+
             // Get current user
             var firebaseUser = _utils.GetCurrentUser(User);
 

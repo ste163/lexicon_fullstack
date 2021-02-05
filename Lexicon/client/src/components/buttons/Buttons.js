@@ -3,9 +3,9 @@ import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../providers/UserProvider'
 import { IconLogout, IconGear, IconArrow } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
+import { SettingsRoute } from '../../utils/Routes'
 import SettingsForm from '../forms/SettingsForm'
 import Modal from '../modal/Modal'
-import { CollectionManagerRoute, ProjectManagerRoute, SettingsRoute } from '../../utils/Routes'
 import './Buttons.css'
 
 // Buttons take a { isMobile } prop that is a boolean. Allows for the SubHeader styling and Hamburger styling
@@ -29,7 +29,7 @@ export const Logout = ({ isMobile }) => {
 }
 
 export const Settings = ({ isMobile }) => {
-    const [isOpen, setIsOpen] = useState(false) // remove later
+    const [isOpen] = useState(false) // remove later
     const history = useHistory()
 
     return (
@@ -77,7 +77,7 @@ export const ManagerButton = ({
                 {managerBtnText}
             </button>
         )
-    }
+}
 
 export const ManagerArrow = ({ isForm, history, managerUrlToPushTo }) => (
     <button
