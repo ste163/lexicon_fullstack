@@ -27,7 +27,9 @@ const HeaderMobile = () => {
                 <div className="hamburger__bar"></div>
             </button>
         
-            <HamburgerMenu isOpen={{ hamburgerIsOpen }} setIsOpen={{ setHamburgerIsOpen }} />
+            <HamburgerMenu
+                isOpen={{ hamburgerIsOpen }}
+                setIsOpen={{ setHamburgerIsOpen }} />
         </header>
     )
 }

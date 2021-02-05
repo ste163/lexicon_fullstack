@@ -1,13 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../providers/UserProvider'
-import { CollectionContext } from '../../providers/CollectionProvider'
-import { ProjectContext } from '../../providers/ProjectProvider'
 import { IconLogout, IconGear, IconArrow } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import SettingsForm from '../forms/SettingsForm'
-import CollectionManager from '../managers/CollectionManager'
-import ProjectManager from '../managers/ProjectManager'
 import Modal from '../modal/Modal'
 import { CollectionManagerRoute, ProjectManagerRoute, SettingsRoute } from '../../utils/Routes'
 import './Buttons.css'
@@ -59,17 +55,14 @@ export const Settings = ({ isMobile }) => {
     )
 }
 
-export const ManageCollections = ({ isMobile, setHamburgerIsOpen }) => {
-    const { isCollectionManagerOpen } = useContext(CollectionContext)
-    const history = useHistory()
+export const ManagerButton = ({
+    isMobile,
+    managerRoute,
+    managerBtnText,
+    setHamburgerIsOpen }) => {
+        const history = useHistory()
 
-    return (
-        <>
-            <Modal
-                isOpen={isCollectionManagerOpen}
-                contentFunction={<CollectionManager />}
-                contentHeader={"Collection Manager"} />
-
+        return (
             <button
                 className={!isMobile ? (
                     "btn btn__subheader"
@@ -80,41 +73,11 @@ export const ManageCollections = ({ isMobile, setHamburgerIsOpen }) => {
                     if (isMobile) {
                         setHamburgerIsOpen.setHamburgerIsOpen(false)
                     }
-                    history.push(CollectionManagerRoute())}}>
-                Manage Collections
+                    history.push(managerRoute())}}>
+                {managerBtnText}
             </button>
-        </>
-    )
-}
-
-export const ManageProjects = ({ isMobile, setHamburgerIsOpen }) => {
-    const { isProjectManagerOpen } = useContext(ProjectContext)
-    const history = useHistory()
-
-    return (
-        <>
-            <Modal
-                isOpen={isProjectManagerOpen}
-                contentFunction={<ProjectManager />}
-                contentHeader={"Project Manager"} />
-
-            <button
-                className={!isMobile ? (
-                    "btn btn__subheader"
-                ) : (
-                    "btn__mobile"
-                )}
-                onClick={() => {
-                    if (isMobile) {
-                        setHamburgerIsOpen.setHamburgerIsOpen(false)
-                    }
-                    history.push(ProjectManagerRoute())
-                }}>
-                Manage Projects
-            </button>
-        </>
-    )
-}
+        )
+    }
 
 export const ManagerArrow = ({ isForm, history, managerUrlToPushTo }) => (
     <button

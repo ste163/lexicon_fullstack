@@ -5,11 +5,14 @@ import Delete from '../../components/delete/Delete'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
 import HeaderMobile from '../../components/headerMobile/HeaderMobile'
 import Footer from '../../components/footer/Footer'
+import Modal from '../../components/modal/Modal'
+import ProjectManager from '../../components/managers/ProjectManager'
+import CollectionManager from '../../components/managers/CollectionManager'
 import './MainView.css'
 
 const MainView = () => {
-    const { getCollections } = useContext(CollectionContext)
-    const { getProjects } = useContext(ProjectContext)
+    const { getCollections, isCollectionManagerOpen } = useContext(CollectionContext)
+    const { getProjects, isProjectManagerOpen } = useContext(ProjectContext)
 
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
@@ -68,9 +71,20 @@ const MainView = () => {
 
     return (
         <div className="app__container">
-            {/* Delete renders a hidden modal accessible only by delete routes */}
+            {/* Render Modals */}
             <Delete />
+            
+            <Modal
+                isOpen={isCollectionManagerOpen}
+                contentFunction={<CollectionManager />}
+                contentHeader={"Collection Manager"} />
 
+            <Modal
+                isOpen={isProjectManagerOpen}
+                contentFunction={<ProjectManager />}
+                contentHeader={"Project Manager"} />
+
+            {/* Headers */}
             <div className="container__headers">
                 {isMobile ? (
                     <HeaderMobile />
@@ -78,6 +92,8 @@ const MainView = () => {
                     <HeaderDesktop />
                 )}
             </div>
+            
+            {/* Dashboard */}
             <div className="container__inner">
                 <section>
                     List Column                   

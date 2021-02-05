@@ -1,13 +1,11 @@
 import React from 'react' 
-import { Settings, Logout, ManageCollections, ManageProjects }  from '../buttons/Buttons'
+import { Settings, Logout, ManagerButton }  from '../buttons/Buttons'
+import { CollectionManagerRoute, ProjectManagerRoute } from '../../utils/Routes'
 import { DropDown } from '../inputs/Inputs'
 import './HamburgerMenu.css'
-// Slide in from right and take up almost/all of the screen width
 
 // NEED TO DECIDE THE ORDERING OF THESE
 // AND SELECTING A COLUMN TO DISPLAY
-
-// Could have it animate by, when it loads in, you slide in X pixels from the right.
 const HamburgerMenu = ({ isOpen, setIsOpen }) => (
     <nav
     className={isOpen.hamburgerIsOpen ? (
@@ -19,10 +17,18 @@ const HamburgerMenu = ({ isOpen, setIsOpen }) => (
         <ul className="nav__list--hb">
             <div className="hb__container">
                 <li className="nav__item nav__item--hb">
-                    <ManageCollections isMobile={true} setHamburgerIsOpen={setIsOpen}  />
+                    <ManagerButton
+                        isMobile={true}
+                        setHamburgerIsOpen={setIsOpen}
+                        managerRoute={CollectionManagerRoute}
+                        managerBtnText={"Manage Collections"} />
                 </li>
                 <li className="nav__item nav__item--hb">
-                    <ManageProjects isMobile={true} setHamburgerIsOpen={setIsOpen} />
+                    <ManagerButton
+                        isMobile={true}
+                        setHamburgerIsOpen={setIsOpen}
+                        managerRoute={ProjectManagerRoute}
+                        managerBtnText={"Manage Projects"} />
                 </li>
                 <li>
                     <DropDown nameOf='collection' fieldsetLocation='hamburger__fieldset' labelIdName='collectionSelect' isHamburger={true} />

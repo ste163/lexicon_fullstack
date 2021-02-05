@@ -1,6 +1,7 @@
 import React from "react"
-import { ManageCollections, ManageProjects } from '../../buttons/Buttons'
+import { ManagerButton } from '../../buttons/Buttons'
 import { DropDown } from '../../inputs/Inputs'
+import { CollectionManagerRoute, ProjectManagerRoute } from '../../../utils/Routes'
 import "./SubHeader.css"
 
 const SubHeader = () => {
@@ -17,8 +18,15 @@ const SubHeader = () => {
 
     return (
         <section className="view__subHeader">
-            <ManageCollections isMobile={false} />
-            <ManageProjects isMobile={false} />
+            <ManagerButton
+                isMobile={false}
+                managerRoute={CollectionManagerRoute}
+                managerBtnText={"Manage Collections"} />
+
+            <ManagerButton
+                isMobile={false}
+                managerRoute={ProjectManagerRoute}
+                managerBtnText={"Manage Projects"} />
 
             <div className="line__vertical"></div>
 
