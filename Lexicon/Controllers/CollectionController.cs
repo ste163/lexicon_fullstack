@@ -64,20 +64,20 @@ namespace Lexicon.Controllers
             try
             {
                 // If a user attempts to get an Id not in the db, causes a NullReferenceException error
-                var collection = _collectionRepo.GetByCollectionId(id).Collection;
+                var collectionViewModel = _collectionRepo.GetByCollectionId(id);
                 // If no matching collection, return not found
-                if (collection == null)
+                if (collectionViewModel.Collection == null)
                 {
                     return NotFound();
                 }
 
                 // If this is not that user's post, don't return it
-                if (collection.UserId != firebaseUser.Id)
+                if (collectionViewModel.Collection.UserId != firebaseUser.Id)
                 {
                     return NotFound();
                 }
 
-                return Ok(collection);
+                return Ok(collectionViewModel);
             }
             catch (NullReferenceException e)
             {

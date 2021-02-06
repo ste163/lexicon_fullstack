@@ -35,6 +35,7 @@ namespace Lexicon.Repositories
                     .FirstOrDefault();
 
             var projectCollections = _context.ProjectCollection
+                    .Include(pc => pc.Project)
                     .Where(pc => pc.CollectionId == id)
                     .ToList();
 
