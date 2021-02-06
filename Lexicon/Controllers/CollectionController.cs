@@ -60,25 +60,30 @@ namespace Lexicon.Controllers
             {
                 return NotFound();
             }
+           
+            try
+            {
+                // If a user attempts to get an Id not in the db, causes a NullReferenceException error
+                var collection = _collectionRepo.GetByCollectionId(id).Collection;
+                // If no matching collection, return not found
+                if (collection == null)
+                {
+                    return NotFound();
+                }
 
-            Collection collection = _collectionRepo.GetByCollectionId(id);
+                // If this is not that user's post, don't return it
+                if (collection.UserId != firebaseUser.Id)
+                {
+                    return NotFound();
+                }
 
-            // If no matching collection, return not found
-            if (collection == null)
+                return Ok(collection);
+            }
+            catch (NullReferenceException e)
             {
                 return NotFound();
             }
 
-            // If this is not that user's post, don't return it
-            if (collection.UserId != firebaseUser.Id)
-            {
-                return NotFound();
-            }
-
-            // ALSO bring back full join ProjCol join table
-            // OR 
-            // When I get my Words working, I'll have to ensure I'm also bringing back the full word list
-            return Ok(collection);
         }
 
         [HttpPost]
@@ -121,10 +126,29 @@ namespace Lexicon.Controllers
             {
                 _collectionRepo.Add(collectionForm.Collection);
 
-                // After we add the collection, assign the collection id to each projectCollection
-                foreach (var projectCollection in collectionForm.ProjectCollections)
+                try
                 {
-                    projectCollection.CollectionId = collectionForm.Collection.Id;
+                    // After we add the collection, assign the collection id to each projectCollection
+                    foreach (var projectCollection in collectionForm.ProjectCollections)
+                    {
+                        projectCollection.CollectionId = collectionForm.Collection.Id;
+                    }
+                }
+                // The user attempted to enter Null for their ProjectCollecitons
+                catch (NullReferenceException e)
+                {
+                    // Make a CollectionDetailsViewModel to pass the created collection into for deletion
+                    var collectionDetailsVm = new CollectionDetailsViewModel
+                    {
+                        Collection = collectionForm.Collection,
+                        ProjectCollections = new List<ProjectCollection>(),
+                        Words = new List<Word>()
+                    };
+                    // Remove the just entered collection from db
+                    _collectionRepo.Delete(collectionDetailsVm);
+
+                    // Return a BadRequest
+                    return BadRequest();
                 }
 
                 // Add ProjectCollections
@@ -157,7 +181,18 @@ namespace Lexicon.Controllers
             }
 
             // Get Collection by Id to ensure it's in db
-            var collectionToUpdate = _collectionRepo.GetByCollectionId(id);
+            Collection collectionToUpdate;
+            
+            try
+            {
+                // If a user attempts to get an Id not in the db, causes a NullReferenceException error
+                collectionToUpdate = _collectionRepo.GetByCollectionId(id).Collection;
+
+            }
+            catch (NullReferenceException e)
+            {
+                return NotFound();
+            }
 
             // If it wasn't in the db don't let them update
             if (collectionToUpdate == null)
@@ -220,7 +255,7 @@ namespace Lexicon.Controllers
             }
 
             // Get Collection's owner
-            var collectionOwner = collectionToDelete.UserId;
+            var collectionOwner = collectionToDelete.Collection.UserId;
             // Check if incoming user is the same one requesting deletion
             if (collectionOwner != firebaseUser.Id)
             {

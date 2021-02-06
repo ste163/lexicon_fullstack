@@ -62,20 +62,13 @@ namespace Lexicon.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(Collection collection)
+        public void Delete(CollectionDetailsViewModel collectionDetails)
         {
-            // When we start to get lists of words, etc. that need to be deleted first
-            // do this (from Tabloid Posts that I did):
-            //var commentsForPost = _context.Comment.Where(c => c.PostId == post.Id).ToList();
-            //_context.Comment.RemoveRange(commentsForPost);
-            //_context.SaveChanges();
-
-            var projectCollectionsForCollection = _context.ProjectCollection.Where(c => c.CollectionId == collection.Id).ToList();
-            _context.ProjectCollection.RemoveRange(projectCollectionsForCollection);
+            _context.ProjectCollection.RemoveRange(collectionDetails.ProjectCollections);
             _context.SaveChanges();
 
             // For now, because nothing else exists, a simple delete works:
-            _context.Collection.Remove(collection);
+            _context.Collection.Remove(collectionDetails.Collection);
             _context.SaveChanges();
 
         }

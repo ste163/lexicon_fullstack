@@ -35,8 +35,8 @@ namespace Lexicon.Tests.Controllers
             _fakeCollectionRepo.Setup(r => r.Get(It.Is<int>(i => i == 1))).Returns((int id) => new List<Collection>() { new Collection() { Id = 1, Name = "Scary places", Description = "Spooky places It probably hangs at."}, new Collection() { Id = 2, Name = "Monsters", Description = "Monsters It becomes." } });
             _fakeCollectionRepo.Setup(r => r.Get(It.Is<int>(i => i == 2))).Returns((int id) => new List<Collection>() { new Collection() { Id = 1, Name = "Swampy", Description = "Icky words related to swamps" }, new Collection() { Id = 2, Name = "Spooky", Description = "Spooky related words." } });
             // Whenever we enter Id 1, return this object
-            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(1)).Returns(new Collection() { Id = 1, Name = "Swampy", Description = "Icky words related to swamps", UserId = 1 });
-            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(2)).Returns(new Collection() { Id = 1, Name = "Scary places", Description = "Words for scary places", UserId = 2 });
+            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(1)).Returns(new CollectionDetailsViewModel() { Collection = new Collection() { Id = 1, Name = "Swampy", Description = "Icky words related to swamps", UserId = 1 } });
+            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(2)).Returns(new CollectionDetailsViewModel() { Collection = new Collection() { Id = 1, Name = "Scary places", Description = "Words for scary places", UserId = 2 } });
 
             // Spoof ProjectCollection repo
             _fakeProjColRepo = new Mock<IProjectCollectionRepository>();
@@ -526,7 +526,7 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<CollectionDetailsViewModel>()), Times.Never());
         }
 
         [Fact]
@@ -548,7 +548,7 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<CollectionDetailsViewModel>()), Times.Never());
         }
 
         [Fact]
@@ -590,7 +590,7 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<CollectionDetailsViewModel>()), Times.Never());
         }
     }
 }

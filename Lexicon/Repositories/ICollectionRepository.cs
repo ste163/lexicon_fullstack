@@ -10,6 +10,6 @@ namespace Lexicon.Repositories
         CollectionDetailsViewModel GetByCollectionId(int id);
         void Add(Collection collection);
         void Update(Collection collection);
-        void Delete(Collection collection);
+        void Delete(CollectionDetailsViewModel collectionDetails);
     }
 }
