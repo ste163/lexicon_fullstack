@@ -1,5 +1,6 @@
 ﻿using Lexicon.Data;
 using Lexicon.Models;
+using Lexicon.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,28 @@ namespace Lexicon.Repositories
                 .ToList();
         }
 
-        public Collection GetByCollectionId(int id)
+        public CollectionDetailsViewModel GetByCollectionId(int id)
         {
-            return _context.Collection
-                .Include(c => c.User)
-                .Include(c => c.Categorization)
-                .Where(c => c.Id == id)
-                .FirstOrDefault();
+            var collection = _context.Collection
+                    .Include(c => c.User)
+                    .Include(c => c.Categorization)
+                    .Where(c => c.Id == id)
+                    .FirstOrDefault();
+
+            var projectCollections = _context.ProjectCollection
+                    .Where(pc => pc.CollectionId == id)
+                    .ToList();
+
+            var words = _context.Word
+                    .Where(w => w.CollectionId == id)
+                    .ToList();
+
+            return new CollectionDetailsViewModel
+            {
+                Collection = collection,
+                ProjectCollections = projectCollections,
+                Words = words
+            };
         }
 
         public void Add(Collection collection)
