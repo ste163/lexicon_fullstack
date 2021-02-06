@@ -75,6 +75,8 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
+            // ALSO bring back full join ProjCol join table
+            // OR 
             // When I get my Words working, I'll have to ensure I'm also bringing back the full word list
             return Ok(collection);
         }

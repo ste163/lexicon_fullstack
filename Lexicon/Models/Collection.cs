@@ -30,7 +30,5 @@ namespace Lexicon.Models
 
         [Required]
         public DateTime CreationDate { get; set; } // Set by Database
-
-        public List<Word> Words { get; set; }
     }
 }
