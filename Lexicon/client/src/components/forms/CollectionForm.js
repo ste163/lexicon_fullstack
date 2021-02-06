@@ -40,16 +40,15 @@ const CollectionForm = ({ history, itemToEdit }) => {
         }
     }, [collections])
 
-    const removeProjectFromListAvailable = (e) => {
-        // Get what we clicked on
+    const moveSingleItemsBetweenStateArrays = (e, itemsAvailableStateArray, setItemsAvailableStateArray, setItemsAddedToStateArray) => {
+        // Get what we clicked on by it's inner text
         const clickedItem = e.target.textContent
         // Pull that item from projectsAvailable
-        const itemToAdd = projectsAvailableToAdd.find(p => p.name === clickedItem)
-
-        // Filter out the clicked on project from those available
-        setProjectsAvailableToAdd(projectsAvailableToAdd.filter(p => p.name !== itemToAdd.name))
-
-        setProjectsAdded(projectsAdded => [...projectsAdded, { itemToAdd }])
+        const itemToAdd = itemsAvailableStateArray.find(p => p.name === clickedItem)
+        // Filter out the clicked on item from those available
+        setItemsAvailableStateArray(itemsAvailableStateArray.filter(p => p.name !== itemToAdd.name))
+        // Add the filtered out item to the array to add to
+        setItemsAddedToStateArray(projectsAdded => [...projectsAdded, itemToAdd])
     }
 
     const handleControlledInputChange = e => {
@@ -135,15 +134,31 @@ const CollectionForm = ({ history, itemToEdit }) => {
 
         <label>Projects available to link to this collection:</label>
         <ul className="form__addable-btns">
-            {projectsAvailableToAdd.map(p => <AddableButton key={p.id} item={p} onClickFunction={removeProjectFromListAvailable} />)}
+            {projectsAvailableToAdd.length === 0 ? (
+                <p className="form__p">Added all available projects. Click a collection's name to remove.</p>
+            ) : (
+                projectsAvailableToAdd.map(p => <AddableButton
+                    key={p.id}
+                    item={p}
+                    onClickFunction={moveSingleItemsBetweenStateArrays}
+                    itemsAvailableStateArray={projectsAvailableToAdd}
+                    setItemsAvailableStateArray={setProjectsAvailableToAdd}
+                    setItemsAddedToStateArray={setProjectsAdded} />)
+            )}
         </ul>
 
         <label>Projects linked:</label>
         <ul className="form__addable-btns">
-            {!projectsAdded ? (
-                <p>None</p>
+            {projectsAdded.length === 0 ? (
+                <p className="form__p">None. Click a project's name to add.</p>
             ) : (
-                projectsAdded.map(p => <AddableButton key={p.itemToAdd.id} item={p.itemToAdd} />)
+                projectsAdded.map(p => <AddableButton
+                    key={p.id}
+                    item={p}
+                    onClickFunction={moveSingleItemsBetweenStateArrays}
+                    itemsAvailableStateArray={projectsAdded}
+                    setItemsAvailableStateArray={setProjectsAdded}
+                    setItemsAddedToStateArray={setProjectsAvailableToAdd} />)
             )}
         </ul>
 

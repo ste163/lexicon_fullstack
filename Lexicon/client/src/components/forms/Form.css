@@ -26,6 +26,12 @@ textarea {
   width: 95%
 } 
 
+.form__p {
+  font-size: 0.9rem;
+  font-weight: var(--weightThin);
+  margin-left: 5%;
+}
+
 .form__addable-btns {
   display: flex;
   flex-flow: row wrap;

@@ -66,11 +66,16 @@ export const DropDownOptions = ({ itemToSelectString, items }) => (
     </>
 )
 
-export const AddableButton = ({ item, onClickFunction }) => (
+export const AddableButton = ({
+    item,
+    onClickFunction,
+    itemsAvailableStateArray,
+    setItemsAvailableStateArray,
+    setItemsAddedToStateArray }) => (
     <li className="item__addable">
         <button   
             className="btn btn--addable"
-            onClick={e => onClickFunction(e)}>
+            onClick={e => onClickFunction(e, itemsAvailableStateArray, setItemsAvailableStateArray, setItemsAddedToStateArray)}>
             {item.name}
         </button>
     </li>
