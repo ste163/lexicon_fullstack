@@ -107,11 +107,11 @@ button:focus {
 }
 
 .btn__collection:hover {
-  background-color: var(--lightYellow);
+  background-color: var(--lightGray);
 }
 
 .btn__collection:active {
-  background-color: var(--darkYellow);
+  background-color: var(--gray);
 }
 
 .btn--red {

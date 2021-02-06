@@ -85,7 +85,8 @@ export const CollectionProvider = props => {
     }
   }
 
-  const addCollection = submittedCollection => {
+  const addCollection = submittedCollectionForm => {
+    debugger
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
@@ -96,7 +97,7 @@ export const CollectionProvider = props => {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(submittedCollection)
+            body: JSON.stringify(submittedCollectionForm)
         }))
         .then(res => {
           if (res.status === 200) {
@@ -121,7 +122,7 @@ export const CollectionProvider = props => {
         })
         .then(collection => {
           if (collection) {
-            toast.success(AddSuccess(objectTypeForToasts, collection.name))
+            toast.success(AddSuccess(objectTypeForToasts, submittedCollectionForm.collection.name))
             getCollections()
           } else {
             return

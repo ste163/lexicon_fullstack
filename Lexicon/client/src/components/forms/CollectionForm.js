@@ -21,19 +21,20 @@ const CollectionForm = ({ history, itemToEdit }) => {
         description: '',
     } 
     
-    // Sets state for creating the project
-    const [ collection, setCollection ] = useState(defaultCollection)
+    // Sets state for creating the collection
+    const [ currentCollection, setCurrentCollection] = useState(defaultCollection)
     // Used for showing loading indicator and locking form from multiple submits
     const [ isLoading, setIsLoading ] = useState(true)
 
 
     // Check on load and when collections change, if we have an editable collection or not
     useEffect(() => {
+        setProjectsAdded([])
         if (projects) {
             setProjectsAvailableToAdd(projects)
         }
         if (itemToEdit) {
-            setCollection(itemToEdit)
+            setCurrentCollection(itemToEdit)
             setIsLoading(false);
         } else {
             setIsLoading(false)
@@ -52,9 +53,9 @@ const CollectionForm = ({ history, itemToEdit }) => {
     }
 
     const handleControlledInputChange = e => {
-        const newCollection = { ...collection }
+        const newCollection = { ...currentCollection }
         newCollection[e.target.name] = e.target.value
-        setCollection(newCollection)
+        setCurrentCollection(newCollection)
     }
 
     const constructNewCollection = () => {
@@ -62,8 +63,8 @@ const CollectionForm = ({ history, itemToEdit }) => {
             updateCollection({
                 id: itemToEdit.id,
                 userId,
-                name: collection.name,
-                description: collection.description,
+                name: currentCollection.name,
+                description: currentCollection.description,
             })
             .then(res => {
                 if (!res) {
@@ -75,15 +76,30 @@ const CollectionForm = ({ history, itemToEdit }) => {
             })
         } else {
             // TAKES A DIFFERENT OBJECT: a Collection and a List<ProjectCollections>
-            addCollection({
+            const collection  = {
                 userId,
-                name: collection.name,
-                description: collection.description,
+                name: currentCollection.name,
+                description: currentCollection.description,
+            }
+
+            let projectCollections = []
+
+            if (projectsAdded.length > 0) {
+                projectCollections = projectsAdded.map(p => {
+                    return {
+                        projectId: p.id,
+                        collectionId: p.collectionId = 0
+                    }
+                })
+            }
+            
+            addCollection({
+                collection, projectCollections
             })
             .then(() => {
                 setIsLoading(false)
                 // Resets form
-                setCollection(defaultCollection) 
+                setCurrentCollection(defaultCollection) 
                 // Push us back to the collection-manager
                 history.push(CollectionManagerRoute())
             })
@@ -95,6 +111,8 @@ const CollectionForm = ({ history, itemToEdit }) => {
         e.preventDefault()
         constructNewCollection()
     }
+
+    console.log(projectsAdded)
 
     return (
     <form
@@ -112,7 +130,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 onChange={handleControlledInputChange}
                 id="collectionName"
                 name="name"
-                value={collection.name}
+                value={currentCollection.name}
                 placeholder="Collection name"
                 maxLength={255}
                 required
@@ -127,7 +145,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 onChange={handleControlledInputChange}
                 id="collectionDescription"
                 name="description"
-                value={collection.description}
+                value={currentCollection.description}
                 placeholder="Collection description"
                 maxLength={255} />
         </fieldset>
@@ -147,7 +165,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
             )}
         </ul>
 
-        <label>Projects linked:</label>
+        <label>Linked projects:</label>
         <ul className="form__addable-btns">
             {projectsAdded.length === 0 ? (
                 <p className="form__p">None. Click a project's name to add.</p>

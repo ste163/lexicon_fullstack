@@ -49,10 +49,14 @@ namespace Lexicon.Repositories
         public void Delete(Collection collection)
         {
             // When we start to get lists of words, etc. that need to be deleted first
-                // do this (from Tabloid Posts that I did):
-                //var commentsForPost = _context.Comment.Where(c => c.PostId == post.Id).ToList();
-                //_context.Comment.RemoveRange(commentsForPost);
-                //_context.SaveChanges();
+            // do this (from Tabloid Posts that I did):
+            //var commentsForPost = _context.Comment.Where(c => c.PostId == post.Id).ToList();
+            //_context.Comment.RemoveRange(commentsForPost);
+            //_context.SaveChanges();
+
+            var projectCollectionsForCollection = _context.ProjectCollection.Where(c => c.CollectionId == collection.Id).ToList();
+            _context.ProjectCollection.RemoveRange(projectCollectionsForCollection);
+            _context.SaveChanges();
 
             // For now, because nothing else exists, a simple delete works:
             _context.Collection.Remove(collection);
