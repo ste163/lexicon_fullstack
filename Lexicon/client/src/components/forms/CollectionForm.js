@@ -49,13 +49,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
         // Filter out the clicked on project from those available
         setProjectsAvailableToAdd(projectsAvailableToAdd.filter(p => p.name !== itemToAdd.name))
 
-        console.log("ADD THIS ITEM", itemToAdd)
-        const newAdditions = [ ...projectsAdded ]
-        newAdditions.push({ itemToAdd })
-        setProjectsAdded({ newAdditions })
-
-        // make a new array of all of our projectsAdded.push(item from projectsAvailable)
-        // update state with that item
+        setProjectsAdded(projectsAdded => [...projectsAdded, { itemToAdd }])
     }
 
     const handleControlledInputChange = e => {
@@ -149,8 +143,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
             {!projectsAdded ? (
                 <p>None</p>
             ) : (
-                console.log("ADDED", projectsAdded)
-                // projectsAdded.map(p => <AddableButton key={p.id} item={p} />)
+                projectsAdded.map(p => <AddableButton key={p.itemToAdd.id} item={p.itemToAdd} />)
             )}
         </ul>
 
