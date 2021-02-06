@@ -13,7 +13,7 @@ export const AnonError = () => "Unable to sign in anonymously."
 
 export const AnonWarning = () => "Anonymous users can not save data."
 
-export const Logout = () => "Logout successful."
+export const Logout = () => "Logged out."
 
 
 // Retrieving 

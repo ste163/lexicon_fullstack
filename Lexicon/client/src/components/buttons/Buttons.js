@@ -72,11 +72,25 @@ export const AddableButton = ({
     itemsAvailableStateArray,
     setItemsAvailableStateArray,
     setItemsAddedToStateArray }) => (
-    <li className="item__addable">
+    <li className="item__li">
         <button   
-            className="btn btn--addable"
+            className="btn btn--pill"
             onClick={e => onClickFunction(e, itemsAvailableStateArray, setItemsAvailableStateArray, setItemsAddedToStateArray)}>
             {item.name}
+        </button>
+    </li>
+)
+
+export const RemovableItemButton = ({ text, isActive }) => (
+    <li className="item__li">
+        <button
+            className={isActive ? (
+                "btn btn--pill"
+            ) : (
+                "btn btn--pill btn--disabled"
+            )}
+            disabled={isActive}>
+                {text}
         </button>
     </li>
 )

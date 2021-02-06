@@ -82,7 +82,6 @@ export const CollectionProvider = props => {
           }
           return res.json()
         }))
-        .then(res => console.log(res))
     }
   }
 

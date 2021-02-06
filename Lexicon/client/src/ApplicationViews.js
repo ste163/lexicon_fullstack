@@ -190,7 +190,7 @@ const ApplicationViews = () => {
                 turnOffAllProjectRoutes()
 
                 getCollectionById(routeParamId)
-                .then(collection => setSelectedCollection(collection))
+                .then(collectionDetails => setSelectedCollection(collectionDetails))
                 .catch(error => history.goBack()) // if an error, on retrieval, go back a page
                 // When we leave this route, will need to reset the loading spinner state!  
                 // if we get an error, show a toast error then revert back to collection-manager
@@ -214,7 +214,7 @@ const ApplicationViews = () => {
 
             case CollectionManagerDeleteRoute(routeParamId):
                 getCollectionById(routeParamId)
-                .then(collection => setObjectToDelete(collection))
+                .then(collectionDetails => setObjectToDelete(collectionDetails.collection))
                 .catch(error => history.goBack()) // if an error, on retrieval, go back a page
 
                 turnOffAllButDelete()

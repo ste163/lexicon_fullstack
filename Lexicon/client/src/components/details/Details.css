@@ -11,6 +11,13 @@
     font-weight: var(--weightThin);
 }
 
+.details__ul {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0;
+    padding: 0;
+}
+
 .details__btns {
     display: flex;
     flex-flow: column nowrap;

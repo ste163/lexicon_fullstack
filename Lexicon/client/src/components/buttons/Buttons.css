@@ -27,6 +27,18 @@
   color: var(--darkGray);
 }
 
+.btn--disabled {
+  cursor: default !important;
+  background-color: var(--gray);
+  border-color: var(--gray);
+}
+
+.btn--disabled:hover {
+  color: var(--fontColor) !important;
+  background-color: var(--gray) !important;
+  border-color: var(--gray) !important;
+}
+
 .btn__subheader {
   margin: 0 0.5em;
 }
@@ -39,11 +51,11 @@
   padding: 0;
 }
 
-.item__addable {
+.item__li {
   margin: 0.2em;
 }
 
-.btn--addable {
+.btn--pill {
   border-radius: 3em;
 }
 
