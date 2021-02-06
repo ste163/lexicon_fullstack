@@ -9,7 +9,7 @@ import './Form.css'
 const CollectionForm = ({ history, itemToEdit }) => {
     const userId = +sessionStorage.getItem("currentUserId")
     const { collections, addCollection, updateCollection } = useContext(CollectionContext)
-    const { projects } = useContext(ProjectContext)
+    const { projects, getProjects } = useContext(ProjectContext)
 
     const [ projectsAvailableToAdd, setProjectsAvailableToAdd ] = useState([])
     const [ projectsAdded, setProjectsAdded ] = useState([])
@@ -29,6 +29,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
 
     // Check on load and when collections change, if we have an editable collection or not
     useEffect(() => {
+
         setProjectsAdded([])
         if (projects) {
             setProjectsAvailableToAdd(projects)
@@ -40,6 +41,11 @@ const CollectionForm = ({ history, itemToEdit }) => {
             setIsLoading(false)
         }
     }, [collections])
+
+    // When go to the form page, always ensure we get latest projects
+    useEffect(() => {
+        getProjects()
+    }, [])
 
     const moveSingleItemsBetweenStateArrays = (e, itemsAvailableStateArray, setItemsAvailableStateArray, setItemsAddedToStateArray) => {
         // Get what we clicked on by it's inner text
@@ -75,7 +81,6 @@ const CollectionForm = ({ history, itemToEdit }) => {
                 }
             })
         } else {
-            // TAKES A DIFFERENT OBJECT: a Collection and a List<ProjectCollections>
             const collection  = {
                 userId,
                 name: currentCollection.name,
@@ -111,8 +116,6 @@ const CollectionForm = ({ history, itemToEdit }) => {
         e.preventDefault()
         constructNewCollection()
     }
-
-    console.log(projectsAdded)
 
     return (
     <form

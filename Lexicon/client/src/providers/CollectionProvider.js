@@ -86,7 +86,6 @@ export const CollectionProvider = props => {
   }
 
   const addCollection = submittedCollectionForm => {
-    debugger
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
