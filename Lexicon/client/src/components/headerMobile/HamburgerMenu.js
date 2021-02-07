@@ -6,7 +6,17 @@ import './HamburgerMenu.css'
 
 // NEED TO DECIDE THE ORDERING OF THESE
 // AND SELECTING A COLUMN TO DISPLAY
-const HamburgerMenu = ({ isOpen, setIsOpen, projects, collections }) => (
+const HamburgerMenu = ({
+    isOpen,
+    setIsOpen,
+    projects,
+    collections,
+    appSelectedRoute,
+    history,
+    selectedCollection,
+    selectedProject,
+    setSelectedProject
+}) => (
     <nav
     className={isOpen.hamburgerIsOpen ? (
             "hamburger__nav hamburger__nav--active"
@@ -33,6 +43,9 @@ const HamburgerMenu = ({ isOpen, setIsOpen, projects, collections }) => (
                 <li>
                     <DropDown
                         stateArray={collections}
+                        currentState={selectedCollection}
+                        urlToPushTo={appSelectedRoute}
+                        history={history}
                         nameOf='collection'
                         fieldsetLocation='hamburger__fieldset'
                         labelIdName='collectionSelect' 
@@ -41,6 +54,8 @@ const HamburgerMenu = ({ isOpen, setIsOpen, projects, collections }) => (
                 <li>
                     <DropDown
                         stateArray={projects}
+                        currentState={selectedProject}
+                        setCurrentState={setSelectedProject}
                         nameOf='project'
                         fieldsetLocation='hamburger__fieldset'
                         labelIdName='projectSelect'

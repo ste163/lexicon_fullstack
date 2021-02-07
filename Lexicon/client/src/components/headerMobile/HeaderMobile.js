@@ -3,7 +3,14 @@ import { HeaderBranding } from '../branding/Branding'
 import HamburgerMenu from './HamburgerMenu'
 // Main container for mobile header
 
-const HeaderMobile = ({ projects, collections }) => {
+const HeaderMobile = ({
+    projects,
+    collections,
+    history,
+    appSelectedRoute,
+    selectedCollection,
+    setSelectedProject,
+    selectedProject }) => {
     const [ hamburgerIsOpen, setHamburgerIsOpen ] = useState(false)
 
     return (
@@ -30,6 +37,11 @@ const HeaderMobile = ({ projects, collections }) => {
             <HamburgerMenu
                 projects={projects}
                 collections={collections}
+                history={history}
+                appSelectedRoute={appSelectedRoute}
+                selectedCollection={selectedCollection}
+                setSelectedProject={setSelectedProject}
+                selectedProject={selectedProject}
                 isOpen={{ hamburgerIsOpen }}
                 setIsOpen={{ setHamburgerIsOpen }} />
         </header>
