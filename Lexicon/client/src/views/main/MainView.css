@@ -1,41 +1,38 @@
 /* Main application layout after sign-in */
 .app__container {
-    /* display: grid;
-    grid-template-rows: min-content min-content auto min-content;
-    min-height: 100vh; */
-    /* align-content: center; */
-    display: flex;
-    flex-flow: column nowrap;
-    place-content: space-between;
-    min-height: 100vh;
+  /* display: grid;
+  grid-template-rows: min-content min-content auto min-content;
+  min-height: 100vh; */
+  /* align-content: center; */
+  display: flex;
+  flex-flow: column nowrap;
+  place-content: space-between;
+  min-height: 100vh;
   }
 
 .container__inner {
-    display: flex;
-    flex-flow: row nowrap;
-    flex-grow: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  flex-grow: 1;
 }
   
 .column__list {
   overflow-y: none;
   overflow-x: none;
   max-height: 88vh;
-  width: 22vw;
+  flex-basis: 20%;
   margin-right: 2em;
 }
   
 .column__selected {
-    margin-left: 0.5em;
-
-    /* 
-    This will change when we add the dividing column
-    will need JS to know when the scroll bar appears to hide the divider
-    */
+  flex-basis: 30%;
+  margin-left: 0.5em;
 }
   
 .column__thesaurus {
-    display: grid;
-    grid-template-rows: min-content min-content;
+  flex-basis: 50%;
+  display: grid;
+  grid-template-rows: min-content min-content;
 }
   
   /* Desktop - med-screen size - hide list column */
@@ -51,12 +48,12 @@
   
 /* Desktop - small-screen size - stack selected & thesaurus column  */
 /* @media screen and (max-width: 768px) {
-    .view__container {
+    .container__inner  {
       display: flex;
       flex-flow: column;
     }
   
     .column__selected {
       width: 75%;
-    } */
-/* } */
+    }
+} */
