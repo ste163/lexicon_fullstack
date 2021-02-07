@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './Inputs.css'
 
 export const DropDown = ({
@@ -10,6 +10,7 @@ export const DropDown = ({
     currentState,
     stateArray,
     setCurrentState,
+    isCollection,
     isHamburger  }) => {
 // To use:
     // nameOf the dropdown for placeholders like 'collection' or 'project'
@@ -18,12 +19,6 @@ export const DropDown = ({
     // currentState like 'selectedCollection' for the current item in state
     // stateArray to map over and create drop-downs
     // isHamburger is a bool to style labels and drop-downs
-    const [isCollectionDetailsViewModel, setIsCollectionDetailsViewModel] = useState(false)
-
-    if (currentState !== undefined) {
-        // Then we are a CollectionDetailsViewModel
-        // setIsCollectionDetailsViewModel(true)
-    }
 
     if (!stateArray) {
         return null
@@ -54,7 +49,7 @@ export const DropDown = ({
                 value={currentState === undefined ? (
                     0
                 ) : (
-                    isCollectionDetailsViewModel ? (
+                    isCollection ? (
                         currentState.collection.id
                 ) : (
                         currentState.id

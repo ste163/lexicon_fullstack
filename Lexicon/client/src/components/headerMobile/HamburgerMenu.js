@@ -45,6 +45,7 @@ const HamburgerMenu = ({
                         stateArray={collections}
                         currentState={selectedCollection}
                         urlToPushTo={appSelectedRoute}
+                        isCollection={true}
                         history={history}
                         nameOf='collection'
                         fieldsetLocation='hamburger__fieldset'
