@@ -33,6 +33,7 @@ const CollectionManager = () => {
         <section className="manager__container">
             <DetailsContainer
                 history={history}
+                isCollections={true}
                 selectedItem={selectedCollection}
                 isFetching={isFetchingCollectionDetails}
                 isDetailsOpen={isCollectionDetailsOpen}

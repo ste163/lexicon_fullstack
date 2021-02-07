@@ -38,7 +38,7 @@ const ProjectForm = ({ history, itemToEdit }) => {
             setCurrentProject(itemToEdit.project)
             // get collections to display
             const collsInProj = itemToEdit.projectCollections.map(pc => pc.collection)
-            const collsWithDuplication = [...projects]
+            const collsWithDuplication = [...collections]
             collsInProj.forEach(c => collsWithDuplication.push(c))
             
             // Filter out duplication
@@ -65,10 +65,9 @@ const ProjectForm = ({ history, itemToEdit }) => {
     const constructNewProject = () => {
         if (itemToEdit) {
             const project = {
-                id: itemToEdit.id,
+                id: itemToEdit.project.id,
                 userId,
                 name: currentProject.name,
-                description: currentProject.description,
             }
 
             let projectCollections = []
@@ -138,7 +137,7 @@ const ProjectForm = ({ history, itemToEdit }) => {
         onSubmit={createProject}>
 
         <h3>
-            {itemToEdit ? `Edit ${itemToEdit.name}` : "Create"}
+            {itemToEdit ? `Edit ${itemToEdit.project.name}` : "Create"}
         </h3> 
 
         <fieldset>
@@ -158,7 +157,7 @@ const ProjectForm = ({ history, itemToEdit }) => {
         <label>Collections available to link to this project:</label>
             <ul className="form__addable-btns">
                 {collectionsAvailableToAdd.length === 0 ? (
-                    <p className="form__p">Added all available projects. Click a collection's name to remove.</p>
+                    <p className="form__p">Added all available collections. Click a collection's name to remove.</p>
                 ) : (
                     collectionsAvailableToAdd.map(p => <AddableButton
                         key={p.id}
@@ -174,7 +173,7 @@ const ProjectForm = ({ history, itemToEdit }) => {
             <label>Linked collections:</label>
             <ul className="form__addable-btns">
                 {collectionsAdded.length === 0 ? (
-                    <p className="form__p">None. Click a project's name to add.</p>
+                    <p className="form__p">None. Click a collection's name to add.</p>
                 ) : (
                     collectionsAdded.map(p => <AddableButton
                         key={p.id}
@@ -199,7 +198,7 @@ const ProjectForm = ({ history, itemToEdit }) => {
                     className="btn form__btn--submit"
                     type="submit"
                     disabled={isLoading}>
-                    {itemToEdit ? "Edit" : "Create"}
+                    {itemToEdit ? "Save" : "Create"}
                 </button>
                 {!itemToEdit ? (
                     null

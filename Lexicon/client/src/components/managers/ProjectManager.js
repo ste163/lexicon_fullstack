@@ -32,6 +32,7 @@ const ProjectManager = () => {
         <section className="manager__container">
             <DetailsContainer
                 history={history}
+                isCollections={false}
                 selectedItem={selectedProject}
                 isFetching={isFetchingProjectDetails}
                 isDetailsOpen={isProjectDetailsOpen}

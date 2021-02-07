@@ -6,6 +6,7 @@ import './Details.css'
 const DetailsContainer = ({
     history,
     selectedItem,
+    isCollections,
     isFetching,
     isDetailsOpen,
     isEditFormOpen,
@@ -55,6 +56,7 @@ const DetailsContainer = ({
                             itemToEdit={itemToEdit} />
                     ) : (
                         <Details
+                            isCollections={isCollections}
                             selectedItem={selectedItem}
                             isCollectionManager={true}
                             history={history}
