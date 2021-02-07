@@ -7,6 +7,7 @@ using Lexicon.Repositories;
 using Lexicon.Controllers.Utils;
 using Lexicon.Models;
 using Lexicon.Models.ViewModels;
+using System.Linq;
 
 namespace Lexicon.Controllers
 {
@@ -203,14 +204,13 @@ namespace Lexicon.Controllers
             var allCollections = _collectionRepo.Get(firebaseUser.Id);
 
             // see if the name of the incoming collection is in the db
-            var collectionWithThatName = allCollections.Find(c => c.Name == incomingCollectionForm.Collection.Name);
+            var collectionsWithThatName = allCollections.Where(c => c.Name == incomingCollectionForm.Collection.Name).ToList();
 
-            // if there is a returned collection, we can't add because name isn't unique for this user
-            if (collectionWithThatName != null)
+            // If the count is greater than 1, so it's in the DB, check to see what the Id is
+            if (collectionsWithThatName.Count > 0)
             {
-                // if the collectionWithThatName does not have the same name as the incoming, then return not found
-                // else they just didn't update the name
-                if (collectionWithThatName.Name != incomingCollectionForm.Collection.Name)
+                // If the Ids match, we can update, otherwise, it's already in db and not the current item
+                if (collectionsWithThatName[0].Id != incomingCollectionForm.Collection.Id)
                 {
                     return NotFound();
                 }
