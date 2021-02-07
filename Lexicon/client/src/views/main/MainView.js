@@ -12,11 +12,13 @@ import ProjectManager from '../../components/managers/ProjectManager'
 import CollectionManager from '../../components/managers/CollectionManager'
 import { AppSelectedRoute } from '../../utils/Routes'
 import './MainView.css'
+import SelectedCard from './selected/SelectedCard'
 
 const MainView = () => {
     const history = useHistory()
     const {
         collections,
+        selectedCollection,
         getCollections,
         isFetchingCollections,
         isCollectionManagerOpen } = useContext(CollectionContext)
@@ -30,6 +32,7 @@ const MainView = () => {
     const maxWidthForMobile = 924
 
     const [ isListColumnActive, setIsListColumnActive ] = useState(true);
+    const [ isSelectedColumnActive, setIsSelectedColumnActive ] = useState(true);
     
     // Need to track the state of List, Selected, and Thesaurus Columns
     // Based on if they are "True" display their columns. If not, display: none
@@ -122,9 +125,17 @@ const MainView = () => {
                     null
                 )}
 
-                <section className="column__selected">
-                    Selected Column
-                </section>
+                {isSelectedColumnActive ? (
+                    <section className="column__selected">
+                        {selectedCollection ? (
+                            <SelectedCard selectedCollection={selectedCollection}/>
+                        ) : (
+                            null
+                        )}
+                    </section>
+                ) : (
+                    null
+                )}
                 <section className="column__thesaurus">
                     Thesaurus Column
                 </section>
