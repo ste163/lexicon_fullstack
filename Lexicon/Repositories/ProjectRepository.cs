@@ -3,6 +3,7 @@ using Lexicon.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using Lexicon.Models.ViewModels;
 
 namespace Lexicon.Repositories
 {
@@ -23,12 +24,23 @@ namespace Lexicon.Repositories
                 .ToList();
         }
 
-        public Project GetByProjectId(int id)
+        public ProjectDetailsViewModel GetByProjectId(int id)
         {
-            return _context.Project
-                .Include(c => c.User)
-                .Where(c => c.Id == id)
-                .FirstOrDefault();
+            var project =  _context.Project
+                    .Include(c => c.User)
+                    .Where(c => c.Id == id)
+                    .FirstOrDefault();
+
+            var projectCollections = _context.ProjectCollection
+                    .Include(pc => pc.Collection)
+                    .Where(pc => pc.ProjectId == id)
+                    .ToList();
+
+            return new ProjectDetailsViewModel
+            {
+                Project = project,
+                ProjectCollections = projectCollections
+            };
         }
 
         public void Add(Project project)
@@ -43,15 +55,12 @@ namespace Lexicon.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(Project project)
+        public void Delete(ProjectDetailsViewModel projectDetails)
         {
-            // Will need to delete from ProjectCollection join table before deleting these
-            // do this (from Tabloid Posts that I did):
-            //var commentsForPost = _context.Comment.Where(c => c.PostId == post.Id).ToList();
-            //_context.Comment.RemoveRange(commentsForPost);
-            //_context.SaveChanges();
+            _context.ProjectCollection.RemoveRange(projectDetails.ProjectCollections);
+            _context.SaveChanges();
 
-            _context.Project.Remove(project);
+            _context.Project.Remove(projectDetails.Project);
             _context.SaveChanges();
         }
     }
