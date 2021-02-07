@@ -27,7 +27,7 @@ const MainView = ({
         getCollections,
         isFetchingCollections,
         isCollectionManagerOpen } = useContext(CollectionContext)
-    const { getProjects, isProjectManagerOpen } = useContext(ProjectContext)
+    const { projects, getProjects, isProjectManagerOpen } = useContext(ProjectContext)
 
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
@@ -105,9 +105,9 @@ const MainView = ({
             {/* Headers */}
             <div className="container__headers">
                 {isMobile ? (
-                    <HeaderMobile />
+                    <HeaderMobile projects={projects} collections={collections} />
                 ) : (
-                    <HeaderDesktop />
+                    <HeaderDesktop projects={projects} collections={collections}/>
                 )}
             </div>
             

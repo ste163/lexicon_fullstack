@@ -10,10 +10,10 @@ export const DropDown = ({ nameOf, fieldsetLocation, labelIdName, currentState, 
     // stateArray to map over and create drop-downs
     // isHamburger is a bool to style labels and drop-downs
 
-    // if (!stateArray) {
-    //     return null
-    // }
-
+    if (!stateArray) {
+        return null
+    }
+    console.log(stateArray)
     return (
         <fieldset className={fieldsetLocation}>
             <label
@@ -27,21 +27,21 @@ export const DropDown = ({ nameOf, fieldsetLocation, labelIdName, currentState, 
             </label>
 
             <select
-            className={!isHamburger ? (
-                ""
-            ) : (
-                "select__hamburger"
-            )}
-            id={labelIdName}
-            name={labelIdName}
-            value={currentState === undefined ? 0 : currentState.id}
-            onChange={e => setCurrentState(e)}>
+                className={!isHamburger ? (
+                    ""
+                ) : (
+                    "select__hamburger"
+                )}
+                id={labelIdName}
+                name={labelIdName}
+                value={currentState === undefined ? 0 : currentState.id}
+                onChange={e => setCurrentState(e.target.value)}>
                 <option value="0">Select {nameOf}</option>
-                {/* {stateArray.map(stateItem => {(
+                {stateArray.map(stateItem => (
                     <option key={stateItem.id} value={stateItem.id}>
                         {stateItem.name}
                     </option>
-                )})} */}
+                ))}
             </select>
         </fieldset>
     )

@@ -6,7 +6,7 @@ import './HamburgerMenu.css'
 
 // NEED TO DECIDE THE ORDERING OF THESE
 // AND SELECTING A COLUMN TO DISPLAY
-const HamburgerMenu = ({ isOpen, setIsOpen }) => (
+const HamburgerMenu = ({ isOpen, setIsOpen, projects, collections }) => (
     <nav
     className={isOpen.hamburgerIsOpen ? (
             "hamburger__nav hamburger__nav--active"
@@ -31,10 +31,20 @@ const HamburgerMenu = ({ isOpen, setIsOpen }) => (
                         managerBtnText={"Manage Projects"} />
                 </li>
                 <li>
-                    <DropDown nameOf='collection' fieldsetLocation='hamburger__fieldset' labelIdName='collectionSelect' isHamburger={true} />
+                    <DropDown
+                        stateArray={collections}
+                        nameOf='collection'
+                        fieldsetLocation='hamburger__fieldset'
+                        labelIdName='collectionSelect' 
+                        isHamburger={true} />
                 </li>
                 <li>
-                    <DropDown nameOf='project' fieldsetLocation='hamburger__fieldset' labelIdName='projectSelect' isHamburger={true} />
+                    <DropDown
+                        stateArray={projects}
+                        nameOf='project'
+                        fieldsetLocation='hamburger__fieldset'
+                        labelIdName='projectSelect'
+                        isHamburger={true} />
                 </li>
             </div>
 
