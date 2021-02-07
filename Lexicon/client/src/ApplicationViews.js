@@ -150,7 +150,7 @@ const ApplicationViews = () => {
                 turnOffAllCollectionRoutes()
 
                 getProjectById(routeParamId)
-                .then(project => setSelectedProject(project))
+                .then(projectDetails => setSelectedProject(projectDetails))
                 .catch(error => history.goBack())
 
                 setIsProjectDetailsOpen(true) 
@@ -172,7 +172,7 @@ const ApplicationViews = () => {
 
             case ProjectManagerDeleteRoute(routeParamId):
                 getProjectById(routeParamId)
-                .then(project => setObjectToDelete(project))
+                .then(projectDetails => setObjectToDelete(projectDetails.project))
                 .catch(error => history.goBack()) // if an error, on retrieval, go back a page
 
                 turnOffAllButDelete()
@@ -229,7 +229,10 @@ const ApplicationViews = () => {
 
             case CollectionManagerDeleteRoute(routeParamId):
                 getCollectionById(routeParamId)
-                .then(collectionDetails => setObjectToDelete(collectionDetails.collection))
+                .then(collectionDetails => {
+                    setObjectToDelete(collectionDetails.collection)
+                    setSelectedCollection(undefined)
+                })
                 .catch(error => history.goBack()) // if an error, on retrieval, go back a page
 
                 turnOffAllButDelete()
