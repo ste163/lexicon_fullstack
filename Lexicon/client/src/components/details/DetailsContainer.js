@@ -63,7 +63,6 @@ const DetailsContainer = ({
                             deleteUrlToPushTo={deleteUrlToPushTo} />
                     )
                 )}
-
             </section>
         </>
         )}

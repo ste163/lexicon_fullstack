@@ -136,7 +136,7 @@ export const ManagerArrow = ({ isForm, history, managerUrlToPushTo }) => (
 )
 
 export const ManagerCreate = ({ history, formUrlToPushTo, createNewString }) => (
-  <button
+    <button
         onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__black', 'icon__whiteNoChange')}
         onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__black', 'icon__whiteNoChange')}
         className="btn btn__controls"

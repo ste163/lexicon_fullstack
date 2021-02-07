@@ -59,11 +59,12 @@ const Delete = () => {
           }))
     } 
 
-    // Would probably be better to pull
+    // Create an array of all possible routes to use a .find on
     const possibleDeleteRoutes = [CollectionManagerString(), ProjectManagerString()]
 
     const deleteItem = () => {
       const currentUrl = location.pathname
+      
       // Find which path from the array of possibleDeleteRoutes is the current url
       const currentDeletePath = possibleDeleteRoutes.find(r => currentUrl.match(r))
 

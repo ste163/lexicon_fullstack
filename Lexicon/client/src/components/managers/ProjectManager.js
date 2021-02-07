@@ -27,7 +27,6 @@ const ProjectManager = () => {
         isProjectEditFormOpen
     } = useContext(ProjectContext)
     
-
     // Get the Create button working with the slide to form, and back and forth
     return (
         <section className="manager__container">
