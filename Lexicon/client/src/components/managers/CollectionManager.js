@@ -60,7 +60,7 @@ const CollectionManager = () => {
 
                 <ListCardContainer
                     history={history}
-                    detailsUrlToPushTo={CollectionManagerDetailsRoute}
+                    urlToPushTo={CollectionManagerDetailsRoute}
                     isFetching={isFetchingCollections}
                     items={collections}  />
             </section>

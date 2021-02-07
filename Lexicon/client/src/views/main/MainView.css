@@ -16,20 +16,14 @@
     flex-grow: 1;
 }
   
-  /* .view__container {
-    display: grid;
-    grid-template-columns: 1fr 2fr 4fr;
-  } */
-  
-/* Collection list column */
 .column__list {
-    overflow-y: auto;
-    overflow-x: none;
-    max-height: 88vh;
-    width: 22vw;
+  overflow-y: none;
+  overflow-x: none;
+  max-height: 88vh;
+  width: 22vw;
+  margin-right: 2em;
 }
   
-/* Selected collection column */
 .column__selected {
     margin-left: 0.5em;
     /* 
@@ -38,29 +32,24 @@
     */
 }
   
-  /* Thesaurus column */
 .column__thesaurus {
     display: grid;
     grid-template-rows: min-content min-content;
 }
   
   /* Desktop - med-screen size - hide list column */
-@media screen and (max-width: 1215px) {
+/* @media screen and (max-width: 1215px) {
     .view__container {
       grid-template-columns: 1fr 2fr;
     }
     
-    .column__list {
-      display: none
-    }
-  
     .column__selected {
       margin-left: 1em;
-    }
-}
+    } */
+/* } */
   
 /* Desktop - small-screen size - stack selected & thesaurus column  */
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
     .view__container {
       display: flex;
       flex-flow: column;
@@ -68,5 +57,5 @@
   
     .column__selected {
       width: 75%;
-    }
-}
+    } */
+/* } */

@@ -60,7 +60,7 @@ const ProjectManager = () => {
 
                 <ListCardContainer
                     history={history}
-                    detailsUrlToPushTo={ProjectManagerDetailsRoute}
+                    urlToPushTo={ProjectManagerDetailsRoute}
                     isFetching={isFetchingProjects}
                     items={projects}  />
             </section>

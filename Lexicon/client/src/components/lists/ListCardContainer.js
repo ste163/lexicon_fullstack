@@ -8,7 +8,7 @@ import './ListCardContainer.css'
     // url route to push to
     // PROBABLY need to pass in a card/message component for if no info yet
     
-const CollectionList = ({ history, isFetching, items, detailsUrlToPushTo }) => {
+const CollectionList = ({ history, isFetching, items, urlToPushTo }) => {
 
     // Loading spinner while fetching
     if (isFetching) {
@@ -21,7 +21,6 @@ const CollectionList = ({ history, isFetching, items, detailsUrlToPushTo }) => {
         )
     }
     
-    // Message for no items
     if (!items) {
         return (
             null
@@ -35,7 +34,7 @@ const CollectionList = ({ history, isFetching, items, detailsUrlToPushTo }) => {
             <div>No items</div>
         ) : (
             items.map(item => {
-                return <ListCard key={item.id} item={item} history={history} detailsUrlToPushTo={detailsUrlToPushTo} />
+                return <ListCard key={item.id} item={item} history={history} urlToPushTo={urlToPushTo} />
             })
         )}
         </section>

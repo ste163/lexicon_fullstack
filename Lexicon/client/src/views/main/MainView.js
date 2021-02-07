@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { ProjectContext } from '../../providers/ProjectProvider'
+import ListCardContainer from '../../components/lists/ListCardContainer'
 import Delete from '../../components/delete/Delete'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
 import HeaderMobile from '../../components/headerMobile/HeaderMobile'
@@ -8,10 +10,16 @@ import Footer from '../../components/footer/Footer'
 import Modal from '../../components/modal/Modal'
 import ProjectManager from '../../components/managers/ProjectManager'
 import CollectionManager from '../../components/managers/CollectionManager'
+import { AppSelectedRoute } from '../../utils/Routes'
 import './MainView.css'
 
 const MainView = () => {
-    const { getCollections, isCollectionManagerOpen } = useContext(CollectionContext)
+    const history = useHistory()
+    const {
+        collections,
+        getCollections,
+        isFetchingCollections,
+        isCollectionManagerOpen } = useContext(CollectionContext)
     const { getProjects, isProjectManagerOpen } = useContext(ProjectContext)
 
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
@@ -20,6 +28,8 @@ const MainView = () => {
     const [ isMobile, setIsMobile ] = useState(false)
     // If you change this, update it in: Icons.css, 
     const maxWidthForMobile = 924
+
+    const [ isListColumnActive, setIsListColumnActive ] = useState(true);
     
     // Need to track the state of List, Selected, and Thesaurus Columns
     // Based on if they are "True" display their columns. If not, display: none
@@ -58,8 +68,10 @@ const MainView = () => {
 
         if (windowDimensions.width < maxWidthForMobile){
             setIsMobile(true)
+            setIsListColumnActive(false)
         } else {
             setIsMobile(false)
+            setIsListColumnActive(true)
         }
 
         // Remove event listener so we don't add an infinite amount
@@ -95,13 +107,25 @@ const MainView = () => {
             
             {/* Dashboard */}
             <div className="container__inner">
-                <section>
-                    List Column                   
-                </section>
-                <section>
+                
+                {isListColumnActive ? (
+                    <section className="column__list">
+
+                    <ListCardContainer
+                        history={history}
+                        urlToPushTo={AppSelectedRoute}
+                        isFetching={isFetchingCollections}
+                        items={collections}  />
+
+                    </section>
+                ) : (
+                    null
+                )}
+
+                <section className="column__selected">
                     Selected Column
                 </section>
-                <section>
+                <section className="column__thesaurus">
                     Thesaurus Column
                 </section>
             </div>
