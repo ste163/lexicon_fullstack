@@ -127,79 +127,115 @@ namespace Lexicon.Tests.Integration
             Assert.IsType<NotFoundResult>(response);
         }
 
-        //[Fact]
-        //public void User_Can_Only_Update_Collection_With_New_Unique_Name()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
-        //                           }, "TestAuthentication"));
+        [Fact]
+        public void User_Can_Only_Update_Collection_With_New_Unique_Name()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
+                                   }, "TestAuthentication"));
 
-        //    // Instantiate a real repos
-        //    var collectionRepo = new CollectionRepository(_context);
-        //    var userRepo = new UserRepository(_context);
-        //    var projColRepo = new ProjectCollectionRepository(_context);
+            // Instantiate a real repos
+            var collectionRepo = new CollectionRepository(_context);
+            var userRepo = new UserRepository(_context);
+            var projColRepo = new ProjectCollectionRepository(_context);
 
-        //    // Instantiate a real CollectionController, passing in CollectionRepo
-        //    var controller = new CollectionController(userRepo, collectionRepo, projColRepo);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Instantiate a real CollectionController, passing in CollectionRepo
+            var controller = new CollectionController(userRepo, collectionRepo, projColRepo);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Make a new collection to pass in to update
-        //    var collectionToUpdate = new Collection()
-        //    {
-        //        Id = 2,
-        //        UserId = 1,
-        //        CategorizationId = 1,
-        //        Name = "Forests",
-        //        Description = "The titles do not match",
-        //        Pinned = false,
-        //        CreationDate = DateTime.Now - TimeSpan.FromDays(15)
-        //    };
+            // Create a collection with a duplicate name
+            // create a new collectionFormViewModel
+            var collectionForm = new CollectionFormViewModel()
+            {
+                Collection = new Collection()
+                {
+                    Id = 2,
+                    UserId = 1,
+                    CategorizationId = 1,
+                    Name = "Forests",
+                    Description = "The titles do not match",
+                    Pinned = false,
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+                },
 
-        //    // Attempt to Update collection
-        //    var response = controller.Put(collectionToUpdate.Id, collectionToUpdate);
+                ProjectCollections = new List<ProjectCollection>()
+                {
+                    new ProjectCollection()
+                    {
+                        ProjectId = 1,
+                        CollectionId = 2 // I won't know this until it's made
+                    },
+                    new ProjectCollection()
+                    {
+                        ProjectId = 2,
+                        CollectionId = 2 // I won't know this until it's made
+                    }
+                }
+            };
 
-        //    // Should return created result
-        //    Assert.IsType<NoContentResult>(response);
-        //}
+            // Attempt to Update collection
+            var response = controller.Put(collectionForm.Collection.Id, collectionForm);
 
-        //[Fact]
-        //public void User_Can_Not_Update_Collections_With_Duplicate_Names()
-        //{
-        //    // Spoof an authenticated user by generating a ClaimsPrincipal
-        //    var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-        //                           new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
-        //                           }, "TestAuthentication"));
+            // Should return created result
+            Assert.IsType<NoContentResult>(response);
+        }
 
-        //    // Instantiate a real repos
-        //    var collectionRepo = new CollectionRepository(_context);
-        //    var userRepo = new UserRepository(_context);
-        //    var projColRepo = new ProjectCollectionRepository(_context);
+        [Fact]
+        public void User_Can_Not_Update_Collections_With_Duplicate_Names()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_ID_1"),
+                                   }, "TestAuthentication"));
 
-        //    // Instantiate a real CollectionController, passing in CollectionRepo
-        //    var controller = new CollectionController(userRepo, collectionRepo, projColRepo);
-        //    controller.ControllerContext = new ControllerContext(); // Required to create the controller
-        //    controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+            // Instantiate a real repos
+            var collectionRepo = new CollectionRepository(_context);
+            var userRepo = new UserRepository(_context);
+            var projColRepo = new ProjectCollectionRepository(_context);
 
-        //    // Make a new collection to pass in to update
-        //    var collectionToUpdate = new Collection()
-        //    {
-        //        Id = 2,
-        //        UserId = 1,
-        //        CategorizationId = 1,
-        //        Name = "Monsters",
-        //        Description = "HA-HA! The titles match >:)",
-        //        Pinned = false,
-        //        CreationDate = DateTime.Now - TimeSpan.FromDays(15)
-        //    };
+            // Instantiate a real CollectionController, passing in CollectionRepo
+            var controller = new CollectionController(userRepo, collectionRepo, projColRepo);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-        //    // Attempt to Update collection
-        //    var response = controller.Put(collectionToUpdate.Id, collectionToUpdate);
+            // Create a collection with a duplicate name
+            // create a new collectionFormViewModel
+            var collectionForm = new CollectionFormViewModel()
+            {
+                Collection = new Collection()
+                {
+                    Id = 2,
+                    UserId = 1,
+                    CategorizationId = 1,
+                    Name = "Monsters",
+                    Description = "HA-HA! The titles match >:)",
+                    Pinned = false,
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+                },
 
-        //    // Should return created result
-        //    Assert.IsType<NotFoundResult>(response);
-        //}
+                ProjectCollections = new List<ProjectCollection>()
+                {
+                    new ProjectCollection()
+                    {
+                        ProjectId = 1,
+                        CollectionId = 0 // I won't know this until it's made
+                    },
+                    new ProjectCollection()
+                    {
+                        ProjectId = 2,
+                        CollectionId = 0 // I won't know this until it's made
+                    }
+                }
+            };
+
+            // Attempt to Update collection
+            var response = controller.Put(collectionForm.Collection.Id, collectionForm);
+
+            // Should return created result
+            Assert.IsType<NotFoundResult>(response);
+        }
 
 
         private void AddSampleData()
