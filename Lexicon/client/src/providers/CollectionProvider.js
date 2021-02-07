@@ -165,28 +165,28 @@ export const CollectionProvider = props => {
             return false
           }      
         })
-      }
     }
+  }
 
-    return (
-      <CollectionContext.Provider
-        value={{
-          isFetchingCollections,
-          isFetchingCollectionDetails, setIsFetchingCollectionDetails,
+  return (
+    <CollectionContext.Provider
+      value={{
+        isFetchingCollections,
+        isFetchingCollectionDetails, setIsFetchingCollectionDetails,
 
-          collections, setCollections,
-          selectedCollection, setSelectedCollection,
-          isCollectionManagerOpen, setIsCollectionManagerOpen,
-          isCollectionCreateFormOpen, setIsCollectionCreateFormOpen,
-          isCollectionDetailsOpen, setIsCollectionDetailsOpen,
-          isCollectionEditFormOpen, setIsCollectionEditFormOpen,
+        collections, setCollections,
+        selectedCollection, setSelectedCollection,
+        isCollectionManagerOpen, setIsCollectionManagerOpen,
+        isCollectionCreateFormOpen, setIsCollectionCreateFormOpen,
+        isCollectionDetailsOpen, setIsCollectionDetailsOpen,
+        isCollectionEditFormOpen, setIsCollectionEditFormOpen,
 
-          getCollections,
-          getCollectionById,
-          addCollection,
-          updateCollection
-        }}>
-          {props.children}
-      </CollectionContext.Provider>
-    )
+        getCollections,
+        getCollectionById,
+        addCollection,
+        updateCollection
+      }}>
+        {props.children}
+    </CollectionContext.Provider>
+  )
 }

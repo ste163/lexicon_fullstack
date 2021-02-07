@@ -2,14 +2,14 @@ import React, { createContext, useState, useContext } from 'react'
 import { UserContext } from "./UserProvider"
 import { toast } from 'react-toastify'
 import {
-    AnonWarning,
-    DbNoConnection,
-    RetrieveFailure,
-    AddFailure,
-    AddSuccess,
-    FailureNameDupe,
-    UpdateSuccess,
-    UpdateFailure, } from '../utils/ToastMessages'
+  AnonWarning,
+  DbNoConnection,
+  RetrieveFailure,
+  AddFailure,
+  AddSuccess,
+  FailureNameDupe,
+  UpdateSuccess,
+  UpdateFailure, } from '../utils/ToastMessages'
 
 export const ProjectContext = createContext()
 
@@ -85,7 +85,7 @@ export const ProjectProvider = props => {
     }
   }
 
-  const addProject = submittedProject => {
+  const addProject = submittedProjectForm => {
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
@@ -96,7 +96,7 @@ export const ProjectProvider = props => {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(submittedProject)
+            body: JSON.stringify(submittedProjectForm)
         }))
         .then(res => {
           if (res.status === 200) {
@@ -121,7 +121,7 @@ export const ProjectProvider = props => {
         })
         .then(project => {
           if (project) {
-            toast.success(AddSuccess(objectTypeForToasts, project.name))
+            toast.success(AddSuccess(objectTypeForToasts, submittedProjectForm.project.name))
             getProjects()
           } else {
             return
@@ -130,18 +130,18 @@ export const ProjectProvider = props => {
     }
   }
 
-  const updateProject = submittedProject => {
+  const updateProject = submittedProjectForm => {
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
       return getToken().then(token => 
-        fetch(`${apiUrl}/${submittedProject.id}`, {
+        fetch(`${apiUrl}/${submittedProjectForm.project.id}`, {
             method: "PUT",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(submittedProject)
+            body: JSON.stringify(submittedProjectForm)
         }))
         .then(res => {
           if (res.status === 204) {
@@ -165,28 +165,28 @@ export const ProjectProvider = props => {
             return false
           }      
         })
-      }
     }
+  }
 
-    return (
-      <ProjectContext.Provider
-        value={{
-          isFetchingProjects,
-          isFetchingProjectDetails, setIsFetchingProjectDetails,
+  return (
+    <ProjectContext.Provider
+      value={{
+        isFetchingProjects,
+        isFetchingProjectDetails, setIsFetchingProjectDetails,
 
-          projects, setProjects,
-          selectedProject, setSelectedProject,
-          isProjectManagerOpen, setIsProjectManagerOpen,
-          isProjectCreateFormOpen, setIsProjectCreateFormOpen,
-          isProjectDetailsOpen, setIsProjectDetailsOpen,
-          isProjectEditFormOpen, setIsProjectEditFormOpen,
+        projects, setProjects,
+        selectedProject, setSelectedProject,
+        isProjectManagerOpen, setIsProjectManagerOpen,
+        isProjectCreateFormOpen, setIsProjectCreateFormOpen,
+        isProjectDetailsOpen, setIsProjectDetailsOpen,
+        isProjectEditFormOpen, setIsProjectEditFormOpen,
 
-          getProjects,
-          getProjectById,
-          addProject,
-          updateProject
-        }}>
-          {props.children}
-      </ProjectContext.Provider>
-    )
+        getProjects,
+        getProjectById,
+        addProject,
+        updateProject
+      }}>
+        {props.children}
+    </ProjectContext.Provider>
+  )
 }
