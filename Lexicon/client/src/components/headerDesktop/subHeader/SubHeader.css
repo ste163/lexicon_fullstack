@@ -18,3 +18,7 @@
 .fieldset__collection {
     margin: 0 0.5em;
 }
+
+.toggle__column {
+    margin-left: 1em;
+}
