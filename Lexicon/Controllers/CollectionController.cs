@@ -65,6 +65,7 @@ namespace Lexicon.Controllers
             {
                 // If a user attempts to get an Id not in the db, causes a NullReferenceException error
                 var collectionViewModel = _collectionRepo.GetByCollectionId(id);
+
                 // If no matching collection, return not found
                 if (collectionViewModel.Collection == null)
                 {
