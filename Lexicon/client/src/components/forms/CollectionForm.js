@@ -41,13 +41,11 @@ const CollectionForm = ({ history, itemToEdit }) => {
             const projsWithDuplication = [...projects]
             projsInCol.forEach(p => projsWithDuplication.push(p))
 
-            // ADD ALL DUPLICATES TO THE PROJ COL COPY, THEN I CAN FILTER OUT THE NON-DUPLICATES
+            // Filter out duplication
+            const removedDuplication = removeDuplicationFromArray(projsWithDuplication)
             
-            console.log("1. PROJECTS WE HAVE", projsInCol)
-            console.log("2. PROJECTS WITH DUPLICATION", projsWithDuplication)
-
             setProjectsAdded(projsInCol)
-            // setProjectsAvailableToAdd()
+            setProjectsAvailableToAdd(removedDuplication)
             setIsLoading(false);
         } else {
             setIsLoading(false)
@@ -57,6 +55,24 @@ const CollectionForm = ({ history, itemToEdit }) => {
     useEffect(() => {
         getProjects()
     }, [])
+
+    const removeDuplicationFromArray = (duplicationArray) => {
+        // make copy of original array
+        const copyOfDuplicationArray = [...duplicationArray]
+        // make holding array for unique matches
+        const uniqueResultsArray = []
+
+        // for each object in Duplication, filter matches from new Array to
+        duplicationArray.forEach(obj => {
+            let tempFilteredArray = copyOfDuplicationArray.filter(newObj => newObj.id === obj.id)
+            
+            //if tempFilteredArray is less than 2 add it to the result
+            if (tempFilteredArray.length < 2){
+                uniqueResultsArray.push(obj)}
+        })
+
+        return uniqueResultsArray
+    }
 
     const moveSingleItemsBetweenStateArrays = (e, itemsAvailableStateArray, setItemsAvailableStateArray, setItemsAddedToStateArray) => {
         // Get what we clicked on by it's inner text
