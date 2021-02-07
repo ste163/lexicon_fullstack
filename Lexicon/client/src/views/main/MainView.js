@@ -41,8 +41,6 @@ const MainView = ({
     // If you change this, update it in: Icons.css, 
     const maxWidthForMobile = 1350
 
-
-    
     // Need to track the state of List, Selected, and Thesaurus Columns
     // Based on if they are "True" display their columns. If not, display: none
     // Will also need to turn them on and off based on Screen Width. Do not handle that with CSS because they could conflict
