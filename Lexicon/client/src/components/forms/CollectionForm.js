@@ -36,13 +36,17 @@ const CollectionForm = ({ history, itemToEdit }) => {
 
         if (itemToEdit) {
             setCurrentCollection(itemToEdit.collection)
-            // const projColsAlreadyAdded = itemToEdit.projectCollections.map(pc => pc.project)
-            // const projColCopy = [...projects]
+            // Get projects to display
+            const projsInCol = itemToEdit.projectCollections.map(pc => pc.project)
+            const projsWithDuplication = [...projects]
+            projsInCol.forEach(p => projsWithDuplication.push(p))
 
             // ADD ALL DUPLICATES TO THE PROJ COL COPY, THEN I CAN FILTER OUT THE NON-DUPLICATES
             
-            // console.log("1. PROJECTS WE HAVE", projColsAlreadyAdded)
-            // console.log("2. PROJECTS IN DB", projColCopy)
+            console.log("1. PROJECTS WE HAVE", projsInCol)
+            console.log("2. PROJECTS WITH DUPLICATION", projsWithDuplication)
+
+            setProjectsAdded(projsInCol)
             // setProjectsAvailableToAdd()
             setIsLoading(false);
         } else {
