@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { ProjectContext } from '../../providers/ProjectProvider'
 import { CollectionManagerRoute } from '../../utils/Routes'
+import { removeDuplicationFromArray, moveSingleItemsBetweenStateArrays } from '../../utils/ArrayHelpers'
 import { AddableButton } from "../buttons/Buttons"
 import './CollectionForm.css'
 import './Form.css'
@@ -55,35 +56,6 @@ const CollectionForm = ({ history, itemToEdit }) => {
     useEffect(() => {
         getProjects()
     }, [])
-
-    const removeDuplicationFromArray = (duplicationArray) => {
-        // make copy of original array
-        const copyOfDuplicationArray = [...duplicationArray]
-        // make holding array for unique matches
-        const uniqueResultsArray = []
-
-        // for each object in Duplication, filter matches from new Array to
-        duplicationArray.forEach(obj => {
-            let tempFilteredArray = copyOfDuplicationArray.filter(newObj => newObj.id === obj.id)
-            
-            //if tempFilteredArray is less than 2 add it to the result
-            if (tempFilteredArray.length < 2){
-                uniqueResultsArray.push(obj)}
-        })
-
-        return uniqueResultsArray
-    }
-
-    const moveSingleItemsBetweenStateArrays = (e, itemsAvailableStateArray, setItemsAvailableStateArray, setItemsAddedToStateArray) => {
-        // Get what we clicked on by it's inner text
-        const clickedItem = e.target.textContent
-        // Pull that item from projectsAvailable
-        const itemToAdd = itemsAvailableStateArray.find(p => p.name === clickedItem)
-        // Filter out the clicked on item from those available
-        setItemsAvailableStateArray(itemsAvailableStateArray.filter(p => p.name !== itemToAdd.name))
-        // Add the filtered out item to the array to add to
-        setItemsAddedToStateArray(projectsAdded => [...projectsAdded, itemToAdd])
-    }
 
     const handleControlledInputChange = e => {
         const newCollection = { ...currentCollection }
@@ -191,6 +163,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
                     onClickFunction={moveSingleItemsBetweenStateArrays}
                     itemsAvailableStateArray={projectsAvailableToAdd}
                     setItemsAvailableStateArray={setProjectsAvailableToAdd}
+                    itemsAddedState={projectsAdded}
                     setItemsAddedToStateArray={setProjectsAdded} />)
             )}
         </ul>
@@ -206,6 +179,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
                     onClickFunction={moveSingleItemsBetweenStateArrays}
                     itemsAvailableStateArray={projectsAdded}
                     setItemsAvailableStateArray={setProjectsAdded}
+                    itemsAddedState={projectsAdded}
                     setItemsAddedToStateArray={setProjectsAvailableToAdd} />)
             )}
         </ul>
@@ -222,7 +196,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
                     className="btn form__btn--submit"
                     type="submit"
                     disabled={isLoading}>
-                    {itemToEdit ? "Edit" : "Create"}
+                    {itemToEdit ? "Save" : "Create"}
                 </button>
                 {!itemToEdit ? (
                     null

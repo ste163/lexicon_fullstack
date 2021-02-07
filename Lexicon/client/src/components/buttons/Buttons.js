@@ -71,11 +71,12 @@ export const AddableButton = ({
     onClickFunction,
     itemsAvailableStateArray,
     setItemsAvailableStateArray,
+    itemsAddedState,
     setItemsAddedToStateArray }) => (
     <li className="item__li">
         <button   
             className="btn btn--pill"
-            onClick={e => onClickFunction(e, itemsAvailableStateArray, setItemsAvailableStateArray, setItemsAddedToStateArray)}>
+            onClick={e => onClickFunction(e, itemsAvailableStateArray, setItemsAvailableStateArray, itemsAddedState, setItemsAddedToStateArray)}>
             {item.name}
         </button>
     </li>
