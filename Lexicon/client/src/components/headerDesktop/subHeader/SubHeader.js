@@ -49,21 +49,20 @@ const SubHeader = ({
 
         <div className="line__vertical"></div>
 
-        <label className="toggle__column" for="listColumn">Toggle List Column: </label>
+        <label className="toggle__column" htmlFor="listColumn">Toggle List Column: </label>
         <input
             onChange={e => {setIsListColumnActive(e.currentTarget.checked)}}
             checked={isListColumnActive}
-            defaultChecked={true}
+            defaultChecked={true} // needed for this input not other. Not sure why
             type="checkbox"
             id="listColumn"
             name="listColumn"
             value="listColumn" />
 
-        <label className="toggle__column" for="listColumn">Toggle Selected Column: </label>
+        <label className="toggle__column" htmlFor="listColumn">Toggle Selected Column: </label>
         <input
             onChange={e => {setIsSelectedColumnActive(e.currentTarget.checked)}}
             checked={isSelectedColumnActive}
-            defaultChecked={true}
             type="checkbox"
             id="listColumn"
             name="listColumn"

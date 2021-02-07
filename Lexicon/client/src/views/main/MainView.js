@@ -39,7 +39,7 @@ const MainView = ({
     // isMobile tracks state for if we should show mobile view or not
     const [ isMobile, setIsMobile ] = useState(false)
     // If you change this, update it in: Icons.css, 
-    const maxWidthForMobile = 960
+    const maxWidthForMobile = 1350
 
 
     
@@ -84,6 +84,7 @@ const MainView = ({
             setIsMobile(false)
             setIsListColumnActive(true)
         }
+        console.log(windowDimensions)
 
         // Remove event listener so we don't add an infinite amount
         return _ => {
