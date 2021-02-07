@@ -1,7 +1,17 @@
 import React from 'react'
 import './Inputs.css'
 
-export const DropDown = ({ nameOf, fieldsetLocation, labelIdName, currentState, setCurrentState, stateArray, isHamburger  }) => {
+export const DropDown = ({
+    nameOf,
+    fieldsetLocation,
+    labelIdName,
+    history,
+    urlToPushTo,
+    currentState,
+    stateArray,
+    setCurrentState,
+    isCollection,
+    isHamburger  }) => {
 // To use:
     // nameOf the dropdown for placeholders like 'collection' or 'project'
     // fieldsetLocation ClassName for either 'subHeader__fieldset' etc
@@ -10,9 +20,11 @@ export const DropDown = ({ nameOf, fieldsetLocation, labelIdName, currentState, 
     // stateArray to map over and create drop-downs
     // isHamburger is a bool to style labels and drop-downs
 
-    // if (!stateArray) {
-    //     return null
-    // }
+    if (!stateArray) {
+        return null
+    }
+
+    // Need check for if setCurrentState === undefined ? pushToUrl : setCurrentState ON CHANGE
 
     return (
         <fieldset className={fieldsetLocation}>
@@ -27,21 +39,38 @@ export const DropDown = ({ nameOf, fieldsetLocation, labelIdName, currentState, 
             </label>
 
             <select
-            className={!isHamburger ? (
-                ""
-            ) : (
-                "select__hamburger"
-            )}
-            id={labelIdName}
-            name={labelIdName}
-            value={currentState === undefined ? 0 : currentState.id}
-            onChange={e => setCurrentState(e)}>
+                className={!isHamburger ? (
+                    ""
+                ) : (
+                    "select__hamburger"
+                )}
+                id={labelIdName}
+                name={labelIdName}
+                value={currentState === undefined ? (
+                    0
+                ) : (
+                    isCollection ? (
+                        currentState.collection.id
+                ) : (
+                        currentState.id
+                    )
+                )}
+                onChange={e => {
+                    if (setCurrentState !== undefined) {
+                        // Find the Id of the item in the stateArray
+                        const selectedItem = stateArray.find(item => item.id === +e.target.value)
+                        // Set that item to currentItemState
+                        setCurrentState(selectedItem)
+                    } else {
+                        history.push(urlToPushTo(+e.target.value))}
+                    }
+                }>
                 <option value="0">Select {nameOf}</option>
-                {/* {stateArray.map(stateItem => {(
+                {stateArray.map(stateItem => (
                     <option key={stateItem.id} value={stateItem.id}>
                         {stateItem.name}
                     </option>
-                )})} */}
+                ))}
             </select>
         </fieldset>
     )

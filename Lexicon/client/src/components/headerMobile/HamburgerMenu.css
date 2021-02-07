@@ -79,8 +79,8 @@
 }
 
 .select__hamburger {
-    background-color: var(--darkestGray);
-    color: var(--offWhite);
+    background-color: var(--offWhite);
+    color: var(--fontColor);
 }
 
 

@@ -1,23 +1,46 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { ProjectContext } from '../../providers/ProjectProvider'
+import ListCardContainer from '../../components/lists/ListCardContainer'
 import Delete from '../../components/delete/Delete'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
 import HeaderMobile from '../../components/headerMobile/HeaderMobile'
 import Footer from '../../components/footer/Footer'
+import Modal from '../../components/modal/Modal'
+import ProjectManager from '../../components/managers/ProjectManager'
+import CollectionManager from '../../components/managers/CollectionManager'
+import { AppSelectedRoute } from '../../utils/Routes'
 import './MainView.css'
+import SelectedCard from './selected/SelectedCard'
 
-const MainView = () => {
-    const { getCollections } = useContext(CollectionContext)
-    const { getProjects } = useContext(ProjectContext)
+const MainView = ({
+   isListColumnActive,
+   setIsListColumnActive,
+   isSelectedColumnActive,
+   setIsSelectedColumnActive
+}) => {
+    const history = useHistory()
+    const {
+        collections,
+        selectedCollection,
+        getCollections,
+        isFetchingCollections,
+        isCollectionManagerOpen } = useContext(CollectionContext)
+    const {
+        projects,
+        selectedProject,
+        setSelectedProject,
+        getProjects,
+        isProjectManagerOpen } = useContext(ProjectContext)
 
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
     // isMobile tracks state for if we should show mobile view or not
     const [ isMobile, setIsMobile ] = useState(false)
     // If you change this, update it in: Icons.css, 
-    const maxWidthForMobile = 924
-    
+    const maxWidthForMobile = 1350
+
     // Need to track the state of List, Selected, and Thesaurus Columns
     // Based on if they are "True" display their columns. If not, display: none
     // Will also need to turn them on and off based on Screen Width. Do not handle that with CSS because they could conflict
@@ -51,13 +74,15 @@ const MainView = () => {
 
         // EventListener on Window object to properly track the current browser dimensions
         window.addEventListener('resize', debouncedHandleResize)
-        console.log(windowDimensions)
 
         if (windowDimensions.width < maxWidthForMobile){
             setIsMobile(true)
+            setIsListColumnActive(false)
         } else {
             setIsMobile(false)
+            setIsListColumnActive(true)
         }
+        console.log(windowDimensions)
 
         // Remove event listener so we don't add an infinite amount
         return _ => {
@@ -68,24 +93,75 @@ const MainView = () => {
 
     return (
         <div className="app__container">
-            {/* Delete renders a hidden modal accessible only by delete routes */}
+            {/* Render Modals */}
             <Delete />
+            
+            <Modal
+                isOpen={isCollectionManagerOpen}
+                contentFunction={<CollectionManager />}
+                contentHeader={"Collection Manager"} />
 
+            <Modal
+                isOpen={isProjectManagerOpen}
+                contentFunction={<ProjectManager />}
+                contentHeader={"Project Manager"} />
+
+            {/* Headers */}
             <div className="container__headers">
                 {isMobile ? (
-                    <HeaderMobile />
+                    <HeaderMobile
+                        selectedCollection={selectedCollection}
+                        selectedProject={selectedProject}
+                        setSelectedProject={setSelectedProject}
+                        appSelectedRoute={AppSelectedRoute}
+                        history={history}
+                        projects={projects}
+                        collections={collections} />
                 ) : (
-                    <HeaderDesktop />
+                    <HeaderDesktop
+                        isListColumnActive={isListColumnActive}
+                        setIsListColumnActive={setIsListColumnActive}
+                        isSelectedColumnActive={isSelectedColumnActive}
+                        setIsSelectedColumnActive={setIsSelectedColumnActive}
+                        selectedCollection={selectedCollection}
+                        selectedProject={selectedProject}
+                        setSelectedProject={setSelectedProject}
+                        appSelectedRoute={AppSelectedRoute}
+                        history={history}
+                        projects={projects}
+                        collections={collections}/>
                 )}
             </div>
+            
+            {/* Dashboard */}
             <div className="container__inner">
-                <section>
-                    List Column                   
-                </section>
-                <section>
-                    Selected Column
-                </section>
-                <section>
+                
+                {isListColumnActive ? (
+                    <section className="column__list">
+
+                    <ListCardContainer
+                        history={history}
+                        urlToPushTo={AppSelectedRoute}
+                        isFetching={isFetchingCollections}
+                        items={collections}  />
+
+                    </section>
+                ) : (
+                    null
+                )}
+
+                {isSelectedColumnActive ? (
+                    <section className="column__selected">
+                        {selectedCollection ? (
+                            <SelectedCard selectedCollection={selectedCollection}/>
+                        ) : (
+                            null
+                        )}
+                    </section>
+                ) : (
+                    null
+                )}
+                <section className="column__thesaurus">
                     Thesaurus Column
                 </section>
             </div>

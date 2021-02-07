@@ -19,7 +19,6 @@ const Modal = props => {
     }
     
     return (
-
         // Background
         <section className={props.isOpen ? (
             "background__modal modal__active" 

@@ -6,6 +6,7 @@ import './Details.css'
 const DetailsContainer = ({
     history,
     selectedItem,
+    isCollections,
     isFetching,
     isDetailsOpen,
     isEditFormOpen,
@@ -16,9 +17,6 @@ const DetailsContainer = ({
     editUrlToPushTo,
     deleteUrlToPushTo
 }) => (
-    // POSSIBLE ERROR: If we get undefined, PUSH us back to the collection-manager
-    // might need to put this here??? We'll see what happens
-
     <section
         className={isDetailsOpen ? (
             "manager__details manager__details--active"
@@ -51,12 +49,14 @@ const DetailsContainer = ({
                     // If we're editing, show edit form, else show details
                     // But to have smooth animations, both will need to be rendered. The Ternary
                     // will have to be on the className={}
+                    // This JS fiddle does animation with js: https://jsfiddle.net/ucu2vvf7/11/
                     isEditFormOpen ? (
                         <EditForm
                             history={history}    
                             itemToEdit={itemToEdit} />
                     ) : (
                         <Details
+                            isCollections={isCollections}
                             selectedItem={selectedItem}
                             isCollectionManager={true}
                             history={history}
@@ -65,7 +65,6 @@ const DetailsContainer = ({
                             deleteUrlToPushTo={deleteUrlToPushTo} />
                     )
                 )}
-
             </section>
         </>
         )}

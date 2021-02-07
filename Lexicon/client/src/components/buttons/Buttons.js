@@ -1,15 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../providers/UserProvider'
-import { CollectionContext } from '../../providers/CollectionProvider'
-import { ProjectContext } from '../../providers/ProjectProvider'
 import { IconLogout, IconGear, IconArrow } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
+import { SettingsRoute } from '../../utils/Routes'
 import SettingsForm from '../forms/SettingsForm'
-import CollectionManager from '../managers/CollectionManager'
-import ProjectManager from '../managers/ProjectManager'
 import Modal from '../modal/Modal'
-import { CollectionManagerRoute, ProjectManagerRoute, SettingsRoute } from '../../utils/Routes'
 import './Buttons.css'
 
 // Buttons take a { isMobile } prop that is a boolean. Allows for the SubHeader styling and Hamburger styling
@@ -33,7 +29,7 @@ export const Logout = ({ isMobile }) => {
 }
 
 export const Settings = ({ isMobile }) => {
-    const [isOpen, setIsOpen] = useState(false) // remove later
+    const [isOpen] = useState(false) // remove later
     const history = useHistory()
 
     return (
@@ -59,17 +55,55 @@ export const Settings = ({ isMobile }) => {
     )
 }
 
-export const ManageCollections = ({ isMobile, setHamburgerIsOpen }) => {
-    const { isCollectionManagerOpen } = useContext(CollectionContext)
-    const history = useHistory()
+export const DropDownOptions = ({ itemToSelectString, items }) => (
+    <>
+        <option value="0">Select {itemToSelectString}</option>
+        {items.map(item => {
+            return <option key={item.id} value={item.id}>
+                {item.name}
+            </option>
+        })}
+    </>
+)
 
-    return (
-        <>
-            <Modal
-                isOpen={isCollectionManagerOpen}
-                contentFunction={<CollectionManager />}
-                contentHeader={"Collection Manager"} />
+export const AddableButton = ({
+    item,
+    onClickFunction,
+    itemsAvailableStateArray,
+    setItemsAvailableStateArray,
+    itemsAddedState,
+    setItemsAddedToStateArray }) => (
+    <li className="item__li">
+        <button   
+            className="btn btn--pill"
+            onClick={e => onClickFunction(e, itemsAvailableStateArray, setItemsAvailableStateArray, itemsAddedState, setItemsAddedToStateArray)}>
+            {item.name}
+        </button>
+    </li>
+)
 
+export const RemovableItemButton = ({ text, isActive }) => (
+    <li className="item__li">
+        <button
+            className={isActive ? (
+                "btn btn--pill"
+            ) : (
+                "btn btn--pill btn--disabled"
+            )}
+            disabled={isActive}>
+                {text}
+        </button>
+    </li>
+)
+
+export const ManagerButton = ({
+    isMobile,
+    managerRoute,
+    managerBtnText,
+    setHamburgerIsOpen }) => {
+        const history = useHistory()
+
+        return (
             <button
                 className={!isMobile ? (
                     "btn btn__subheader"
@@ -80,40 +114,10 @@ export const ManageCollections = ({ isMobile, setHamburgerIsOpen }) => {
                     if (isMobile) {
                         setHamburgerIsOpen.setHamburgerIsOpen(false)
                     }
-                    history.push(CollectionManagerRoute())}}>
-                Manage Collections
+                    history.push(managerRoute())}}>
+                {managerBtnText}
             </button>
-        </>
-    )
-}
-
-export const ManageProjects = ({ isMobile, setHamburgerIsOpen }) => {
-    const { isProjectManagerOpen } = useContext(ProjectContext)
-    const history = useHistory()
-
-    return (
-        <>
-            <Modal
-                isOpen={isProjectManagerOpen}
-                contentFunction={<ProjectManager />}
-                contentHeader={"Project Manager"} />
-
-            <button
-                className={!isMobile ? (
-                    "btn btn__subheader"
-                ) : (
-                    "btn__mobile"
-                )}
-                onClick={() => {
-                    if (isMobile) {
-                        setHamburgerIsOpen.setHamburgerIsOpen(false)
-                    }
-                    history.push(ProjectManagerRoute())
-                }}>
-                Manage Projects
-            </button>
-        </>
-    )
+        )
 }
 
 export const ManagerArrow = ({ isForm, history, managerUrlToPushTo }) => (
@@ -133,7 +137,7 @@ export const ManagerArrow = ({ isForm, history, managerUrlToPushTo }) => (
 )
 
 export const ManagerCreate = ({ history, formUrlToPushTo, createNewString }) => (
-  <button
+    <button
         onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__black', 'icon__whiteNoChange')}
         onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__black', 'icon__whiteNoChange')}
         className="btn btn__controls"

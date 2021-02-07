@@ -1,11 +1,18 @@
 import React, { useContext, useState, useEffect } from "react"
+import { CollectionContext } from '../../providers/CollectionProvider'
 import { ProjectContext } from '../../providers/ProjectProvider'
 import { ProjectManagerRoute } from '../../utils/Routes'
+import { removeDuplicationFromArray, moveSingleItemsBetweenStateArrays } from '../../utils/ArrayHelpers'
+import { AddableButton } from "../buttons/Buttons"
 import './Form.css'
 
 const ProjectForm = ({ history, itemToEdit }) => {
     const userId = +sessionStorage.getItem("currentUserId")
     const { projects, addProject, updateProject } = useContext(ProjectContext)
+    const { collections, getCollections } = useContext(CollectionContext)
+
+    const [ collectionsAvailableToAdd, setCollectionsAvailableToAdd ] = useState([])
+    const [ collectionsAdded, setCollectionsAdded ] = useState([])
 
     // Set the default project so the form can reset.
     const defaultProject = {
@@ -14,35 +21,69 @@ const ProjectForm = ({ history, itemToEdit }) => {
     } 
     
     // Sets state for creating the project
-    const [ project, setProject ] = useState(defaultProject)
+    const [ currentProject, setCurrentProject ] = useState(defaultProject)
     // Used for showing loading indicator and locking form from multiple submits
     const [ isLoading, setIsLoading ] = useState(true)
 
-
     // Check on load and when projects change, if we have an editable Project or not
     useEffect(() => {
+        // collections  is not undefined, update state
+        if (collections) {
+            setCollectionsAvailableToAdd(collections)
+        }
+        // reset added state on load
+        setCollectionsAdded([])
+        // check user's options if they're editing
         if (itemToEdit) {
-            setProject(itemToEdit)
+            setCurrentProject(itemToEdit.project)
+            // get collections to display
+            const collsInProj = itemToEdit.projectCollections.map(pc => pc.collection)
+            const collsWithDuplication = [...collections]
+            collsInProj.forEach(c => collsWithDuplication.push(c))
+            
+            // Filter out duplication
+            const removedDuplication = removeDuplicationFromArray(collsWithDuplication)
+
+            setCollectionsAdded(collsInProj)
+            setCollectionsAvailableToAdd(removedDuplication)
             setIsLoading(false);
         } else {
             setIsLoading(false)
         }
-    // }, [selectedProject, projects])
-    }, [projects])
+    }, [projects, collections])
+
+    useEffect(() => {
+        getCollections()
+    }, [])
 
     const handleControlledInputChange = e => {
-        const newProject = { ...project }
+        const newProject = { ...currentProject }
         newProject[e.target.name] = e.target.value
-        setProject(newProject)
+        setCurrentProject(newProject)
     }
 
     const constructNewProject = () => {
         if (itemToEdit) {
-            updateProject({
-                id: itemToEdit.id,
+            const project = {
+                id: itemToEdit.project.id,
                 userId,
-                name: project.name,
-                description: project.description,
+                name: currentProject.name,
+            }
+
+            let projectCollections = []
+
+            // If the user added projects, create the array for view model
+            if (collectionsAdded.length > 0) {
+                projectCollections = collectionsAdded.map(c => {
+                    return {
+                        projectId: itemToEdit.project.id,
+                        collectionId: c.id
+                    }
+                })
+            }
+
+            updateProject({
+                project, projectCollections
             })
             .then(res => {
                 if (!res) {
@@ -53,15 +94,31 @@ const ProjectForm = ({ history, itemToEdit }) => {
                 }
             })
         } else {
-            addProject({
+            const project = {
                 userId,
-                name: project.name,
-                description: project.description,
+                name: currentProject.name,
+                description: currentProject.description,
+            }
+
+            let projectCollections = []
+
+            // If the user added projects, create the array for view model
+            if (collectionsAdded.length > 0) {
+                projectCollections = collectionsAdded.map(c => {
+                    return {
+                        projectId: 0,
+                        collectionId: c.id
+                    }
+                })
+            }
+
+            addProject({
+                project, projectCollections
             })
             .then(() => {
                 setIsLoading(false)
                 // Resets form
-                setProject(defaultProject) 
+                setCurrentProject(defaultProject) 
                 // Push us back to the project-manager
                 history.push(ProjectManagerRoute())
             })
@@ -80,7 +137,7 @@ const ProjectForm = ({ history, itemToEdit }) => {
         onSubmit={createProject}>
 
         <h3>
-            {itemToEdit ? `Edit ${itemToEdit.name}` : "Create"}
+            {itemToEdit ? `Edit ${itemToEdit.project.name}` : "Create"}
         </h3> 
 
         <fieldset>
@@ -90,12 +147,44 @@ const ProjectForm = ({ history, itemToEdit }) => {
                 onChange={handleControlledInputChange}
                 id="projectName"
                 name="name"
-                value={project.name}
+                value={currentProject.name}
                 placeholder="Project name"
                 maxLength={255}
                 required
                 autoFocus/>
         </fieldset>
+
+        <label>Collections available to link to this project:</label>
+            <ul className="form__addable-btns">
+                {collectionsAvailableToAdd.length === 0 ? (
+                    <p className="form__p">Added all available collections. Click a collection's name to remove.</p>
+                ) : (
+                    collectionsAvailableToAdd.map(p => <AddableButton
+                        key={p.id}
+                        item={p}
+                        onClickFunction={moveSingleItemsBetweenStateArrays}
+                        itemsAvailableStateArray={collectionsAvailableToAdd}
+                        setItemsAvailableStateArray={setCollectionsAvailableToAdd}
+                        itemsAddedState={collectionsAdded}
+                        setItemsAddedToStateArray={setCollectionsAdded} />)
+                )}
+            </ul>
+
+            <label>Linked collections:</label>
+            <ul className="form__addable-btns">
+                {collectionsAdded.length === 0 ? (
+                    <p className="form__p">None. Click a collection's name to add.</p>
+                ) : (
+                    collectionsAdded.map(p => <AddableButton
+                        key={p.id}
+                        item={p}
+                        onClickFunction={moveSingleItemsBetweenStateArrays}
+                        itemsAvailableStateArray={collectionsAdded}
+                        setItemsAvailableStateArray={setCollectionsAdded}
+                        itemsAddedState={collectionsAdded}
+                        setItemsAddedToStateArray={setCollectionsAvailableToAdd} />)
+                )}
+            </ul>
 
         {isLoading ? (
             <div className="spinner__card">
@@ -109,7 +198,7 @@ const ProjectForm = ({ history, itemToEdit }) => {
                     className="btn form__btn--submit"
                     type="submit"
                     disabled={isLoading}>
-                    {itemToEdit ? "Edit" : "Create"}
+                    {itemToEdit ? "Save" : "Create"}
                 </button>
                 {!itemToEdit ? (
                     null

@@ -1,5 +1,6 @@
 ﻿using Lexicon.Data;
 using Lexicon.Models;
+using Lexicon.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,29 @@ namespace Lexicon.Repositories
                 .ToList();
         }
 
-        public Collection GetByCollectionId(int id)
+        public CollectionDetailsViewModel GetByCollectionId(int id)
         {
-            return _context.Collection
-                .Include(c => c.User)
-                .Include(c => c.Categorization)
-                .Where(c => c.Id == id)
-                .FirstOrDefault();
+            var collection = _context.Collection
+                    .Include(c => c.User)
+                    .Include(c => c.Categorization)
+                    .Where(c => c.Id == id)
+                    .FirstOrDefault();
+
+            var projectCollections = _context.ProjectCollection
+                    .Include(pc => pc.Project)
+                    .Where(pc => pc.CollectionId == id)
+                    .ToList();
+
+            var words = _context.Word
+                    .Where(w => w.CollectionId == id)
+                    .ToList();
+
+            return new CollectionDetailsViewModel
+            {
+                Collection = collection,
+                ProjectCollections = projectCollections,
+                Words = words
+            };
         }
 
         public void Add(Collection collection)
@@ -46,16 +63,13 @@ namespace Lexicon.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(Collection collection)
+        public void Delete(CollectionDetailsViewModel collectionDetails)
         {
-            // When we start to get lists of words, etc. that need to be deleted first
-                // do this (from Tabloid Posts that I did):
-                //var commentsForPost = _context.Comment.Where(c => c.PostId == post.Id).ToList();
-                //_context.Comment.RemoveRange(commentsForPost);
-                //_context.SaveChanges();
+            _context.ProjectCollection.RemoveRange(collectionDetails.ProjectCollections);
+            _context.SaveChanges();
 
             // For now, because nothing else exists, a simple delete works:
-            _context.Collection.Remove(collection);
+            _context.Collection.Remove(collectionDetails.Collection);
             _context.SaveChanges();
 
         }

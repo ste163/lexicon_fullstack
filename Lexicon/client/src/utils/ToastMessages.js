@@ -13,7 +13,7 @@ export const AnonError = () => "Unable to sign in anonymously."
 
 export const AnonWarning = () => "Anonymous users can not save data."
 
-export const Logout = () => "Logout successful."
+export const Logout = () => "Logged out."
 
 
 // Retrieving 
@@ -31,7 +31,7 @@ export const FailureNameDupe = objectType => `You already have a ${objectType} w
 // Updating
 export const UpdateSuccess = objectType => `Updated ${objectType}.`
 
-export const UpdateFailure = objectType => `Unable to update ${objectType}.`
+export const UpdateFailure = objectType => `Unable to update ${objectType}. That name may already be in Lexicon's database.`
 
 
 // Deleting

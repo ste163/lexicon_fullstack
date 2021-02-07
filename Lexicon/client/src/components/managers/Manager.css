@@ -1,6 +1,4 @@
 .manager__container {
-    display: flex;
-    flex-flow: column nowrap;
     width: var(--managerModalWidth);
     height: 80vh;
 }
@@ -27,7 +25,7 @@
 
 .manager__form {
     display: flex;
-    flex-flow: column-reverse nowrap;
+    flex-flow: column nowrap;
     align-items: center;
     position: absolute;
     height: 85%;
@@ -43,7 +41,7 @@
 .manager__details {
     position: absolute;
     display: flex;
-    flex-flow: column-reverse nowrap;
+    flex-flow: column nowrap;
     align-items: center;
     align-content: center;
     height: 85%;

@@ -27,6 +27,18 @@
   color: var(--darkGray);
 }
 
+.btn--disabled {
+  cursor: default !important;
+  background-color: var(--gray);
+  border-color: var(--gray);
+}
+
+.btn--disabled:hover {
+  color: var(--fontColor) !important;
+  background-color: var(--gray) !important;
+  border-color: var(--gray) !important;
+}
+
 .btn__subheader {
   margin: 0 0.5em;
 }
@@ -37,6 +49,14 @@
   height: 10%;
   margin: 0;
   padding: 0;
+}
+
+.item__li {
+  margin: 0.2em;
+}
+
+.btn--pill {
+  border-radius: 3em;
 }
 
 .btn__controls {
@@ -99,11 +119,11 @@ button:focus {
 }
 
 .btn__collection:hover {
-  background-color: var(--lightYellow);
+  background-color: var(--lightGray);
 }
 
 .btn__collection:active {
-  background-color: var(--darkYellow);
+  background-color: var(--gray);
 }
 
 .btn--red {

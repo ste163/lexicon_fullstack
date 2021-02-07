@@ -1,9 +1,11 @@
 import React from 'react'
+import { RemovableItemButton } from '../buttons/Buttons'
 import './Details.css'
 
 const Details = ({
-    selectedItem,
     history,
+    selectedItem,
+    isCollections,
     selectedUrlToPushTo,
     editUrlToPushTo,
     deleteUrlToPushTo 
@@ -11,37 +13,46 @@ const Details = ({
     <>
         <article>
             <h3>
-                {selectedItem.name}
+                {isCollections ? selectedItem.collection.name : selectedItem.project.name}
             </h3>
-            {/* Don't show a description if it's projects */}
-            <p className="details__p">
-                {selectedItem.description}
-            </p>
-            {/* Show linked to following collections for projects */}
-            <h4>Linked to the following projects: </h4>
-            <p className="details__p">
-                Pull in info from join table.
-            </p>
-            {/* Don't show total words if it's projects */}
-            <h4>Total words in {selectedItem.name}: <span>{selectedItem.words}</span></h4>
-        </article>
+            {isCollections ? (
+                <p className="details__p">
+                    selectedItem.collection.description
+                </p>
+            ) : (
+                null
+            )}
 
+            {/* Show linked to following collections for projects */}
+            <h4>
+                Linked to the following {isCollections ? "projects" : "collections"}:
+            </h4>
+            <ul className="details__ul">
+                {isCollections ? (
+                    selectedItem.projectCollections.map(c => <RemovableItemButton key={c.project.id} text={c.project.name} isActive={false} />)
+                ) : (
+                    selectedItem.projectCollections.map(c => <RemovableItemButton key={c.collection.id} text={c.collection.name} isActive={false} />)
+                )}
+            </ul>
+            {isCollections ? <h4>Total words in {selectedItem.collection.name} : <span>{selectedItem.words.length}</span></h4> : null}
+        </article>
+        
         {/* If it's the project manager, switch out with other links */}
         <div className="details__btns">
             <button
                 className="btn btn__details--dash"
-                onClick={() => history.push(selectedUrlToPushTo(selectedItem.id))}>
+                onClick={() => history.push(selectedUrlToPushTo(isCollections ? selectedItem.collection.id : selectedItem.project.id))}>
                     View on Dashboard
                 </button>
             <div className="btns__edit-delete">
                 <button
                     className="btn btn__details--edit"
-                    onClick={() => history.push(editUrlToPushTo(selectedItem.id))}>
+                    onClick={() => history.push(editUrlToPushTo(isCollections ? selectedItem.collection.id : selectedItem.project.id))}>
                         Edit
                     </button>
                 <button
                     className="btn btn--red btn__details--delete"
-                    onClick={() => history.push(deleteUrlToPushTo(selectedItem.id))}>
+                    onClick={() => history.push(deleteUrlToPushTo(isCollections ? selectedItem.collection.id : selectedItem.project.id))}>
                         Delete
                     </button>
             </div>

@@ -16,66 +16,67 @@ const Delete = () => {
 
     // Create the delete fetch here, instead of a provider. It will only ever be used here.
     const deleteCollection = (collectionId) => {
-        getToken().then(token => 
-            fetch(`/api/collection/${collectionId}`, {
-              method: "DELETE",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }).then(res => {
-                if (res.status === 500) {
-                    toast.error(DbNoConnection())
-                }
-              if (res.status === 204) {
-                setIsDeleteModalOpen(false)
-                setObjectToDelete(undefined)
-                toast.info(DeleteSuccessful(objectToDelete.name))
-                history.push(CollectionManagerRoute())
-              } else {
-                toast.error(DeleteFailure("collection"))
+      getToken().then(token => 
+          fetch(`/api/collection/${collectionId}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then(res => {
+              if (res.status === 500) {
+                  toast.error(DbNoConnection())
               }
-            }))
+            if (res.status === 204) {
+              setIsDeleteModalOpen(false)
+              setObjectToDelete(undefined)
+              toast.info(DeleteSuccessful(objectToDelete.name))
+              history.push(CollectionManagerRoute())
+            } else {
+              toast.error(DeleteFailure("collection"))
+            }
+          }))
     }
 
     const deleteProject = (projectId) => {
-        getToken().then(token => 
-            fetch(`/api/project/${projectId}`, {
-              method: "DELETE",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }).then(res => {
-                if (res.status === 500) {
-                    toast.error(DbNoConnection())
-                }
-              if (res.status === 204) {
-                setIsDeleteModalOpen(false)
-                setObjectToDelete(undefined)
-                toast.info(DeleteSuccessful(objectToDelete.name))
-                history.push(ProjectManagerRoute())
-              } else {
-                toast.error(DeleteFailure("project"))
+      getToken().then(token => 
+          fetch(`/api/project/${projectId}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then(res => {
+              if (res.status === 500) {
+                  toast.error(DbNoConnection())
               }
-            }))
+            if (res.status === 204) {
+              setIsDeleteModalOpen(false)
+              setObjectToDelete(undefined)
+              toast.info(DeleteSuccessful(objectToDelete.name))
+              history.push(ProjectManagerRoute())
+            } else {
+              toast.error(DeleteFailure("project"))
+            }
+          }))
     } 
 
-    // Would probably be better to pull
+    // Create an array of all possible routes to use a .find on
     const possibleDeleteRoutes = [CollectionManagerString(), ProjectManagerString()]
 
     const deleteItem = () => {
-        const currentUrl = location.pathname
-        // Find which path from the array of possibleDeleteRoutes is the current url
-        const currentDeletePath = possibleDeleteRoutes.find(r => currentUrl.match(r))
+      const currentUrl = location.pathname
+      
+      // Find which path from the array of possibleDeleteRoutes is the current url
+      const currentDeletePath = possibleDeleteRoutes.find(r => currentUrl.match(r))
 
-        // Decide which delete function to call
-        switch (currentDeletePath) {
-            case CollectionManagerString():
-                deleteCollection(objectToDelete.id)
-                break
-            case ProjectManagerString():
-                deleteProject(objectToDelete.id)
-                break
-        }
+      // Decide which delete function to call
+      switch (currentDeletePath) {
+          case CollectionManagerString():
+              deleteCollection(objectToDelete.id)
+              break
+          case ProjectManagerString():
+              deleteProject(objectToDelete.id)
+              break
+      }
     }
 
     const deleteContent = () => (

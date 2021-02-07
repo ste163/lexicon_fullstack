@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System;
+using Lexicon.Models.ViewModels;
 
 namespace Lexicon.Tests.Controllers
 {
@@ -15,6 +16,7 @@ namespace Lexicon.Tests.Controllers
     {
         private Mock<IUserRepository> _fakeUserRepo;
         private Mock<ICollectionRepository> _fakeCollectionRepo;
+        private Mock<IProjectCollectionRepository> _fakeProjColRepo;
 
         public CollectionControllerTests()
         {
@@ -33,8 +35,11 @@ namespace Lexicon.Tests.Controllers
             _fakeCollectionRepo.Setup(r => r.Get(It.Is<int>(i => i == 1))).Returns((int id) => new List<Collection>() { new Collection() { Id = 1, Name = "Scary places", Description = "Spooky places It probably hangs at."}, new Collection() { Id = 2, Name = "Monsters", Description = "Monsters It becomes." } });
             _fakeCollectionRepo.Setup(r => r.Get(It.Is<int>(i => i == 2))).Returns((int id) => new List<Collection>() { new Collection() { Id = 1, Name = "Swampy", Description = "Icky words related to swamps" }, new Collection() { Id = 2, Name = "Spooky", Description = "Spooky related words." } });
             // Whenever we enter Id 1, return this object
-            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(1)).Returns(new Collection() { Id = 1, Name = "Swampy", Description = "Icky words related to swamps", UserId = 1 });
-            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(2)).Returns(new Collection() { Id = 1, Name = "Scary places", Description = "Words for scary places", UserId = 2 });
+            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(1)).Returns(new CollectionDetailsViewModel() { Collection = new Collection() { Id = 1, Name = "Swampy", Description = "Icky words related to swamps", UserId = 1 } });
+            _fakeCollectionRepo.Setup(r => r.GetByCollectionId(2)).Returns(new CollectionDetailsViewModel() { Collection = new Collection() { Id = 1, Name = "Scary places", Description = "Words for scary places", UserId = 2 } });
+
+            // Spoof ProjectCollection repo
+            _fakeProjColRepo = new Mock<IProjectCollectionRepository>();
         }
 
 
@@ -49,7 +54,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -69,7 +74,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -91,7 +96,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -111,7 +116,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -131,7 +136,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -151,7 +156,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -173,7 +178,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -195,28 +200,41 @@ namespace Lexicon.Tests.Controllers
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
                                    }, "TestAuthentication"));
 
-            // Create a new collection
-            Collection collection = new Collection()
+            // create a new collectionFormViewModel
+            var collectionForm = new CollectionFormViewModel()
             {
-                UserId = 1,
-                CategorizationId = 1,
-                Name = "New stuff",
-                Description = "New lame description.",
-                Pinned = false,
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Collection = new Collection()
+                {
+                    UserId = 1,
+                    CategorizationId = 1,
+                    Name = "New stuff",
+                    Description = "New lame description.",
+                    Pinned = false,
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+
+                ProjectCollections = new List<ProjectCollection>()
+                {
+                    new ProjectCollection()
+                    {
+                        ProjectId = 1,
+                        CollectionId = 0
+                    }
+                }
             };
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Add(collection);
+            var response = controller.Add(collectionForm);
 
             // Returns Ok
             Assert.IsType<OkObjectResult>(response);
         }
+
 
         [Fact]
         public void If_Collection_UserId_Does_Not_Match_Current_User_Do_Not_Add()
@@ -226,22 +244,36 @@ namespace Lexicon.Tests.Controllers
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
                                    }, "TestAuthentication"));
 
-            // Create a new collection
-            Collection collection = new Collection()
+            // create a new collectionFormViewModel
+            var collectionForm = new CollectionFormViewModel()
             {
-                // have a userId coming in that does not match
-                UserId = 666,
-                Name = "New stuff",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Collection = new Collection()
+                {
+                    UserId = 666,
+                    CategorizationId = 1,
+                    Name = "New stuff",
+                    Description = "New lame description.",
+                    Pinned = false,
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+
+                ProjectCollections = new List<ProjectCollection>()
+                {
+                    new ProjectCollection()
+                    {
+                        ProjectId = 1,
+                        CollectionId = 0
+                    }
+                }
             };
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Add(collection);
+            var response = controller.Add(collectionForm);
 
             // Returns Ok
             Assert.IsType<BadRequestResult>(response);
@@ -255,24 +287,36 @@ namespace Lexicon.Tests.Controllers
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
                                    }, "TestAuthentication"));
 
-            // Create a new collection
-            Collection collection = new Collection()
+            // create a new collectionFormViewModel
+            var collectionForm = new CollectionFormViewModel()
             {
-                UserId = 1,
-                CategorizationId = 1,
-                Name = "New stuff",
-                Description = "New lame description.",
-                Pinned = false,
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Collection = new Collection()
+                {
+                    UserId = 1,
+                    CategorizationId = 1,
+                    Name = "New stuff",
+                    Description = "New lame description.",
+                    Pinned = false,
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+
+                ProjectCollections = new List<ProjectCollection>()
+                {
+                    new ProjectCollection()
+                    {
+                        ProjectId = 1,
+                        CollectionId = 0
+                    }
+                }
             };
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Add(collection);
+            var response = controller.Add(collectionForm);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -303,16 +347,23 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionForm to pass into put
+            CollectionFormViewModel collectionForm = new CollectionFormViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use the matching Id
             var collectionParamId = 1;
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionForm);
 
             // Returns Ok
             Assert.IsType<NoContentResult>(response);
@@ -338,16 +389,23 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionForm to pass into put
+            CollectionFormViewModel collectionForm = new CollectionFormViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use the matching Id
             var collectionParamId = 1;
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionForm);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -373,16 +431,23 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionForm to pass into put
+            CollectionFormViewModel collectionForm = new CollectionFormViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use a non-matching Id
             var collectionParamId = 2;
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionForm);
 
             // Returns Ok
             Assert.IsType<BadRequestResult>(response);
@@ -408,16 +473,23 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionForm to pass into put
+            CollectionFormViewModel collectionForm = new CollectionFormViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use a not real collection to update
             var collectionParamId = 666;
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionForm);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -443,16 +515,23 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionForm to pass into put
+            CollectionFormViewModel collectionForm = new CollectionFormViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use a matching Id
             var collectionParamId = 1;
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionForm);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -472,7 +551,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -482,7 +561,7 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<CollectionDetailsViewModel>()), Times.Never());
         }
 
         [Fact]
@@ -494,7 +573,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -504,7 +583,7 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<CollectionDetailsViewModel>()), Times.Never());
         }
 
         [Fact]
@@ -516,7 +595,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -536,7 +615,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object);
+            var controller = new CollectionController(_fakeUserRepo.Object, _fakeCollectionRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -546,7 +625,7 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<Collection>()), Times.Never());
+            _fakeCollectionRepo.Verify(r => r.Delete(It.IsAny<CollectionDetailsViewModel>()), Times.Never());
         }
     }
 }

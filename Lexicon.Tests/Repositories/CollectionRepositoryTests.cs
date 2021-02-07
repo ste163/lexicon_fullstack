@@ -1,6 +1,8 @@
 ﻿using Lexicon.Models;
+using Lexicon.Models.ViewModels;
 using Lexicon.Repositories;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Lexicon.Tests.Repositories
@@ -12,6 +14,8 @@ namespace Lexicon.Tests.Repositories
             // When constructed, add dummy data to in-memory database
             AddSampleData();
         }
+
+
 
         // GET
         [Fact]
@@ -54,7 +58,7 @@ namespace Lexicon.Tests.Repositories
             var actualCollection = repo.GetByCollectionId(collectionId);
 
             // Two objects should have the same name. Was unable to test if Assert.Equal because Repo returns all the Objects from the FKs
-            Assert.True(expectedCollection.Name == actualCollection.Name);
+            Assert.True(expectedCollection.Name == actualCollection.Collection.Name);
         }
 
 
@@ -102,17 +106,17 @@ namespace Lexicon.Tests.Repositories
             // Get an Collection from the Db
             var collectionToUpdate = repo.GetByCollectionId(1);
 
-            collectionToUpdate.Name = "You GOT UPDATED!";
-            collectionToUpdate.Description = "AND YOU GOT UPDATED!";
+            collectionToUpdate.Collection.Name = "You GOT UPDATED!";
+            collectionToUpdate.Collection.Description = "AND YOU GOT UPDATED!";
 
             // Attempt to update
-            repo.Update(collectionToUpdate);
+            repo.Update(collectionToUpdate.Collection);
 
             // Retrieve item from db to see if updates occurred
             var updatedCollection = repo.GetByCollectionId(1);
 
             // The new names should match
-            Assert.True(updatedCollection.Name == collectionToUpdate.Name);
+            Assert.True(updatedCollection.Collection.Name == collectionToUpdate.Collection.Name);
         }
 
 
@@ -120,7 +124,7 @@ namespace Lexicon.Tests.Repositories
 
         // DELETE
         [Fact]
-        public void User_Can_Delete_Collection_Without_Any_Other_Linking_Data()
+        public void User_Can_Delete_Collection()
         {
             // Get an object that's in the database
             var collectionToAdd = new Collection()
@@ -131,6 +135,14 @@ namespace Lexicon.Tests.Repositories
                 Description = "Blah",
                 Pinned = false,
                 CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+            };
+
+            // Add collectionToAdd to collectionDetailsVm
+            var collectionDetails = new CollectionDetailsViewModel
+            {
+                Collection = collectionToAdd,
+                ProjectCollections = new List<ProjectCollection>(),
+                Words = new List<Word>()
             };
 
             // Instantiate CollectionRepo
@@ -146,7 +158,7 @@ namespace Lexicon.Tests.Repositories
             var countAfterAdd = repo.Get(1).Count;
 
             // Attempt to delete the collection
-            repo.Delete(collectionToAdd);
+            repo.Delete(collectionDetails);
 
             // New count after deleting
             var countAfterDeletion = repo.Get(1).Count;

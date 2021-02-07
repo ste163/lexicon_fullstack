@@ -85,7 +85,7 @@ export const CollectionProvider = props => {
     }
   }
 
-  const addCollection = submittedCollection => {
+  const addCollection = submittedCollectionForm => {
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
@@ -96,7 +96,7 @@ export const CollectionProvider = props => {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(submittedCollection)
+            body: JSON.stringify(submittedCollectionForm)
         }))
         .then(res => {
           if (res.status === 200) {
@@ -121,7 +121,7 @@ export const CollectionProvider = props => {
         })
         .then(collection => {
           if (collection) {
-            toast.success(AddSuccess(objectTypeForToasts, collection.name))
+            toast.success(AddSuccess(objectTypeForToasts, submittedCollectionForm.collection.name))
             getCollections()
           } else {
             return
@@ -130,18 +130,18 @@ export const CollectionProvider = props => {
     }
   }
 
-  const updateCollection = submittedCollection => {
+  const updateCollection = submittedCollectionForm => {
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
       return getToken().then(token => 
-        fetch(`${apiUrl}/${submittedCollection.id}`, {
+        fetch(`${apiUrl}/${submittedCollectionForm.collection.id}`, {
             method: "PUT",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(submittedCollection)
+            body: JSON.stringify(submittedCollectionForm)
         }))
         .then(res => {
           if (res.status === 204) {
@@ -165,28 +165,28 @@ export const CollectionProvider = props => {
             return false
           }      
         })
-      }
     }
+  }
 
-    return (
-      <CollectionContext.Provider
-        value={{
-          isFetchingCollections,
-          isFetchingCollectionDetails, setIsFetchingCollectionDetails,
+  return (
+    <CollectionContext.Provider
+      value={{
+        isFetchingCollections,
+        isFetchingCollectionDetails, setIsFetchingCollectionDetails,
 
-          collections, setCollections,
-          selectedCollection, setSelectedCollection,
-          isCollectionManagerOpen, setIsCollectionManagerOpen,
-          isCollectionCreateFormOpen, setIsCollectionCreateFormOpen,
-          isCollectionDetailsOpen, setIsCollectionDetailsOpen,
-          isCollectionEditFormOpen, setIsCollectionEditFormOpen,
+        collections, setCollections,
+        selectedCollection, setSelectedCollection,
+        isCollectionManagerOpen, setIsCollectionManagerOpen,
+        isCollectionCreateFormOpen, setIsCollectionCreateFormOpen,
+        isCollectionDetailsOpen, setIsCollectionDetailsOpen,
+        isCollectionEditFormOpen, setIsCollectionEditFormOpen,
 
-          getCollections,
-          getCollectionById,
-          addCollection,
-          updateCollection
-        }}>
-          {props.children}
-      </CollectionContext.Provider>
-    )
+        getCollections,
+        getCollectionById,
+        addCollection,
+        updateCollection
+      }}>
+        {props.children}
+    </CollectionContext.Provider>
+  )
 }

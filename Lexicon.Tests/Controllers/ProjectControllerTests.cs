@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System;
+using Lexicon.Models.ViewModels;
 
 namespace Lexicon.Tests.Controllers
 {
@@ -15,6 +16,7 @@ namespace Lexicon.Tests.Controllers
     {
         private Mock<IUserRepository> _fakeUserRepo;
         private Mock<IProjectRepository> _fakeProjectRepo;
+        private Mock<IProjectCollectionRepository> _fakeProjColRepo;
 
         public ProjectControllerTests()
         {
@@ -33,8 +35,11 @@ namespace Lexicon.Tests.Controllers
             _fakeProjectRepo.Setup(r => r.Get(It.Is<int>(i => i == 1))).Returns((int id) => new List<Project>() { new Project() { Id = 1, Name = "It" }, new Project() { Id = 2, Name = "The Dark Half" } });
             _fakeProjectRepo.Setup(r => r.Get(It.Is<int>(i => i == 2))).Returns((int id) => new List<Project>() { new Project() { Id = 1, Name = "The Dead Zone" }, new Project() { Id = 2, Name = "The Shining", } });
             // Whenever we enter Id 1, return this object
-            _fakeProjectRepo.Setup(r => r.GetByProjectId(1)).Returns(new Project() { Id = 1, Name = "The Dead Zone", UserId = 1 });
-            _fakeProjectRepo.Setup(r => r.GetByProjectId(2)).Returns(new Project() { Id = 1, Name = "It", UserId = 2 });
+            _fakeProjectRepo.Setup(r => r.GetByProjectId(1)).Returns(new ProjectDetailsViewModel() { Project = new Project() { Id = 1, Name = "The Dead Zone", UserId = 1 }, ProjectCollections = new List<ProjectCollection>() { new ProjectCollection() { Id = 1, ProjectId = 1, CollectionId = 1 } } });
+            _fakeProjectRepo.Setup(r => r.GetByProjectId(2)).Returns(new ProjectDetailsViewModel() { Project = new Project() { Id = 1, Name = "It", UserId = 2 }, ProjectCollections = new List<ProjectCollection>() { new ProjectCollection() { Id = 1, ProjectId = 1, CollectionId = 1 } } });
+
+            // Spoof ProjectCollection repo
+            _fakeProjColRepo = new Mock<IProjectCollectionRepository>();
         }
 
         // GET TESTS
@@ -48,7 +53,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -68,11 +73,11 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to Get this User's collections
+            // Attempt to Get this User's projects
             var response = controller.GetByUserId();
 
             // Returns Ok
@@ -90,7 +95,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -110,7 +115,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -130,11 +135,11 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to get this Someone else's collection
+            // Attempt to get this Someone else's project
             var response = controller.GetByProjectId(2);
 
             // Returns Ok
@@ -150,7 +155,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -172,7 +177,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -194,21 +199,25 @@ namespace Lexicon.Tests.Controllers
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
                                    }, "TestAuthentication"));
 
-            // Create a new collection
-            Project project = new Project()
+            // Create a new project
+            ProjectFormViewModel projectForm = new ProjectFormViewModel
             {
-                UserId = 1,
-                Name = "New stuff",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Project = new Project()
+                {
+                    UserId = 1,
+                    Name = "New stuff",
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+                ProjectCollections = new List<ProjectCollection>()
             };
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's projects
-            var response = controller.Add(project);
+            var response = controller.Add(projectForm);
 
             // Returns Ok
             Assert.IsType<OkObjectResult>(response);
@@ -223,21 +232,25 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Create a new project
-            Project project = new Project()
+            ProjectFormViewModel projectForm = new ProjectFormViewModel
             {
-                // have a userId coming in that does not match
-                UserId = 666,
-                Name = "New stuff",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Project = new Project()
+                {
+                    // have a userId coming in that does not match
+                    UserId = 666,
+                    Name = "New stuff",
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+                ProjectCollections = new List<ProjectCollection>()
             };
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's projects
-            var response = controller.Add(project);
+            var response = controller.Add(projectForm);
 
             // Returns Ok
             Assert.IsType<BadRequestResult>(response);
@@ -251,21 +264,26 @@ namespace Lexicon.Tests.Controllers
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
                                    }, "TestAuthentication"));
 
-            // Create a new collection
-            Project project = new Project()
+            // Create a new project
+            ProjectFormViewModel projectForm = new ProjectFormViewModel
             {
-                UserId = 1,
-                Name = "New stuff",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Project = new Project()
+                {
+                    Id = 1,
+                    UserId = 1,
+                    Name = "New stuff",
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+                ProjectCollections = new List<ProjectCollection>()
             };
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's projects
-            var response = controller.Add(project);
+            var response = controller.Add(projectForm);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -284,25 +302,29 @@ namespace Lexicon.Tests.Controllers
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
                                    }, "TestAuthentication"));
 
-            // Make a fake collection to update, based on a spoofed one
-            Project project = new Project()
+            // Make a fake project to update, based on a spoofed one
+            ProjectFormViewModel projectForm = new ProjectFormViewModel
             {
-                Id = 1,
-                UserId = 1,
-                Name = "New stuff",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Project = new Project()
+                {
+                    Id = 1,
+                    UserId = 1,
+                    Name = "New stuff",
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+                ProjectCollections = new List<ProjectCollection>()
             };
 
             // Use the matching Id
             var projectParamId = 1;
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's projects
-            var response = controller.Put(projectParamId, project);
+            var response = controller.Put(projectParamId, projectForm);
 
             // Returns Ok
             Assert.IsType<NoContentResult>(response);
@@ -317,24 +339,28 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Make a fake project to update, based on a spoofed one
-            Project project = new Project()
+            ProjectFormViewModel projectForm = new ProjectFormViewModel
             {
-                Id = 1,
-                UserId = 1,
-                Name = "New stuff",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Project = new Project()
+                {
+                    Id = 1,
+                    UserId = 1,
+                    Name = "New stuff",
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+                ProjectCollections = new List<ProjectCollection>()
             };
 
             // Use the matching Id
             var projectParamId = 1;
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's projects
-            var response = controller.Put(projectParamId, project);
+            var response = controller.Put(projectParamId, projectForm);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -348,25 +374,29 @@ namespace Lexicon.Tests.Controllers
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
                                    }, "TestAuthentication"));
 
-            // Make a fake collection to update, based on a spoofed one
-            Project project = new Project()
+            // Make a fake project to update, based on a spoofed one
+            ProjectFormViewModel projectForm = new ProjectFormViewModel
             {
-                Id = 1,
-                UserId = 1,
-                Name = "New stuff",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Project = new Project()
+                {
+                    Id = 1,
+                    UserId = 1,
+                    Name = "New stuff",
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+                ProjectCollections = new List<ProjectCollection>()
             };
 
             // Use a non-matching Id
             var projectParamId = 2;
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's projects
-            var response = controller.Put(projectParamId, project);
+            var response = controller.Put(projectParamId, projectForm);
 
             // Returns Ok
             Assert.IsType<BadRequestResult>(response);
@@ -380,25 +410,29 @@ namespace Lexicon.Tests.Controllers
                                    new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
                                    }, "TestAuthentication"));
 
-            // Make a fake collection to update
-            Project project = new Project()
+            // Make a fake project to update
+            ProjectFormViewModel projectForm = new ProjectFormViewModel
             {
-                Id = 666,
-                UserId = 1,
-                Name = "New stuff",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Project = new Project()
+                {
+                    Id = 666,
+                    UserId = 1,
+                    Name = "New stuff",
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+                ProjectCollections = new List<ProjectCollection>()
             };
 
             // Use a not real project to update
             var projectParamId = 666;
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's projects
-            var response = controller.Put(projectParamId, project);
+            var response = controller.Put(projectParamId, projectForm);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -413,24 +447,28 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Make a fake project to update
-            Project project = new Project()
+            ProjectFormViewModel projectForm = new ProjectFormViewModel
             {
-                Id = 1,
-                UserId = 1,
-                Name = "New PROJECT!!!!",
-                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                Project = new Project()
+                {
+                    Id = 1,
+                    UserId = 1,
+                    Name = "New PROJECT!!!!",
+                    CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+                },
+                ProjectCollections = new List<ProjectCollection>()
             };
 
             // Use a matching Id
             var projectParamId = 1;
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's projects
-            var response = controller.Put(projectParamId, project);
+            var response = controller.Put(projectParamId, projectForm);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -448,17 +486,17 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to get someone's collection
+            // Attempt to get someone's project
             var response = controller.Delete(2);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeProjectRepo.Verify(r => r.Delete(It.IsAny<Project>()), Times.Never());
+            _fakeProjectRepo.Verify(r => r.Delete(It.IsAny<ProjectDetailsViewModel>()), Times.Never());
         }
 
         [Fact]
@@ -470,7 +508,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -480,7 +518,7 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeProjectRepo.Verify(r => r.Delete(It.IsAny<Project>()), Times.Never());
+            _fakeProjectRepo.Verify(r => r.Delete(It.IsAny<ProjectDetailsViewModel>()), Times.Never());
         }
 
         [Fact]
@@ -492,7 +530,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -512,7 +550,7 @@ namespace Lexicon.Tests.Controllers
                                    }, "TestAuthentication"));
 
             // Spoof UserController
-            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object);
+            var controller = new ProjectController(_fakeUserRepo.Object, _fakeProjectRepo.Object, _fakeProjColRepo.Object);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
@@ -522,7 +560,7 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
             // Verify we never called the repo method
-            _fakeProjectRepo.Verify(r => r.Delete(It.IsAny<Project>()), Times.Never());
+            _fakeProjectRepo.Verify(r => r.Delete(It.IsAny<ProjectDetailsViewModel>()), Times.Never());
         }
     }
 }

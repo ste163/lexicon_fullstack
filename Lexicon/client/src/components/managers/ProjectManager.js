@@ -27,12 +27,12 @@ const ProjectManager = () => {
         isProjectEditFormOpen
     } = useContext(ProjectContext)
     
-
     // Get the Create button working with the slide to form, and back and forth
     return (
         <section className="manager__container">
             <DetailsContainer
                 history={history}
+                isCollections={false}
                 selectedItem={selectedProject}
                 isFetching={isFetchingProjectDetails}
                 isDetailsOpen={isProjectDetailsOpen}
@@ -60,7 +60,7 @@ const ProjectManager = () => {
 
                 <ListCardContainer
                     history={history}
-                    detailsUrlToPushTo={ProjectManagerDetailsRoute}
+                    urlToPushTo={ProjectManagerDetailsRoute}
                     isFetching={isFetchingProjects}
                     items={projects}  />
             </section>

@@ -16,5 +16,4 @@ const ListControls = ({ history, formUrlToPushTo, createNewString }) => (
     </section>
 )
 
-
 export default ListControls

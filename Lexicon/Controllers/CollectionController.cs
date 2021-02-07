@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Lexicon.Repositories;
 using Lexicon.Controllers.Utils;
 using Lexicon.Models;
+using Lexicon.Models.ViewModels;
+using System.Linq;
 
 namespace Lexicon.Controllers
 {
@@ -16,12 +18,14 @@ namespace Lexicon.Controllers
     {
         private readonly IUserRepository _userRepo;
         private readonly ICollectionRepository _collectionRepo;
+        private readonly IProjectCollectionRepository _projColRepo;
         private readonly ControllerUtils _utils;
 
-        public CollectionController(IUserRepository userRepo, ICollectionRepository collectionRepo)
+        public CollectionController(IUserRepository userRepo, ICollectionRepository collectionRepo, IProjectCollectionRepository projColRepo)
         {
             _userRepo = userRepo;
             _collectionRepo = collectionRepo;
+            _projColRepo = projColRepo;
             _utils = new ControllerUtils(_userRepo);
         }
 
@@ -56,28 +60,39 @@ namespace Lexicon.Controllers
             {
                 return NotFound();
             }
+           
+            try
+            {
+                // If a user attempts to get an Id not in the db, causes a NullReferenceException error
+                var collectionViewModel = _collectionRepo.GetByCollectionId(id);
 
-            Collection collection = _collectionRepo.GetByCollectionId(id);
+                // If no matching collection, return not found
+                if (collectionViewModel.Collection == null)
+                {
+                    return NotFound();
+                }
 
-            // If no matching collection, return not found
-            if (collection == null)
+                // If this is not that user's post, don't return it
+                if (collectionViewModel.Collection.UserId != firebaseUser.Id)
+                {
+                    return NotFound();
+                }
+
+                return Ok(collectionViewModel);
+            }
+            catch (NullReferenceException e)
             {
                 return NotFound();
             }
 
-            // If this is not that user's post, don't return it
-            if (collection.UserId != firebaseUser.Id)
-            {
-                return NotFound();
-            }
-
-            // When I get my Words working, I'll have to ensure I'm also bringing back the full word list
-            return Ok(collection);
         }
 
         [HttpPost]
-        public IActionResult Add(Collection collection)
+        public IActionResult Add(CollectionFormViewModel collectionForm)
         {
+            // For the Add, do not need to check for if the projectCollections are in the db
+            // because this Collection is unique, there can be no duplicates.
+
             var firebaseUser = _utils.GetCurrentUser(User);
 
             // Check to ensure an unauthorized user (anonymous account) can not add a collection
@@ -87,7 +102,7 @@ namespace Lexicon.Controllers
             }
 
             // Ensure the userId on the incoming collection matches the person making the request
-            if (collection.UserId != firebaseUser.Id)
+            if (collectionForm.Collection.UserId != firebaseUser.Id)
             {
                 return BadRequest();
             }
@@ -96,7 +111,7 @@ namespace Lexicon.Controllers
             var allCollections = _collectionRepo.Get(firebaseUser.Id);
 
             // see if the name of the incoming collection is in the db
-            var collectionWithThatName = allCollections.Find(c => c.Name == collection.Name);
+            var collectionWithThatName = allCollections.Find(c => c.Name == collectionForm.Collection.Name);
 
             // if there is a returned collection, we can't add because name isn't unique for this user
             if (collectionWithThatName != null)
@@ -105,13 +120,42 @@ namespace Lexicon.Controllers
             }
 
             // Need to add the default requirements for the collection here
-            collection.CategorizationId = 1;
-            collection.CreationDate = DateTime.Now;
+            collectionForm.Collection.CategorizationId = 1;
+            collectionForm.Collection.CreationDate = DateTime.Now;
 
             try
             {
-                _collectionRepo.Add(collection);
-                return Ok(collection);
+                _collectionRepo.Add(collectionForm.Collection);
+
+                try
+                {
+                    // After we add the collection, assign the collection id to each projectCollection
+                    foreach (var projectCollection in collectionForm.ProjectCollections)
+                    {
+                        projectCollection.CollectionId = collectionForm.Collection.Id;
+                    }
+                }
+                // The user attempted to enter Null for their ProjectCollecitons
+                catch (NullReferenceException e)
+                {
+                    // Make a CollectionDetailsViewModel to pass the created collection into for deletion
+                    var collectionDetailsVm = new CollectionDetailsViewModel
+                    {
+                        Collection = collectionForm.Collection,
+                        ProjectCollections = new List<ProjectCollection>(),
+                        Words = new List<Word>()
+                    };
+                    // Remove the just entered collection from db
+                    _collectionRepo.Delete(collectionDetailsVm);
+
+                    // Return a BadRequest
+                    return BadRequest();
+                }
+
+                // Add ProjectCollections
+                _projColRepo.Add(collectionForm.ProjectCollections);
+                
+                return Ok(collectionForm);
             }
             catch (DbUpdateException e)
             {
@@ -120,7 +164,7 @@ namespace Lexicon.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Collection collection)
+        public IActionResult Put(int id, CollectionFormViewModel incomingCollectionForm)
         {
             // Get current user
             var firebaseUser = _utils.GetCurrentUser(User);
@@ -132,16 +176,27 @@ namespace Lexicon.Controllers
             }
 
             // Collection Id coming from URL must match the Collection object's Id
-            if (id != collection.Id)
+            if (id != incomingCollectionForm.Collection.Id)
             {
                 return BadRequest();
             }
 
             // Get Collection by Id to ensure it's in db
-            var collectionToUpdate = _collectionRepo.GetByCollectionId(id);
+            CollectionDetailsViewModel collectionDetailsToUpdate;
+            
+            try
+            {
+                // If a user attempts to get an Id not in the db, causes a NullReferenceException error
+                collectionDetailsToUpdate = _collectionRepo.GetByCollectionId(id);
+
+            }
+            catch (NullReferenceException e)
+            {
+                return NotFound();
+            }
 
             // If it wasn't in the db don't let them update
-            if (collectionToUpdate == null)
+            if (collectionDetailsToUpdate == null)
             {
                 return NotFound();
             }
@@ -150,30 +205,44 @@ namespace Lexicon.Controllers
             var allCollections = _collectionRepo.Get(firebaseUser.Id);
 
             // see if the name of the incoming collection is in the db
-            var collectionWithThatName = allCollections.Find(c => c.Name == collection.Name);
+            var collectionsWithThatName = allCollections.Where(c => c.Name == incomingCollectionForm.Collection.Name).ToList();
 
-            // if there is a returned collection, we can't add because name isn't unique for this user
-            if (collectionWithThatName != null)
+            // If the count is greater than 1, so it's in the DB, check to see what the Id is
+            if (collectionsWithThatName.Count > 0)
             {
-                return NotFound();
+                // If the Ids match, we can update, otherwise, it's already in db and not the current item
+                if (collectionsWithThatName[0].Id != incomingCollectionForm.Collection.Id)
+                {
+                    return NotFound();
+                }
             }
 
             // Get Collection's owner to ensure this is current user's collection
-            var collectionOwner = collectionToUpdate.UserId;
+            var collectionOwner = collectionDetailsToUpdate.Collection.UserId;
+
             // Check if incoming user is the same one requesting deletion
             if (collectionOwner != firebaseUser.Id)
             {
                 return NotFound();
             }
 
-            // By using the collectionToUpdate we retrieved from the db,
+            // ** At this point, we know the person is able to update the collection.
+
+            // By using the collectionDetailsToUpdate we retrieved from the db,
             // we re-assign its values that are editable, based on the incoming collection
-            collectionToUpdate.Name = collection.Name;
-            collectionToUpdate.Description = collection.Description;
+            collectionDetailsToUpdate.Collection.Name = incomingCollectionForm.Collection.Name;
+            collectionDetailsToUpdate.Collection.Description = incomingCollectionForm.Collection.Description;
 
             try
             {
-                _collectionRepo.Update(collectionToUpdate);
+                // When updating a Collection, we DELETE all current ProjCols then ADD all incoming
+                // Delete all the ProjectCollections from collectionToUpdate
+                _projColRepo.Delete(collectionDetailsToUpdate.ProjectCollections);
+
+                // Add all incoming ProjectCollections
+                _projColRepo.Add(incomingCollectionForm.ProjectCollections);
+
+                _collectionRepo.Update(collectionDetailsToUpdate.Collection);
                 return NoContent();
             }
             catch (DbUpdateException e)
@@ -204,7 +273,7 @@ namespace Lexicon.Controllers
             }
 
             // Get Collection's owner
-            var collectionOwner = collectionToDelete.UserId;
+            var collectionOwner = collectionToDelete.Collection.UserId;
             // Check if incoming user is the same one requesting deletion
             if (collectionOwner != firebaseUser.Id)
             {
