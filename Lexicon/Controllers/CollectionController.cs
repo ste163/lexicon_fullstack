@@ -208,7 +208,12 @@ namespace Lexicon.Controllers
             // if there is a returned collection, we can't add because name isn't unique for this user
             if (collectionWithThatName != null)
             {
-                return NotFound();
+                // if the collectionWithThatName does not have the same name as the incoming, then return not found
+                // else they just didn't update the name
+                if (collectionWithThatName.Name != incomingCollectionForm.Collection.Name)
+                {
+                    return NotFound();
+                }
             }
 
             // Get Collection's owner to ensure this is current user's collection

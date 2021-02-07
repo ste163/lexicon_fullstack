@@ -130,18 +130,18 @@ export const CollectionProvider = props => {
     }
   }
 
-  const updateCollection = submittedCollection => {
+  const updateCollection = submittedCollectionForm => {
     if (currentUserId === 0) {
       toast.error(AnonWarning())
     } else {
       return getToken().then(token => 
-        fetch(`${apiUrl}/${submittedCollection.id}`, {
+        fetch(`${apiUrl}/${submittedCollectionForm.collection.id}`, {
             method: "PUT",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(submittedCollection)
+            body: JSON.stringify(submittedCollectionForm)
         }))
         .then(res => {
           if (res.status === 204) {

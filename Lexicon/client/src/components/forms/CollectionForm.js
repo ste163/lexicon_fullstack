@@ -66,11 +66,27 @@ const CollectionForm = ({ history, itemToEdit }) => {
 
     const constructNewCollection = () => {
         if (itemToEdit) {
-            updateCollection({
+            const collection = {
                 id: itemToEdit.collection.id,
                 userId,
                 name: currentCollection.name,
                 description: currentCollection.description,
+            }
+
+            let projectCollections = []
+
+            // If the user added projects, create the array for view model
+            if (projectsAdded.length > 0) {
+                projectCollections = projectsAdded.map(p => {
+                    return {
+                        projectId: p.id,
+                        collectionId: itemToEdit.collection.id
+                    }
+                })
+            }
+
+            updateCollection({
+                collection, projectCollections
             })
             .then(res => {
                 if (!res) {
