@@ -26,6 +26,7 @@
   
 .column__selected {
     margin-left: 0.5em;
+    width: 30vw;
     /* 
     This will change when we add the dividing column
     will need JS to know when the scroll bar appears to hide the divider

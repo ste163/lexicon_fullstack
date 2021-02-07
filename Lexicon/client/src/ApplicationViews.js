@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Switch, Route, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { UserContext } from './providers/UserProvider'
 import { DeleteContext } from './providers/DeleteProvider'
@@ -29,6 +29,10 @@ const ApplicationViews = () => {
     const { setObjectToDelete, setIsDeleteModalOpen } = useContext(DeleteContext)
     const currentUrl = useLocation().pathname
     const history = useHistory()
+
+    // Dashboard column state needed at this level so the router can change them
+    const [ isListColumnActive, setIsListColumnActive ] = useState(true);
+    const [ isSelectedColumnActive, setIsSelectedColumnActive ] = useState(false);
     
     const {
         getProjects,
@@ -100,16 +104,14 @@ const ApplicationViews = () => {
                 getCollectionById(routeParamId)
                 .then(collectionDetails => setSelectedCollection(collectionDetails))
                 .catch(error => history.goBack())
-                // if there is anything ever in it, default to that
-                // instead of App Route
-                // so put an if check in AppRoute to switch to this case
-                // OR put AppSelectedRoute first in switch
+                setIsSelectedColumnActive(true)
                 break
 
             case AppRoute():
                 if (selectedCollection === undefined) {
                     turnOffAllButDelete()
                     setIsDeleteModalOpen(false)
+                    setIsSelectedColumnActive(false)
                 } else {
                     // Push to the selectedCollection Route
                     history.push(AppSelectedRoute(selectedCollection.collection.id))
@@ -249,7 +251,15 @@ const ApplicationViews = () => {
     return (
         <Switch>
             <Route path={AppRoute()}>
-                {isLoggedIn ? <MainView /> : <Redirect to={AuthRoute()} />}
+                {isLoggedIn ? (
+                    <MainView
+                        isListColumnActive={isListColumnActive}
+                        setIsListColumnActive={setIsListColumnActive}
+                        isSelectedColumnActive={isSelectedColumnActive}
+                        setIsSelectedColumnActive={setIsSelectedColumnActive} />
+                ) : (
+                    <Redirect to={AuthRoute()} />
+                )}
             </Route>
             <Route path={AuthRoute()}>
                 {isLoggedIn ? <Redirect to={AppRoute()} /> : <AuthView />}
