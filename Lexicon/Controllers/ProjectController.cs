@@ -193,14 +193,11 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-
             // If it wasn't in the db don't let them update
             if (projectDetailsToUpdate == null)
             {
                 return NotFound();
             }
-
-
 
             // Get all of this user's projects
             var allProjects = _projectRepo.Get(firebaseUser.Id);

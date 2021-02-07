@@ -136,12 +136,12 @@ namespace Lexicon.Tests.Integration
                 {
                     new ProjectCollection()
                     {
-                        ProjectId = 0, // I won't know this until it's made
+                        ProjectId = 2, // I won't know this until it's made
                         CollectionId = 2
                     },
                     new ProjectCollection()
                     {
-                        ProjectId = 0, // I won't know this until it's made
+                        ProjectId = 2, // I won't know this until it's made
                         CollectionId = 1
                     }
                 }
@@ -161,8 +161,6 @@ namespace Lexicon.Tests.Integration
             var controller = new ProjectController(userRepo, projectRepo, projColRepo);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
-
-            
 
             // Attempt to Update project
             var response = controller.Put(projectForm.Project.Id, projectForm);
@@ -189,12 +187,12 @@ namespace Lexicon.Tests.Integration
                 {
                     new ProjectCollection()
                     {
-                        ProjectId = 0, // I won't know this until it's made
+                        ProjectId = 2, // I won't know this until it's made
                         CollectionId = 2
                     },
                     new ProjectCollection()
                     {
-                        ProjectId = 0, // I won't know this until it's made
+                        ProjectId = 2, // I won't know this until it's made
                         CollectionId = 1
                     }
                 }
@@ -214,9 +212,7 @@ namespace Lexicon.Tests.Integration
             var controller = new ProjectController(userRepo, projectRepo, projColRepo);
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
-
-            
-
+       
             // Attempt to Update project
             var response = controller.Put(projectForm.Project.Id, projectForm);
 
@@ -248,6 +244,66 @@ namespace Lexicon.Tests.Integration
             _context.Add(user1);
             _context.Add(user2);
             _context.Add(user3);
+            _context.SaveChanges();
+
+            var categorization1 = new Categorization()
+            {
+                Type = "Alphabetical"
+            };
+
+            var categorization2 = new Categorization()
+            {
+                Type = "Part of Speech"
+            };
+
+            _context.Add(categorization1);
+            _context.Add(categorization2);
+            _context.SaveChanges();
+
+            var collection1 = new Collection()
+            {
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "Monsters",
+                Description = "Monsters and related words It becomes.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(15)
+            };
+
+            var collection2 = new Collection()
+            {
+                UserId = 1,
+                CategorizationId = 1,
+                Name = "Scary places",
+                Description = "Spooky places It probably hangs at.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            var collection3 = new Collection()
+            {
+                UserId = 2,
+                CategorizationId = 1,
+                Name = "Fear",
+                Description = "All the words that cause scary feelings.",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(10)
+            };
+
+            var collection4 = new Collection()
+            {
+                UserId = 3,
+                CategorizationId = 2,
+                Name = "Research",
+                Description = "Things related to researching",
+                Pinned = false,
+                CreationDate = DateTime.Now - TimeSpan.FromDays(5)
+            };
+
+            _context.Add(collection1);
+            _context.Add(collection2);
+            _context.Add(collection3);
+            _context.Add(collection4);
             _context.SaveChanges();
 
             var project1 = new Project()
