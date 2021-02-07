@@ -5,6 +5,8 @@ import { CollectionManagerRoute, ProjectManagerRoute } from '../../../utils/Rout
 import "./SubHeader.css"
 
 const SubHeader = ({
+    isListColumnActive,
+    setIsListColumnActive,
     selectedCollection,
     selectedProject,
     setSelectedProject,
@@ -42,6 +44,21 @@ const SubHeader = ({
             currentState={selectedProject}
             stateArray={projects}
             setCurrentState={setSelectedProject} />
+
+        <div className="line__vertical"></div>
+
+        <label for="listColumn">Toggle List Column: </label>
+        
+        <input
+            onChange={e => {setIsListColumnActive(e.currentTarget.checked)}}
+            checked={isListColumnActive}
+            defaultChecked={true}
+            type="checkbox"
+            id="listColumn"
+            name="listColumn"
+            value="listColumn" />
+
+
     </section>
 )
 

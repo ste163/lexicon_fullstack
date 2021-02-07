@@ -18,7 +18,6 @@ const MainView = ({
    isListColumnActive,
    setIsListColumnActive,
    isSelectedColumnActive,
-   setIsSelectedColumnActive,
 }) => {
     const history = useHistory()
     const {
@@ -120,6 +119,8 @@ const MainView = ({
                         collections={collections} />
                 ) : (
                     <HeaderDesktop
+                        isListColumnActive={isListColumnActive}
+                        setIsListColumnActive={setIsListColumnActive}
                         selectedCollection={selectedCollection}
                         selectedProject={selectedProject}
                         setSelectedProject={setSelectedProject}

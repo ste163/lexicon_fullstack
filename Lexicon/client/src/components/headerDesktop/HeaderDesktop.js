@@ -3,6 +3,7 @@ import Header from './header/Header'
 import SubHeader from './subHeader/SubHeader'
 
 const HeaderDesktop = ({
+    setIsListColumnActive,
     selectedCollection,
     selectedProject,
     setSelectedProject,
@@ -13,6 +14,7 @@ const HeaderDesktop = ({
     <>
         <Header />
         <SubHeader
+            setIsListColumnActive={setIsListColumnActive}
             selectedCollection={selectedCollection}
             selectedProject={selectedProject}
             setSelectedProject={setSelectedProject}
