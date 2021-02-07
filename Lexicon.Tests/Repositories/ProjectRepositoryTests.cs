@@ -1,6 +1,8 @@
 ﻿using Lexicon.Models;
+using Lexicon.Models.ViewModels;
 using Lexicon.Repositories;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Lexicon.Tests.Repositories
@@ -46,7 +48,7 @@ namespace Lexicon.Tests.Repositories
             var actualProject = repo.GetByProjectId(projectId);
 
             // Two objects should have the same name. Was unable to test if Assert.Equal because Repo returns all the Objects from the FKs
-            Assert.True(expectedProjectName == actualProject.Name);
+            Assert.True(expectedProjectName == actualProject.Project.Name);
         }
 
 
@@ -91,16 +93,16 @@ namespace Lexicon.Tests.Repositories
             // Get an Project from the Db
             var projectToUpdate = repo.GetByProjectId(1);
 
-            projectToUpdate.Name = "You GOT UPDATED!";
+            projectToUpdate.Project.Name = "You GOT UPDATED!";
 
             // Attempt to update
-            repo.Update(projectToUpdate);
+            repo.Update(projectToUpdate.Project);
 
             // Retrieve item from db to see if updates occurred
             var updatedCollection = repo.GetByProjectId(1);
 
             // The new names should match
-            Assert.True(updatedCollection.Name == projectToUpdate.Name);
+            Assert.True(updatedCollection.Project.Name == projectToUpdate.Project.Name);
         }
 
 
@@ -117,6 +119,12 @@ namespace Lexicon.Tests.Repositories
                 CreationDate = DateTime.Now - TimeSpan.FromDays(15)
             };
 
+            var projectDetails = new ProjectDetailsViewModel
+            {
+                Project = projectToAdd,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Instantiate ProjectRepo
             var repo = new ProjectRepository(_context);
 
@@ -130,7 +138,7 @@ namespace Lexicon.Tests.Repositories
             var countAfterAdd = repo.Get(1).Count;
 
             // Attempt to delete the project
-            repo.Delete(projectToAdd);
+            repo.Delete(projectDetails);
 
             // New count after deleting
             var countAfterDeletion = repo.Get(1).Count;
