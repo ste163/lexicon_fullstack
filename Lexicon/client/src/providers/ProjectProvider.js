@@ -55,7 +55,7 @@ export const ProjectProvider = props => {
           }
           return res.json()
         })
-        .then(c => setProjects(c)))
+        .then(p => setProjects(p)))
     }
   }
 

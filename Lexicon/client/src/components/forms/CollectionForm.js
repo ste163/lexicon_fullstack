@@ -26,23 +26,30 @@ const CollectionForm = ({ history, itemToEdit }) => {
     // Used for showing loading indicator and locking form from multiple submits
     const [ isLoading, setIsLoading ] = useState(true)
 
-
     // Check on load and when collections change, if we have an editable collection or not
     useEffect(() => {
-
-        setProjectsAdded([])
         if (projects) {
             setProjectsAvailableToAdd(projects)
         }
+
+        setProjectsAdded([])
+
         if (itemToEdit) {
-            setCurrentCollection(itemToEdit)
+            setCurrentCollection(itemToEdit.collection)
+            // const projColsAlreadyAdded = itemToEdit.projectCollections.map(pc => pc.project)
+            // const projColCopy = [...projects]
+
+            // ADD ALL DUPLICATES TO THE PROJ COL COPY, THEN I CAN FILTER OUT THE NON-DUPLICATES
+            
+            // console.log("1. PROJECTS WE HAVE", projColsAlreadyAdded)
+            // console.log("2. PROJECTS IN DB", projColCopy)
+            // setProjectsAvailableToAdd()
             setIsLoading(false);
         } else {
             setIsLoading(false)
         }
-    }, [collections])
+    }, [collections, projects])
 
-    // When go to the form page, always ensure we get latest projects
     useEffect(() => {
         getProjects()
     }, [])
@@ -123,7 +130,7 @@ const CollectionForm = ({ history, itemToEdit }) => {
         onSubmit={createCollection}>
 
         <h3>
-            {itemToEdit ? `Edit ${itemToEdit.name}` : "Create"}
+            {itemToEdit ? `Edit ${itemToEdit.collection.name}` : "Create"}
         </h3> 
 
         <fieldset>
