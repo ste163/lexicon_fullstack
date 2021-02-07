@@ -7,7 +7,6 @@ using Lexicon.Repositories;
 using Lexicon.Controllers.Utils;
 using Lexicon.Models;
 using Lexicon.Models.ViewModels;
-using System.Linq;
 
 namespace Lexicon.Controllers
 {
@@ -163,7 +162,7 @@ namespace Lexicon.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Collection collection)
+        public IActionResult Put(int id, CollectionDetailsViewModel incomingCollectionDetails)
         {
             // Get current user
             var firebaseUser = _utils.GetCurrentUser(User);
@@ -175,18 +174,18 @@ namespace Lexicon.Controllers
             }
 
             // Collection Id coming from URL must match the Collection object's Id
-            if (id != collection.Id)
+            if (id != incomingCollectionDetails.Collection.Id)
             {
                 return BadRequest();
             }
 
             // Get Collection by Id to ensure it's in db
-            Collection collectionToUpdate;
+            CollectionDetailsViewModel collectionDetailsToUpdate;
             
             try
             {
                 // If a user attempts to get an Id not in the db, causes a NullReferenceException error
-                collectionToUpdate = _collectionRepo.GetByCollectionId(id).Collection;
+                collectionDetailsToUpdate = _collectionRepo.GetByCollectionId(id);
 
             }
             catch (NullReferenceException e)
@@ -195,7 +194,7 @@ namespace Lexicon.Controllers
             }
 
             // If it wasn't in the db don't let them update
-            if (collectionToUpdate == null)
+            if (collectionDetailsToUpdate == null)
             {
                 return NotFound();
             }
@@ -204,7 +203,7 @@ namespace Lexicon.Controllers
             var allCollections = _collectionRepo.Get(firebaseUser.Id);
 
             // see if the name of the incoming collection is in the db
-            var collectionWithThatName = allCollections.Find(c => c.Name == collection.Name);
+            var collectionWithThatName = allCollections.Find(c => c.Name == incomingCollectionDetails.Collection.Name);
 
             // if there is a returned collection, we can't add because name isn't unique for this user
             if (collectionWithThatName != null)
@@ -213,7 +212,7 @@ namespace Lexicon.Controllers
             }
 
             // Get Collection's owner to ensure this is current user's collection
-            var collectionOwner = collectionToUpdate.UserId;
+            var collectionOwner = collectionDetailsToUpdate.Collection.UserId;
             // Check if incoming user is the same one requesting deletion
             if (collectionOwner != firebaseUser.Id)
             {
@@ -222,9 +221,21 @@ namespace Lexicon.Controllers
 
             // ** At this point, we know the person is able to update the collection.
 
+            // By using the collectionToUpdate we retrieved from the db,
+            // we re-assign its values that are editable, based on the incoming collection
+            collectionDetailsToUpdate.Collection.Name = incomingCollectionDetails.Collection.Name;
+            collectionDetailsToUpdate.Collection.Description = incomingCollectionDetails.Collection.Description;
+
             try
             {
-                _collectionRepo.Update(collectionToUpdate);
+                // When updating a Collection, we DELETE all current ProjCols then ADD all incoming
+                // Delete all the ProjectCollections from collectionToUpdate
+                _projColRepo.Delete(collectionDetailsToUpdate.ProjectCollections);
+
+                // Add all incoming ProjectCollections
+                _projColRepo.Add(incomingCollectionDetails.ProjectCollections);
+
+                _collectionRepo.Update(collectionDetailsToUpdate.Collection);
                 return NoContent();
             }
             catch (DbUpdateException e)

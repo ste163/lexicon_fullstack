@@ -347,6 +347,13 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionDetails to pass into put
+            CollectionDetailsViewModel collectionDetails = new CollectionDetailsViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use the matching Id
             var collectionParamId = 1;
 
@@ -356,7 +363,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionDetails);
 
             // Returns Ok
             Assert.IsType<NoContentResult>(response);
@@ -382,6 +389,13 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionDetails to pass into put
+            CollectionDetailsViewModel collectionDetails = new CollectionDetailsViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use the matching Id
             var collectionParamId = 1;
 
@@ -391,7 +405,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionDetails);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -417,6 +431,13 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionDetails to pass into put
+            CollectionDetailsViewModel collectionDetails = new CollectionDetailsViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use a non-matching Id
             var collectionParamId = 2;
 
@@ -426,7 +447,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionDetails);
 
             // Returns Ok
             Assert.IsType<BadRequestResult>(response);
@@ -452,6 +473,13 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionDetails to pass into put
+            CollectionDetailsViewModel collectionDetails = new CollectionDetailsViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use a not real collection to update
             var collectionParamId = 666;
 
@@ -461,7 +489,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionDetails);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
@@ -487,6 +515,13 @@ namespace Lexicon.Tests.Controllers
                 CreationDate = DateTime.Now - TimeSpan.FromDays(10)
             };
 
+            // Make collectionDetails to pass into put
+            CollectionDetailsViewModel collectionDetails = new CollectionDetailsViewModel()
+            {
+                Collection = collection,
+                ProjectCollections = new List<ProjectCollection>()
+            };
+
             // Use a matching Id
             var collectionParamId = 1;
 
@@ -496,7 +531,7 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
             // Attempt to Get this User's collections
-            var response = controller.Put(collectionParamId, collection);
+            var response = controller.Put(collectionParamId, collectionDetails);
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
