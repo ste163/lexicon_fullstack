@@ -46,6 +46,7 @@ const ApplicationViews = () => {
     const {
         getCollections,
         getCollectionById,
+        selectedCollection,
         setSelectedCollection,
 
         // Collection Manager
@@ -90,17 +91,29 @@ const ApplicationViews = () => {
                 turnOffAllButDelete()
                 break
 
-            case AppRoute():
+            case AppSelectedRoute(routeParamId):
+                // Turn off all open modals
                 turnOffAllButDelete()
                 setIsDeleteModalOpen(false)
-                break
 
-            case AppSelectedRoute(routeParamId):
-                // Set collectionOnDash state
+                // setSelectedCollection
+                getCollectionById(routeParamId)
+                .then(collectionDetails => setSelectedCollection(collectionDetails))
+                .catch(error => history.goBack())
                 // if there is anything ever in it, default to that
                 // instead of App Route
                 // so put an if check in AppRoute to switch to this case
                 // OR put AppSelectedRoute first in switch
+                break
+
+            case AppRoute():
+                if (selectedCollection === undefined) {
+                    turnOffAllButDelete()
+                    setIsDeleteModalOpen(false)
+                } else {
+                    // Push to the selectedCollection Route
+                    history.push(AppSelectedRoute(selectedCollection.collection.id))
+                }
                 break
 
             case SettingsRoute():
