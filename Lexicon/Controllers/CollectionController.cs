@@ -219,6 +219,7 @@ namespace Lexicon.Controllers
 
             // Get Collection's owner to ensure this is current user's collection
             var collectionOwner = collectionDetailsToUpdate.Collection.UserId;
+
             // Check if incoming user is the same one requesting deletion
             if (collectionOwner != firebaseUser.Id)
             {
@@ -227,7 +228,7 @@ namespace Lexicon.Controllers
 
             // ** At this point, we know the person is able to update the collection.
 
-            // By using the collectionToUpdate we retrieved from the db,
+            // By using the collectionDetailsToUpdate we retrieved from the db,
             // we re-assign its values that are editable, based on the incoming collection
             collectionDetailsToUpdate.Collection.Name = incomingCollectionForm.Collection.Name;
             collectionDetailsToUpdate.Collection.Description = incomingCollectionForm.Collection.Description;

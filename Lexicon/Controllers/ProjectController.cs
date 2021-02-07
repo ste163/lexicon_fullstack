@@ -7,6 +7,7 @@ using Lexicon.Repositories;
 using Lexicon.Controllers.Utils;
 using Lexicon.Models;
 using Lexicon.Models.ViewModels;
+using System.Linq;
 
 namespace Lexicon.Controllers
 {
@@ -162,7 +163,7 @@ namespace Lexicon.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Project project)
+        public IActionResult Put(int id, ProjectFormViewModel incomingProjectForm)
         {
             // Get current user
             var firebaseUser = _utils.GetCurrentUser(User);
@@ -174,47 +175,74 @@ namespace Lexicon.Controllers
             }
 
             // Project Id coming from URL must match the Project object's Id
-            if (id != project.Id)
+            if (id != incomingProjectForm.Project.Id)
             {
                 return BadRequest();
             }
 
             // Get Project by Id to ensure it's in db
-            var projectToUpdate = _projectRepo.GetByProjectId(id);
+            ProjectDetailsViewModel projectDetailsToUpdate;
 
-            // If it wasn't in the db don't let them update
-            if (projectToUpdate == null)
+            try
+            {
+                // If a user attempts to get an Id not in the db, causes a NullReferenceException error
+                projectDetailsToUpdate = _projectRepo.GetByProjectId(id);
+            }
+            catch (NullReferenceException e)
             {
                 return NotFound();
             }
 
+
+            // If it wasn't in the db don't let them update
+            if (projectDetailsToUpdate == null)
+            {
+                return NotFound();
+            }
+
+
+
+            // Get all of this user's projects
+            var allProjects = _projectRepo.Get(firebaseUser.Id);
+
+            // see if the name of the incoming collection is in the db
+            var projectWithThatName = allProjects.Where(c => c.Name == incomingProjectForm.Project.Name).ToList();
+
+            // If the count is greater than 1, so it's in the db, check to see what the Id is
+            if (projectWithThatName.Count > 0)
+            {
+                // If the Ids match, we can update, otherwise, it's already in db and not the current item
+                if (projectWithThatName[0].Id != incomingProjectForm.Project.Id)
+                {
+                    return NotFound();
+                }
+            }
+
             // Get Project's owner to ensure this is current user's project
-            var projectOwnerId = projectToUpdate.UserId;
+            var projectOwnerId = incomingProjectForm.Project.UserId;
+
             // Check if incoming user is the same one requesting deletion
             if (projectOwnerId != firebaseUser.Id)
             {
                 return NotFound();
             }
 
-            // Get all of this user's projects
-            var allProjects = _projectRepo.Get(firebaseUser.Id);
+            // ** At this point, we know the person is able to update the project.
 
-            // see if the name of the incoming collection is in the db
-            var projectWithThatName = allProjects.Find(c => c.Name == project.Name);
-
-            // if there is a returned project, we can't add because name isn't unique for this user
-            if (projectWithThatName != null)
-            {
-                return NotFound();
-            }
-
-            // By using the projectToUpdate we retrieved from the db,
+            // By using the projectDetailsToUpdate we retrieved from the db,
             // we re-assign its values that are editable, based on the incoming project
-            projectToUpdate.Name = project.Name;
+            projectDetailsToUpdate.Project.Name = incomingProjectForm.Project.Name;
 
             try
             {
-                _projectRepo.Update(projectToUpdate);
+                // When updating a Project, we DELETE all current ProjCols then ADD all incoming
+                // Delete all the ProjectCollections from collectionToUpdate
+                _projColRepo.Delete(projectDetailsToUpdate.ProjectCollections);
+
+                // Add all incoming ProjectCollections
+                _projColRepo.Add(incomingProjectForm.ProjectCollections);
+
+                _projectRepo.Update(projectDetailsToUpdate.Project);
                 return NoContent();
             }
             catch (DbUpdateException e)
@@ -245,7 +273,7 @@ namespace Lexicon.Controllers
             }
 
             // Get Project's owner
-            var projectOwner = projectToDelete.UserId;
+            var projectOwner = projectToDelete.Project.UserId;
             // Check if incoming user is the same one requesting deletion
             if (projectOwner != firebaseUser.Id)
             {
