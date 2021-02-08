@@ -8,7 +8,7 @@ import './ListCardContainer.css'
     // url route to push to
     // PROBABLY need to pass in a card/message component for if no info yet
     
-const CollectionList = ({ history, isFetching, items, urlToPushTo }) => {
+const CollectionList = ({ history, searchTerms, isFetching, items, urlToPushTo }) => {
 
     // Loading spinner while fetching
     if (isFetching) {
@@ -30,13 +30,17 @@ const CollectionList = ({ history, isFetching, items, urlToPushTo }) => {
     // Map over items to display as cards
     return (
         <section className="list__container">
-        {items.length === 0 ? (
-            <div>No items</div>
-        ) : (
-            items.map(item => {
-                return <ListCard key={item.id} item={item} history={history} urlToPushTo={urlToPushTo} />
-            })
-        )}
+            {searchTerms === "" ? ( null 
+                ) : ( 
+                    items.length !== 0 ? (
+                        <h2 className="search__heading">Matching searches</h2>
+                    ) : (
+                        <h2 className="search__heading">No matching searches</h2>
+                    ))}
+           
+                {items.map(item => {
+                    return <ListCard key={item.id} item={item} history={history} urlToPushTo={urlToPushTo} />
+                })}
         </section>
     )
 }

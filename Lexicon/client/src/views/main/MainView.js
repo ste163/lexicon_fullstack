@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { ProjectContext } from '../../providers/ProjectProvider'
-import ListCardContainer from '../../components/lists/ListCardContainer'
 import Delete from '../../components/delete/Delete'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
 import HeaderMobile from '../../components/headerMobile/HeaderMobile'
@@ -13,6 +12,7 @@ import CollectionManager from '../../components/managers/CollectionManager'
 import { AppSelectedRoute } from '../../utils/Routes'
 import './MainView.css'
 import SelectedCard from './selected/SelectedCard'
+import ListColumn from './list/ListColumn'
 
 const MainView = ({
    isListColumnActive,
@@ -34,6 +34,10 @@ const MainView = ({
         getProjects,
         isProjectManagerOpen } = useContext(ProjectContext)
 
+    // List column search state
+    const [searchTerms, setSearchTerms] = useState("")
+    const [filteredList, setFilteredList] = useState([])
+
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
     // isMobile tracks state for if we should show mobile view or not
@@ -49,6 +53,18 @@ const MainView = ({
         getCollections()
         getProjects()
     }, [])
+
+    // handles list column searching
+    useEffect(() => {
+        if (searchTerms !== "") {
+            const matches = collections.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()) || c.description.toLowerCase().includes(searchTerms.toLowerCase().trim()))
+            setFilteredList(matches)
+        } else {
+            // no terms in search bar, so diusplay all and reset filtered items
+            setFilteredList(collections)
+        }
+        
+    }, [searchTerms, collections])
 
     // Debounce and useEffect based on https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
     // Debounce delays re-renders on every resize event
@@ -138,13 +154,13 @@ const MainView = ({
                 
                 {isListColumnActive ? (
                     <section className="column__list">
-
-                    <ListCardContainer
-                        history={history}
-                        urlToPushTo={AppSelectedRoute}
-                        isFetching={isFetchingCollections}
-                        items={collections}  />
-
+                        <ListColumn
+                            history={history}
+                            searchTerms={searchTerms}
+                            setSearchTerms={setSearchTerms}
+                            AppSelectedRoute={AppSelectedRoute}
+                            isFetchingCollection={isFetchingCollections}
+                            collections={filteredList} />
                     </section>
                 ) : (
                     null

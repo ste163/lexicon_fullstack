@@ -100,7 +100,7 @@ const ApplicationViews = () => {
                 turnOffAllButDelete()
                 setIsDeleteModalOpen(false)
 
-                // setSelectedCollection
+                // set SelectedCollection
                 getCollectionById(routeParamId)
                 .then(collectionDetails => setSelectedCollection(collectionDetails))
                 .catch(error => history.goBack())

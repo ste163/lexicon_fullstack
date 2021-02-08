@@ -1,6 +1,19 @@
 import React from 'react'
 import './Inputs.css'
 
+export const SearchBar = ({ setSearchTerms }) => (
+    <fieldset className="input__search">
+        <label className="card__type type__margin--search" htmlFor="collectionSearch">Search by name</label>
+        <input type="text"
+            name="collectionSearch"
+            className="input__search"
+            onKeyUp={
+                (keyEvent) => setSearchTerms(keyEvent.target.value)
+            }
+            placeholder="Real-time search... "/>
+    </fieldset>
+)
+
 export const DropDown = ({
     nameOf,
     fieldsetLocation,
@@ -24,8 +37,6 @@ export const DropDown = ({
         return null
     }
 
-    // Need check for if setCurrentState === undefined ? pushToUrl : setCurrentState ON CHANGE
-
     return (
         <fieldset className={fieldsetLocation}>
             <label
@@ -39,11 +50,7 @@ export const DropDown = ({
             </label>
 
             <select
-                className={!isHamburger ? (
-                    ""
-                ) : (
-                    "select__hamburger"
-                )}
+                className={!isHamburger ?  ""  : "select__hamburger"}
                 id={labelIdName}
                 name={labelIdName}
                 value={currentState === undefined ? (
