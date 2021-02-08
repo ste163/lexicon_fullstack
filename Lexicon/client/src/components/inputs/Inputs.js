@@ -1,16 +1,17 @@
 import React from 'react'
 import './Inputs.css'
 
-export const SearchBar = ({ setSearchTerms }) => (
+// Used by ListColumn, Collection Manager, Project Manager, and ThesaurusSearch
+export const SearchBar = ({ labelTitle, placeholderText, setSearchTerms }) => (
     <fieldset className="input__search">
-        <label className="card__type type__margin--search" htmlFor="collectionSearch">Search by name</label>
+        <label className="card__type type__margin--search" htmlFor="collectionSearch">{labelTitle}</label>
         <input type="text"
             name="collectionSearch"
             className="input__search"
             onKeyUp={
                 (keyEvent) => setSearchTerms(keyEvent.target.value)
             }
-            placeholder="Real-time search... "/>
+            placeholder={placeholderText} />
     </fieldset>
 )
 

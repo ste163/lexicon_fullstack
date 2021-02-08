@@ -75,6 +75,8 @@ const CollectionManager = () => {
                     projects={projects}
                     setSelectedProject={setSelectedProject}
                     selectedProject={selectedProject}
+                    searchLabelTitle={"Search collections"}
+                    searchPlaceholderText={"Enter name or description..."}
                     setSearchTerms={setSearchTerms}
                     formUrlToPushTo={CollectionManagerCreateRoute}
                     createNewString={"collection"} />

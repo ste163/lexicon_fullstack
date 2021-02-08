@@ -4,9 +4,9 @@ export const ThesaurusContext = createContext()
 
 export const ThesaurusProvider = props => {
 
-    const APIKey = process.env.MW_THESAURUS_API_KEY,
+    const APIKey = process.env.MW_THESAURUS_API_KEY
 
-    const [ word, setWord ] = useState([])
+    const [ word, setWord ] = useState()
     const [ definitionCards, setDefinitionCards ] = useState([])
 
     const getWord = term => {
@@ -24,7 +24,10 @@ export const ThesaurusProvider = props => {
 
     return (
         <ThesaurusContext.Provider value={{
-            word, definitionCards, setDefinitionCards, getWord
+            word,
+            getWord,
+            definitionCards,
+            setDefinitionCards
         }}>
             {props.children}
         </ThesaurusContext.Provider>

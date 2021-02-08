@@ -5,6 +5,7 @@ import { UserProvider } from './providers/UserProvider'
 import { DeleteProvider } from './providers/DeleteProvider'
 import { CollectionProvider } from './providers/CollectionProvider'
 import { ProjectProvider } from './providers/ProjectProvider'
+import { ThesaurusProvider } from './providers/ThesaurusProvider'
 import ApplicationViews from './ApplicationViews'
 import 'react-toastify/dist/ReactToastify.min.css'
 import './Lexicon.css'
@@ -17,9 +18,11 @@ const Lexicon = () => (
             <DeleteProvider>
                 <CollectionProvider>
                     <ProjectProvider>
-                        <Router>
-                            <ApplicationViews />
-                        </Router>    
+                        <ThesaurusProvider>
+                            <Router>
+                                <ApplicationViews />
+                            </Router>    
+                        </ThesaurusProvider>
                     </ProjectProvider>
                 </CollectionProvider>
             </DeleteProvider>
