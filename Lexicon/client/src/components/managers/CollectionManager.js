@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { CollectionManagerCreateRoute, CollectionManagerRoute } from '../../utils/Routes'
 import { CollectionContext } from '../../providers/CollectionProvider'
@@ -27,6 +27,22 @@ const CollectionManager = () => {
         isCollectionEditFormOpen
     } = useContext(CollectionContext)
     
+    // Will need to set state for searchTerms, filteredList
+    // need a useEffect to reset search terms on re-load
+
+    const [searchTerms, setSearchTerms] = useState("")
+    const [filteredList, setFilteredList] = useState([])
+
+    // handles list column searching
+    useEffect(() => {
+        if (searchTerms !== "") {
+            const matches = collections.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()) || c.description.toLowerCase().includes(searchTerms.toLowerCase().trim()))
+            setFilteredList(matches)
+        } else {
+            // no terms in search bar, so display all and reset filtered items
+            setFilteredList(collections)
+        }
+    }, [searchTerms, collections])
 
     // Get the Create button working with the slide to form, and back and forth
     return (
@@ -56,6 +72,7 @@ const CollectionManager = () => {
                     )}>
                 <ListControls
                     history={history}
+                    setSearchTerms={setSearchTerms}
                     formUrlToPushTo={CollectionManagerCreateRoute}
                     createNewString={"collection"} />
 
@@ -63,7 +80,8 @@ const CollectionManager = () => {
                     history={history}
                     urlToPushTo={CollectionManagerDetailsRoute}
                     isFetching={isFetchingCollections}
-                    items={collections}  />
+                    searchTerms={searchTerms}
+                    items={filteredList}  />
             </section>
 
             <section

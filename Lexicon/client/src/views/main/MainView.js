@@ -60,10 +60,9 @@ const MainView = ({
             const matches = collections.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()) || c.description.toLowerCase().includes(searchTerms.toLowerCase().trim()))
             setFilteredList(matches)
         } else {
-            // no terms in search bar, so diusplay all and reset filtered items
+            // no terms in search bar, so display all and reset filtered items
             setFilteredList(collections)
         }
-        
     }, [searchTerms, collections])
 
     // Debounce and useEffect based on https://www.pluralsight.com/guides/re-render-react-component-on-window-resize

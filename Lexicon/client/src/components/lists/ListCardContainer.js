@@ -26,7 +26,7 @@ const CollectionList = ({ history, searchTerms, isFetching, items, urlToPushTo }
             null
         )
     }
-
+    
     // Map over items to display as cards
     return (
         <section className="list__container">
