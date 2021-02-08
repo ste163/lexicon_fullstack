@@ -6,7 +6,6 @@ import './ListCardContainer.css'
     // items as a state of collections or projects
     // useHistory to allow for pushing
     // url route to push to
-    // PROBABLY need to pass in a card/message component for if no info yet
     
 const CollectionList = ({ history, searchTerms, isFetching, items, urlToPushTo }) => {
 
@@ -26,7 +25,7 @@ const CollectionList = ({ history, searchTerms, isFetching, items, urlToPushTo }
             null
         )
     }
-    
+
     // Map over items to display as cards
     return (
         <section className="list__container">

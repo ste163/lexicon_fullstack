@@ -27,13 +27,10 @@ const CollectionManager = () => {
         isCollectionEditFormOpen
     } = useContext(CollectionContext)
     
-    // Will need to set state for searchTerms, filteredList
-    // need a useEffect to reset search terms on re-load
-
     const [searchTerms, setSearchTerms] = useState("")
     const [filteredList, setFilteredList] = useState([])
 
-    // handles list column searching
+    // handles searching
     useEffect(() => {
         if (searchTerms !== "") {
             const matches = collections.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()) || c.description.toLowerCase().includes(searchTerms.toLowerCase().trim()))
