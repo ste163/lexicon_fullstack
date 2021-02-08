@@ -66,7 +66,7 @@ const ApplicationViews = () => {
         const routeParamId = findRouteParam(currentUrl)
 
         // If an id is ever 0, set state to undefined, and re-route to /app
-        if (routeParamId === undefined || routeParamId === "0") {
+        if (routeParamId === "0") {
             currentUrl = AppRoute()
             setSelectedCollection(undefined)
         } 

@@ -39,11 +39,15 @@ const Details = ({
         
         {/* If it's the project manager, switch out with other links */}
         <div className="details__btns">
-            <button
-                className="btn btn__details--dash"
-                onClick={() => history.push(selectedUrlToPushTo(isCollections ? selectedItem.collection.id : selectedItem.project.id))}>
-                    View on Dashboard
+            {isCollections ? (
+                <button
+                    className="btn btn__details--dash"
+                    onClick={() => history.push(selectedUrlToPushTo(selectedItem.collection.id))}>
+                        View on Dashboard
                 </button>
+            ) : (
+                null
+            )}
             <div className="btns__edit-delete">
                 <button
                     className="btn btn__details--edit"
