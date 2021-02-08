@@ -50,9 +50,9 @@ const HamburgerMenu = ({
             </div>
 
             <div className="hb__container">
-                <li className="nav__item nav__item--hb nav__item--settings">
+                {/* <li className="nav__item nav__item--hb nav__item--settings">
                     <Settings isMobile={true} />
-                </li>
+                </li> */}
                 <li className="nav__item nav__item--hb">
                     <Logout isMobile={true} />
                 </li>
