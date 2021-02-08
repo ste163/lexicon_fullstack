@@ -10,11 +10,8 @@ const SubHeader = ({
     isListColumnActive,
     setIsListColumnActive,
     selectedCollection,
-    selectedProject,
-    setSelectedProject,
     appSelectedRoute,
     history,
-    projects,
     collections }) => (
     <section className="view__subHeader">
         <ManagerButton
@@ -30,7 +27,7 @@ const SubHeader = ({
         <div className="line__vertical"></div>
 
         <DropDown
-            nameOf='collection'
+            nameOf='Selected collection'
             fieldsetLocation='subHeader__fieldset'
             labelIdName='collectionSelect'
             isCollection={true}
@@ -38,14 +35,6 @@ const SubHeader = ({
             urlToPushTo={appSelectedRoute}
             currentState={selectedCollection}
             stateArray={collections} />
-
-        <DropDown
-            nameOf='project'
-            fieldsetLocation='subHeader__fieldset' 
-            labelIdName='projectSelect'
-            currentState={selectedProject}
-            stateArray={projects}
-            setCurrentState={setSelectedProject} />
 
         <div className="line__vertical"></div>
 

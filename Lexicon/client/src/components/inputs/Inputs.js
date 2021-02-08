@@ -46,7 +46,7 @@ export const DropDown = ({
                 "label__hamburger"
             )}
             htmlFor="collectionSelect">
-                Selected {nameOf}:
+                {nameOf}:
             </label>
 
             <select
@@ -72,7 +72,7 @@ export const DropDown = ({
                         history.push(urlToPushTo(+e.target.value))}
                     }
                 }>
-                <option value="0">Select {nameOf}</option>
+                <option value="0">{nameOf}</option>
                 {stateArray.map(stateItem => (
                     <option key={stateItem.id} value={stateItem.id}>
                         {stateItem.name}

@@ -37,12 +37,12 @@ const HamburgerMenu = ({
                 </li>
                 <li>
                     <DropDown
+                        nameOf='Selected collection'
                         stateArray={collections}
                         currentState={selectedCollection}
                         urlToPushTo={appSelectedRoute}
                         isCollection={true}
                         history={history}
-                        nameOf='collection'
                         fieldsetLocation='hamburger__fieldset'
                         labelIdName='collectionSelect' 
                         isHamburger={true} />

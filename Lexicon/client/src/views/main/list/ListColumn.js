@@ -7,12 +7,18 @@ const ListColumn = ({
     history,
     searchTerms,
     setSearchTerms,
+    projects,
+    setSelectedProject,
+    selectedProject,
     AppSelectedRoute,
     isFetchingCollections,
     collections }) => (
     <>
         <ListControls
             history={history}
+            projects={projects}
+            setSelectedProject={setSelectedProject}
+            selectedProject={selectedProject}
             setSearchTerms={setSearchTerms}
             formUrlToPushTo={CollectionManagerCreateRoute}
             createNewString={'collection'} />

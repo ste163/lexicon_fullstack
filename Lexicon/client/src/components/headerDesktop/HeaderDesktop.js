@@ -7,11 +7,8 @@ const HeaderDesktop = ({
     setIsSelectedColumnActive,
     setIsListColumnActive,
     selectedCollection,
-    selectedProject,
-    setSelectedProject,
     appSelectedRoute,
     history,
-    projects,
     collections }) => (
     <>
         <Header />
@@ -20,11 +17,8 @@ const HeaderDesktop = ({
             setIsSelectedColumnActive={setIsSelectedColumnActive}
             setIsListColumnActive={setIsListColumnActive}
             selectedCollection={selectedCollection}
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
             appSelectedRoute={appSelectedRoute}
             history={history}
-            projects={projects}
             collections={collections} />
     </>
 )

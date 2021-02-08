@@ -43,7 +43,7 @@ const MainView = ({
     // isMobile tracks state for if we should show mobile view or not
     const [ isMobile, setIsMobile ] = useState(false)
     // If you change this, update it in: Icons.css, 
-    const maxWidthForMobile = 1350
+    const maxWidthForMobile = 1075
 
     // Need to track the state of List, Selected, and Thesaurus Columns
     // Based on if they are "True" display their columns. If not, display: none
@@ -144,11 +144,8 @@ const MainView = ({
                         isSelectedColumnActive={isSelectedColumnActive}
                         setIsSelectedColumnActive={setIsSelectedColumnActive}
                         selectedCollection={selectedCollection}
-                        selectedProject={selectedProject}
-                        setSelectedProject={setSelectedProject}
                         appSelectedRoute={AppSelectedRoute}
                         history={history}
-                        projects={projects}
                         collections={collections}/>
                 )}
             </div>
@@ -160,6 +157,9 @@ const MainView = ({
                     <section className="column__list">
                         <ListColumn
                             history={history}
+                            projects={projects}
+                            setSelectedProject={setSelectedProject}
+                            selectedProject={selectedProject}
                             searchTerms={searchTerms}
                             setSearchTerms={setSearchTerms}
                             AppSelectedRoute={AppSelectedRoute}

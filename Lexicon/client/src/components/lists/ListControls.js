@@ -1,6 +1,6 @@
 import React from 'react'
 import { ManagerCreate } from '../buttons/Buttons'
-import { SearchBar } from '../inputs/Inputs'
+import { SearchBar, DropDown } from '../inputs/Inputs'
 import './ListControls.css'
 // Create, Search, and Filtering for lists
 // To use
@@ -10,6 +10,9 @@ import './ListControls.css'
 
 const ListControls = ({
     history,
+    projects,
+    setSelectedProject,
+    selectedProject,
     setSearchTerms,
     formUrlToPushTo,
     createNewString }) => (
@@ -20,6 +23,15 @@ const ListControls = ({
             createNewString={createNewString} />
         
         <SearchBar setSearchTerms={setSearchTerms} />
+
+        {/* // FILTERING DOES NOT WORK YET, NEEDS RETHINKING & REFACTORING FOR NON-PROJECTS */}
+        <DropDown
+            nameOf='Filter by project'
+            fieldsetLocation='subHeader__fieldset' 
+            labelIdName='projectSelect'
+            currentState={selectedProject}
+            stateArray={projects}
+            setCurrentState={setSelectedProject} />
         
     </section>
 )

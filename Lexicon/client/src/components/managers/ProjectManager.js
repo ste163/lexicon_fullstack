@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ProjectManagerCreateRoute, ProjectManagerRoute } from '../../utils/Routes'
 import { ProjectContext } from '../../providers/ProjectProvider'
+import { CollectionContext } from '../../providers/CollectionProvider'
 import { ManagerArrow } from '../buttons/Buttons'
 import DetailsContainer from '../details/DetailsContainer'
 import ListControls from '../../components/lists/ListControls'
@@ -26,6 +27,8 @@ const ProjectManager = () => {
         isProjectDetailsOpen,
         isProjectEditFormOpen
     } = useContext(ProjectContext)
+
+    const { collections, selectedCollection, setSelectedCollection } = useContext(CollectionContext)
 
     const [searchTerms, setSearchTerms] = useState("")
     const [filteredList, setFilteredList] = useState([])
@@ -69,7 +72,10 @@ const ProjectManager = () => {
                     )}>
                 <ListControls
                     history={history}
-                    setSearchTerms={setSearchTerms}
+                    // projects={collections}
+                    // setSelectedProject={setSelectedCollection}
+                    // selectedProject={selectedCollection}
+                    // setSearchTerms={setSearchTerms}
                     formUrlToPushTo={ProjectManagerCreateRoute}
                     createNewString={"project"} />
 
