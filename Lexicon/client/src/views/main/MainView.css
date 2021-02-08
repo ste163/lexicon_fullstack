@@ -36,17 +36,12 @@
   grid-template-rows: min-content min-content;
 }
   
-  /* Desktop - med-screen size - hide list column */
-/* @media screen and (max-width: 1215px) {
-    .view__container {
-      grid-template-columns: 1fr 2fr;
-    }
-    
-    .column__selected {
-      margin-left: 1em;
-    } */
-/* } */
-  
+/* Desktop - med-screen size - hide list column */ 
+/* @media screen and (max-width: 1215px) {  
+  .column__list {
+    display: none;
+  }
+} */
 /* Desktop - small-screen size - stack selected & thesaurus column  */
 /* @media screen and (max-width: 768px) {
     .container__inner  {
