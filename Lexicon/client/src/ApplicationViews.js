@@ -27,7 +27,7 @@ import {
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext)
     const { setObjectToDelete, setIsDeleteModalOpen } = useContext(DeleteContext)
-    const currentUrl = useLocation().pathname
+    let currentUrl = useLocation().pathname
     const history = useHistory()
 
     // Dashboard column state needed at this level so the router can change them
@@ -63,12 +63,13 @@ const ApplicationViews = () => {
 
     // State router switches state on/off based on the URL pathname
     const StateRouter = () => {
-    // URL PATHS TO DO
-        // /app/selected/{id}
-            //which needs its own state that everything is tracking against.
-            //If we have a selected/{id} default to that instead of /app
-    
         const routeParamId = findRouteParam(currentUrl)
+
+        // If an id is ever 0, set state to undefined, and re-route to /app
+        if (routeParamId === undefined || routeParamId === "0") {
+            currentUrl = AppRoute()
+            setSelectedCollection(undefined)
+        } 
 
         const turnOffAllCollectionRoutes = () => {
             setIsCollectionCreateFormOpen(false)
@@ -108,7 +109,8 @@ const ApplicationViews = () => {
                 break
 
             case AppRoute():
-                if (selectedCollection === undefined) {
+                // Checks if routeParam is 0 or undefined selectedCollection
+                if (!selectedCollection || routeParamId === "0") {
                     turnOffAllButDelete()
                     setIsDeleteModalOpen(false)
                     setIsSelectedColumnActive(false)

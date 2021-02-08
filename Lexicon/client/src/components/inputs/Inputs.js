@@ -70,8 +70,7 @@ export const DropDown = ({
                         setCurrentState(selectedItem)
                     } else {
                         history.push(urlToPushTo(+e.target.value))}
-                    }
-                }>
+                    }}>
                 <option value="0">{nameOf}</option>
                 {stateArray.map(stateItem => (
                     <option key={stateItem.id} value={stateItem.id}>
