@@ -1,0 +1,9 @@
+.thesaurus__search {
+    padding: 0.5em;
+}
+
+.form__search {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}

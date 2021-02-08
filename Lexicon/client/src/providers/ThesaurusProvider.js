@@ -9,7 +9,6 @@ export const ThesaurusProvider = props => {
     const [ definitionCards, setDefinitionCards ] = useState([])
 
     const getWord = term => {
-        debugger
         return fetch(`https://dictionaryapi.com/api/v3/references/thesaurus/json/${term}?key=${APIKey}`)
         .then(response => response.json())
         .then(response => {
