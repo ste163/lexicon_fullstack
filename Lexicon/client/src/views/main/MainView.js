@@ -12,6 +12,7 @@ import CollectionManager from '../../components/managers/CollectionManager'
 import { AppSelectedRoute } from '../../utils/Routes'
 import SelectedCard from './selected/SelectedCard'
 import ListColumn from './list/ListColumn'
+import ThesaurusColumn from './thesaurus/ThesaurusColumn'
 import './MainView.css'
 
 const MainView = ({
@@ -182,7 +183,7 @@ const MainView = ({
                     null
                 )}
                 <section className="column__thesaurus">
-                    Thesaurus Column
+                    <ThesaurusColumn />
                 </section>
             </div>
             <Footer />
