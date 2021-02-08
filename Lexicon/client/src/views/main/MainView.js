@@ -127,11 +127,8 @@ const MainView = ({
                 {isMobile ? (
                     <HeaderMobile
                         selectedCollection={selectedCollection}
-                        selectedProject={selectedProject}
-                        setSelectedProject={setSelectedProject}
                         appSelectedRoute={AppSelectedRoute}
                         history={history}
-                        projects={projects}
                         collections={collections} />
                 ) : (
                     <HeaderDesktop

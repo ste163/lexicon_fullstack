@@ -8,9 +8,7 @@ const HeaderMobile = ({
     collections,
     history,
     appSelectedRoute,
-    selectedCollection,
-    setSelectedProject,
-    selectedProject }) => {
+    selectedCollection }) => {
     const [ hamburgerIsOpen, setHamburgerIsOpen ] = useState(false)
 
     return (
@@ -40,8 +38,6 @@ const HeaderMobile = ({
                 history={history}
                 appSelectedRoute={appSelectedRoute}
                 selectedCollection={selectedCollection}
-                setSelectedProject={setSelectedProject}
-                selectedProject={selectedProject}
                 isOpen={{ hamburgerIsOpen }}
                 setIsOpen={{ setHamburgerIsOpen }} />
         </header>

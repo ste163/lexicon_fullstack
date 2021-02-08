@@ -4,8 +4,6 @@ import { CollectionManagerRoute, ProjectManagerRoute } from '../../utils/Routes'
 import { DropDown } from '../inputs/Inputs'
 import './HamburgerMenu.css'
 
-// NEED TO DECIDE THE ORDERING OF THESE
-// AND SELECTING A COLUMN TO DISPLAY
 const HamburgerMenu = ({
     isOpen,
     setIsOpen,
@@ -13,10 +11,7 @@ const HamburgerMenu = ({
     collections,
     appSelectedRoute,
     history,
-    selectedCollection,
-    selectedProject,
-    setSelectedProject
-}) => (
+    selectedCollection }) => (
     <nav
     className={isOpen.hamburgerIsOpen ? (
             "hamburger__nav hamburger__nav--active"
@@ -50,16 +45,6 @@ const HamburgerMenu = ({
                         nameOf='collection'
                         fieldsetLocation='hamburger__fieldset'
                         labelIdName='collectionSelect' 
-                        isHamburger={true} />
-                </li>
-                <li>
-                    <DropDown
-                        stateArray={projects}
-                        currentState={selectedProject}
-                        setCurrentState={setSelectedProject}
-                        nameOf='project'
-                        fieldsetLocation='hamburger__fieldset'
-                        labelIdName='projectSelect'
                         isHamburger={true} />
                 </li>
             </div>
