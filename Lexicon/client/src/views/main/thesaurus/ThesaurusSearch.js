@@ -6,12 +6,34 @@ const ThesaurusSearch = () => {
     const { word, getWord } = useContext(ThesaurusContext)
     const [ search, setSearch ] = useState("")
 
+    const searchThesaurus = e => {
+        e.preventDefault()
+        // Checks for if there is just an empty string
+        if (search.length !== 0) {
+            // If there is more than an empty string, remove all spaces
+            const trimmed = search.trim()
+            // On the off chance there is just a bunch of spaces, do not add the word
+            if (trimmed.length !== 0) {
+                const lowered = trimmed.toLowerCase()
+                getWord(lowered).then(() => {
+                    setSearch("")
+                })
+            }    
+        }
+    }
+
     return (
-        <section className="card card__color--white">
-            <SearchBar
-                labelTitle={"Search Merriam-Webster's Collegiate Thesaurus"}
-                placeholderText={"Enter a word..."}
-                setSearchTerms={setSearch}/>
+        <section className="card card__color--white card__thesaurus--search">
+            <form onSubmit={searchThesaurus}>
+                <SearchBar
+                    labelTitle={"Search Merriam-Webster's Collegiate Thesaurus"}
+                    placeholderText={"Enter a word..."}
+                    setSearchTerms={setSearch}/>
+
+                    <button className="btn" type="submit">
+                        Search
+                    </button>
+            </form>
         </section>
     )
 }

@@ -3,13 +3,13 @@ import React, { useState, createContext } from "react"
 export const ThesaurusContext = createContext()
 
 export const ThesaurusProvider = props => {
-
-    const APIKey = process.env.MW_THESAURUS_API_KEY
+    const APIKey = process.env.REACT_APP_MW_THESAURUS_API_KEY
 
     const [ word, setWord ] = useState()
     const [ definitionCards, setDefinitionCards ] = useState([])
 
     const getWord = term => {
+        debugger
         return fetch(`https://dictionaryapi.com/api/v3/references/thesaurus/json/${term}?key=${APIKey}`)
         .then(response => response.json())
         .then(response => {
