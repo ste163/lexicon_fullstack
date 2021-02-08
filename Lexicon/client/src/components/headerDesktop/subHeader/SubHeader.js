@@ -51,9 +51,9 @@ const SubHeader = ({
 
         <label className="toggle__column" htmlFor="listColumn">Toggle List Column: </label>
         <input
+            disabled={!collections || collections.length === 0 ? true : false} // Disable toggle if no collections
             onChange={e => {setIsListColumnActive(e.currentTarget.checked)}}
-            checked={isListColumnActive}
-            defaultChecked={true} // needed for this input not other. Not sure why
+            checked={!collections || collections.length === 0 ? true : isListColumnActive} // need to set the on-load status
             type="checkbox"
             id="listColumn"
             name="listColumn"

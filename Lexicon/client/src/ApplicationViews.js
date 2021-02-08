@@ -31,7 +31,7 @@ const ApplicationViews = () => {
     const history = useHistory()
 
     // Dashboard column state needed at this level so the router can change them
-    const [ isListColumnActive, setIsListColumnActive ] = useState(true);
+    const [ isListColumnActive, setIsListColumnActive ] = useState(false);
     const [ isSelectedColumnActive, setIsSelectedColumnActive ] = useState(false);
     
     const {

@@ -10,9 +10,9 @@ import Modal from '../../components/modal/Modal'
 import ProjectManager from '../../components/managers/ProjectManager'
 import CollectionManager from '../../components/managers/CollectionManager'
 import { AppSelectedRoute } from '../../utils/Routes'
-import './MainView.css'
 import SelectedCard from './selected/SelectedCard'
 import ListColumn from './list/ListColumn'
+import './MainView.css'
 
 const MainView = ({
    isListColumnActive,
@@ -56,6 +56,13 @@ const MainView = ({
 
     // handles list column searching
     useEffect(() => {
+        // turn on and off the list column toggle button
+        if (!collections || collections.length !== 0) {
+            setIsListColumnActive(true)
+        } else {
+            setIsListColumnActive(false)
+        }
+
         if (searchTerms !== "") {
             const matches = collections.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()) || c.description.toLowerCase().includes(searchTerms.toLowerCase().trim()))
             setFilteredList(matches)
@@ -95,8 +102,9 @@ const MainView = ({
             setIsListColumnActive(false)
         } else {
             setIsMobile(false)
-            setIsListColumnActive(true)
+            setIsListColumnActive(false)
         }
+
         console.log(windowDimensions)
 
         // Remove event listener so we don't add an infinite amount
