@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { CollectionContext } from '../../providers/CollectionProvider'
 import { ProjectContext } from '../../providers/ProjectProvider'
-import ListCardContainer from '../../components/lists/ListCardContainer'
 import Delete from '../../components/delete/Delete'
 import HeaderDesktop from '../../components/headerDesktop/HeaderDesktop'
 import HeaderMobile from '../../components/headerMobile/HeaderMobile'
@@ -11,8 +10,9 @@ import Modal from '../../components/modal/Modal'
 import ProjectManager from '../../components/managers/ProjectManager'
 import CollectionManager from '../../components/managers/CollectionManager'
 import { AppSelectedRoute } from '../../utils/Routes'
-import './MainView.css'
 import SelectedCard from './selected/SelectedCard'
+import ListColumn from './list/ListColumn'
+import './MainView.css'
 
 const MainView = ({
    isListColumnActive,
@@ -34,12 +34,16 @@ const MainView = ({
         getProjects,
         isProjectManagerOpen } = useContext(ProjectContext)
 
+    // List column search state
+    const [searchTerms, setSearchTerms] = useState("")
+    const [filteredList, setFilteredList] = useState([])
+
     // Track browser windows dimensions, so if they are below a certain amount, swap to mobile-view header
     const [ windowDimensions, setWindowDimensions ] = useState({ height: window.innerHeight, width: window.innerWidth })
     // isMobile tracks state for if we should show mobile view or not
     const [ isMobile, setIsMobile ] = useState(false)
     // If you change this, update it in: Icons.css, 
-    const maxWidthForMobile = 1350
+    const maxWidthForMobile = 1075
 
     // Need to track the state of List, Selected, and Thesaurus Columns
     // Based on if they are "True" display their columns. If not, display: none
@@ -49,6 +53,24 @@ const MainView = ({
         getCollections()
         getProjects()
     }, [])
+
+    // handles list column searching
+    useEffect(() => {
+        // turn on and off the list column toggle button
+        if (!collections || collections.length !== 0) {
+            setIsListColumnActive(true)
+        } else {
+            setIsListColumnActive(false)
+        }
+
+        if (searchTerms !== "") {
+            const matches = collections.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()) || c.description.toLowerCase().includes(searchTerms.toLowerCase().trim()))
+            setFilteredList(matches)
+        } else {
+            // no terms in search bar, so display all and reset filtered items
+            setFilteredList(collections)
+        }
+    }, [searchTerms, collections])
 
     // Debounce and useEffect based on https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
     // Debounce delays re-renders on every resize event
@@ -80,8 +102,9 @@ const MainView = ({
             setIsListColumnActive(false)
         } else {
             setIsMobile(false)
-            setIsListColumnActive(true)
+            setIsListColumnActive(false)
         }
+
         console.log(windowDimensions)
 
         // Remove event listener so we don't add an infinite amount
@@ -111,11 +134,8 @@ const MainView = ({
                 {isMobile ? (
                     <HeaderMobile
                         selectedCollection={selectedCollection}
-                        selectedProject={selectedProject}
-                        setSelectedProject={setSelectedProject}
                         appSelectedRoute={AppSelectedRoute}
                         history={history}
-                        projects={projects}
                         collections={collections} />
                 ) : (
                     <HeaderDesktop
@@ -124,11 +144,8 @@ const MainView = ({
                         isSelectedColumnActive={isSelectedColumnActive}
                         setIsSelectedColumnActive={setIsSelectedColumnActive}
                         selectedCollection={selectedCollection}
-                        selectedProject={selectedProject}
-                        setSelectedProject={setSelectedProject}
                         appSelectedRoute={AppSelectedRoute}
                         history={history}
-                        projects={projects}
                         collections={collections}/>
                 )}
             </div>
@@ -138,13 +155,16 @@ const MainView = ({
                 
                 {isListColumnActive ? (
                     <section className="column__list">
-
-                    <ListCardContainer
-                        history={history}
-                        urlToPushTo={AppSelectedRoute}
-                        isFetching={isFetchingCollections}
-                        items={collections}  />
-
+                        <ListColumn
+                            history={history}
+                            projects={projects}
+                            setSelectedProject={setSelectedProject}
+                            selectedProject={selectedProject}
+                            searchTerms={searchTerms}
+                            setSearchTerms={setSearchTerms}
+                            AppSelectedRoute={AppSelectedRoute}
+                            isFetchingCollection={isFetchingCollections}
+                            collections={filteredList} />
                     </section>
                 ) : (
                     null

@@ -4,8 +4,6 @@ import { CollectionManagerRoute, ProjectManagerRoute } from '../../utils/Routes'
 import { DropDown } from '../inputs/Inputs'
 import './HamburgerMenu.css'
 
-// NEED TO DECIDE THE ORDERING OF THESE
-// AND SELECTING A COLUMN TO DISPLAY
 const HamburgerMenu = ({
     isOpen,
     setIsOpen,
@@ -13,10 +11,7 @@ const HamburgerMenu = ({
     collections,
     appSelectedRoute,
     history,
-    selectedCollection,
-    selectedProject,
-    setSelectedProject
-}) => (
+    selectedCollection }) => (
     <nav
     className={isOpen.hamburgerIsOpen ? (
             "hamburger__nav hamburger__nav--active"
@@ -42,32 +37,22 @@ const HamburgerMenu = ({
                 </li>
                 <li>
                     <DropDown
+                        nameOf='Selected collection'
                         stateArray={collections}
                         currentState={selectedCollection}
                         urlToPushTo={appSelectedRoute}
                         isCollection={true}
                         history={history}
-                        nameOf='collection'
                         fieldsetLocation='hamburger__fieldset'
                         labelIdName='collectionSelect' 
-                        isHamburger={true} />
-                </li>
-                <li>
-                    <DropDown
-                        stateArray={projects}
-                        currentState={selectedProject}
-                        setCurrentState={setSelectedProject}
-                        nameOf='project'
-                        fieldsetLocation='hamburger__fieldset'
-                        labelIdName='projectSelect'
                         isHamburger={true} />
                 </li>
             </div>
 
             <div className="hb__container">
-                <li className="nav__item nav__item--hb nav__item--settings">
+                {/* <li className="nav__item nav__item--hb nav__item--settings">
                     <Settings isMobile={true} />
-                </li>
+                </li> */}
                 <li className="nav__item nav__item--hb">
                     <Logout isMobile={true} />
                 </li>

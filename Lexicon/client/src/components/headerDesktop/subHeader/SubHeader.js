@@ -10,11 +10,8 @@ const SubHeader = ({
     isListColumnActive,
     setIsListColumnActive,
     selectedCollection,
-    selectedProject,
-    setSelectedProject,
     appSelectedRoute,
     history,
-    projects,
     collections }) => (
     <section className="view__subHeader">
         <ManagerButton
@@ -30,7 +27,7 @@ const SubHeader = ({
         <div className="line__vertical"></div>
 
         <DropDown
-            nameOf='collection'
+            nameOf='Selected collection'
             fieldsetLocation='subHeader__fieldset'
             labelIdName='collectionSelect'
             isCollection={true}
@@ -39,21 +36,14 @@ const SubHeader = ({
             currentState={selectedCollection}
             stateArray={collections} />
 
-        <DropDown
-            nameOf='project'
-            fieldsetLocation='subHeader__fieldset' 
-            labelIdName='projectSelect'
-            currentState={selectedProject}
-            stateArray={projects}
-            setCurrentState={setSelectedProject} />
-
         <div className="line__vertical"></div>
 
         <label className="toggle__column" htmlFor="listColumn">Toggle List Column: </label>
+
         <input
+            disabled={!collections || collections.length === 0 ? true : false} // Disable toggle if no collections
             onChange={e => {setIsListColumnActive(e.currentTarget.checked)}}
-            checked={isListColumnActive}
-            defaultChecked={true} // needed for this input not other. Not sure why
+            defaultChecked={!collections || collections.length === 0 ? true : isListColumnActive} // need default checked to stop react error
             type="checkbox"
             id="listColumn"
             name="listColumn"

@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ProjectManagerCreateRoute, ProjectManagerRoute } from '../../utils/Routes'
 import { ProjectContext } from '../../providers/ProjectProvider'
+import { CollectionContext } from '../../providers/CollectionProvider'
 import { ManagerArrow } from '../buttons/Buttons'
 import DetailsContainer from '../details/DetailsContainer'
 import ListControls from '../../components/lists/ListControls'
@@ -26,6 +27,22 @@ const ProjectManager = () => {
         isProjectDetailsOpen,
         isProjectEditFormOpen
     } = useContext(ProjectContext)
+
+    const { collections, selectedCollection, setSelectedCollection } = useContext(CollectionContext)
+
+    const [searchTerms, setSearchTerms] = useState("")
+    const [filteredList, setFilteredList] = useState([])
+
+    // handles searching
+    useEffect(() => {
+        if (searchTerms !== "") {
+            const matches = projects.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()))
+            setFilteredList(matches)
+        } else {
+            // no terms in search bar, so display all and reset filtered items
+            setFilteredList(projects)
+        }
+    }, [searchTerms, projects])
     
     // Get the Create button working with the slide to form, and back and forth
     return (
@@ -55,6 +72,10 @@ const ProjectManager = () => {
                     )}>
                 <ListControls
                     history={history}
+                    // projects={collections}
+                    // setSelectedProject={setSelectedCollection}
+                    // selectedProject={selectedCollection}
+                    // setSearchTerms={setSearchTerms}
                     formUrlToPushTo={ProjectManagerCreateRoute}
                     createNewString={"project"} />
 
@@ -62,7 +83,8 @@ const ProjectManager = () => {
                     history={history}
                     urlToPushTo={ProjectManagerDetailsRoute}
                     isFetching={isFetchingProjects}
-                    items={projects}  />
+                    searchTerms={searchTerms}
+                    items={filteredList}  />
             </section>
 
             <section

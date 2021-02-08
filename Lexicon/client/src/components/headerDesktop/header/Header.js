@@ -10,9 +10,9 @@ const Header = () => (
         <nav>
             <ul className="nav__list">
                 <div className="nav__rightAligned">
-                    <li className="nav__item">
+                    {/* <li className="nav__item">
                         <Settings />
-                    </li>
+                    </li> */}
                     
                     <li className="nav__item">
                         <Logout />
