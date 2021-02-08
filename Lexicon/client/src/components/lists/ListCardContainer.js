@@ -33,7 +33,7 @@ const CollectionList = ({ history, searchTerms, isFetching, items, urlToPushTo }
             {searchTerms === "" ? ( null 
                 ) : ( 
                     items.length !== 0 ? (
-                        <h2 className="search__heading">Matching searches</h2>
+                        <h2 className="search__heading">Matching searches...</h2>
                     ) : (
                         <h2 className="search__heading">No matching searches</h2>
                     ))}

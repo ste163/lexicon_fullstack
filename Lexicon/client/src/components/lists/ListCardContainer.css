@@ -5,3 +5,8 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.search__heading {
+    font-size: 0.9em;
+    margin-left: 1em;
+}
