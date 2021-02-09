@@ -304,9 +304,9 @@ namespace Lexicon.Tests.Controllers
 
 
 
-        // DELETE
+        // DELETE SINGLE WORD
         [Fact]
-        public void Can_Delete_A_Word()
+        public void Can_Delete_Single_Word()
         {
             // Get a word Id to remove
             var wordId = 1;
@@ -329,7 +329,7 @@ namespace Lexicon.Tests.Controllers
         }
 
         [Fact]
-        public void Anonymous_User_Can_Not_Delete()
+        public void Anonymous_User_Can_Not_Delete_Single_Word()
         {
             // Get a word Id to remove
             var wordId = 1;
@@ -377,7 +377,7 @@ namespace Lexicon.Tests.Controllers
         }
 
         [Fact]
-        public void Only_Word_Owner_Can_Delete_Word()
+        public void Only_Word_Owner_Can_Delete_Single_Word()
         {
             // Get a word Id to remove
             var wordId = 1;
@@ -399,5 +399,104 @@ namespace Lexicon.Tests.Controllers
             Assert.IsType<BadRequestResult>(response);
             _fakeWordRepo.Verify(r => r.DeleteSingleWord(It.IsAny<Word>()), Times.Never());
         }
+
+
+
+        // DELETE MULTIPLES
+        [Fact]
+        public void Can_Delete_All_Words_In_Collection()
+        {
+            // Get collection Id
+            var collectionId = 1;
+
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get single word
+            var response = controller.DeleteAllWordsInCollection(collectionId);
+
+            // Returns Ok
+            Assert.IsType<NoContentResult>(response);
+        }
+
+        [Fact]
+        public void Anonymous_User_Can_Not_Delete_Words_In_Collection()
+        {
+            // Get collection Id
+            var collectionId = 1;
+
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get single word
+            var response = controller.DeleteAllWordsInCollection(collectionId);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            _fakeWordRepo.Verify(r => r.DeleteAllWordsInCollection(It.IsAny<List<Word>>()), Times.Never());
+        }
+
+        [Fact]
+        public void Collection_Must_Have_Words_To_Delete_Its_Words()
+        {
+            // Get collection Id
+            var collectionId = 666;
+
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get single word
+            var response = controller.DeleteAllWordsInCollection(collectionId);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            _fakeWordRepo.Verify(r => r.DeleteAllWordsInCollection(It.IsAny<List<Word>>()), Times.Never());
+        }
+
+        [Fact]
+        public void Only_Word_Owner_Can_Delete_Words_In_Collection()
+        {
+            // Get collection Id
+            var collectionId = 1;
+
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER2"),
+                                   }, "TestAuthentication"));
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get single word
+            var response = controller.DeleteAllWordsInCollection(collectionId);
+
+            // Returns Ok
+            Assert.IsType<BadRequestResult>(response);
+            _fakeWordRepo.Verify(r => r.DeleteAllWordsInCollection(It.IsAny<List<Word>>()), Times.Never());
+        }
+
     }
 }

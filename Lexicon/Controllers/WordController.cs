@@ -145,5 +145,37 @@ namespace Lexicon.Controllers
             _wordRepo.DeleteSingleWord(word);
             return NoContent();
         }
+
+        [HttpDelete("collectionid/{id}")]
+        public IActionResult DeleteAllWordsInCollection(int id)
+        {
+            // Get current User
+            var firebaseUser = _utils.GetCurrentUser(User);
+
+            // Ensure an unauthorized user (anonymous account) can not add a collection
+            if (firebaseUser == null)
+            {
+                return NotFound();
+            }
+
+            // Get word by id
+            var words = _wordRepo.GetByCollectionId(id);
+
+            // Ensure we have this word
+            if (words == null)
+            {
+                return NotFound();
+            }
+
+            // Ensure the userId on the incoming word matches the person making the request
+            if (words[0].UserId != firebaseUser.Id)
+            {
+                return BadRequest();
+            }
+
+            // If you pass all above, you're the word owner and can delete
+            _wordRepo.DeleteAllWordsInCollection(words);
+            return NoContent();
+        }
     }
 }
