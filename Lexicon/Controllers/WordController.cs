@@ -95,7 +95,7 @@ namespace Lexicon.Controllers
             // if there is a returned collection, we can't add because name isn't unique for this user
             if (wordWithThatMwId != null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             // Need to add the default requirements for the word here

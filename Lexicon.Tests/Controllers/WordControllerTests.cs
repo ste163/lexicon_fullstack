@@ -144,6 +144,7 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void User_Can_Add_Word_To_Collection()
         {
+            // Get a collection Id to add to
             var collectionId = 1;
             
             // Spoof an authenticated user by generating a ClaimsPrincipal
@@ -174,28 +175,130 @@ namespace Lexicon.Tests.Controllers
         [Fact]
         public void Anonymous_User_Can_Not_Add()
         {
-            // FOR ALL NON-ADDS, ADD THE VERIFICATION THAT ADD REPO NEVER HIT
+            // Get a collection Id to add to
+            var collectionId = 1;
+
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
+
+            // create a new Word
+            var word = new Word()
+            {
+                UserId = 1,
+                CollectionId = collectionId,
+                MwWordId = 12345,
+            };
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Add(collectionId, word);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            _fakeWordRepo.Verify(r => r.Delete(It.IsAny<Word>()), Times.Never());
         }
 
         [Fact]
         public void If_UserId_On_Word_And_Requesting_User_Do_Not_Match_Do_Not_Add()
         {
+            // Get a collection Id to add to
+            var collectionId = 1;
 
-        // FOR ALL NON-ADDS, ADD THE VERIFICATION THAT ADD REPO NEVER HIT
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // create a new Word
+            var word = new Word()
+            {
+                UserId = 2,
+                CollectionId = collectionId,
+                MwWordId = 12345,
+            };
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Add(collectionId, word);
+
+            // Returns Ok
+            Assert.IsType<BadRequestResult>(response);
+            _fakeWordRepo.Verify(r => r.Delete(It.IsAny<Word>()), Times.Never());
         }
 
         [Fact]
         public void If_CollectionId_Does_Not_Match_Word_Collection_Id_Do_Not_Add()
         {
+            // Get a collection Id to add to
+            var collectionId = 1;
 
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // create a new Word
+            var word = new Word()
+            {
+                UserId = 1,
+                CollectionId = 2,
+                MwWordId = 12345,
+            };
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Add(collectionId, word);
+
+            // Returns Ok
+            Assert.IsType<BadRequestResult>(response);
+            _fakeWordRepo.Verify(r => r.Delete(It.IsAny<Word>()), Times.Never());
         }
 
         [Fact]
         public void If_MwWordId_Is_Already_In_Collection_Do_Not_Add()
         {
+            // Get a collection Id to add to
+            var collectionId = 1;
 
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // create a new Word
+            var word = new Word()
+            {
+                UserId = 1,
+                CollectionId = collectionId,
+                MwWordId = 1234, // Already in db
+            };
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Add(collectionId, word);
+
+            // Returns Ok
+            Assert.IsType<BadRequestResult>(response);
+            _fakeWordRepo.Verify(r => r.Delete(It.IsAny<Word>()), Times.Never());
         }
-
 
 
 
