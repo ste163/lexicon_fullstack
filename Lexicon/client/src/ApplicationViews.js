@@ -33,7 +33,7 @@ const ApplicationViews = () => {
     // Dashboard column state needed at this level so the router can change them
     const [ isListColumnActive, setIsListColumnActive ] = useState(true);
     const [ isSelectedColumnActive, setIsSelectedColumnActive ] = useState(false);
-    
+
     const {
         getProjects,
         getProjectById,

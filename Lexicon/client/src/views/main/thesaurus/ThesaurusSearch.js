@@ -3,7 +3,7 @@ import { ThesaurusContext } from '../../../providers/ThesaurusProvider'
 import { SearchBar } from '../../../components/inputs/Inputs'
 
 const ThesaurusSearch = () => {
-    const { getWord } = useContext(ThesaurusContext)
+    const { getWordFromThesaurus } = useContext(ThesaurusContext)
     const [ search, setSearch ] = useState("")
 
     const searchThesaurus = e => {
@@ -15,9 +15,8 @@ const ThesaurusSearch = () => {
             // On the off chance there is just a bunch of spaces, do not add the word
             if (trimmed.length !== 0) {
                 const lowered = trimmed.toLowerCase()
-                getWord(lowered).then(() => {
-                    setSearch("")
-                })
+                getWordFromThesaurus(lowered)
+                setSearch("")
             }    
         }
     }

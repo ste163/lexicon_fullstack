@@ -6,4 +6,9 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+} 
+
+.container__thesaurus {
+    display: flex;
+    flex-flow: row wrap;
 }

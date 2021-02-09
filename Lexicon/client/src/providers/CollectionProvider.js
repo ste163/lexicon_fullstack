@@ -10,6 +10,7 @@ import {
   FailureNameDupe,
   UpdateSuccess,
   UpdateFailure, } from '../utils/ToastMessages'
+// Gets all collections and handles the state of everything related to them (including the managers)
 
 export const CollectionContext = createContext()
 
