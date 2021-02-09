@@ -24,12 +24,14 @@ namespace Lexicon.Tests.Controllers
             // Whenever this GetByFirebaseUserId is called, return user
             _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER1")).Returns(new User() { Id = 1, Email = "pennywise@it.com" });
             _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER2")).Returns(new User() { Id = 2, Email = "bobgray@it.com" });
+            _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER3")).Returns(new User() { Id = 3, Email = "mikehanlon@it.com" });
 
             // Spoof a Word Repo
             _fakeWordRepo = new Mock<IWordRepository>();
             // Whenever we enter these CollectionIds, return these word lists
             _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 1))).Returns((int id) => new List<Word>() { new Word() { Id = 1, UserId = 1, Name = " Scary" }, new Word() { Id = 2, UserId = 1, Name = "Monsters" } });
             _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 2))).Returns((int id) => new List<Word>() { new Word() { Id = 3, UserId = 2, Name = "Swampy" }, new Word() { Id = 4, UserId = 2, Name = "Spooky" } });
+            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 3))).Returns((int id) => null);
         }
 
 
@@ -48,11 +50,93 @@ namespace Lexicon.Tests.Controllers
             controller.ControllerContext = new ControllerContext(); // Required to create the controller
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
 
-            // Attempt to Get this User's posts
+            // Attempt to Get words
             var response = controller.GetAllWordsByCollectionId(1);
 
             // Returns Ok
             Assert.IsType<OkObjectResult>(response);
+        }
+
+        [Fact]
+        public void Anonymous_User_Can_Not_Get_Collections()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER666"),
+                                   }, "TestAuthentication"));
+
+            // Spoof WordController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this words collections
+            var response = controller.GetAllWordsByCollectionId(1);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+            // Verify we never called the repo method
+            _fakeWordRepo.Verify(r => r.GetByCollectionId(It.IsAny<int>()), Times.Never());
+        }
+
+        [Fact]
+        public void If_User_Has_No_Words_Return_Not_Found()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER3"),
+                                   }, "TestAuthentication"));
+
+            // Spoof WordController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this words collections
+            var response = controller.GetAllWordsByCollectionId(3);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+        }
+
+        [Fact]
+        public void User_Can_Only_Get_Their_Words()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof WordController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this words collections
+            var response = controller.GetAllWordsByCollectionId(2);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
+        }
+
+        [Fact]
+        public void Get_By_Collection_Not_In_Db_Return_Not_Found()
+        {
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // Spoof WordController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this words collections
+            var response = controller.GetAllWordsByCollectionId(99999);
+
+            // Returns Ok
+            Assert.IsType<NotFoundResult>(response);
         }
     }
 }
