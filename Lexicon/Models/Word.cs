@@ -18,7 +18,7 @@ namespace Lexicon.Models
         public Collection Collection { get; set; }
 
         [Required]
-        public int MwWordId { get; set; }
+        public string MwWordId { get; set; }
 
         [Required]
         [MaxLength(255)]

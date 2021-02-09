@@ -1,6 +1,13 @@
 import React, { useState, useContext, createContext } from "react"
 import { UserContext } from "./UserProvider"
 import { toast } from 'react-toastify'
+import {
+    AnonWarning,
+    DbNoConnection,
+    RetrieveFailure,
+    AddFailure,
+    AddSuccess,
+    FailureNameDupe } from '../utils/ToastMessages'
 
 export const WordContext = createContext()
 

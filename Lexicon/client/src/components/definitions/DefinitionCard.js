@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { ChangeIconClassOnHover } from "../../utils/ChangeIconClassOnHover"
 import { ThesaurusContext } from "../../providers/ThesaurusProvider"
 import { CollectionContext } from "../../providers/CollectionProvider"
-// import { WordContext } from "../../../../providers/WordProvider"
+import { WordContext } from "../../providers/WordProvider"
 import { IconClose, IconArrow } from "../../components/icons/Icons"
 import DefinitionSynonyms from './DefinitionSynonyms'
 import "./DefinitionCard.css"
@@ -19,8 +19,7 @@ const DefinitionCard = ({ cardId, getWordFromThesaurus, definitions }) => {
     // DefinitionCards hold the array of current cards
     const { definitionCards, setDefinitionCards } = useContext(ThesaurusContext)
 
-    // addWord allows us to add to the currently selected collection
-    // const { addWord } = useContext(WordContext)
+    const { addWord } = useContext(WordContext)
 
     // currentDef holds current definition showing in card. Allows for cycling through defs
     const [ currentDef, setCurrentDef ] = useState(undefined)
@@ -127,18 +126,23 @@ const DefinitionCard = ({ cardId, getWordFromThesaurus, definitions }) => {
             {/* MOVE TO TOP - ADD/REMOVE BUTTON SECTION */}
             {
                 // If word is already in the user's collection, change this to REMOVE
-                !selectedCollection? null :
+                selectedCollection === undefined || !selectedCollection.collection ? (
+                    null 
+                ) : (
                     <button className="btn definition__submit"
-                    onClick={e => {
+                    onClick={() => {
                         const word = {
                             userId,
-                            "collectionId": selectedCollection.id,
-                            "word": currentDef.meta.id
+                            "collectionId": selectedCollection.collection.id,
+                            "MwWordId": currentDef.meta.uuid,
+                            "name": currentDef.meta.id,
+                            "LastViewed": undefined
                         }
-                        // addWord(word)
+                        addWord(word)
                     }}>
-                        Add to {selectedCollection.name}
+                        Add to {selectedCollection.collection.name}
                     </button>
+                )
             }
         </article>
     )

@@ -9,6 +9,7 @@ import { ThesaurusProvider } from './providers/ThesaurusProvider'
 import ApplicationViews from './ApplicationViews'
 import 'react-toastify/dist/ReactToastify.min.css'
 import './Lexicon.css'
+import { WordProvider } from './providers/WordProvider'
 
 const Lexicon = () => (
     <>
@@ -19,9 +20,11 @@ const Lexicon = () => (
                 <CollectionProvider>
                     <ProjectProvider>
                         <ThesaurusProvider>
-                            <Router>
-                                <ApplicationViews />
-                            </Router>    
+                            <WordProvider>
+                                <Router>
+                                    <ApplicationViews />
+                                </Router>    
+                            </WordProvider>
                         </ThesaurusProvider>
                     </ProjectProvider>
                 </CollectionProvider>
