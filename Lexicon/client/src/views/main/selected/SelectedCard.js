@@ -3,9 +3,9 @@ import { WordButton, DeleteWordButton } from '../../../components/buttons/Button
 import { WordDeleteRoute } from "../../../utils/Routes"
 import "./SelectedCard.css"
 
-const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history, wordsInCollection }) => {
+const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => {
     const [ isDeletingWords, setIsDeletingWords ] = useState(false)
-
+console.log(selectedCollection)
     return (
         <article className="card card__color--white card__selected">
             {/* <SelectedDotMenu ref={dotMenu} collection={selectedCollection} /> */}
@@ -45,33 +45,39 @@ const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history, words
     
             <hr className="selected__divider"></hr>
     
-            <fieldset>
-                <label className="label__wordDelete" htmlFor="isDeleting">Toggle deleting: </label>
-                <input
-                    onChange={e => {setIsDeletingWords(e.currentTarget.checked)}}
-                    checked={isDeletingWords}
-                    type="checkbox"
-                    id="isDeleting"
-                    name="isDeleting"
-                    value="isDeleting" />
-            </fieldset>
-
-            <section className="selected__words word__list definition__words">
-                {!isDeletingWords ? (
-                    selectedCollection.words.map(w => <WordButton
-                                                    key={w.id}
-                                                    word={w.name}
-                                                    getWordFromThesaurus={getWordFromThesaurus}
-                                                    isSelectedCard={true} />)
-                ) : (
-                    selectedCollection.words.map(w => <DeleteWordButton
-                                                    key={w.id}
-                                                    wordId={w.id}
-                                                    word={w.name}
-                                                    history={history}
-                                                    deleteUrlToPushTo={WordDeleteRoute} />)
-                )}
-            </section>
+            {selectedCollection.words.length === 0 ? (
+                <p className="selected__toggle">No words added yet.</p>
+            ) : (
+                <>
+                    <fieldset className="selected__toggle">
+                        <label className="label__wordDelete" htmlFor="isDeleting">Toggle deleting: </label>
+                        <input
+                            onChange={e => {setIsDeletingWords(e.currentTarget.checked)}}
+                            checked={isDeletingWords}
+                            type="checkbox"
+                            id="isDeleting"
+                            name="isDeleting"
+                            value="isDeleting" />
+                    </fieldset>
+            
+                    <section className="selected__words word__list definition__words">
+                        {!isDeletingWords ? (
+                            selectedCollection.words.map(w => <WordButton
+                                                            key={w.id}
+                                                            word={w.name}
+                                                            getWordFromThesaurus={getWordFromThesaurus}
+                                                            isSelectedCard={true} />)
+                        ) : (
+                            selectedCollection.words.map(w => <DeleteWordButton
+                                                            key={w.id}
+                                                            wordId={w.id}
+                                                            word={w.name}
+                                                            history={history}
+                                                            deleteUrlToPushTo={WordDeleteRoute} />)
+                        )}
+                    </section>
+                </>
+            )}          
         </article>
     )
 }

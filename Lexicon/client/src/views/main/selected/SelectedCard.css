@@ -34,7 +34,15 @@
     grid-row: 6;
 }
 
-.selected__words {
+.selected__toggle {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-end;
     grid-column: 1 / 3;
     grid-row: 7;
+}
+
+.selected__words {
+    grid-column: 1 / 3;
+    grid-row: 8;
 }
