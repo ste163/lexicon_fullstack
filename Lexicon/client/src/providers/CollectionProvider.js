@@ -10,6 +10,7 @@ import {
   FailureNameDupe,
   UpdateSuccess,
   UpdateFailure, } from '../utils/ToastMessages'
+// Gets all collections and handles the state of everything related to them (including the managers)
 
 export const CollectionContext = createContext()
 
@@ -31,7 +32,7 @@ export const CollectionProvider = props => {
   const [isCollectionCreateFormOpen, setIsCollectionCreateFormOpen] = useState(false)
   const [isCollectionDetailsOpen, setIsCollectionDetailsOpen] = useState(false)
   const [isCollectionEditFormOpen, setIsCollectionEditFormOpen] = useState(false)
-  
+
   const getCollections = () => {
     if (currentUserId === 0) {
       setIsFetchingCollections(false)
@@ -61,7 +62,7 @@ export const CollectionProvider = props => {
 
   // Must do a setCollection .then AFTER you run this method
   // had to do it this way so I could set the deleteObject state
-  const getCollectionById = (collectionId) => {
+  const getCollectionById = collectionId => {
     if (currentUserId === 0) {
       setIsFetchingCollectionDetails(false)
     } else {

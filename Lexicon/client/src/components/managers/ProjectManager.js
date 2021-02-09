@@ -72,10 +72,13 @@ const ProjectManager = () => {
                     )}>
                 <ListControls
                     history={history}
+                    // Must refactor drop-downs to get filtering working
                     // projects={collections}
                     // setSelectedProject={setSelectedCollection}
                     // selectedProject={selectedCollection}
-                    // setSearchTerms={setSearchTerms}
+                    searchLabelTitle={"Search projects"}
+                    searchPlaceholderText={"Enter a name..."}
+                    setSearchTerms={setSearchTerms}
                     formUrlToPushTo={ProjectManagerCreateRoute}
                     createNewString={"project"} />
 

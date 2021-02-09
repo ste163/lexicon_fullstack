@@ -21,19 +21,16 @@
   overflow-y: none;
   overflow-x: none;
   max-height: 88vh;
-  flex-basis: 20%;
   margin-right: 2em;
 }
   
 .column__selected {
-  flex-basis: 30%;
   margin-left: 0.5em;
 }
   
 .column__thesaurus {
-  flex-basis: 50%;
-  display: grid;
-  grid-template-rows: min-content min-content;
+  display: flex;
+  flex-flow: row wrap;
 }
   
 /* Desktop - med-screen size - hide list column */ 

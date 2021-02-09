@@ -117,7 +117,7 @@ namespace Lexicon.Tests.Repositories
             // Get a ProjectId to add
             var projId = 4;
 
-            // Make two ProjectCollections
+            // Make ProjectCollection
             var newProjCol1 = new ProjectCollection()
             {
                 ProjectId = projId,
@@ -142,13 +142,11 @@ namespace Lexicon.Tests.Repositories
             // Get new count
             var newCount = repo.GetByProjectId(projId).Count;
 
-            // New count should be +2 original
+            // New count should be +1 original
             Assert.True(newCount == originalCount + 1);
         }
 
-        // I had a test for a user can not add to the same join twice, but from the add
-        // that would be impossible. The collection hasn't been created, so it's Id is unique in db.
-        // On the Edit I will do a check. These will be two good integration test.
+
 
         // DELETE
         [Fact]
@@ -204,7 +202,7 @@ namespace Lexicon.Tests.Repositories
                 projCol[0]
             };
 
-            // Add items
+            // Delete items
             repo.Delete(projectCollections);
 
             // Get new count

@@ -28,32 +28,41 @@ export const Logout = ({ isMobile }) => {
     )
 }
 
-export const Settings = ({ isMobile }) => {
-    const [isOpen] = useState(false) // remove later
-    const history = useHistory()
+// Clicking a WordButton opens its definition card
+export const WordButton = ({ word, getWordFromThesaurus, isSelectedCard }) => (
+    <li className="item__li">
+        <button className="btn btn--pill"
+            onClick={e => getWordFromThesaurus(word)}>
+            {word}
+        </button>
+    </li>
+)
 
-    return (
-        <>
-            <Modal
-                isOpen={isOpen}
-                contentFunction={<SettingsForm/>}
-                contentHeader={"Settings"}/>
+// Delete WordButton
+export const DeleteWordButton = ({ wordId, word, history, deleteUrlToPushTo }) => (
+    <li className="item__li">
+        <button className="btn btn--pill btn--red"
+            onClick={e => history.push(deleteUrlToPushTo(wordId))}>
+            {word}
+        </button>
+    </li>
+)
 
-            <button
-                className={!isMobile ? (
-                    "nav__btn btn__settings"
-                ) : (
-                    "nav__btn btn__settings btn__mobile"
-                )}
-                onClick={() => history.push(SettingsRoute())}
-                onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
-                onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
-                <IconGear color="icon__whiteNoChange" />
-                Settings
-            </button>
-        </>
-    )
-}
+//  Settings currently not implemented
+// export const Settings = ({ isMobile }) => (
+    // <button
+    //     className={!isMobile ? (
+    //         "nav__btn btn__settings"
+    //     ) : (
+    //         "nav__btn btn__settings btn__mobile"
+    //     )}
+    //     onClick={() => history.push(SettingsRoute())}
+    //     onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
+    //     onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
+    //     <IconGear color="icon__whiteNoChange" />
+    //     Settings
+    // </button>
+//)
 
 export const DropDownOptions = ({ itemToSelectString, items }) => (
     <>

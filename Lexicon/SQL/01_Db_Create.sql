@@ -65,7 +65,7 @@ CREATE TABLE [Word] (
 	[Id] integer PRIMARY KEY IDENTITY,
 	[UserId] integer NOT NULL,
 	[CollectionId] integer NOT NULL,
-	[MwWordId] integer NOT NULL,
+	[MwWordId] varchar(510) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[LastViewed] datetime NOT NULL
 

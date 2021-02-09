@@ -1,8 +1,5 @@
 ﻿using Lexicon.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Lexicon.Repositories
 {
@@ -12,7 +9,5 @@ namespace Lexicon.Repositories
         List<ProjectCollection> GetByProjectId(int id);
         void Add(List<ProjectCollection> projectCollections);
         void Delete(List<ProjectCollection> projectCollections);
-
-        // Project and Collection controllers, always run the get ProjCol by Id
     }
 }

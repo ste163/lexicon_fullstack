@@ -1,5 +1,5 @@
 import React, { useState, createContext } from 'react'
-// Because of house I constructed the Managers, it would be too difficult to pass the
+// Because of how I constructed the Managers, it would be too difficult to pass the
 // setDeletedObject state throughout the MainView. This provider allows for the global state to change anywhere.
 
 export const DeleteContext = createContext()

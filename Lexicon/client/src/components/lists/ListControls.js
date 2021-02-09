@@ -13,6 +13,8 @@ const ListControls = ({
     projects,
     setSelectedProject,
     selectedProject,
+    searchLabelTitle,
+    searchPlaceholderText,
     setSearchTerms,
     formUrlToPushTo,
     createNewString }) => (
@@ -22,16 +24,19 @@ const ListControls = ({
             formUrlToPushTo={formUrlToPushTo}
             createNewString={createNewString} />
         
-        <SearchBar setSearchTerms={setSearchTerms} />
+        <SearchBar
+            labelTitle={searchLabelTitle}
+            placeholderText={searchPlaceholderText}
+            setSearchTerms={setSearchTerms} />
 
         {/* // FILTERING DOES NOT WORK YET, NEEDS RETHINKING & REFACTORING FOR NON-PROJECTS */}
-        <DropDown
+        {/* <DropDown
             nameOf='Filter by project'
             fieldsetLocation='subHeader__fieldset' 
             labelIdName='projectSelect'
             currentState={selectedProject}
             stateArray={projects}
-            setCurrentState={setSelectedProject} />
+            setCurrentState={setSelectedProject} /> */}
         
     </section>
 )

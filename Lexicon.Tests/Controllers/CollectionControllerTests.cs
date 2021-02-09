@@ -22,7 +22,7 @@ namespace Lexicon.Tests.Controllers
         {
             // Spoof a User Repo
             _fakeUserRepo = new Mock<IUserRepository>();
-            // Whenever this GetByFirebaseUserId is called, return user with Id 1
+            // Whenever this GetByFirebaseUserId is called, return user
             _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER1")).Returns(new User() { Id = 1, Email = "pennywise@it.com" });
             _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER2")).Returns(new User() { Id = 2, Email = "bobgray@it.com" });
             _fakeUserRepo.Setup(r => r.GetByFirebaseUserId("FIREBASE_USER3")).Returns(new User() { Id = 3, Email = "mikehanlon@it.com" });
