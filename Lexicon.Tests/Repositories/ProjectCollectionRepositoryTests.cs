@@ -202,7 +202,7 @@ namespace Lexicon.Tests.Repositories
                 projCol[0]
             };
 
-            // Add items
+            // Delete items
             repo.Delete(projectCollections);
 
             // Get new count

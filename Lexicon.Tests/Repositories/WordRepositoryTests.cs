@@ -42,7 +42,7 @@ namespace Lexicon.Tests.Repositories
             // Get a CollectionId to add to
             var collectionId = 2;
 
-            // Make two ProjectCollections
+            // Make word
             var word = new Word()
             {
                 UserId = 1,
@@ -52,10 +52,10 @@ namespace Lexicon.Tests.Repositories
                 LastViewed = DateTime.Now - TimeSpan.FromDays(15)
             };
 
-            // Instantiate ProjectCollection Repo
+            // Instantiate Word Repo
             var repo = new WordRepository(_context);
 
-            // Get a count of collections in Project
+            // Get a count of words in Collection
             var originalCount = repo.GetByCollectionId(collectionId).Count;
 
             // Add items
@@ -64,10 +64,62 @@ namespace Lexicon.Tests.Repositories
             // Get new count
             var newCount = repo.GetByCollectionId(collectionId).Count;
 
-            // New count should be +2 original
+            // New count should be +1 original
             Assert.True(newCount == originalCount + 1);
         }
 
+
+
+        // DELETE
+        [Fact]
+        public void Can_Delete_Single_Word()
+        {
+            // Get a CollectionId to remove from
+            var collectionId = 1;
+
+            // Instantiate Word Repo
+            var repo = new WordRepository(_context);
+
+            // Get a count of words in Collection
+            var originalCount = repo.GetByCollectionId(collectionId).Count;
+
+            // Get the words from the Collection
+            var words = repo.GetByCollectionId(collectionId);
+
+            // Delete word
+            repo.Delete(words[0]);
+
+            // Get new count
+            var newCount = repo.GetByCollectionId(collectionId).Count;
+
+            // New count should be -1 original
+            Assert.True(newCount == originalCount - 1);
+        }
+
+        [Fact]
+        public void Can_Delete_All_Words_From_Collection()
+        {
+            // Get a CollectionId to remove from
+            var collectionId = 1;
+
+            // Instantiate Word Repo
+            var repo = new WordRepository(_context);
+
+            // Get a count of words in Collection
+            var originalCount = repo.GetByCollectionId(collectionId).Count;
+
+            // Get the words from the Collection
+            var words = repo.GetByCollectionId(collectionId);
+
+            // Delete all words
+            repo.DeleteAllWordsInCollection(words);
+
+            // Get new count
+            var newCount = repo.GetByCollectionId(collectionId).Count;
+
+            // New count should be -1 original
+            Assert.True(newCount == originalCount - 3);
+        }
 
         private void AddSampleData()
         {
