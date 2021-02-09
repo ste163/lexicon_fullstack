@@ -1,9 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { ThesaurusContext } from '../../../providers/ThesaurusProvider'
+import React, { useState } from 'react'
 import { SearchBar } from '../../../components/inputs/Inputs'
 
-const ThesaurusSearch = () => {
-    const { getWordFromThesaurus } = useContext(ThesaurusContext)
+const ThesaurusSearch = ({ getWordFromThesaurus }) => {
     const [ search, setSearch ] = useState("")
 
     const searchThesaurus = e => {
@@ -16,7 +14,9 @@ const ThesaurusSearch = () => {
             if (trimmed.length !== 0) {
                 const lowered = trimmed.toLowerCase()
                 getWordFromThesaurus(lowered)
-                // reset search input value to empty string
+                // reset search input value to empty string & state
+                // must do both to have the visual and actual input value change
+                setSearch("")
                 e.target[1].value = ""
             }    
         }

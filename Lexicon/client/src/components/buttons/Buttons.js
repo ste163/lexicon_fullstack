@@ -32,7 +32,7 @@ export const Logout = ({ isMobile }) => {
 export const WordButton = ({ word, getWordFromThesaurus, isSelectedCard }) => (
     <li className="item__li">
         <button className="btn btn--pill"
-            onClick={e => getWordFromThesaurus(e.target.textContent)}>
+            onClick={e => getWordFromThesaurus(word)}>
             {word}
         </button>
     </li>

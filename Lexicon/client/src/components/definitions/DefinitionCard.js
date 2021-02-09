@@ -8,7 +8,7 @@ import DefinitionSynonyms from './DefinitionSynonyms'
 import "./DefinitionCard.css"
 // Definition cards handle all information related to retrieved search terms
 
-const DefinitionCard = ({ cardId, definitions }) => {
+const DefinitionCard = ({ cardId, getWordFromThesaurus, definitions }) => {
     // stores incoming array of all definitions for current term
     const userId = parseInt(sessionStorage.getItem("userId"))
 
@@ -122,7 +122,7 @@ const DefinitionCard = ({ cardId, definitions }) => {
                 ))}
             </ol>
 
-            <DefinitionSynonyms currentDef={currentDef} />
+            <DefinitionSynonyms currentDef={currentDef} getWordFromThesaurus={getWordFromThesaurus} />
             
             {/* MOVE TO TOP - ADD/REMOVE BUTTON SECTION */}
             {

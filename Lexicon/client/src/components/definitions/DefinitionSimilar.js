@@ -4,7 +4,7 @@ import { WordButton } from "../../components/buttons/Buttons"
 import "./DefinitionCard.css"
 // Displays if there are no matches. Shows similar words
 
-const DefinitionSimilar = ({ cardId, definitions, definitionCards, setDefinitionCards }) => (
+const DefinitionSimilar = ({ cardId, getWordFromThesaurus, definitions, definitionCards, setDefinitionCards }) => (
     <article className="card card__color--white card__definition">
         <button className="btn__close card__definition--close"
             onClick={e => {
@@ -20,7 +20,10 @@ const DefinitionSimilar = ({ cardId, definitions, definitionCards, setDefinition
 
         {/* word button list */}
         <ul className="word__list definition__words">
-            {definitions.map(similar => <WordButton key={definitions.indexOf(similar)} word={similar} />)}
+            {definitions.map(similar => <WordButton
+                                            key={definitions.indexOf(similar)}
+                                            word={similar}
+                                            getWordFromThesaurus={getWordFromThesaurus} />)}
         </ul>
         {/* stems array of: 'autumn, autumnal, autumnally, autumns, fall' */}
     </article>
