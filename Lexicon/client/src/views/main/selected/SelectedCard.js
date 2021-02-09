@@ -6,13 +6,20 @@ import "./SelectedCard.css"
 
 const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => {
     const [ isDeletingWords, setIsDeletingWords ] = useState(false)
-    const [filteredWords, setFilteredWords] = useState([])
+    const [ searchTerms, setSearchTerms ] = useState("")
+    const [ filteredWords, setFilteredWords ] = useState([])
 
     useEffect(() => {
-        const words = [...selectedCollection.words]
-        const sorted = sortedAlphabetically(words)
-        setFilteredWords(sorted)
-    }, [selectedCollection])
+        if (searchTerms !== "") {
+            const matches = selectedCollection.words.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()))
+            setFilteredWords(matches)
+        } else {
+            // no terms in search bar, so display all and reset filtered items
+            const words = [...selectedCollection.words]
+            const sorted = sortedAlphabetically(words)
+            setFilteredWords(sorted)
+        }
+    }, [searchTerms, selectedCollection])
     
     const sortedAlphabetically = (words) => {
         const sorted = words.sort((a,b) => {
@@ -29,13 +36,6 @@ const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => 
         return sorted
     }
 
-    const sortPartOfSpeech = (words) => {
-        // CURRENTLY NOT STORING PART OF SPEECH SO CAN'T SORT THEM BY THAT
-        // const sorted = []
-
-        // return sorted
-    }
-
     return (
         <article className="card card__color--white card__selected">
             {/* <SelectedDotMenu ref={dotMenu} collection={selectedCollection} /> */}
@@ -44,15 +44,15 @@ const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => 
             <h1 className="selected__h1">{selectedCollection.collection.name}</h1>
             <p className="selected__description">{selectedCollection.collection.description}</p>
     
-            {/* <div className="selected__search">
+            <div className="selected__search">
                 <SearchBar
                 labelTitle={"Search for words in collection:"}
                 placeholderText={"Search for word..."}
-                setSearchTerms={"test"} />
-            </div> */}
+                setSearchTerms={setSearchTerms} />
+            </div>
     
             {/* DROPDOWN FOR CATEGORIZATION TYPE */}
-            <fieldset className="selected__categorization">
+            {/* <fieldset className="selected__categorization">
                 <label htmlFor="collectionSelect">Categorize by:</label>
                 <select
                     name="collectionSelect"
@@ -73,7 +73,7 @@ const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => 
                     <option value="1">Alphabetically</option>
                     <option value="2">Part of Speech</option>
                 </select>
-            </fieldset>
+            </fieldset> */}
     
             <hr className="selected__divider"></hr>
     
