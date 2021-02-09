@@ -1,9 +1,8 @@
 import React from "react"
-// import SelectedCardNone from "./SelectedCardNone"
-// import SelectedDotMenu from "./SelectedDotMenu"
+import { WordButton } from '../../../components/buttons/Buttons'
 import "./SelectedCard.css"
 
-const SelectedCard = ({ selectedCollection }) => (
+const SelectedCard = ({ selectedCollection, getWordFromThesaurus }) => (
     <article className="card card__color--white card__selected">
         {/* <SelectedDotMenu ref={dotMenu} collection={selectedCollection} /> */}
 
@@ -43,12 +42,16 @@ const SelectedCard = ({ selectedCollection }) => (
         <hr className="selected__divider"></hr>
 
         <section className="selected__words word__list definition__words">
-            {/* {
+            {
                 // Organize into buttons by alphabetical. With option for by part of speech
                 // Will probably need to store the part of speech in db for quick sorting
                     // Organize part of speech alphabetically
-                wordsInCollection.map(w => <WordButton key={w.id} props={{word: w.word, isSelectedCard: true}} />)
-            } */}
+                selectedCollection.words.map(w => <WordButton
+                                                        key={w.id}
+                                                        word={w.name}
+                                                        getWordFromThesaurus={getWordFromThesaurus}
+                                                        isSelectedCard={true} />)
+            }
         </section>
 
     </article>

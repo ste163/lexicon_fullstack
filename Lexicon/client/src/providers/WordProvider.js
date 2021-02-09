@@ -47,7 +47,6 @@ export const WordProvider = props => {
       }
 
     const addWord = word => {
-        debugger
         if (currentUserId === 0) {
           toast.error(AnonWarning())
         } else {

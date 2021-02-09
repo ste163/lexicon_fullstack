@@ -13,6 +13,7 @@ import { AppSelectedRoute } from '../../utils/Routes'
 import SelectedCard from './selected/SelectedCard'
 import ListColumn from './list/ListColumn'
 import ThesaurusColumn from './thesaurus/ThesaurusColumn'
+import { ThesaurusContext } from '../../providers/ThesaurusProvider'
 import './MainView.css'
 
 const MainView = ({
@@ -35,6 +36,7 @@ const MainView = ({
         getProjects,
         isProjectManagerOpen } = useContext(ProjectContext)
 
+    const { getWordFromThesaurus } = useContext(ThesaurusContext)
     // List column search state
     const [searchTerms, setSearchTerms] = useState("")
     const [filteredList, setFilteredList] = useState([])
@@ -174,7 +176,7 @@ const MainView = ({
                 {isSelectedColumnActive ? (
                     <section className="column__selected">
                         {selectedCollection ? (
-                            <SelectedCard selectedCollection={selectedCollection}/>
+                            <SelectedCard selectedCollection={selectedCollection} getWordFromThesaurus={getWordFromThesaurus} />
                         ) : (
                             null
                         )}
