@@ -65,13 +65,15 @@ namespace Lexicon.Repositories
 
         public void Delete(CollectionDetailsViewModel collectionDetails)
         {
+            _context.Word.RemoveRange(collectionDetails.Words);
+            _context.SaveChanges();
+
             _context.ProjectCollection.RemoveRange(collectionDetails.ProjectCollections);
             _context.SaveChanges();
 
             // For now, because nothing else exists, a simple delete works:
             _context.Collection.Remove(collectionDetails.Collection);
             _context.SaveChanges();
-
         }
     }
 }
