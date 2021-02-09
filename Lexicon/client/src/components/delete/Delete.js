@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserContext } from '../../providers/UserProvider'
 import { DeleteContext } from '../../providers/DeleteProvider'
-import { CollectionManagerString, CollectionManagerRoute, ProjectManagerString, ProjectManagerRoute, WordDeleteRoute, WordString } from '../../utils/Routes'
+import { CollectionManagerString, CollectionManagerRoute, ProjectManagerString, ProjectManagerRoute, WordDeleteRoute, WordString, AppRoute } from '../../utils/Routes'
 import { DeleteSuccessful, DeleteFailure, DbNoConnection } from '../../utils/ToastMessages'
 import Modal from '../modal/Modal'
 import './Delete.css'
@@ -57,7 +57,29 @@ const Delete = () => {
               toast.error(DeleteFailure("project"))
             }
           }))
-    } 
+    }
+
+    const deleteWord = (wordId) => {
+      getToken().then(token => 
+          fetch(`/api/word/${wordId}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then(res => {
+              if (res.status === 500) {
+                  toast.error(DbNoConnection())
+              }
+            if (res.status === 204) {
+              setIsDeleteModalOpen(false)
+              setObjectToDelete(undefined)
+              toast.info(DeleteSuccessful(objectToDelete.name))
+              history.push(AppRoute())
+            } else {
+              toast.error(DeleteFailure("word"))
+            }
+          }))
+    }
 
     // Create an array of all possible routes to use a .find on
     const possibleDeleteRoutes = [CollectionManagerString(), ProjectManagerString(), WordString(),]
@@ -77,7 +99,7 @@ const Delete = () => {
           deleteProject(objectToDelete.id)
           break
         case WordString():
-          console.log("DELETE")
+          deleteWord(objectToDelete.id)
           break
       }
     }
