@@ -39,32 +39,20 @@ export const WordButton = ({ word, getWordFromThesaurus, isSelectedCard }) => (
 )
 
 //  Settings currently not implemented
-// export const Settings = ({ isMobile }) => {
-//     const [isOpen] = useState(false) // remove later
-//     const history = useHistory()
-
-//     return (
-//         <>
-//             <Modal
-//                 isOpen={isOpen}
-//                 contentFunction={<SettingsForm/>}
-//                 contentHeader={"Settings"}/>
-
-//             <button
-//                 className={!isMobile ? (
-//                     "nav__btn btn__settings"
-//                 ) : (
-//                     "nav__btn btn__settings btn__mobile"
-//                 )}
-//                 onClick={() => history.push(SettingsRoute())}
-//                 onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
-//                 onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
-//                 <IconGear color="icon__whiteNoChange" />
-//                 Settings
-//             </button>
-//         </>
-//     )
-// }
+// export const Settings = ({ isMobile }) => (
+    // <button
+    //     className={!isMobile ? (
+    //         "nav__btn btn__settings"
+    //     ) : (
+    //         "nav__btn btn__settings btn__mobile"
+    //     )}
+    //     onClick={() => history.push(SettingsRoute())}
+    //     onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
+    //     onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
+    //     <IconGear color="icon__whiteNoChange" />
+    //     Settings
+    // </button>
+//)
 
 export const DropDownOptions = ({ itemToSelectString, items }) => (
     <>
