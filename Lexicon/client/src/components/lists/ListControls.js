@@ -30,13 +30,13 @@ const ListControls = ({
             setSearchTerms={setSearchTerms} />
 
         {/* // FILTERING DOES NOT WORK YET, NEEDS RETHINKING & REFACTORING FOR NON-PROJECTS */}
-        <DropDown
+        {/* <DropDown
             nameOf='Filter by project'
             fieldsetLocation='subHeader__fieldset' 
             labelIdName='projectSelect'
             currentState={selectedProject}
             stateArray={projects}
-            setCurrentState={setSelectedProject} />
+            setCurrentState={setSelectedProject} /> */}
         
     </section>
 )
