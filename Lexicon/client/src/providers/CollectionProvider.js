@@ -62,7 +62,7 @@ export const CollectionProvider = props => {
 
   // Must do a setCollection .then AFTER you run this method
   // had to do it this way so I could set the deleteObject state
-  const getCollectionById = (collectionId) => {
+  const getCollectionById = collectionId => {
     if (currentUserId === 0) {
       setIsFetchingCollectionDetails(false)
     } else {

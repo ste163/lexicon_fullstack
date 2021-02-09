@@ -29,5 +29,4 @@ const DefinitionSimilar = ({ cardId, getWordFromThesaurus, definitions, definiti
     </article>
 )
 
-
 export default DefinitionSimilar

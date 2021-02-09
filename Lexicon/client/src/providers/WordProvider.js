@@ -1,44 +1,94 @@
-import React, { useState, createContext } from "react"
+import React, { useState, useContext, createContext } from "react"
+import { UserContext } from "./UserProvider"
+import { toast } from 'react-toastify'
 
 export const WordContext = createContext()
 
 export const WordProvider = props => {
+    const objectTypeForToasts = "word"
+    const apiUrl = "/api/word"
+    const currentUserId = +sessionStorage.getItem('currentUserId') // If 0, then anonymous, do not allow user to do anything
 
-    // const userId = parseInt(sessionStorage.getItem("userId"))
-
-    // Words are ALL the words in the database. Different from ThesaurusProvider's word state; that state is for the single word
-    const [ words, setWords ] =  useState([])
     // State for words in currently selected collection
     const [ wordsInCollection, setWordsInCollection ] = useState([])
+    const { getToken } = useContext(UserContext)
 
-    // const getWords = userId => {
-    //     return fetch(`http://localhost:8088/words/?userId=${userId}`)
-    //     .then(response => response.json())
-    //     .then(setWords)
-    // }
+    const getWordsByCollectionId = collectionId => {
+        if (currentUserId === 0) {
+            return
+        } else {
+          return getToken().then(token =>
+            fetch(`${apiUrl}/${collectionId}`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+            .then(res => {
+              if (res.status === 500) {
+                toast.error(DbNoConnection())
+                return
+              }
+              if (res.status === 404) {
+                toast.error(RetrieveFailure(objectTypeForToasts))
+                return
+              }
+              return res.json()
+            })
+            .then(w => setWordsInCollection(w)))
+        }
+      }
 
-    // const getWordsByCollectionId = collectionId => {
-    //     return fetch(`http://localhost:8088/words/?collectionId=${collectionId}`)
-    //     .then(response => response.json())
-    //     .then(setWordsInCollection)
-    // }
-
-    // const addWord = word => {
-    //     return fetch("http://localhost:8088/words/", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(word)
-    //     })
-    //     .then(() => {
-    //         getWords(word.userId)
-    //     })
-    // }
+    const addWord = word => {
+        if (currentUserId === 0) {
+          toast.error(AnonWarning())
+        } else {
+          return getToken().then(token => 
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(word)
+            }))
+            .then(res => {
+              if (res.status === 200) {
+                // Working well!
+                return res.json()
+              }
+              if (res.status === 500) {
+                // Not connected to Db
+                toast.error(DbNoConnection())
+                return
+              }
+              if (res.status === 400) {
+                // Bad request
+                toast.error(FailureNameDupe(objectTypeForToasts))
+                return
+              }      
+              if (res.status === 404) {
+                // Not found
+                toast.error(AddFailure(objectTypeForToasts))
+                return
+              }      
+            })
+            .then(collection => {
+              if (collection) {
+                toast.success(AddSuccess(objectTypeForToasts, word.name))
+                getWordsByCollectionId(word.collectionId)
+              } else {
+                return
+              }
+            })
+        }
+      }
 
     return (
         <WordContext.Provider value={{
-            words, wordsInCollection, getWords, getWordsByCollectionId, addWord
+            wordsInCollection,
+            getWordsByCollectionId,
+            addWord
         }}>
             {props.children}
         </WordContext.Provider>
