@@ -201,7 +201,7 @@ namespace Lexicon.Tests.Controllers
 
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
-            _fakeWordRepo.Verify(r => r.Delete(It.IsAny<Word>()), Times.Never());
+            _fakeWordRepo.Verify(r => r.Add(It.IsAny<Word>()), Times.Never());
         }
 
         [Fact]
@@ -233,7 +233,7 @@ namespace Lexicon.Tests.Controllers
 
             // Returns Ok
             Assert.IsType<BadRequestResult>(response);
-            _fakeWordRepo.Verify(r => r.Delete(It.IsAny<Word>()), Times.Never());
+            _fakeWordRepo.Verify(r => r.Add(It.IsAny<Word>()), Times.Never());
         }
 
         [Fact]
@@ -265,7 +265,7 @@ namespace Lexicon.Tests.Controllers
 
             // Returns Ok
             Assert.IsType<BadRequestResult>(response);
-            _fakeWordRepo.Verify(r => r.Delete(It.IsAny<Word>()), Times.Never());
+            _fakeWordRepo.Verify(r => r.Add(It.IsAny<Word>()), Times.Never());
         }
 
         [Fact]
@@ -297,11 +297,12 @@ namespace Lexicon.Tests.Controllers
 
             // Returns Ok
             Assert.IsType<BadRequestResult>(response);
-            _fakeWordRepo.Verify(r => r.Delete(It.IsAny<Word>()), Times.Never());
+            _fakeWordRepo.Verify(r => r.Add(It.IsAny<Word>()), Times.Never());
         }
 
 
 
         // DELETE
+
     }
 }

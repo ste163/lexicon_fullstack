@@ -21,7 +21,7 @@ namespace Lexicon.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(Word word)
+        public void DeleteSingleWord(Word word)
         {
             _context.Remove(word);
             _context.SaveChanges();
@@ -31,6 +31,15 @@ namespace Lexicon.Repositories
         {
             _context.RemoveRange(words);
             _context.SaveChanges();
+        }
+
+        public Word GetWordById(int id)
+        {
+            return _context.Word
+                .Include(w => w.User)
+                .Include(w => w.Collection)
+                .Where(w => w.CollectionId == id)
+                .FirstOrDefault();
         }
 
         public List<Word> GetByCollectionId(int id)

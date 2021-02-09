@@ -30,6 +30,7 @@ namespace Lexicon.Controllers
         [HttpGet("{id}")]
         public IActionResult GetAllWordsByCollectionId(int id)
         {
+            // Get current User
             var firebaseUser = _utils.GetCurrentUser(User);
 
             // If this person is an anonymous user, return NotFound
@@ -66,6 +67,7 @@ namespace Lexicon.Controllers
         [HttpPost("{id}")]
         public IActionResult Add(int id, Word word)
         {
+            // Get current User
             var firebaseUser = _utils.GetCurrentUser(User);
 
             // Ensure an unauthorized user (anonymous account) can not add a collection
@@ -110,6 +112,38 @@ namespace Lexicon.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteSingleWord(int id)
+        {
+            // Get current User
+            var firebaseUser = _utils.GetCurrentUser(User);
+
+            // Ensure an unauthorized user (anonymous account) can not add a collection
+            if (firebaseUser == null)
+            {
+                return NotFound();
+            }
+
+            // Get word by id
+            var word = _wordRepo.GetWordById(id);
+
+            // Ensure we have this word
+            if (word == null)
+            {
+                return NotFound();
+            }
+
+            // Ensure the userId on the incoming word matches the person making the request
+            if (word.UserId != firebaseUser.Id)
+            {
+                return BadRequest();
+            }
+
+            // If you pass all above, you're the word owner and can delete
+            _wordRepo.DeleteSingleWord(word);
+            return NoContent();
         }
     }
 }

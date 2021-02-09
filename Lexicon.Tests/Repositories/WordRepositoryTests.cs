@@ -20,7 +20,7 @@ namespace Lexicon.Tests.Repositories
         [Fact]
         public void Can_Get_All_Words_By_Collection()
         {
-            // Get a valid Collection Id (only valid Ids will ever get to the repo anyway)
+            // Get a valid Collection Id 
             var id = 1;
 
             // Instantiate Word Repo
@@ -31,6 +31,22 @@ namespace Lexicon.Tests.Repositories
 
             // Should have retrieved three items
             Assert.True(count == 3);
+        }
+
+        [Fact]
+        public void Can_Get_Single_Word_By_Id()
+        {
+            // Get a valid Word Id
+            var id = 1;
+
+            // Instantiate Word Repo
+            var repo = new WordRepository(_context);
+
+            // Get count of all words
+            var word = repo.GetWordById(id);
+
+            // Should have retrieved word with name of "Werewolf"
+            Assert.True(word.Name == "Werewolf");
         }
 
 
@@ -87,7 +103,7 @@ namespace Lexicon.Tests.Repositories
             var words = repo.GetByCollectionId(collectionId);
 
             // Delete word
-            repo.Delete(words[0]);
+            repo.DeleteSingleWord(words[0]);
 
             // Get new count
             var newCount = repo.GetByCollectionId(collectionId).Count;
