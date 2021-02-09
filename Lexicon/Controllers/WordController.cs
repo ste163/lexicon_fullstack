@@ -17,10 +17,10 @@ namespace Lexicon.Controllers
     public class WordController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
-        private readonly IWordRepositoryRENAME _wordRepo;
+        private readonly IWordRepository _wordRepo;
         private readonly ControllerUtils _utils;
 
-        public WordController(IUserRepository userRep, IWordRepositoryRENAME wordRepo)
+        public WordController(IUserRepository userRep, IWordRepository wordRepo)
         {
             userRep = _userRepo;
             wordRepo = _wordRepo;

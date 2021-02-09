@@ -10,6 +10,11 @@ namespace Lexicon.Repositories
     {
         private readonly ApplicationDbContext _context;
 
+        public WordRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public void Add(Word word)
         {
             _context.Add(word);

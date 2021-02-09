@@ -146,9 +146,7 @@ namespace Lexicon.Tests.Repositories
             Assert.True(newCount == originalCount + 1);
         }
 
-        // I had a test for a user can not add to the same join twice, but from the add
-        // that would be impossible. The collection hasn't been created, so it's Id is unique in db.
-        // On the Edit I will do a check. These will be two good integration test.
+
 
         // DELETE
         [Fact]
