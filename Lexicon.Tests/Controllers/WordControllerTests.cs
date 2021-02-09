@@ -29,8 +29,8 @@ namespace Lexicon.Tests.Controllers
             // Spoof a Word Repo
             _fakeWordRepo = new Mock<IWordRepository>();
             // Whenever we enter these CollectionIds, return these word lists
-            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 1))).Returns((int id) => new List<Word>() { new Word() { Id = 1, UserId = 1, Name = " Scary" }, new Word() { Id = 2, UserId = 1, Name = "Monsters" } });
-            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 2))).Returns((int id) => new List<Word>() { new Word() { Id = 3, UserId = 2, Name = "Swampy" }, new Word() { Id = 4, UserId = 2, Name = "Spooky" } });
+            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 1))).Returns((int id) => new List<Word>() { new Word() { Id = 1, MwWordId = 123, UserId = 1, Name = " Scary" }, new Word() { Id = 2, MwWordId = 1234, UserId = 1, Name = "Monsters" } });
+            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 2))).Returns((int id) => new List<Word>() { new Word() { Id = 3, MwWordId = 321, UserId = 2, Name = "Swampy" }, new Word() { Id = 4, MwWordId = 4321, UserId = 2, Name = "Spooky" } });
             _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 3))).Returns((int id) => null);
         }
 
@@ -138,5 +138,67 @@ namespace Lexicon.Tests.Controllers
             // Returns Ok
             Assert.IsType<NotFoundResult>(response);
         }
+
+
+        // ADD
+        [Fact]
+        public void User_Can_Add_Word_To_Collection()
+        {
+            var collectionId = 1;
+            
+            // Spoof an authenticated user by generating a ClaimsPrincipal
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                   new Claim(ClaimTypes.NameIdentifier, "FIREBASE_USER1"),
+                                   }, "TestAuthentication"));
+
+            // create a new Word
+            var word = new Word()
+            {
+                UserId = 1,
+                CollectionId = collectionId,
+                MwWordId = 12345,
+            };
+
+            // Spoof UserController
+            var controller = new WordController(_fakeUserRepo.Object, _fakeWordRepo.Object);
+            controller.ControllerContext = new ControllerContext(); // Required to create the controller
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user }; // Pretend the user is making a request to the controller
+
+            // Attempt to Get this User's collections
+            var response = controller.Add(collectionId, word);
+
+            // Returns Ok
+            Assert.IsType<OkObjectResult>(response);
+        }
+
+        [Fact]
+        public void Anonymous_User_Can_Not_Add()
+        {
+            // FOR ALL NON-ADDS, ADD THE VERIFICATION THAT ADD REPO NEVER HIT
+        }
+
+        [Fact]
+        public void If_UserId_On_Word_And_Requesting_User_Do_Not_Match_Do_Not_Add()
+        {
+
+        // FOR ALL NON-ADDS, ADD THE VERIFICATION THAT ADD REPO NEVER HIT
+        }
+
+        [Fact]
+        public void If_CollectionId_Does_Not_Match_Word_Collection_Id_Do_Not_Add()
+        {
+
+        }
+
+        [Fact]
+        public void If_MwWordId_Is_Already_In_Collection_Do_Not_Add()
+        {
+
+        }
+
+
+
+
+        // DELETE
     }
 }
