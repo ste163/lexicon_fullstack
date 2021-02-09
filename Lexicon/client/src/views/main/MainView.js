@@ -14,6 +14,7 @@ import SelectedCard from './selected/SelectedCard'
 import ListColumn from './list/ListColumn'
 import ThesaurusColumn from './thesaurus/ThesaurusColumn'
 import { ThesaurusContext } from '../../providers/ThesaurusProvider'
+import { WordContext } from '../../providers/WordProvider'
 import './MainView.css'
 
 const MainView = ({
@@ -37,6 +38,7 @@ const MainView = ({
         isProjectManagerOpen } = useContext(ProjectContext)
 
     const { getWordFromThesaurus } = useContext(ThesaurusContext)
+    const { wordsInCollection } = useContext(WordContext)
     // List column search state
     const [searchTerms, setSearchTerms] = useState("")
     const [filteredList, setFilteredList] = useState([])
@@ -178,6 +180,7 @@ const MainView = ({
                         {selectedCollection ? (
                             <SelectedCard
                                 history={history}
+                                wordsInCollection={wordsInCollection}
                                 selectedCollection={selectedCollection}
                                 getWordFromThesaurus={getWordFromThesaurus} />
                         ) : (

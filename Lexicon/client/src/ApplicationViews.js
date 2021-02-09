@@ -29,7 +29,7 @@ import {
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext)
     const { setObjectToDelete, setIsDeleteModalOpen } = useContext(DeleteContext)
-    const { getWordById } = useContext(WordContext)
+    const { wordsInCollection, getWordById } = useContext(WordContext)
     let currentUrl = useLocation().pathname
     const history = useHistory()
 
@@ -265,7 +265,7 @@ const ApplicationViews = () => {
         if (isLoggedIn) {
             StateRouter()
         }
-    }, [currentUrl])
+    }, [currentUrl, wordsInCollection])
 
     return (
         <Switch>
