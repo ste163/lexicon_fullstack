@@ -6,11 +6,12 @@ import "./SelectedCard.css"
 
 const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => {
     const [ isDeletingWords, setIsDeletingWords ] = useState(false)
-
     const [filteredWords, setFilteredWords] = useState([])
 
     useEffect(() => {
-        setFilteredWords([...selectedCollection.words])
+        const words = [...selectedCollection.words]
+        const sorted = sortedAlphabetically(words)
+        setFilteredWords(sorted)
     }, [selectedCollection])
     
     const sortedAlphabetically = (words) => {
@@ -26,6 +27,13 @@ const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => 
             return 0
         })
         return sorted
+    }
+
+    const sortPartOfSpeech = (words) => {
+        // CURRENTLY NOT STORING PART OF SPEECH SO CAN'T SORT THEM BY THAT
+        // const sorted = []
+
+        // return sorted
     }
 
     return (
@@ -57,7 +65,9 @@ const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => 
                             setFilteredWords(sorted)
                         }
                         if (e.target.value === "2") {
-                            console.log("SORT PART")
+                            const words = [...filteredWords]
+                            const sorted = sortPartOfSpeech(words)
+                            // setFilteredWords(sorted)
                         }
                     }} >
                     <option value="1">Alphabetically</option>
