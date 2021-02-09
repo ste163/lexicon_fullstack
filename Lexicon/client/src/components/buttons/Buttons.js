@@ -38,6 +38,16 @@ export const WordButton = ({ word, getWordFromThesaurus, isSelectedCard }) => (
     </li>
 )
 
+// Delete WordButton
+export const DeleteWordButton = ({ wordId, word, history, deleteUrlToPushTo }) => (
+    <li className="item__li">
+        <button className="btn btn--pill btn--red"
+            onClick={e => history.push(deleteUrlToPushTo(wordId))}>
+            {word}
+        </button>
+    </li>
+)
+
 //  Settings currently not implemented
 // export const Settings = ({ isMobile }) => (
     // <button

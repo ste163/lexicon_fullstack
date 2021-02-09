@@ -38,7 +38,7 @@ namespace Lexicon.Repositories
             return _context.Word
                 .Include(w => w.User)
                 .Include(w => w.Collection)
-                .Where(w => w.CollectionId == id)
+                .Where(w => w.Id == id)
                 .FirstOrDefault();
         }
 

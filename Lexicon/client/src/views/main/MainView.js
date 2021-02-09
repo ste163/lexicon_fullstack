@@ -176,7 +176,10 @@ const MainView = ({
                 {isSelectedColumnActive ? (
                     <section className="column__selected">
                         {selectedCollection ? (
-                            <SelectedCard selectedCollection={selectedCollection} getWordFromThesaurus={getWordFromThesaurus} />
+                            <SelectedCard
+                                history={history}
+                                selectedCollection={selectedCollection}
+                                getWordFromThesaurus={getWordFromThesaurus} />
                         ) : (
                             null
                         )}

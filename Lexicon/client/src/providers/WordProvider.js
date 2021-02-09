@@ -46,6 +46,31 @@ export const WordProvider = props => {
         }
       }
 
+    const getWordById = wordId => {
+        if (currentUserId === 0) {
+            return
+        } else {
+          return getToken().then(token =>
+            fetch(`${apiUrl}/singleword/${wordId}`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+            .then(res => {
+              if (res.status === 500) {
+                toast.error(DbNoConnection())
+                return
+              }
+              if (res.status === 404) {
+                toast.error(RetrieveFailure(objectTypeForToasts))
+                return
+              }
+              return res.json()
+        }))
+      }
+    }
+
     const addWord = word => {
         if (currentUserId === 0) {
           toast.error(AnonWarning())
@@ -95,6 +120,7 @@ export const WordProvider = props => {
         <WordContext.Provider value={{
             wordsInCollection,
             getWordsByCollectionId,
+            getWordById,
             addWord
         }}>
             {props.children}

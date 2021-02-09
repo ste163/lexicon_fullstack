@@ -1,6 +1,7 @@
 // All route names (specifically for making deleting work easily)
 export const CollectionManagerString = () => 'collection-manager'
 export const ProjectManagerString = () => 'project-manager'
+export const WordString = () => 'word'
 
 // All routes used throughout Lexicon
 export const AuthRoute = () => '/auth'
@@ -11,6 +12,8 @@ export const AppSelectedRoute = pathnameId => `${AppRoute()}/selected/${pathname
 
 export const SettingsRoute = () => `${AppRoute()}/settings`
 
+// Word delete
+export const WordDeleteRoute = pathnameId => `${AppRoute()}/${WordString()}/delete/${pathnameId}`
 
 // Collection Manager
 export const CollectionManagerRoute = () => `${AppRoute()}/${CollectionManagerString()}`

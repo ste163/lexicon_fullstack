@@ -32,8 +32,6 @@ export const CollectionProvider = props => {
   const [isCollectionCreateFormOpen, setIsCollectionCreateFormOpen] = useState(false)
   const [isCollectionDetailsOpen, setIsCollectionDetailsOpen] = useState(false)
   const [isCollectionEditFormOpen, setIsCollectionEditFormOpen] = useState(false)
-  
-console.log(selectedCollection)
 
   const getCollections = () => {
     if (currentUserId === 0) {

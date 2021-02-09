@@ -64,6 +64,43 @@ namespace Lexicon.Controllers
             }
         }
 
+        [HttpGet("singleword/{id}")]
+        public IActionResult GetWordById(int id)
+        {
+            // Get current User
+            var firebaseUser = _utils.GetCurrentUser(User);
+
+            // If this person is an anonymous user, return NotFound
+            if (firebaseUser == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                // If a user attempts to get an Id not in the db, causes a NullReferenceException error
+                Word word = _wordRepo.GetWordById(id);
+
+                // If  collection, return not found
+                if (word == null)
+                {
+                    return NotFound();
+                }
+
+                // If this is not that user's post, don't return it
+                if (word.UserId != firebaseUser.Id)
+                {
+                    return NotFound();
+                }
+
+                return Ok(word);
+            }
+            catch (NullReferenceException e)
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost("{CollectionId}")]
         public IActionResult Add(int collectionId, Word word)
         {

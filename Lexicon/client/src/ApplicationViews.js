@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Switch, Route, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { UserContext } from './providers/UserProvider'
 import { DeleteContext } from './providers/DeleteProvider'
+import { WordContext } from './providers/WordProvider'
 import { CollectionContext } from './providers/CollectionProvider'
 import { ProjectContext } from './providers/ProjectProvider'
 import AuthView from './views/auth/AuthView'
@@ -12,6 +13,7 @@ import {
     AppRoute,
     AppSelectedRoute,
     SettingsRoute,
+    WordDeleteRoute,
     CollectionManagerRoute,
     CollectionManagerCreateRoute,
     CollectionManagerDetailsRoute,
@@ -27,6 +29,7 @@ import {
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext)
     const { setObjectToDelete, setIsDeleteModalOpen } = useContext(DeleteContext)
+    const { getWordById } = useContext(WordContext)
     let currentUrl = useLocation().pathname
     const history = useHistory()
 
@@ -125,6 +128,17 @@ const ApplicationViews = () => {
                 turnOffAllProjectRoutes()
                 // Close all modals
                 // Open Settings modal
+                break
+
+            case WordDeleteRoute(routeParamId):
+                getWordById(routeParamId)
+                .then(word => {
+                    setObjectToDelete(word)
+                })
+                .catch(error => history.goBack()) // if an error, on retrieval, go back a page
+
+                turnOffAllButDelete()
+                setIsDeleteModalOpen(true)
                 break
 
             // Project Manager
