@@ -33,6 +33,42 @@ namespace Lexicon.Tests.Repositories
             Assert.True(count == 3);
         }
 
+
+
+        // ADD
+        [Fact]
+        public void Can_Add_Word()
+        {
+            // Get a CollectionId to add to
+            var collectionId = 2;
+
+            // Make two ProjectCollections
+            var word = new Word()
+            {
+                UserId = 1,
+                CollectionId = 2,
+                MwWordId = 12345,
+                Name = "Added",
+                LastViewed = DateTime.Now - TimeSpan.FromDays(15)
+            };
+
+            // Instantiate ProjectCollection Repo
+            var repo = new WordRepository(_context);
+
+            // Get a count of collections in Project
+            var originalCount = repo.GetByCollectionId(collectionId).Count;
+
+            // Add items
+            repo.Add(word);
+
+            // Get new count
+            var newCount = repo.GetByCollectionId(collectionId).Count;
+
+            // New count should be +2 original
+            Assert.True(newCount == originalCount + 1);
+        }
+
+
         private void AddSampleData()
         {
             var user1 = new User()

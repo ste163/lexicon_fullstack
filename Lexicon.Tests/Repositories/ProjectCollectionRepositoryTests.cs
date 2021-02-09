@@ -117,7 +117,7 @@ namespace Lexicon.Tests.Repositories
             // Get a ProjectId to add
             var projId = 4;
 
-            // Make two ProjectCollections
+            // Make ProjectCollection
             var newProjCol1 = new ProjectCollection()
             {
                 ProjectId = projId,
@@ -142,7 +142,7 @@ namespace Lexicon.Tests.Repositories
             // Get new count
             var newCount = repo.GetByProjectId(projId).Count;
 
-            // New count should be +2 original
+            // New count should be +1 original
             Assert.True(newCount == originalCount + 1);
         }
 
