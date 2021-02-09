@@ -79,7 +79,7 @@ const DefinitionCard = ({ cardId, definitions }) => {
                 definitions.length === 1 ? null :
                 <div className="definition__next">
                     <button                      
-                        className={definitions.indexOf(currentDef) === 0 ? "btn btn__arrow btn__disabled" : "btn btn__arrow"}
+                        className={definitions.indexOf(currentDef) === 0 ? "btn btn__arrow btn--disabled" : "btn btn__arrow"}
                         onClick={e => {
                             const previous = definitions.indexOf(currentDef) - 1
                             setCurrentDef(definitions[previous])
@@ -92,7 +92,7 @@ const DefinitionCard = ({ cardId, definitions }) => {
                     <p className="next__text"> {definitions.indexOf(currentDef) + 1} / {definitions.length}</p>
                     
                     <button
-                    className={definitions.indexOf(currentDef) === definitions.length - 1 ? "btn btn__arrow btn__disabled" : "btn btn__arrow"}
+                    className={definitions.indexOf(currentDef) === definitions.length - 1 ? "btn btn__arrow btn--disabled" : "btn btn__arrow"}
                     onClick={e => {
                         const next = definitions.indexOf(currentDef) + 1
                         setCurrentDef(definitions[next])

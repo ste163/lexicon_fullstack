@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { ThesaurusContext } from '../../../providers/ThesaurusProvider'
 import { SearchBar } from '../../../components/inputs/Inputs'
 
@@ -16,7 +16,8 @@ const ThesaurusSearch = () => {
             if (trimmed.length !== 0) {
                 const lowered = trimmed.toLowerCase()
                 getWordFromThesaurus(lowered)
-                setSearch("")
+                // reset search input value to empty string
+                e.target[1].value = ""
             }    
         }
     }
@@ -29,9 +30,9 @@ const ThesaurusSearch = () => {
                     placeholderText={"Enter a word..."}
                     setSearchTerms={setSearch}/>
 
-                    <button className="btn" type="submit">
-                        Search
-                    </button>
+                <button className="btn" type="submit">
+                    Search
+                </button>
             </form>
         </section>
     )

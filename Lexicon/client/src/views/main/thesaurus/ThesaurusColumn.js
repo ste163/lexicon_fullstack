@@ -10,8 +10,6 @@ import './Thesaurus.css'
 const ThesaurusColumn = () => {
     const { definitionCards, setDefinitionCards } = useContext(ThesaurusContext)
 
-    console.log(definitionCards)
-
     return (
         <>
             <ThesaurusSearch />

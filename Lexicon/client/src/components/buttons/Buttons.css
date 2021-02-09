@@ -28,7 +28,7 @@
 }
 
 .btn--disabled {
-  cursor: default !important;
+  pointer-events: none;
   background-color: var(--gray);
   border-color: var(--gray);
 }

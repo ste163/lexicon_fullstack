@@ -144,7 +144,7 @@ const DefinitionCardSynonyms = ({ currentDef }) => {
                     }}
                     onMouseOver={e => ChangeIconClassOnHover(e, true, "icon__black", "icon__white")}
                     onMouseLeave={e => ChangeIconClassOnHover(e, false, "icon__black", "icon__white")}
-                    className={arrayOfSynonymArrays.indexOf(currentSynArray) === 0 ? "btn btn__arrow btn__disabled" : "btn btn__arrow"}>
+                    className={arrayOfSynonymArrays.indexOf(currentSynArray) === 0 ? "btn btn__arrow btn--disabled" : "btn btn__arrow"}>
                         <IconArrow rotation="icon__arrow--rotated" color="icon__black" disabled={synPrevBtnDisabled} />
                     </button>
 
@@ -157,7 +157,7 @@ const DefinitionCardSynonyms = ({ currentDef }) => {
                     }}
                     onMouseOver={e => ChangeIconClassOnHover(e, true, "icon__black", "icon__white")}
                     onMouseLeave={e => ChangeIconClassOnHover(e, false, "icon__black", "icon__white")}
-                    className={arrayOfSynonymArrays.indexOf(currentSynArray) === arrayOfSynonymArrays.length - 1 ? "btn btn__arrow btn__disabled" : "btn btn__arrow"}>
+                    className={arrayOfSynonymArrays.indexOf(currentSynArray) === arrayOfSynonymArrays.length - 1 ? "btn btn__arrow btn--disabled" : "btn btn__arrow"}>
                         <IconArrow color="icon__black" disabled={synNextBtnDisabled} />
                     </button>
                 </div>

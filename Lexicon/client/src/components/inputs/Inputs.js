@@ -8,7 +8,7 @@ export const SearchBar = ({ labelTitle, placeholderText, setSearchTerms }) => (
         <input type="text"
             name="collectionSearch"
             className="input__search"
-            onKeyUp={
+            onChange={
                 (keyEvent) => setSearchTerms(keyEvent.target.value)
             }
             placeholder={placeholderText} />
