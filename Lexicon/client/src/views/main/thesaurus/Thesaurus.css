@@ -1,5 +1,7 @@
 .thesaurus__search {
     padding: 0.5em;
+    height: min-content;
+    width: 18em;
 }
 
 .form__search {
@@ -9,6 +11,11 @@
 } 
 
 .container__thesaurus {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.container__definitions {
     display: flex;
     flex-flow: row wrap;
 }

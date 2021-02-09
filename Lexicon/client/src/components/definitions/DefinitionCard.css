@@ -2,7 +2,8 @@
     display: grid;
     padding: 0.5em;
     height: min-content;
-    flex-basis: var(--cardWidthThesaurusColumn);
+    width: 18em;
+    /* flex-basis: var(--cardWidthThesaurusColumn); */
 }
 
 .card__definition--close {
