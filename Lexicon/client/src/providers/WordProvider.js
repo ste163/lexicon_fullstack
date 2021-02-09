@@ -47,11 +47,12 @@ export const WordProvider = props => {
       }
 
     const addWord = word => {
+        debugger
         if (currentUserId === 0) {
           toast.error(AnonWarning())
         } else {
           return getToken().then(token => 
-            fetch(apiUrl, {
+            fetch(`${apiUrl}/${word.collectionId}`, {
                 method: "POST",
                 headers: {
                   Authorization: `Bearer ${token}`,

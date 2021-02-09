@@ -64,8 +64,8 @@ namespace Lexicon.Controllers
             }
         }
 
-        [HttpPost("{id}")]
-        public IActionResult Add(int id, Word word)
+        [HttpPost("{CollectionId}")]
+        public IActionResult Add(int collectionId, Word word)
         {
             // Get current User
             var firebaseUser = _utils.GetCurrentUser(User);
@@ -83,13 +83,13 @@ namespace Lexicon.Controllers
             }
 
             // Ensure the incoming collectionId matches the incoming word.CollectionId
-            if (id != word.CollectionId)
+            if (collectionId != word.CollectionId)
             {
                 return BadRequest();
             }
 
             // Get all of this user's words in this word
-            var allWordsInCollection = _wordRepo.GetByCollectionId(id);
+            var allWordsInCollection = _wordRepo.GetByCollectionId(collectionId);
 
             // see if the MwWordId of the incoming word is in the db
             var wordWithThatMwId = allWordsInCollection.Find(w => w.MwWordId == word.MwWordId);

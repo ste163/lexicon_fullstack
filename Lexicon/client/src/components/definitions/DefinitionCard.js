@@ -10,7 +10,7 @@ import "./DefinitionCard.css"
 
 const DefinitionCard = ({ cardId, getWordFromThesaurus, definitions }) => {
     // stores incoming array of all definitions for current term
-    const userId = parseInt(sessionStorage.getItem("userId"))
+    const userId = +sessionStorage.getItem('currentUserId')
 
     // setState for previous and next buttons
     const [ defPrevBtnDisabled, setDefPrevBtnDisabled ] = useState(true)
@@ -131,12 +131,12 @@ const DefinitionCard = ({ cardId, getWordFromThesaurus, definitions }) => {
                 ) : (
                     <button className="btn definition__submit"
                     onClick={() => {
+                        debugger
                         const word = {
                             userId,
                             "collectionId": selectedCollection.collection.id,
                             "MwWordId": currentDef.meta.uuid,
-                            "name": currentDef.meta.id,
-                            "LastViewed": undefined
+                            "name": currentDef.meta.id
                         }
                         addWord(word)
                     }}>
