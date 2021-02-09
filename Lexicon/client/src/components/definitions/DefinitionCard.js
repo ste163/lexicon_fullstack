@@ -6,6 +6,7 @@ import { WordContext } from "../../providers/WordProvider"
 import { IconClose, IconArrow } from "../../components/icons/Icons"
 import DefinitionSynonyms from './DefinitionSynonyms'
 import "./DefinitionCard.css"
+import DefinitionAntonyms from "./DefinitionAntonyms"
 // Definition cards handle all information related to retrieved search terms
 
 const DefinitionCard = ({ cardId, getWordFromThesaurus, definitions }) => {
@@ -140,6 +141,12 @@ const DefinitionCard = ({ cardId, getWordFromThesaurus, definitions }) => {
             </ol>
 
             <DefinitionSynonyms currentDef={currentDef} getWordFromThesaurus={getWordFromThesaurus} />
+
+            {currentDef.meta.ants.length === 0 ? (
+                null
+            ) : (
+                <DefinitionAntonyms currentDef={currentDef} getWordFromThesaurus={getWordFromThesaurus} />
+            )}
 
         </article>
     )

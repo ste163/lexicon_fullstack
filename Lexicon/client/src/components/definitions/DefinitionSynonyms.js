@@ -5,7 +5,7 @@ import { ChangeIconClassOnHover } from "../../utils/ChangeIconClassOnHover"
 import { IconArrow } from "../../components/icons/Icons"
 import { WordButton } from "../../components/buttons/Buttons"
 
-const DefinitionCardSynonyms = ({ currentDef, getWordFromThesaurus }) => {
+const DefinitionSynonyms = ({ currentDef, getWordFromThesaurus }) => {
 
     // Couldn't use .indexOf for WordButton keys for Synonyms, so using global keyValue
     let keyValue = 0
@@ -179,4 +179,4 @@ const DefinitionCardSynonyms = ({ currentDef, getWordFromThesaurus }) => {
     )
 }
 
-export default DefinitionCardSynonyms
+export default DefinitionSynonyms

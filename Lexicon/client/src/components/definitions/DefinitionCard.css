@@ -100,9 +100,38 @@
     grid-column: 1 / 3;
 }
 
+.definition__h4--antonym {
+    margin-top: 0.5em !important;
+    grid-column: 1;
+    grid-row: 12;
+    margin-bottom: 0.2em !important;
+}
+
+.antonym__total {
+    grid-column: 1 / 3;
+    grid-row: 13;
+    margin-bottom: 0.5em;
+    font-size: 0.7em;
+    font-weight: var(--weightThin)
+}
+
+.antonym__next {
+    grid-column: 1;
+    grid-row: 14;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    margin: 0.2em 0 0.5em 0;
+}
+
+.antonym__words {
+    grid-row: 15;
+    grid-column: 1 / 3;
+}
+
 .definition__submit {
     margin-top: 1em;
-    grid-row: 12;
+    grid-row: 16;
     grid-column: 1 / 3;
 }
 
