@@ -98,7 +98,7 @@ const DefinitionAntonyms = ({ currentDef, getWordFromThesaurus }) => {
 
     const SeparateListOfAntsIntoSets = () => {
         const allAntonyms = CreateArrayOfAllAnts()
-        let separationAmount = 15
+        let separationAmount = 10
         let arraysOfAntonyms = []
         let setOf10Array = []
         
