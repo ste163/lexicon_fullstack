@@ -4,6 +4,8 @@ import { ProjectContext } from '../../providers/ProjectProvider'
 import { ProjectManagerRoute } from '../../utils/Routes'
 import { removeDuplicationFromArray, moveSingleItemsBetweenStateArrays } from '../../utils/ArrayHelpers'
 import { AddableButton } from "../buttons/Buttons"
+import { toast } from 'react-toastify'
+import { AnonWarning } from '../../utils/ToastMessages'
 import './Form.css'
 
 const ProjectForm = ({ history, itemToEdit }) => {
@@ -126,9 +128,13 @@ const ProjectForm = ({ history, itemToEdit }) => {
     }  
 
     const createProject = (e) => {
-        setIsLoading(true)
         e.preventDefault()
-        constructNewProject()
+        if (userId !== 0) {
+            setIsLoading(true)
+            constructNewProject()
+        } else {
+            toast.error(AnonWarning())
+        }
     }
 
     return (
