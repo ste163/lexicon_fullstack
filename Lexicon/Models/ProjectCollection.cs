@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lexicon.Models
 {
+    [Table("projectCollection")]
     public class ProjectCollection
     {
         public int Id { get; set; }

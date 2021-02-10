@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lexicon.Models
 {
+    [Table("word")]
     public class Word
     {
         public int Id { get; set;}
