@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicon\Lexicon.csproj" />
+    <ProjectReference Include="..\Lexicon.csproj" />
   </ItemGroup>
 
 </Project>

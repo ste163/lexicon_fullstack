@@ -36,7 +36,7 @@ namespace Lexicon
             services.AddTransient<IProjectCollectionRepository, ProjectCollectionRepository>();
             services.AddTransient<IWordRepository, WordRepository>();
 
-
+            // If in development, use SQLServer; if deployed, use Postgres
             if (_env.IsDevelopment())
             {
                 services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
