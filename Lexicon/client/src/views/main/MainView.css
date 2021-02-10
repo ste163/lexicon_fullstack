@@ -18,10 +18,8 @@
 }
   
 .column__list {
-  overflow-y: none;
-  overflow-x: none;
-  max-height: 88vh;
-  margin-right: 2em;
+  margin-right: 1em;
+  height: 100%;
 }
   
 .column__selected {
