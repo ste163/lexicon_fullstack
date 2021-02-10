@@ -129,6 +129,8 @@ const DefinitionAntonyms = ({ currentDef, getWordFromThesaurus }) => {
 
     return (
         <>
+            <hr className="antonym__divider"></hr>
+
             <h4 className="card__h4 definition__h4--antonym">antonyms</h4>
             {
                 // Only show if there is more than one "page" of antonyms
