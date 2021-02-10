@@ -12,53 +12,57 @@ const SubHeader = ({
     selectedCollection,
     appSelectedRoute,
     history,
-    collections }) => (
-    <section className="view__subHeader">
-        <ManagerButton
-            isMobile={false}
-            managerRoute={CollectionManagerRoute}
-            managerBtnText={"Manage Collections"} />
+    collections }) =>  {
+        // IF user id === 0, do not show the rest of the subheader
+        const userId = +sessionStorage.getItem("currentUserId")
 
-        <ManagerButton
-            isMobile={false}
-            managerRoute={ProjectManagerRoute}
-            managerBtnText={"Manage Projects"} />
+        return (
+            <section className="view__subHeader">
+                <ManagerButton
+                    isMobile={false}
+                    managerRoute={CollectionManagerRoute}
+                    managerBtnText={"Manage Collections"} />
 
-        <div className="line__vertical"></div>
+                <ManagerButton
+                    isMobile={false}
+                    managerRoute={ProjectManagerRoute}
+                    managerBtnText={"Manage Projects"} />
 
-        <DropDown
-            nameOf='Selected collection'
-            fieldsetLocation='subHeader__fieldset'
-            labelIdName='collectionSelect'
-            isCollection={true}
-            history={history}
-            urlToPushTo={appSelectedRoute}
-            currentState={selectedCollection}
-            stateArray={collections} />
+                <div className="line__vertical"></div>
 
-        <div className="line__vertical"></div>
+                <DropDown
+                    nameOf='Selected collection'
+                    fieldsetLocation='subHeader__fieldset'
+                    labelIdName='collectionSelect'
+                    isCollection={true}
+                    history={history}
+                    urlToPushTo={appSelectedRoute}
+                    currentState={selectedCollection}
+                    stateArray={collections} />
 
-        <label className="toggle__column" htmlFor="listColumn">Toggle List Column: </label>
+                <div className="line__vertical"></div>
 
-        <input
-            disabled={!collections || collections.length === 0 ? true : false} // Disable toggle if no collections
-            onChange={e => {setIsListColumnActive(e.currentTarget.checked)}}
-            defaultChecked={!collections || collections.length === 0 ? true : isListColumnActive} // need default checked to stop react error
-            type="checkbox"
-            id="listColumn"
-            name="listColumn"
-            value="listColumn" />
+                <label className="toggle__column" htmlFor="listColumn">Toggle List Column: </label>
 
-        <label className="toggle__column" htmlFor="listColumn">Toggle Selected Column: </label>
-        <input
-            onChange={e => {setIsSelectedColumnActive(e.currentTarget.checked)}}
-            checked={isSelectedColumnActive}
-            type="checkbox"
-            id="listColumn"
-            name="listColumn"
-            value="listColumn" />
+                <input
+                    disabled={!collections || collections.length === 0 ? true : false} // Disable toggle if no collections
+                    onChange={e => {setIsListColumnActive(e.currentTarget.checked)}}
+                    defaultChecked={!collections || collections.length === 0 ? true : isListColumnActive} // need default checked to stop react error
+                    type="checkbox"
+                    id="listColumn"
+                    name="listColumn"
+                    value="listColumn" />
 
-    </section>
-)
+                <label className="toggle__column" htmlFor="listColumn">Toggle Selected Column: </label>
+                <input
+                    onChange={e => {setIsSelectedColumnActive(e.currentTarget.checked)}}
+                    checked={isSelectedColumnActive}
+                    type="checkbox"
+                    id="listColumn"
+                    name="listColumn"
+                    value="listColumn" />
+            </section>
+        )
+    }
 
 export default SubHeader
