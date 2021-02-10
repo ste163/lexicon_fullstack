@@ -29,11 +29,11 @@ namespace Lexicon.Tests.Controllers
             // Spoof a Word Repo
             _fakeWordRepo = new Mock<IWordRepository>();
             // Whenever we enter these CollectionIds, return these word lists
-            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 1))).Returns((int id) => new List<Word>() { new Word() { Id = 1, MwWordId = 123, UserId = 1, Name = " Scary" }, new Word() { Id = 2, MwWordId = 1234, UserId = 1, Name = "Monsters" } });
-            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 2))).Returns((int id) => new List<Word>() { new Word() { Id = 3, MwWordId = 321, UserId = 2, Name = "Swampy" }, new Word() { Id = 4, MwWordId = 4321, UserId = 2, Name = "Spooky" } });
+            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 1))).Returns((int id) => new List<Word>() { new Word() { Id = 1, MwWordId = "123", UserId = 1, Name = " Scary" }, new Word() { Id = 2, MwWordId = "1234", UserId = 1, Name = "Monsters" } });
+            _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 2))).Returns((int id) => new List<Word>() { new Word() { Id = 3, MwWordId = "321", UserId = 2, Name = "Swampy" }, new Word() { Id = 4, MwWordId = "4321", UserId = 2, Name = "Spooky" } });
             _fakeWordRepo.Setup(r => r.GetByCollectionId(It.Is<int>(i => i == 3))).Returns((int id) => null);
-            _fakeWordRepo.Setup(r => r.GetWordById(It.Is<int>(i => i == 1))).Returns((int id) => new Word() { Id = 1, MwWordId = 123, UserId = 1, Name = " Scary" });
-            _fakeWordRepo.Setup(r => r.GetWordById(It.Is<int>(i => i == 2))).Returns((int id) => new Word() { Id = 2, MwWordId = 123, UserId = 1, Name = " Spooky" });
+            _fakeWordRepo.Setup(r => r.GetWordById(It.Is<int>(i => i == 1))).Returns((int id) => new Word() { Id = 1, MwWordId = "123", UserId = 1, Name = " Scary" });
+            _fakeWordRepo.Setup(r => r.GetWordById(It.Is<int>(i => i == 2))).Returns((int id) => new Word() { Id = 2, MwWordId = "123", UserId = 1, Name = " Spooky" });
         }
 
 
@@ -159,7 +159,7 @@ namespace Lexicon.Tests.Controllers
             {
                 UserId = 1,
                 CollectionId = collectionId,
-                MwWordId = 12345,
+                MwWordId = "12345",
             };
 
             // Spoof UserController
@@ -190,7 +190,7 @@ namespace Lexicon.Tests.Controllers
             {
                 UserId = 1,
                 CollectionId = collectionId,
-                MwWordId = 12345,
+                MwWordId = "12345",
             };
 
             // Spoof UserController
@@ -222,7 +222,7 @@ namespace Lexicon.Tests.Controllers
             {
                 UserId = 2,
                 CollectionId = collectionId,
-                MwWordId = 12345,
+                MwWordId = "12345",
             };
 
             // Spoof UserController
@@ -254,7 +254,7 @@ namespace Lexicon.Tests.Controllers
             {
                 UserId = 1,
                 CollectionId = 2,
-                MwWordId = 12345,
+                MwWordId = "12345",
             };
 
             // Spoof UserController
@@ -286,7 +286,7 @@ namespace Lexicon.Tests.Controllers
             {
                 UserId = 1,
                 CollectionId = collectionId,
-                MwWordId = 1234, // Already in db
+                MwWordId = "1234", // Already in db
             };
 
             // Spoof UserController

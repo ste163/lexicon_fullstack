@@ -45,8 +45,8 @@ namespace Lexicon.Tests.Repositories
             // Get count of all words
             var word = repo.GetWordById(id);
 
-            // Should have retrieved word with name of "Werewolf"
-            Assert.True(word.Name == "Werewolf");
+            // Should have retrieved word with name of "Vampire"
+            Assert.True(word.Name == "Vampire");
         }
 
 
@@ -63,7 +63,7 @@ namespace Lexicon.Tests.Repositories
             {
                 UserId = 1,
                 CollectionId = 2,
-                MwWordId = 12345,
+                MwWordId = "12345",
                 Name = "Added",
                 LastViewed = DateTime.Now - TimeSpan.FromDays(15)
             };
@@ -226,7 +226,7 @@ namespace Lexicon.Tests.Repositories
             {
                 UserId = 1,
                 CollectionId = 1,
-                MwWordId = 12345,
+                MwWordId = "12345",
                 Name = "Scares",
                 LastViewed = DateTime.Now - TimeSpan.FromDays(15)
             };
@@ -235,7 +235,7 @@ namespace Lexicon.Tests.Repositories
             {
                 UserId = 1,
                 CollectionId = 1,
-                MwWordId = 12345,
+                MwWordId = "12345",
                 Name = "Zombie",
                 LastViewed = DateTime.Now - TimeSpan.FromDays(15)
             };
@@ -244,7 +244,7 @@ namespace Lexicon.Tests.Repositories
             {
                 UserId = 1,
                 CollectionId = 1,
-                MwWordId = 12345,
+                MwWordId = "12345",
                 Name = "Werewolf",
                 LastViewed = DateTime.Now - TimeSpan.FromDays(15)
             };
@@ -253,7 +253,7 @@ namespace Lexicon.Tests.Repositories
             {
                 UserId = 1,
                 CollectionId = 2,
-                MwWordId = 12345,
+                MwWordId = "12345",
                 Name = "Vampire",
                 LastViewed = DateTime.Now - TimeSpan.FromDays(15)
             };
