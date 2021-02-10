@@ -15,7 +15,9 @@
     flex-flow: row wrap;
 }
 
-.container__definitions {
+.thesaurus__definitions {
+    display: grid;
+    grid-column: auto;
     display: flex;
     flex-flow: row wrap;
 }
