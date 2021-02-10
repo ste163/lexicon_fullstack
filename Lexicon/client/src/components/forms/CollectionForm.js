@@ -4,6 +4,8 @@ import { ProjectContext } from '../../providers/ProjectProvider'
 import { CollectionManagerRoute } from '../../utils/Routes'
 import { removeDuplicationFromArray, moveSingleItemsBetweenStateArrays } from '../../utils/ArrayHelpers'
 import { AddableButton } from "../buttons/Buttons"
+import { toast } from 'react-toastify'
+import { AnonWarning } from '../../utils/ToastMessages'
 import './CollectionForm.css'
 import './Form.css'
 
@@ -129,9 +131,13 @@ const CollectionForm = ({ history, itemToEdit }) => {
     }  
 
     const createCollection = (e) => {
-        setIsLoading(true)
         e.preventDefault()
-        constructNewCollection()
+        if (userId !== 0) {
+            setIsLoading(true)
+            constructNewCollection()
+        } else {
+            toast.error(AnonWarning())
+        }
     }
 
     return (
