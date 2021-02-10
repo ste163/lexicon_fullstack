@@ -2,6 +2,8 @@
 # Lexicon
 > Quickly explore Merriam-Webster's Collegiate® Thesaurus and create custom word collections 
 
+![Lexicon Demo GIF](/docs/readme_demo.gif)
+
 ## About
 Lexicon takes the powerful search capabilities of Merriam-Webster's Thesaurus and allows users to store words they would like to have in their own collections. No more bookmarking, writing down, or trying to memorize words.
 
