@@ -58,6 +58,7 @@
 }
 
 .icon__arrow {
+    z-index: 0;
     height: 0.5em;
     pointer-events: none;
     transform-origin: center;
