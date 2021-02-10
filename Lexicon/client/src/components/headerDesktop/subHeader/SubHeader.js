@@ -58,6 +58,7 @@ const SubHeader = ({
         
                     <label className="toggle__column" htmlFor="listColumn">Toggle Selected Column: </label>
                     <input
+                        disabled={!selectedCollection ? true : false}
                         onChange={e => {setIsSelectedColumnActive(e.currentTarget.checked)}}
                         checked={isSelectedColumnActive}
                         type="checkbox"
