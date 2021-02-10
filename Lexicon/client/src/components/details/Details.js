@@ -17,7 +17,7 @@ const Details = ({
             </h3>
             {isCollections ? (
                 <p className="details__p">
-                    selectedItem.collection.description
+                    {selectedItem.collection.description}
                 </p>
             ) : (
                 null
