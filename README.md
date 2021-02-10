@@ -3,24 +3,29 @@
 > Quickly explore Merriam-Webster's Collegiate® Thesaurus and create custom word collections 
 
 ## About
-Lexicon takes the powerful search capabilities of the internet's many dictionaries and thesauruses and allows users to store words they would like to use in their own collections. No more bookmarking, writing down, or trying to memorize words.
+Lexicon takes the powerful search capabilities of Merriam-Webster's Thesaurus and allows users to store words they would like to have in their own collections. No more bookmarking, writing down, or trying to memorize words.
 
 ### Built with
-[C# and .NET 5](https://dotnet.microsoft.com/) <br>
-[React](https://reactjs.org/)
+[React](https://reactjs.org/) <br>
+[.NET 5](https://dotnet.microsoft.com/) <br>
 
 ## Use the app now
-> Thanks to hosting from Uffizzi
-
-COMING SOON
+Check out [Lexicon](http://rapid-dawn-5896.xt4rmvl1.uffizziapp.com/auth) on Uffizzi! <br>
 
 ## Technologies used
-- [React](https://reactjs.org/) v16.14.0 <br>
-- Merriam-Webster's APIs
+### Frontend
+- [React](https://reactjs.org/) v17.0.1 <br>
+- [Firebase](https://firebase.google.com/) v8.2.4 <br>
+- [React Router Dom](https://reactrouter.com/) v17.0.1 <br>
+- [React Toastify](https://fkhadra.github.io/react-toastify/introduction/) <br>
+- [Merriam-Webster's Collegiate Thesaurus API](https://dictionaryapi.com/products/api-collegiate-thesaurus) <br>
+
+### Backend
 - [.NET 5](https://dotnet.microsoft.com/) v5.0.1 <br>
-- Entity Framework - need link
-- Toast notifications
-- Firebase for authentication
+- [ASP.NET Core](https://dotnet.microsoft.com/apps/aspnet) v5.0.1 <br>
+- [Entity Framework Core](https://entityframeworkcore.com/) v5.0.1 <br>
+- [xUnit](https://xunit.net/) v2.4.1 <br>
+- [Moq](https://github.com/moq/moq4) v4.16.0 <br>
 
 ## Entity Relationship Diagram (ERD) and Mockup
 Add images
@@ -34,3 +39,5 @@ Add images
 
 ## Developer setup
 Instructions for setting up the backend and frontend for furthering Lexicon's development
+- Will need a Firebase account and API key
+- Merriam-Webster's Collegiate Thesaurus API key
