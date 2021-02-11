@@ -15,6 +15,8 @@ import ListColumn from './list/ListColumn'
 import ThesaurusColumn from './thesaurus/ThesaurusColumn'
 import { ThesaurusContext } from '../../providers/ThesaurusProvider'
 import './MainView.css'
+// Main dashboard after sign in. Pass in main collections and projects on load
+// maintain state for window size to switch between desktop and mobile
 
 const MainView = ({
    isListColumnActive,
@@ -47,10 +49,6 @@ const MainView = ({
     const [ isMobile, setIsMobile ] = useState(false)
     // If you change this, update it in: Icons.css, 
     const maxWidthForMobile = 1075
-
-    // Need to track the state of List, Selected, and Thesaurus Columns
-    // Based on if they are "True" display their columns. If not, display: none
-    // Will also need to turn them on and off based on Screen Width. Do not handle that with CSS because they could conflict
 
     useEffect(() => {
         getCollections()

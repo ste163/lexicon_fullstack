@@ -3,6 +3,7 @@ import { ManagerButton } from '../../buttons/Buttons'
 import { DropDown } from '../../inputs/Inputs'
 import { CollectionManagerRoute, ProjectManagerRoute } from '../../../utils/Routes'
 import "./SubHeader.css"
+// Desktop subheader that holds menu controls
 
 const SubHeader = ({
     isSelectedColumnActive,

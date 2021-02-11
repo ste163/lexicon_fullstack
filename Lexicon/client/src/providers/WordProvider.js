@@ -8,6 +8,7 @@ import {
     AddFailure,
     AddSuccess,
     FailureNameDupe } from '../utils/ToastMessages'
+// Get all words per collection and handles state for current collection
 
 export const WordContext = createContext()
 

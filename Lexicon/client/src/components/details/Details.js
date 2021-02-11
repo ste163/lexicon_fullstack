@@ -1,6 +1,7 @@
 import React from 'react'
 import { RemovableItemButton } from '../buttons/Buttons'
 import './Details.css'
+// Render details for the current item, whether Project or Collection
 
 const Details = ({
     history,

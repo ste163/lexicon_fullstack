@@ -5,8 +5,9 @@ import DefinitionSimilar from '../../../components/definitions/DefinitionSimilar
 import DefinitionNotFound from '../../../components/definitions/DefinitionNotFound'
 import ThesaurusSearch from './ThesaurusSearch'
 import './Thesaurus.css'
+// Dashboard column holding thesaurus search and all definition cards
+// definitionCards are created by clicking the search button or word buttons
 
-// Thesaurus Column works by mapping over each definitionCard created by clicking the search or word buttons
 const ThesaurusColumn = () => {
     const { definitionCards, setDefinitionCards } = useContext(ThesaurusContext)
     const { getWordFromThesaurus } = useContext(ThesaurusContext)

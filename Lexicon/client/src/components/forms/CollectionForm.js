@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { AnonWarning } from '../../utils/ToastMessages'
 import './CollectionForm.css'
 import './Form.css'
+// Create and Edit form for collections, very similar to ProjectForm
 
 const CollectionForm = ({ history, itemToEdit }) => {
     const userId = +sessionStorage.getItem("currentUserId")

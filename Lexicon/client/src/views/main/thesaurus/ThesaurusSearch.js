@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { SearchBar } from '../../../components/inputs/Inputs'
+// Search input for making calls to the thesaurus
 
 const ThesaurusSearch = ({ getWordFromThesaurus }) => {
     const [ search, setSearch ] = useState("")

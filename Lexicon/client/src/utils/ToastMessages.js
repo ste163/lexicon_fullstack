@@ -1,3 +1,5 @@
+// All messages used in toasts
+
 // Registration
 export const RegSuccess = () => "Registered! Welcome to Lexicon."
 

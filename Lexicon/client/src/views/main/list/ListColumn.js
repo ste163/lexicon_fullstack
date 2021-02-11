@@ -2,6 +2,7 @@ import React from 'react'
 import ListControls from '../../../components/lists/ListControls'
 import ListCardContainer from '../../../components/lists/ListCardContainer'
 import { CollectionManagerCreateRoute } from '../../../utils/Routes'
+// Dashboard column holding list of collections
 
 const ListColumn = ({
     history,

@@ -2,6 +2,7 @@ import React from 'react'
 import Details from './Details' 
 import { ManagerArrow } from '../buttons/Buttons'
 import './Details.css'
+// Hold the details button, loading indicator, and current detail to display
 
 const DetailsContainer = ({
     history,

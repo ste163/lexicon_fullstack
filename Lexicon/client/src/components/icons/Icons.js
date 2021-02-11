@@ -1,8 +1,7 @@
 import React from "react"
 import "./Icons.css"
-
-// Icon contains all icons used for Lexicon
-// To use Icons, pass in the following
+// Icons.js contains all icons used for Lexicon
+// To use Icons, pass in:
     // a "Color=value" with the value based on Icons.css
 
 // Takes a disabled prop

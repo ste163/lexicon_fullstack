@@ -1,8 +1,8 @@
 import React from 'react'
 import { ManagerCreate } from '../buttons/Buttons'
-import { SearchBar, DropDown } from '../inputs/Inputs'
+import { SearchBar } from '../inputs/Inputs'
 import './ListControls.css'
-// Create, Search, and Filtering for lists
+// Container for handling your collections/projects Create, Search, and Filtering for lists
 // To use
     // pass in a useHistory
     // urlToPush

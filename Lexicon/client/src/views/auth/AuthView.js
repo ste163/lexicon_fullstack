@@ -5,12 +5,9 @@ import { AppRoute } from '../../utils/Routes'
 import { LoginWelcome, LoginError, RegSuccess, RegFail, AnonWelcome, AnonError } from '../../utils/ToastMessages'
 import { UserContext } from '../../providers/UserProvider'
 import { LexLogo, LexTitle } from '../../components/branding/Branding'
-import ChangeColorMode from '../../utils/ChangeColorMode'
 import './AuthView.css'
 
 const AuthView = () => {
-    // If logging out with dark mode active, this resets colors to white 
-    ChangeColorMode()
 
     const { login, anonymousLogin, register } = useContext(UserContext)
     const [loading, setLoading] = useState(false)

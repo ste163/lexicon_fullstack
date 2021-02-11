@@ -1,3 +1,5 @@
+// Route strings used by the StateRouter in ApplicationViews and for deleting
+
 // All route names (specifically for making deleting work easily)
 export const CollectionManagerString = () => 'collection-manager'
 export const ProjectManagerString = () => 'project-manager'
@@ -39,7 +41,7 @@ export const ProjectManagerEditRoute = pathnameId => `${ProjectManagerRoute()}/e
 export const ProjectManagerDeleteRoute = pathnameId => `${ProjectManagerRoute()}/delete/${pathnameId}`
 
 
-// Utility Methods
+// Route Helper Functions
 export const findRouteParam = (currentUrl) => {
     const regex = /\d+/
     const match = currentUrl.match(regex)

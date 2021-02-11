@@ -1,13 +1,13 @@
 import React from 'react' 
-import { Settings, Logout, ManagerButton }  from '../buttons/Buttons'
+import { Logout, ManagerButton }  from '../buttons/Buttons'
 import { CollectionManagerRoute, ProjectManagerRoute } from '../../utils/Routes'
 import { DropDown } from '../inputs/Inputs'
 import './HamburgerMenu.css'
+// Hamburger menu content
 
 const HamburgerMenu = ({
     isOpen,
     setIsOpen,
-    projects,
     collections,
     appSelectedRoute,
     history,
@@ -50,9 +50,6 @@ const HamburgerMenu = ({
             </div>
 
             <div className="hb__container">
-                {/* <li className="nav__item nav__item--hb nav__item--settings">
-                    <Settings isMobile={true} />
-                </li> */}
                 <li className="nav__item nav__item--hb">
                     <Logout isMobile={true} />
                 </li>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'  
 import { HeaderBranding } from '../branding/Branding'
 import HamburgerMenu from './HamburgerMenu'
-// Main container for mobile header
+// Main container for mobile header and hamburger menu
 
 const HeaderMobile = ({
     projects,

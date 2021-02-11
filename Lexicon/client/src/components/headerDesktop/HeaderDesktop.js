@@ -1,6 +1,7 @@
 import React from 'react'  
 import Header from './header/Header'
 import SubHeader from './subHeader/SubHeader'
+// Container for desktop header components
 
 const HeaderDesktop = ({
     isSelectedColumnActive,

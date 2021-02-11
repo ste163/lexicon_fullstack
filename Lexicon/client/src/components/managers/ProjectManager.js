@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ProjectManagerCreateRoute, ProjectManagerRoute } from '../../utils/Routes'
 import { ProjectContext } from '../../providers/ProjectProvider'
-import { CollectionContext } from '../../providers/CollectionProvider'
 import { ManagerArrow } from '../buttons/Buttons'
 import DetailsContainer from '../details/DetailsContainer'
 import ListControls from '../../components/lists/ListControls'
@@ -15,6 +14,7 @@ import {
     ProjectManagerEditRoute,
     ProjectManagerDeleteRoute
 } from '../../utils/Routes'
+// Main container that holds all info on projects. Handles all project state.
 
 const ProjectManager = () => {
     const history = useHistory()
@@ -27,8 +27,6 @@ const ProjectManager = () => {
         isProjectDetailsOpen,
         isProjectEditFormOpen
     } = useContext(ProjectContext)
-
-    const { collections, selectedCollection, setSelectedCollection } = useContext(CollectionContext)
 
     const [searchTerms, setSearchTerms] = useState("")
     const [filteredList, setFilteredList] = useState([])
@@ -72,10 +70,6 @@ const ProjectManager = () => {
                     )}>
                 <ListControls
                     history={history}
-                    // Must refactor drop-downs to get filtering working
-                    // projects={collections}
-                    // setSelectedProject={setSelectedCollection}
-                    // selectedProject={selectedCollection}
                     searchLabelTitle={"Search projects"}
                     searchPlaceholderText={"Enter a name..."}
                     setSearchTerms={setSearchTerms}

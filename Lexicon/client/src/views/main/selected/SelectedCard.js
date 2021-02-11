@@ -3,6 +3,7 @@ import { WordButton, DeleteWordButton } from '../../../components/buttons/Button
 import { SearchBar } from '../../../components/inputs/Inputs'
 import { WordDeleteRoute } from "../../../utils/Routes"
 import "./SelectedCard.css"
+// Dashboard column holding currently selected collection
 
 const SelectedCard = ({ selectedCollection, getWordFromThesaurus, history }) => {
     const [ isDeletingWords, setIsDeletingWords ] = useState(false)

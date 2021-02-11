@@ -1,6 +1,7 @@
 import React from 'react'
 import ListCard from './ListCard'
 import './ListCardContainer.css'
+// Container for ListCards
 // To use:
     // pass in an isFetching for the loading spinner
     // items as a state of collections or projects

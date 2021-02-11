@@ -15,6 +15,7 @@ import {
     CollectionManagerEditRoute,
     CollectionManagerDeleteRoute
 } from '../../utils/Routes'
+// Main container that holds all info on collections. Handles all collection state.
 
 const CollectionManager = () => {
     const history = useHistory()

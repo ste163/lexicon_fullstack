@@ -1,7 +1,7 @@
 import React from 'react'
 import './Inputs.css'
+// Inputs Used by ListColumn, Collection Manager, Project Manager, and ThesaurusSearch
 
-// Used by ListColumn, Collection Manager, Project Manager, and ThesaurusSearch
 export const SearchBar = ({ labelTitle, placeholderText, setSearchTerms }) => (
     <fieldset className="input__search">
         <label className="card__type type__margin--search" htmlFor="collectionSearch">{labelTitle}</label>

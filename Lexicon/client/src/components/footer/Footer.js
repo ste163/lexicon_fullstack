@@ -1,6 +1,7 @@
 import React from 'react'
 import { LexLogo, LexTitle, MwLogo } from '../branding/Branding'
 import './Footer.css'
+// Static content to render the footer
 
 const Footer = () => (
     <footer>

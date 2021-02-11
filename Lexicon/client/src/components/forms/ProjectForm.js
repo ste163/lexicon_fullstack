@@ -7,6 +7,7 @@ import { AddableButton } from "../buttons/Buttons"
 import { toast } from 'react-toastify'
 import { AnonWarning } from '../../utils/ToastMessages'
 import './Form.css'
+// Create and Edit form for projects, very similar to CollectionForm
 
 const ProjectForm = ({ history, itemToEdit }) => {
     const userId = +sessionStorage.getItem("currentUserId")
