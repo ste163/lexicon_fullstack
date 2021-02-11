@@ -30,8 +30,9 @@ Check out [Lexicon](http://rapid-dawn-5896.xt4rmvl1.uffizziapp.com/auth) on Uffi
 - [Moq](https://github.com/moq/moq4) v4.16.0 <br>
 
 ## Entity Relationship Diagram (ERD) and Mockup
-Add images
-
+|ERD|Mockup|
+| ----- | ----- |
+| ![Entity Relationship Diagram](/docs/readme_erd.png) | ![Mockup](/docs/readme_mockup.png)
 ## Credits and Acknowledgements
 - Logo design - [Shannon Swenton](https://www.linkedin.com/in/shannon-swenton-aa5356176/) <br>
 - Mockup, logo, and icons designed with - [Inkscape](https://inkscape.org/) <br>
