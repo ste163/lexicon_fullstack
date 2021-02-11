@@ -25,6 +25,7 @@ import {
     ProjectManagerEditRoute,
     ProjectManagerDeleteRoute,
 } from './utils/Routes'
+// Application Views routes between views and handles all modal states
 
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext)

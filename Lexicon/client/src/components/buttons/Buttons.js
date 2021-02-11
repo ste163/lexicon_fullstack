@@ -1,14 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../providers/UserProvider'
-import { IconLogout, IconGear, IconArrow, IconPlus } from '../icons/Icons'
+import { IconLogout, IconArrow, IconPlus } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
-import { SettingsRoute } from '../../utils/Routes'
-import SettingsForm from '../forms/SettingsForm'
-import Modal from '../modal/Modal'
 import './Buttons.css'
+// Buttons take an { isMobile } prop that is a boolean. Allows for the SubHeader styling and Hamburger styling
 
-// Buttons take a { isMobile } prop that is a boolean. Allows for the SubHeader styling and Hamburger styling
 export const Logout = ({ isMobile }) => {
     const { logout } = useContext(UserContext)
 
@@ -47,22 +44,6 @@ export const DeleteWordButton = ({ wordId, word, history, deleteUrlToPushTo }) =
         </button>
     </li>
 )
-
-//  Settings currently not implemented
-// export const Settings = ({ isMobile }) => (
-    // <button
-    //     className={!isMobile ? (
-    //         "nav__btn btn__settings"
-    //     ) : (
-    //         "nav__btn btn__settings btn__mobile"
-    //     )}
-    //     onClick={() => history.push(SettingsRoute())}
-    //     onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
-    //     onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
-    //     <IconGear color="icon__whiteNoChange" />
-    //     Settings
-    // </button>
-//)
 
 export const DropDownOptions = ({ itemToSelectString, items }) => (
     <>

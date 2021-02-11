@@ -1,8 +1,8 @@
 import React from 'react'
 import './Branding.css'
-
 // To use logo
     // Assign a location prop: logo__login--lex, header, footer (from Branding.css)
+
 export const LexLogo = props => (
     <svg className={props.location} width="185" height="150" version="1.1" viewBox="0 0 48.948 39.688" xmlns="http://www.w3.org/2000/svg">
         <title>Lexicon Logo</title>

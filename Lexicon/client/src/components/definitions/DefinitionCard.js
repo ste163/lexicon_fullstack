@@ -5,8 +5,8 @@ import { CollectionContext } from "../../providers/CollectionProvider"
 import { WordContext } from "../../providers/WordProvider"
 import { IconClose, IconArrow } from "../../components/icons/Icons"
 import DefinitionSynonyms from './DefinitionSynonyms'
-import "./DefinitionCard.css"
 import DefinitionAntonyms from "./DefinitionAntonyms"
+import "./DefinitionCard.css"
 // Definition cards handle all information related to retrieved search terms
 
 const DefinitionCard = ({ cardId, getWordFromThesaurus, definitions }) => {

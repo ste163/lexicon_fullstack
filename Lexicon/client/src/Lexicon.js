@@ -10,6 +10,7 @@ import ApplicationViews from './ApplicationViews'
 import 'react-toastify/dist/ReactToastify.min.css'
 import './Lexicon.css'
 import { WordProvider } from './providers/WordProvider'
+// Lexicon.js holds toast container, all providers, and application views
 
 const Lexicon = () => (
     <>

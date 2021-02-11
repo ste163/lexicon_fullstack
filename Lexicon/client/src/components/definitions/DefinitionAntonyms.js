@@ -1,13 +1,10 @@
-// Render antonyms for current definition
-// Also sorts antonyms into arrays of 10
 import React, { useEffect, useState } from "react"
 import { ChangeIconClassOnHover } from "../../utils/ChangeIconClassOnHover"
 import { IconArrow } from "../../components/icons/Icons"
 import { WordButton } from "../../components/buttons/Buttons"
+// Render and paginate antonyms for current definition --- identical to DefinitionSynonyms
 
 const DefinitionAntonyms = ({ currentDef, getWordFromThesaurus }) => {
-
-    
 
     // Couldn't use .indexOf for WordButton keys for antonyms, so using global keyValue
     let keyValue = 0

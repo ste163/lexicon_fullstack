@@ -1,9 +1,8 @@
-// Render synonyms for current definition
-// Also sorts synonyms into arrays of 10
 import React, { useEffect, useState } from "react"
 import { ChangeIconClassOnHover } from "../../utils/ChangeIconClassOnHover"
 import { IconArrow } from "../../components/icons/Icons"
 import { WordButton } from "../../components/buttons/Buttons"
+// Render and paginate synonyms for current definition --- identical to DefinitionAntonyms
 
 const DefinitionSynonyms = ({ currentDef, getWordFromThesaurus }) => {
 

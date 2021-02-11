@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { IconClose } from "../../components/icons/Icons"
 import { WordButton } from "../../components/buttons/Buttons"
 import "./DefinitionCard.css"
@@ -13,11 +13,8 @@ const DefinitionSimilar = ({ cardId, getWordFromThesaurus, definitions, definiti
             }}>
             <IconClose color="icon__gray" />
         </button>
-
-        <h2 className="card__h2">Similar words</h2>
-        
+        <h2 className="card__h2">Similar words</h2>    
         <h3 className="card__h3 definition__h3">Couldn't find that word. Did you mean?</h3>
-
         {/* word button list */}
         <ul className="word__list definition__words">
             {definitions.map(similar => <WordButton
@@ -25,7 +22,6 @@ const DefinitionSimilar = ({ cardId, getWordFromThesaurus, definitions, definiti
                                             word={similar}
                                             getWordFromThesaurus={getWordFromThesaurus} />)}
         </ul>
-        {/* stems array of: 'autumn, autumnal, autumnally, autumns, fall' */}
     </article>
 )
 
