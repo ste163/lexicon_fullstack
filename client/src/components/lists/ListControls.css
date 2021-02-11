@@ -1,9 +1,0 @@
-.card__controls {
-    display: flex;
-    flex-flow: column nowrap;
-    padding: 0.5em;
-    width: 91%;
-    align-items: center;
-    border-style: none;
-    background-color:var(--white) !important;
-}
