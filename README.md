@@ -41,7 +41,32 @@ Check out [Lexicon](http://rapid-dawn-5896.xt4rmvl1.uffizziapp.com/auth) on Uffi
 - Readme design - [Art of README](https://github.com/noffle/art-of-readme#readme) and [Standard Readme](https://github.com/RichardLitt/standard-readme) <br>
 
 ## Developer setup
-Instructions for setting up the backend and frontend for furthering Lexicon's development
-- Will need a Firebase account and API key
-- Merriam-Webster's Collegiate Thesaurus API key
-- Need instructions on what files to place them in
+Instructions for setting up the backend and frontend for furthering Lexicon's development.
+
+### Firebase
+You will need to create a Firebase project to have working authentication and authorization.
+- Go to [Firebase](https://firebase.google.com/) and create a project (can be named anything)
+- In the project settings, you will need your ```Project Id``` and ```Web API Key```
+
+### Merriam-Webster
+You will need to sign up for a free Merriam-Webster developer account to access the Thesaurus API. Ensure you select [Merriam-Webster's Collegiate Thesaurus](https://dictionaryapi.com/products/api-collegiate-thesaurus) as the API to use.
+
+### Getting the Project
+In the directory of your choice, from the terminal, run:
+```git clone https://github.com/ste163/lexicon_fullstack.git```
+
+### Backend
+- In ```Lexicon\appsettings.json ``` change the ```"FirebaseProjectId": "lexicon-fullstack"``` to your projects ```Project Id```
+- In ```Lexicon\SQL``` directory, first run the ```01_Db_Create.sql``` then the ```02_Seed_Data.sql``` to generate the database and starter data
+- If you want access to the ```admin@email``` account created from the seed data, you will need to replace the ```FirebaseUserId``` column with the Id generated from Firebase, which you can find on your project's page
+
+### Frontend
+- In ```Lexicon\client``` create a file called ```.env.local```
+- Inside this file copy and paste: 
+
+    ```
+    REACT_APP_API_KEY=FirebaseAPIKey
+    REACT_APP_MW_THESAURUS_API_KEY=MerriamWebsterAPIKey
+    ```
+- Replace the API keys with your unique keys
+- Once the files are added run ```npm install``` to add all necessary files
