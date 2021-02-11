@@ -1,7 +1,7 @@
 .card__selected {
     display: grid;
     padding: 0.5em;
-    width: 15em;
+    width: 18em;
     font-size: 1em;
     /* Need to set these as important or else they flow out of the Selected Column */
     margin-left: 0 !important;
