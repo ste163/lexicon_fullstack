@@ -57,8 +57,8 @@ In the directory of your choice, from the terminal, run:
 
 ### Backend
 - In ```Lexicon\appsettings.json ``` change the ```"FirebaseProjectId": "lexicon-fullstack"``` to your projects ```Project Id```
-- In ```Lexicon\SQL``` directory, first run the ```01_Db_Create.sql``` then the ```02_Seed_Data.sql``` to generate the database and starter data
-- If you want access to the ```admin@email``` account created from the seed data, you will need to replace the ```FirebaseUserId``` column with the Id generated from Firebase, which you can find on your project's page
+- In ```Lexicon\SQL``` run ```01_Db_Create.sql``` then ```02_Seed_Data.sql``` to generate the database and starter data
+- If you want access to the ```admin@email``` account created from the seed data, you will need to replace the generic data in the ```FirebaseUserId``` column with the Id generated from Firebase, which you can find on your project's page
 
 ### Frontend
 - In ```Lexicon\client``` create a file called ```.env.local```
@@ -70,3 +70,4 @@ In the directory of your choice, from the terminal, run:
     ```
 - Replace the API keys with your unique keys
 - Once the files are added run ```npm install``` to add all necessary files
+- To start the development server run ```npm start``` from the client directory
