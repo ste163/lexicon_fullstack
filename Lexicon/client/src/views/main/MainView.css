@@ -1,9 +1,5 @@
 /* Main application layout after sign-in */
 .app__container {
-  /* display: grid;
-  grid-template-rows: min-content min-content auto min-content;
-  min-height: 100vh; */
-  /* align-content: center; */
   display: flex;
   flex-flow: column nowrap;
   place-content: space-between;
@@ -18,10 +14,8 @@
 }
   
 .column__list {
-  overflow-y: none;
-  overflow-x: none;
-  max-height: 88vh;
-  margin-right: 2em;
+  margin-right: 1em;
+  /* height: 100%; */
 }
   
 .column__selected {
@@ -33,20 +27,10 @@
   flex-flow: row wrap;
 }
   
-/* Desktop - med-screen size - hide list column */ 
-/* @media screen and (max-width: 1215px) {  
-  .column__list {
-    display: none;
-  }
-} */
 /* Desktop - small-screen size - stack selected & thesaurus column  */
-/* @media screen and (max-width: 768px) {
-    .container__inner  {
-      display: flex;
-      flex-flow: column;
-    }
-  
-    .column__selected {
-      width: 75%;
-    }
-} */
+@media screen and (max-width: 768px) {
+  .container__inner  {
+    display: flex;
+    flex-flow: column;
+  }
+}

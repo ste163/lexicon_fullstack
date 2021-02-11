@@ -17,6 +17,7 @@ const ListColumn = ({
         <ListControls
             history={history}
             projects={projects}
+            isDashboard={true}
             setSelectedProject={setSelectedProject}
             selectedProject={selectedProject}
             searchLabelTitle={"Search collections"}

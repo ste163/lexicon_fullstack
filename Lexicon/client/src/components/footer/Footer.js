@@ -15,7 +15,7 @@ const Footer = () => (
             <section className="footer__summary">
                 <h2 className="footer__heading">Summary</h2>
                 <p className="footer__p">
-                    Lexicon allows writers to easily search for and store words from Merriam-Webster's Collegiate Thesaurus.
+                    Lexicon allows writers to easily search for and store words from Merriam-Webster's Collegiate<sup>&#174;</sup> Thesaurus.
                 </p>
             </section>
 
@@ -26,11 +26,9 @@ const Footer = () => (
                         Lexicon was created by Sam Edwards, a creative writer and software developer.
                     </p>
                     <div>
-                        {/* ICON */}
                         <a className="footer__p" href="https://www.linkedin.com/in/st-edwards">LinkedIn</a>
                     </div>
                     <div>
-                        {/* ICON */}
                         <a className="footer__p" href="https://github.com/ste163">Github</a>
                     </div>
                 </div>
@@ -43,8 +41,10 @@ const Footer = () => (
                     <div>
                         <h3 className="footer__subHeading">Development</h3>
                         <ul className="tech__list">
-                            BACKEND
-                            FRONTEND
+                        <h4 className="footer__subHeading">Backend</h4>
+                            <li className="tech__item"><a href="https://dotnet.microsoft.com/">.NET</a></li>
+                            <li className="tech__item"><a href="https://visualstudio.microsoft.com/">Visual Studio 2019</a></li>
+                        <h4 className="footer__subHeading">Frontend</h4>                   
                             <li className="tech__item"><a href="https://reactjs.org/">React</a></li>
                             <li className="tech__item"><a href="https://code.visualstudio.com/">VS Code</a></li>
                         </ul>

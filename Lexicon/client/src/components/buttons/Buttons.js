@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../providers/UserProvider'
-import { IconLogout, IconGear, IconArrow } from '../icons/Icons'
+import { IconLogout, IconGear, IconArrow, IconPlus } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import { SettingsRoute } from '../../utils/Routes'
 import SettingsForm from '../forms/SettingsForm'
@@ -145,13 +145,17 @@ export const ManagerArrow = ({ isForm, history, managerUrlToPushTo }) => (
     </button>
 )
 
-export const ManagerCreate = ({ history, formUrlToPushTo, createNewString }) => (
+export const ManagerCreate = ({ history, formUrlToPushTo, createNewString, isDashboard }) => (
     <button
         onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__black', 'icon__whiteNoChange')}
         onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__black', 'icon__whiteNoChange')}
         className="btn btn__controls"
         onClick={e => history.push(formUrlToPushTo()) }>
-        <IconArrow color="icon__black" rotation="icon__arrow--rotated" />
+            {isDashboard ? (
+                <IconPlus color="icon__black" />
+            ) : (
+                <IconArrow color="icon__black" rotation="icon__arrow--rotated" />
+            )}
         Create new {createNewString}
     </button>
 )

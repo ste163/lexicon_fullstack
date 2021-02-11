@@ -96,7 +96,7 @@ const DefinitionSynonyms = ({ currentDef, getWordFromThesaurus }) => {
 
     const SeparateListOfSynsIntoSets = () => {
         const allSynonyms = CreateArrayOfAllSyns()
-        let separationAmount = 15
+        let separationAmount = 10
         let arraysOfSynonyms = []
         let setOf10Array = []
         

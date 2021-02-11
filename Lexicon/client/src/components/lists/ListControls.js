@@ -10,34 +10,23 @@ import './ListControls.css'
 
 const ListControls = ({
     history,
-    projects,
-    setSelectedProject,
-    selectedProject,
     searchLabelTitle,
     searchPlaceholderText,
+    isDashboard,
     setSearchTerms,
     formUrlToPushTo,
     createNewString }) => (
     <section className="card card__color--white card__controls">
         <ManagerCreate
             history={history} 
+            isDashboard={isDashboard}
             formUrlToPushTo={formUrlToPushTo}
             createNewString={createNewString} />
         
         <SearchBar
             labelTitle={searchLabelTitle}
             placeholderText={searchPlaceholderText}
-            setSearchTerms={setSearchTerms} />
-
-        {/* // FILTERING DOES NOT WORK YET, NEEDS RETHINKING & REFACTORING FOR NON-PROJECTS */}
-        {/* <DropDown
-            nameOf='Filter by project'
-            fieldsetLocation='subHeader__fieldset' 
-            labelIdName='projectSelect'
-            currentState={selectedProject}
-            stateArray={projects}
-            setCurrentState={setSelectedProject} /> */}
-        
+            setSearchTerms={setSearchTerms} />        
     </section>
 )
 
