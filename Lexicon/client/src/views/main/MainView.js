@@ -106,8 +106,6 @@ const MainView = ({
             setIsListColumnActive(false)
         }
 
-        console.log(windowDimensions)
-
         // Remove event listener so we don't add an infinite amount
         return _ => {
             window.removeEventListener('resize', debouncedHandleResize)
