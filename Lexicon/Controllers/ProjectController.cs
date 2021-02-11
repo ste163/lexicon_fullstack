@@ -61,7 +61,6 @@ namespace Lexicon.Controllers
                 return NotFound();
             }
 
-
             try
             {
                 // If a user attempts to get an Id not in the db, causes a NullReferenceException error
