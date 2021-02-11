@@ -44,3 +44,4 @@ Check out [Lexicon](http://rapid-dawn-5896.xt4rmvl1.uffizziapp.com/auth) on Uffi
 Instructions for setting up the backend and frontend for furthering Lexicon's development
 - Will need a Firebase account and API key
 - Merriam-Webster's Collegiate Thesaurus API key
+- Need instructions on what files to place them in
