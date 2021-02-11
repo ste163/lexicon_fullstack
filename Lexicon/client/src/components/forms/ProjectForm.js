@@ -162,17 +162,21 @@ const ProjectForm = ({ history, itemToEdit }) => {
 
         <label>Collections available to link to this project:</label>
             <ul className="form__addable-btns">
-                {collectionsAvailableToAdd.length === 0 ? (
-                    <p className="form__p">Added all available collections. Click a collection's name to remove.</p>
+                {!collections || collections.length === 0 ? (
+                    <p className="form__p">No collections created yet.</p>
                 ) : (
-                    collectionsAvailableToAdd.map(p => <AddableButton
-                        key={p.id}
-                        item={p}
-                        onClickFunction={moveSingleItemsBetweenStateArrays}
-                        itemsAvailableStateArray={collectionsAvailableToAdd}
-                        setItemsAvailableStateArray={setCollectionsAvailableToAdd}
-                        itemsAddedState={collectionsAdded}
-                        setItemsAddedToStateArray={setCollectionsAdded} />)
+                    collectionsAvailableToAdd.length === 0 ? (
+                        <p className="form__p">Added all available collections. Click a collection's name to remove.</p>
+                    ) : (
+                        collectionsAvailableToAdd.map(p => <AddableButton
+                            key={p.id}
+                            item={p}
+                            onClickFunction={moveSingleItemsBetweenStateArrays}
+                            itemsAvailableStateArray={collectionsAvailableToAdd}
+                            setItemsAvailableStateArray={setCollectionsAvailableToAdd}
+                            itemsAddedState={collectionsAdded}
+                            setItemsAddedToStateArray={setCollectionsAdded} />)
+                    )
                 )}
             </ul>
 
