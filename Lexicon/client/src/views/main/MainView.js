@@ -58,11 +58,11 @@ const MainView = ({
     // handles list column searching
     useEffect(() => {
         // turn on and off the list column toggle button
-        if (!collections || collections.length !== 0) {
-            setIsListColumnActive(true)
-        } else {
-            setIsListColumnActive(false)
-        }
+        // if (!collections || collections.length !== 0) {
+        //     setIsListColumnActive(true)
+        // } else {
+        //     setIsListColumnActive(false)
+        // }
 
         if (searchTerms !== "") {
             const matches = collections.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()) || c.description.toLowerCase().includes(searchTerms.toLowerCase().trim()))
@@ -98,6 +98,15 @@ const MainView = ({
         // EventListener on Window object to properly track the current browser dimensions
         window.addEventListener('resize', debouncedHandleResize)
 
+        checkMobileView()
+
+        // Remove event listener so we don't add an infinite amount
+        return _ => {
+            window.removeEventListener('resize', debouncedHandleResize)
+        }
+    }, [windowDimensions])
+
+    const checkMobileView = () => {
         if (windowDimensions.width < maxWidthForMobile){
             setIsMobile(true)
             setIsListColumnActive(false)
@@ -105,12 +114,7 @@ const MainView = ({
             setIsMobile(false)
             setIsListColumnActive(false)
         }
-
-        // Remove event listener so we don't add an infinite amount
-        return _ => {
-            window.removeEventListener('resize', debouncedHandleResize)
-        }
-    }, [windowDimensions])
+    }
 
 
     return (
