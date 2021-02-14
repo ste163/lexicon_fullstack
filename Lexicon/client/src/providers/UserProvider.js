@@ -55,6 +55,9 @@ export function UserProvider(props) {
         setIsLoggedIn(false)
         toast.info(Logout())
       })
+      .then(() => {
+        window.location.reload() // quickly clears all state
+      })
   }
 
   const register = (user, password) => {
