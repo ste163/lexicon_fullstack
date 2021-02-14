@@ -4,6 +4,7 @@
     flex-flow: column nowrap;
     height: 100vh;
     justify-content: space-between;
+    background-color: #efefef;
 }
 
 /* These media queries ensure the top and bottom borders do not disappear on window resize */
