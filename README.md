@@ -19,7 +19,7 @@ Check out [Lexicon](http://rapid-dawn-5896.xt4rmvl1.uffizziapp.com/auth) on Uffi
 - [React](https://reactjs.org/) v17.0.1 <br>
 - [Firebase](https://firebase.google.com/) v8.2.4 <br>
 - [React Router Dom](https://reactrouter.com/) v17.0.1 <br>
-- [React Toastify](https://fkhadra.github.io/react-toastify/introduction/) <br>
+- [React Toastify](https://fkhadra.github.io/react-toastify/introduction/) v7.0.1 <br>
 - [Merriam-Webster's Collegiate Thesaurus API](https://dictionaryapi.com/products/api-collegiate-thesaurus) <br>
 
 ### Backend
