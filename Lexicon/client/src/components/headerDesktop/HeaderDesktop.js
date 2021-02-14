@@ -4,6 +4,7 @@ import SubHeader from './subHeader/SubHeader'
 // Container for desktop header components
 
 const HeaderDesktop = ({
+    isListColumnActive,
     isSelectedColumnActive,
     setIsSelectedColumnActive,
     setIsListColumnActive,
@@ -15,6 +16,7 @@ const HeaderDesktop = ({
         <Header />
         <SubHeader
             isSelectedColumnActive={isSelectedColumnActive}
+            isListColumnActive={isListColumnActive}
             setIsSelectedColumnActive={setIsSelectedColumnActive}
             setIsListColumnActive={setIsListColumnActive}
             selectedCollection={selectedCollection}

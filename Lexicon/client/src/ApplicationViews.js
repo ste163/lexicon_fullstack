@@ -35,7 +35,7 @@ const ApplicationViews = () => {
     const history = useHistory()
 
     // Dashboard column state needed at this level so the router can change them
-    const [ isListColumnActive, setIsListColumnActive ] = useState(true);
+    const [ isListColumnActive, setIsListColumnActive ] = useState(false);
     const [ isSelectedColumnActive, setIsSelectedColumnActive ] = useState(false);
 
     const {
@@ -145,7 +145,7 @@ const ApplicationViews = () => {
             // Project Manager
             case ProjectManagerRoute():
                 // Whenever we hit the ProjectManager, getProjects
-                getProjects() // Currently doesn't show a loading icon though. Which I'd like to add
+                getProjects()
 
                 turnOffAllCollectionRoutes()
                 setIsProjectCreateFormOpen(false)
