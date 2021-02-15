@@ -6,6 +6,7 @@ export const SearchBar = ({ labelTitle, placeholderText, setSearchTerms }) => (
     <fieldset className="input__search">
         <label className="card__type type__margin--search" htmlFor="collectionSearch">{labelTitle}</label>
         <input type="text"
+            autoFocus={false}
             name="collectionSearch"
             className="input__search"
             onChange={

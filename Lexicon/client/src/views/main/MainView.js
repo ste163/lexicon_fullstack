@@ -57,13 +57,6 @@ const MainView = ({
 
     // handles list column searching
     useEffect(() => {
-        // turn on and off the list column toggle button
-        // if (!collections || collections.length !== 0) {
-        //     setIsListColumnActive(true)
-        // } else {
-        //     setIsListColumnActive(false)
-        // }
-
         if (searchTerms !== "") {
             const matches = collections.filter(c => c.name.toLowerCase().includes(searchTerms.toLowerCase().trim()) || c.description.toLowerCase().includes(searchTerms.toLowerCase().trim()))
             setFilteredList(matches)
@@ -115,7 +108,6 @@ const MainView = ({
             setIsListColumnActive(false)
         }
     }
-
 
     return (
         <div className="app__container">

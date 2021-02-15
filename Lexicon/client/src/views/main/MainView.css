@@ -3,14 +3,14 @@
   display: flex;
   flex-flow: column nowrap;
   place-content: space-between;
-  min-height: 100vh;
+  min-height: 80vh;
 }
 
 .container__inner {
   display: flex;
   flex-flow: row nowrap;
   flex-grow: 1;
-  min-height: 50vw;
+  min-height: 50vh;
 }
   
 .column__list {

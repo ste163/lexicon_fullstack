@@ -143,7 +143,7 @@ const AuthView = () => {
                                     }}
                                     placeholder="user@email.com"
                                     required
-                                    autoFocus />
+                                    autoFocus={false} />
                             </fieldset>
                             
                             <fieldset>
@@ -163,7 +163,7 @@ const AuthView = () => {
                                     type="password"
                                     minLength={6}
                                     required
-                                    autoFocus />
+                                    autoFocus={false} />
                             </fieldset>
                             
                             {/* If Loading, show spinner instead of button */}

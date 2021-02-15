@@ -158,7 +158,7 @@ const ProjectForm = ({ history, itemToEdit }) => {
                 placeholder="Project name"
                 maxLength={255}
                 required
-                autoFocus/>
+                autoFocus={false}/>
         </fieldset>
 
         <label>Collections available to link to this project:</label>
