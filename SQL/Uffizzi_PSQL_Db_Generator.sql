@@ -2,6 +2,7 @@
 -- will have to manually add the UNIQUE on email
 -- and all foreign key relationships
 
+-- USER TABLE
 DROP TABLE IF EXISTS "user";
 DROP SEQUENCE IF EXISTS user_id_seq;
 CREATE SEQUENCE user_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
@@ -26,6 +27,7 @@ CREATE TABLE "public"."project" (
     "name" character varying(255) NOT NULL,
     CONSTRAINT "project_id" PRIMARY KEY ("id")
 ) WITH (oids = false);
+
 
 -- CATEGORIZATION TABLE
 DROP TABLE IF EXISTS "categorization";
@@ -57,4 +59,33 @@ CREATE TABLE "public"."collection" (
     "description" character varying(255) NOT NULL,
     "pinned" bool NOT NULL,
     CONSTRAINT "collection_id" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+
+-- PROJECTCOLLECTION TABLE
+DROP TABLE IF EXISTS "projectcollection";
+DROP SEQUENCE IF EXISTS projectcollection_id_seq;
+CREATE SEQUENCE projectcollection_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+
+CREATE TABLE "public"."projectcollection" (
+    "id" integer DEFAULT nextval('projectcollection_id_seq') NOT NULL,
+    "projectId" integer NOT NULL,
+    "collectionId" integer NOT NULL,
+    CONSTRAINT "projectcollection_id" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+
+-- WORD TABLE
+DROP TABLE IF EXISTS "word";
+DROP SEQUENCE IF EXISTS word_id_seq;
+CREATE SEQUENCE word_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+
+CREATE TABLE "public"."word" (
+    "id" integer DEFAULT nextval('word_id_seq') NOT NULL,
+    "userId" integer NOT NULL,
+    "collectionId" integer NOT NULL,
+    "mwWordId" character varying(510) NOT NULL,
+    "name" character varying(255) NOT NULL,
+    "lastViewed" date NOT NULL,
+    CONSTRAINT "word_id" PRIMARY KEY ("id")
 ) WITH (oids = false);
