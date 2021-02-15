@@ -41,3 +41,20 @@ CREATE TABLE "public"."categorization" (
 INSERT INTO "categorization" ("id", "type") VALUES
 (1, 'Alphabetical'),
 (2, 'Part of Speech')
+
+
+-- COLLECTION TABLE
+DROP TABLE IF EXISTS "collection";
+DROP SEQUENCE IF EXISTS collection_id_seq;
+CREATE SEQUENCE collection_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+
+CREATE TABLE "public"."collection" (
+    "id" integer DEFAULT nextval('collection_id_seq') NOT NULL,
+    "userId" integer NOT NULL,
+    "categorizationId" integer NOT NULL,
+    "creationDate" date NOT NULL,
+    "name" character varying(255) NOT NULL,
+    "description" character varying(255) NOT NULL,
+    "pinned" bool NOT NULL,
+    CONSTRAINT "collection_id" PRIMARY KEY ("id")
+) WITH (oids = false);
