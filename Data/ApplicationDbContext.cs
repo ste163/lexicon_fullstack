@@ -5,10 +5,7 @@ namespace Lexicon.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Word> Word { get; set; }
         public DbSet<ProjectCollection> ProjectCollection { get; set; }
