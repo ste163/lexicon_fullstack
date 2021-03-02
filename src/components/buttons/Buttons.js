@@ -4,10 +4,11 @@ import { UserContext } from '../../providers/UserProvider'
 import { IconLogout, IconArrow, IconPlus } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import './Buttons.css'
+import { WelcomeRoute } from '../../utils/Routes'
 // Buttons take an { isMobile } prop that is a boolean. Allows for the SubHeader styling and Hamburger styling
 
 export const Logout = ({ isMobile }) => {
-    const { logout } = useContext(UserContext)
+    const history = useHistory();
 
     return (
         <button
@@ -16,7 +17,11 @@ export const Logout = ({ isMobile }) => {
             ) : (
                 "nav__btn btn__logout btn__mobile"
             )} 
-            onClick={() => logout()}
+            onClick={() => {
+                history.push(WelcomeRoute())
+                window.location.reload()
+             }
+            }
             onMouseOver={e => ChangeIconClassOnHover(e, true, 'icon__whiteNoChange', 'icon__hovered')}
             onMouseLeave={e => ChangeIconClassOnHover(e, false, 'icon__whiteNoChange', 'icon__hovered')}>
             <IconLogout color="icon__whiteNoChange" />

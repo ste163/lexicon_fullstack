@@ -9,8 +9,6 @@ export const UserContext = createContext()
 export function UserProvider(props) {
   const currentUser = sessionStorage.getItem("currentUser")
 
-  const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null)
-
   const login = (email, pw) => {
     // return firebase
     //   .auth()
@@ -33,20 +31,6 @@ export function UserProvider(props) {
     //     sessionStorage.setItem("currentUserId", 0)
     //     setIsLoggedIn(true)
     //     return user
-    //   })
-  }
-
-  const logout = () => {
-    // return firebase
-    //   .auth()
-    //   .signOut()
-    //   .then(() => {
-    //     sessionStorage.clear()
-    //     setIsLoggedIn(false)
-    //     toast.info(Logout())
-    //   })
-    //   .then(() => {
-    //     window.location.reload() // quickly clears all state
     //   })
   }
 
@@ -115,10 +99,8 @@ export function UserProvider(props) {
   return (
     <UserContext.Provider
       value={{
-        isLoggedIn,
         login,
         anonymousLogin,
-        logout,
         register,
         getToken,
         getCurrentUser,
