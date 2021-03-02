@@ -28,7 +28,6 @@ import {
 // Application Views routes between views and handles all modal states
 
 const ApplicationViews = () => {
-    const { isLoggedIn } = useContext(UserContext)
     const { setObjectToDelete, setIsDeleteModalOpen } = useContext(DeleteContext)
     const { wordsInCollection, getWordById } = useContext(WordContext)
     let currentUrl = useLocation().pathname
@@ -263,29 +262,23 @@ const ApplicationViews = () => {
     }
 
     useEffect(() => {
-        if (isLoggedIn) {
-            StateRouter()
-        }
+        StateRouter()
     }, [currentUrl, wordsInCollection])
 
     return (
         <Switch>
             <Route path={AppRoute()}>
-                {isLoggedIn ? (
-                    <MainView
-                        isListColumnActive={isListColumnActive}
-                        setIsListColumnActive={setIsListColumnActive}
-                        isSelectedColumnActive={isSelectedColumnActive}
-                        setIsSelectedColumnActive={setIsSelectedColumnActive} />
-                ) : (
-                    <Redirect to={WelcomeRoute()} />
-                )}
+                <MainView
+                    isListColumnActive={isListColumnActive}
+                    setIsListColumnActive={setIsListColumnActive}
+                    isSelectedColumnActive={isSelectedColumnActive}
+                    setIsSelectedColumnActive={setIsSelectedColumnActive} />
             </Route>
             <Route path={WelcomeRoute()}>
-                {isLoggedIn ? <Redirect to={AppRoute()} /> : <AuthView />}
+                <AuthView />
             </Route>
             <Route path="/">
-                {isLoggedIn ? <Redirect to={AppRoute()} /> : <Redirect to={WelcomeRoute()} />}
+                <AuthView />
             </Route>
         </Switch>
     )

@@ -7,7 +7,6 @@ import React, { useState, createContext } from "react"
 export const UserContext = createContext()
 
 export function UserProvider(props) {
-  const apiUrl = "/api/user"
   const currentUser = sessionStorage.getItem("currentUser")
 
   const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null)
