@@ -1,7 +1,6 @@
-import React, { useState, useEffect, createContext } from "react"
-import { toast } from 'react-toastify'
-import { DbNoConnection, Logout } from '../utils/ToastMessages'
-import firebase from "firebase/app"
+import React, { useState, createContext } from "react"
+// import { toast } from 'react-toastify'
+// import { DbNoConnection, Logout } from '../utils/ToastMessages'
 import "firebase/auth"
 // Written by NSS to assist in having real Authentication & Authorization
 // I tweaked this file to add toast notifications
@@ -15,16 +14,16 @@ export function UserProvider(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(currentUser != null)
 
   const login = (email, pw) => {
-    return firebase
-      .auth()
-      .signInWithEmailAndPassword(email, pw)
-      .then((signInResponse) => getUser(signInResponse.user.uid))
-      .then((user) => {
-        sessionStorage.setItem("currentUser", JSON.stringify(user))
-        sessionStorage.setItem("currentUserId", user.id)
-        setIsLoggedIn(true)
-        return user
-      })
+    // return firebase
+    //   .auth()
+    //   .signInWithEmailAndPassword(email, pw)
+    //   .then((signInResponse) => getUser(signInResponse.user.uid))
+    //   .then((user) => {
+    //     sessionStorage.setItem("currentUser", JSON.stringify(user))
+    //     sessionStorage.setItem("currentUserId", user.id)
+    //     setIsLoggedIn(true)
+    //     return user
+    //   })
   }
 
   const anonymousLogin = () => {

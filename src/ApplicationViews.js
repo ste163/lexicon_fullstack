@@ -9,7 +9,7 @@ import AuthView from './views/auth/AuthView'
 import MainView from './views/main/MainView'
 import {
     findRouteParam,
-    AuthRoute,
+    WelcomeRoute,
     AppRoute,
     AppSelectedRoute,
     SettingsRoute,
@@ -95,7 +95,7 @@ const ApplicationViews = () => {
         }
 
         switch (currentUrl) {
-            case AuthRoute():
+            case WelcomeRoute():
                 setIsDeleteModalOpen(false)
                 turnOffAllButDelete()
                 break
@@ -278,14 +278,14 @@ const ApplicationViews = () => {
                         isSelectedColumnActive={isSelectedColumnActive}
                         setIsSelectedColumnActive={setIsSelectedColumnActive} />
                 ) : (
-                    <Redirect to={AuthRoute()} />
+                    <Redirect to={WelcomeRoute()} />
                 )}
             </Route>
-            <Route path={AuthRoute()}>
+            <Route path={WelcomeRoute()}>
                 {isLoggedIn ? <Redirect to={AppRoute()} /> : <AuthView />}
             </Route>
             <Route path="/">
-                {isLoggedIn ? <Redirect to={AppRoute()} /> : <Redirect to={AuthRoute()} />}
+                {isLoggedIn ? <Redirect to={AppRoute()} /> : <Redirect to={WelcomeRoute()} />}
             </Route>
         </Switch>
     )

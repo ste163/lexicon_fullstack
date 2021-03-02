@@ -6,7 +6,7 @@ export const ProjectManagerString = () => 'project-manager'
 export const WordString = () => 'word'
 
 // All routes used throughout Lexicon
-export const AuthRoute = () => '/auth'
+export const WelcomeRoute = () => '/welcome'
 
 export const AppRoute = () => '/app'
 
