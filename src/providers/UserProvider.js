@@ -1,92 +1,11 @@
-import React, { useState, createContext } from "react"
-// import { toast } from 'react-toastify'
-// import { DbNoConnection, Logout } from '../utils/ToastMessages'
-// Written by NSS to assist in having real Authentication & Authorization
-// I tweaked this file to add toast notifications
+import React, { createContext } from "react"
 
 export const UserContext = createContext()
 
 export function UserProvider(props) {
   const currentUser = sessionStorage.getItem("currentUser")
 
-  const login = (email, pw) => {
-    // return firebase
-    //   .auth()
-    //   .signInWithEmailAndPassword(email, pw)
-    //   .then((signInResponse) => getUser(signInResponse.user.uid))
-    //   .then((user) => {
-    //     sessionStorage.setItem("currentUser", JSON.stringify(user))
-    //     sessionStorage.setItem("currentUserId", user.id)
-    //     setIsLoggedIn(true)
-    //     return user
-    //   })
-  }
-
-  const anonymousLogin = () => {
-    // return firebase
-    //   .auth()
-    //   .signInAnonymously()
-    //   .then(user => {
-    //     sessionStorage.setItem("currentUser", JSON.stringify(user))
-    //     sessionStorage.setItem("currentUserId", 0)
-    //     setIsLoggedIn(true)
-    //     return user
-    //   })
-  }
-
-  const register = (user, password) => {
-    // return firebase
-    //   .auth()
-    //   .createUserWithEmailAndPassword(user.email, password)
-    //   .then((createResponse) =>
-    //     saveUser({ ...user, firebaseUserId: createResponse.user.uid })
-    //   )
-    //   .then(savedUser => {
-    //     sessionStorage.setItem("currentUser", JSON.stringify(savedUser))
-    //     sessionStorage.setItem("currentUserId", savedUser.id)
-    //     setIsLoggedIn(true)
-    //     return savedUser
-    //   })
-  }
-
   const getToken = () => {return}
-
-  const getUser = (firebaseUserId) => {
-    // return getToken().then((token) =>
-    //   fetch(`${apiUrl}/${firebaseUserId}`, {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //   .then(res => {
-    //     if (res.status === 500) {
-    //       toast.error(DbNoConnection())
-    //       return res.json();
-    //     }
-    //     return res.json();
-    //   }))
-  }
-
-  const saveUser = user => {
-    // return getToken().then(token =>
-    //   fetch(apiUrl, {
-    //     method: "POST",
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(user),
-    //   })
-    //   .then(res => {
-    //     if (res.status === 500) {
-    //       toast.error(DbNoConnection())
-    //       return
-    //     } else {
-    //      return res.json()
-    //     }
-    //   }))
-  }
 
   const getCurrentUser = () => {
     const user = sessionStorage.getItem("currentUser")
@@ -99,9 +18,6 @@ export function UserProvider(props) {
   return (
     <UserContext.Provider
       value={{
-        login,
-        anonymousLogin,
-        register,
         getToken,
         getCurrentUser,
       }}

@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { UserContext } from '../../providers/UserProvider'
 import { IconLogout, IconArrow, IconPlus } from '../icons/Icons'
 import { ChangeIconClassOnHover } from '../../utils/ChangeIconClassOnHover'
 import './Buttons.css'

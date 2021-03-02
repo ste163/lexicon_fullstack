@@ -33,6 +33,7 @@ const AuthView = () => {
                         <form
                             className="form"
                             onSubmit={handleLogin}>
+                            <h3>Note:</h3>
                             <p>This is a demonstration of Lexicon's frontend. All user data is stored locally on your web browser.</p>
                         
                             {/* If Loading, show spinner instead of button */}
