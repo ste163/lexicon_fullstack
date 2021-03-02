@@ -1,7 +1,6 @@
 import React, { useState, createContext } from "react"
 // import { toast } from 'react-toastify'
 // import { DbNoConnection, Logout } from '../utils/ToastMessages'
-import "firebase/auth"
 // Written by NSS to assist in having real Authentication & Authorization
 // I tweaked this file to add toast notifications
 
